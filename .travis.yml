@@ -38,4 +38,3 @@ deploy:
   on:
     branch: master
     repo: RadioTour/app
-    tags: true
