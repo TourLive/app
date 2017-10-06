@@ -1,0 +1,14 @@
+<resources>
+    <string name="header_top_field">Spitze - Feld</string>
+    <string name="header_top_radiotour">Spitze - Radio Tour</string>
+    <string name="header_height">Höhe</string>
+    <string name="header_stage">Etappe</string>
+    <string name="header_average_speed">Durhschnittsgeschwindigkeit</string>
+    <string name="header_racekilo">Rennkilometer</string>
+    <string name="header_racetime">Rennzeit</string>
+    <string name="header_race">RENNEN</string>
+    <string name="header_special_class">SPEZIALKLASSEMENT</string>
+    <string name="header_virtual_class">VIRTUELLES KLASSEMENT</string>
+    <string name="header_maillots">MAILLOTS</string>
+    <string name="header_import_data">IMPORT</string>
+</resources>

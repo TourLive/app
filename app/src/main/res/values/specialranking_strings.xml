@@ -1,0 +1,11 @@
+<resources>
+    <string name="specrank_special_ranking">Spezialklassement</string>
+    <string name="specrank_judgment">Wertung</string>
+    <string name="specrank_create_judgment">NEUE WERTUNG ERSTELLEN</string>
+    <string name="specrank_create_change_judgment">Wertung erstellen / bearbeiten</string>
+    <string name="specrank_place_one">Platz 1</string>
+    <string name="specrank_place_two">Platz 2</string>
+    <string name="specrank_place_three">Platz 3</string>
+    <string name="specrank_save_judgement">WERTUNG SPEICHERN</string>
+    <string name="specrank_delete">Löschen</string>
+</resources>
