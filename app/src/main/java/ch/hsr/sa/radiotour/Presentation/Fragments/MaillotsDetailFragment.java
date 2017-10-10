@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.Presentation.fragments;
+package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.content.Context;
 import android.net.Uri;

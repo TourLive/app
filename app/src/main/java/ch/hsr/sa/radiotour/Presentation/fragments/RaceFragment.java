@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.Presentation.fragments;
+package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.Controller.Adapter;
+package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
