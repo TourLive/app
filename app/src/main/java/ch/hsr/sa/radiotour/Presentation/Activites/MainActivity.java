@@ -16,23 +16,28 @@ import ch.hsr.sa.radiotour.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    ViewPageAdapter viewPageAdapter;
+    ViewPager viewPager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        ViewPageAdapter viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
+        setTabMenu();
+        viewPager.setAdapter(viewPageAdapter);
 
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+    }
+
+    private void setTabMenu() {
         viewPageAdapter.addFragment(new RaceFragment(), getString(R.string.header_race));
         viewPageAdapter.addFragment(new SpecialFragment(), getString(R.string.header_special_class));
         viewPageAdapter.addFragment(new VirtualClassFragment(), getString(R.string.header_virtual_class));
         viewPageAdapter.addFragment(new MaillotsFragment(), getString(R.string.header_maillots));
         viewPageAdapter.addFragment(new ImportFragment(), getString(R.string.header_import_data));
-
-        viewPager.setAdapter(viewPageAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
     }
 }

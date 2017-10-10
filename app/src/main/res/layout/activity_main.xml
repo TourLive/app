@@ -14,6 +14,13 @@
             android:layout_height="?attr/actionBarSize"
             android:layout_width="match_parent"
             app:layout_scrollFlags="scroll|enterAlways">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:src="@drawable/header_radiotour"/>
+
         </android.support.v7.widget.Toolbar>
 
         <android.support.design.widget.TabLayout
