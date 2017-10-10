@@ -1,0 +1,14 @@
+<resources>
+    <string name="virtrank_virtual_ranking">Virtuelles Klassement</string>
+    <string name="virtrank_stand">Stand</string>
+    <string name="virtrank_position">Position</string>
+    <string name="virtrank_startnr">StartNr.</string>
+    <string name="virtrank_country">Land</string>
+    <string name="virtrank_name">Name</string>
+    <string name="virtrank_team">Team</string>
+    <string name="virtrank_point_bonus">Punktebonus</string>
+    <string name="virtrank_price_money">Preisgeld</string>
+    <string name="virtrank_virt_deficit">Virtueller Rückstand</string>
+    <string name="virtrank_offical_deficit">Offizieller Rückstand</string>
+    <string name="virtrank_offical_time">Offizielle Zeit</string>
+</resources>

@@ -1,0 +1,15 @@
+<resources>
+    <string name="maillots_maillots">Maillots</string>
+    <string name="maillots_create_maillot">Neues Maillot erstellen</string>
+    <string name="maillots_sponser">Sponsor</string>
+    <string name="maillots_time">Zeit</string>
+    <string name="maillots_points">Punkte</string>
+    <string name="maillots_choose_maillot">Ein Maillot auswählen um weitere Informationen anzuzeigen</string>
+    <string name="maillots_change_maillot">Maillot bearbeiten</string>
+    <string name="maillots_name">Name</string>
+    <string name="maillots_point_bonus">Punktebonus</string>
+    <string name="maillots_time_bonus">Zeitbonus</string>
+    <string name="maillots_tricot">Trikotträger</string>
+    <string name="maillots_color">Farbe</string>
+    <string name="maillots_save_maillot">Maillot speichern</string>
+</resources>

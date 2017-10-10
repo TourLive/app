@@ -1,0 +1,13 @@
+<resources>
+    <string name="race_status">Status</string>
+    <string name="race_doctor">Arzt</string>
+    <string name="race_drop">Sturz</string>
+    <string name="race_defect">Defekt</string>
+    <string name="race_quit">Aufgabe</string>
+    <string name="race_dnc">DNC</string>
+    <string name="race_quit_choice">Auswahl aufheben</string>
+    <string name="race_unknown_driver">Unbekannter Fahrer</string>
+    <string name="race_stand">Stand</string>
+    <string name="race_count_unkown_racers">Anzahl unbekannte Fahrer hinzufügen</string>
+    <string name="race_add">Hinzufügen</string>
+</resources>
