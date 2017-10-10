@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.Controller.Adapter;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,17 +11,17 @@ import java.util.List;
  * Created by Urs Forrer on 10.10.2017.
  */
 
-public class ViewPageAdaper extends FragmentPagerAdapter {
+public class ViewPageAdapter extends FragmentPagerAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
     private final List<String> titles = new ArrayList<>();
-    public ViewPageAdaper(FragmentManager fm) {
+
+    public ViewPageAdapter(FragmentManager fm) {
         super(fm);
-        titles.add("TEST1");
-        titles.add("TEST2");
     }
 
     @Override
     public Fragment getItem(int position) {
+        System.out.print("HALLO");
         return fragments.get(position);
     }
 
