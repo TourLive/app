@@ -15,7 +15,7 @@ import ch.hsr.sa.radiotour.R;
 public class RaceFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG", "BALBSADBSABDSAJHBSADJHBDSASABSAD");
+        Log.d("TAG", "RaceFragment - onCreateView");
         View root = inflater.inflate(R.layout.fragment_race, container, false);
         return root;
     }
