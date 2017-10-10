@@ -23,6 +23,7 @@
             app:tabIndicatorColor="@android:color/white"
             app:tabMode="scrollable"
             app:tabTextColor="@android:color/white"
+            app:layout_scrollFlags="snap"
             app:tabSelectedTextColor="@android:color/white">
 
         </android.support.design.widget.TabLayout>
