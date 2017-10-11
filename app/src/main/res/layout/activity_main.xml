@@ -29,10 +29,11 @@
             android:layout_height="24dp"
             app:layout_scrollFlags="snap"
             app:tabIndicatorColor="@android:color/white"
-            app:tabMode="scrollable"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="@android:color/white"
             app:tabTextAppearance="@style/TabLayoutTextApperance"
-            app:tabTextColor="@android:color/white">
+            app:tabTextColor="@android:color/white"            
+            app:tabGravity="fill">
 
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
