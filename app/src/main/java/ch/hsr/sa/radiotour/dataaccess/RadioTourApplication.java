@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour;
+package ch.hsr.sa.radiotour.dataaccess;
 
 import android.app.Application;
 
@@ -14,25 +14,31 @@ import io.realm.RealmConfiguration;
  */
 
 public class RadioTourApplication extends Application {
+
+    private static RealmConfiguration realmConfig;
     @Override
     public void onCreate(){
         super.onCreate();
 
         Realm.init(this);
 
-        RealmConfiguration config = new RealmConfiguration.
-                Builder().
+        RealmConfiguration config = new RealmConfiguration.Builder().
                 name("radiotour.realm").
                 deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
                 build();
+
         Realm.setDefaultConfiguration(config);
-
-
+        realmConfig = config;
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
                         .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                         .build());
+    }
+
+    public static RealmConfiguration getInstance() {
+        return realmConfig;
     }
 }
