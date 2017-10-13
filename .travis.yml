@@ -22,8 +22,6 @@ env:
     - TAG=google_apis # Google APIs by default, alternatively use default
     - ABI=armeabi-v7a # ARM ABI v7a by default  
 install:
-  - sdkmanager --uninstall "system-images;android-15;default;armeabi-v7a"
-
   # Update sdk tools to latest version and install/update components
   - echo yes | sdkmanager "platforms;android-${API}" # Android platform required by emulator
   - echo yes | sdkmanager "extras;android;m2repository"
@@ -42,8 +40,6 @@ branches:
 script:
 - "./gradlew build assembleRelease"
 - ./gradlew sonarqube
-after_script:
-  - cat ${TRAVIS_BUILD_DIR}/*/build/outputs/androidTest-results/connected/*
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
