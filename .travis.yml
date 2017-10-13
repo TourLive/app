@@ -7,17 +7,33 @@ addons:
     token:
       secure: "378979c462e37cdde726e8227e204ceb5b6e65ee"
 android:
+  licenses:
+    - android-sdk-license-.+
+    - '.+'
   components:
+  - tools
+  - build-tools-26.0.0
+  - extra-android-m2repository
   - platform-tools
   - tools
-  - build-tools-25.0.2
-  - android-24
-  - extra-android-m2repository
+env:
+  global:
+    - API=24 # Android API level 25 by default
+    - TAG=google_apis # Google APIs by default, alternatively use default
+    - ABI=armeabi-v7a # ARM ABI v7a by default  
+install:
+  # Update sdk tools to latest version and install/update components
+  - echo yes | sdkmanager "platforms;android-${API}" # Android platform required by emulator
+  - echo yes | sdkmanager "extras;android;m2repository"
+  - echo yes | sdkmanager "extras;google;m2repository"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 before_install:
 - chmod +x gradlew
 - mkdir "$ANDROID_HOME/licenses" || true
 - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
 - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
 branches:
   only:
   - master
