@@ -11,11 +11,29 @@ android:
     - android-sdk-license-.+
     - '.+'
   components:
-  - platform-tools
   - tools
   - build-tools-26.0.0
-  - android-24
   - extra-android-m2repository
+  - platform-tools
+  - tools
+env:
+  global:
+    - API=24 # Android API level 25 by default
+    - TAG=google_apis # Google APIs by default, alternatively use default
+    - ABI=armeabi-v7a # ARM ABI v7a by default  
+install:
+  # List and delete unnecessary components to free space
+  - sdkmanager --list || true
+  - sdkmanager --uninstall "system-images;android-15;default;armeabi-v7a"
+
+  # Update sdk tools to latest version and install/update components
+  - echo yes | sdkmanager "tools"
+  - echo yes | sdkmanager "platforms;android-25" # Latest platform required by SDK tools
+  - echo yes | sdkmanager "platforms;android-${API}" # Android platform required by emulator
+  - echo yes | sdkmanager "extras;android;m2repository"
+  - echo yes | sdkmanager "extras;google;m2repository"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 before_install:
 - chmod +x gradlew
 - mkdir "$ANDROID_HOME/licenses" || true
@@ -28,6 +46,8 @@ branches:
 script:
 - "./gradlew build assembleRelease"
 - ./gradlew sonarqube
+after_script:
+  - cat ${TRAVIS_BUILD_DIR}/*/build/outputs/androidTest-results/connected/*
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
