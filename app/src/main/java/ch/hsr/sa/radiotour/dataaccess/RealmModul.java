@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess;
 
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.annotations.RealmModule;
 
@@ -7,6 +8,6 @@ import io.realm.annotations.RealmModule;
  * Created by Dom on 12.10.2017.
  */
 
-@RealmModule(classes = {Rider.class})
+@RealmModule(classes = {Rider.class, RaceGroup.class})
 public class RealmModul {
 }

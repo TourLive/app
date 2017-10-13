@@ -13,10 +13,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
+import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 /**
@@ -25,10 +31,14 @@ import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements View.OnClickListener {
     private IRiderPresenter presenter;
+    private IRaceGroupPresenter raceGroupPresenter;
     private RealmList<Rider> riders;
+    private RealmList<RaceGroup> raceGroups;
     private RiderAdapter adapter;
+    private RaceGroupAdapter raceGroupAdapter;
 
     private RecyclerView rvRider;
+    private RecyclerView rvRaceGroup;
     private Button demoButton;
     private Button deleteButton;
 
@@ -42,7 +52,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void initComponents(View root){
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
+        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         presenter = new RiderPresenter(this);
+        raceGroupPresenter = new RaceGroupPresenter(this);
         demoButton = (Button) root.findViewById(R.id.demoButton);
         demoButton.setOnClickListener(this);
         deleteButton = (Button) root.findViewById(R.id.deleteButton);
@@ -53,6 +65,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     private void initRecyclerListener() {
         rvRider.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRider.setItemAnimator(new DefaultItemAnimator());
+        rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
@@ -60,12 +74,15 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         super.onStart();
         presenter.subscribeCallbacks();
         presenter.getAllRiders();
+        raceGroupPresenter.subscribeCallbacks();
+        raceGroupPresenter.getAllRaceGroups();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         presenter.unSubscribeCallbacks();
+        raceGroupPresenter.unSubscribeCallbacks();
     }
 
     @Override
@@ -78,6 +95,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             case R.id.deleteButton:{
                 presenter.clearAllRiders();
                 presenter.getAllRiders();
+                raceGroupPresenter.clearAllRaceGroups();
+                raceGroupPresenter.getAllRaceGroups();
                 break;
             }
         }
@@ -85,12 +104,28 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void add_DefaultData(){
         presenter.clearAllRiders();
-        Rider rider = new Rider();
+        RealmList<Rider> riders = new RealmList<>();
         for(int i = 0; i < 50; i++){
+            Rider rider = new Rider();
             rider.setStartNr(i);
             rider.setCountry("swiss");
             rider.setName("rider" + i);
             presenter.addRider(rider);
+            riders.add(rider);
+        }
+        raceGroupPresenter.clearAllRaceGroups();
+        RaceGroup raceGroup = new RaceGroup();
+        for (int i = 0; i < 5; i++) {
+            raceGroup.setType(RaceGroupType.FELD);
+            raceGroup.setPosition(i);
+            raceGroup.setHistoryGapTime(60+i);
+            raceGroup.setActualGapTime(i);
+            RealmList<Rider> tempRiders = new RealmList<>();
+            tempRiders.add(riders.get(5 * i));
+            tempRiders.add(riders.get(5 * i + 1));
+            tempRiders.add(riders.get(5 * i + 2));
+            raceGroup.setRiders(tempRiders);
+            raceGroupPresenter.addRaceGroup(raceGroup);
         }
     }
 
@@ -102,8 +137,18 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         rvRider.setAdapter(adapter);
     }
 
+    public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
+        this.raceGroups = raceGroups;
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups);
+        rvRaceGroup.setAdapter(raceGroupAdapter);
+    }
+
     public void addRiderToList(){
         presenter.getAllRiders();
+    }
+
+    public void addRaceGroupToList() {
+        raceGroupPresenter.getAllRaceGroups();
     }
 
 }
