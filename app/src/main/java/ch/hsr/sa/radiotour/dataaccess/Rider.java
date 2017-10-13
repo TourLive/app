@@ -9,6 +9,7 @@ import io.realm.annotations.Required;
  */
 
 public class Rider extends RealmObject {
+
     @PrimaryKey
     private String id;
 
@@ -22,9 +23,7 @@ public class Rider extends RealmObject {
         return startNr;
     }
 
-    public void setStartNr(int startNr) {
-        this.startNr = startNr;
-    }
+    public void setStartNr(int startNr) { this.startNr = startNr; }
 
     public String getName() {
         return name;

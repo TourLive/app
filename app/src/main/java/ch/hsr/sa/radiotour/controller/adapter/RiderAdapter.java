@@ -31,7 +31,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
 
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
-        holder.tvNummer.setText(String.valueOf(riders.get(position).getName()));
+        holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
     }
 
     @Override

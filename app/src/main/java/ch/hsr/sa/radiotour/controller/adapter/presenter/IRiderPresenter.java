@@ -9,4 +9,5 @@ import ch.hsr.sa.radiotour.dataaccess.Rider;
 public interface IRiderPresenter extends IBasePresenter {
     void addRider(Rider student);
     void getAllRiders();
+    void clearAllRiders();
 }

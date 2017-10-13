@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**
@@ -15,12 +16,17 @@ public class RiderRepository implements IRiderRepository {
     @Override
     public void addRider(Rider rider, OnSaveRiderCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.beginTransaction();
-        Rider realmRider = realm.createObject(Rider.class, UUID.randomUUID().toString());
-        realmRider.setName(rider.getName());
-        realmRider.setCountry(rider.getCountry());
-        realmRider.setStartNr(rider.getStartNr());
-        realm.commitTransaction();
+        final Rider transferRider = rider;
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                Rider realmRider = realm.createObject(Rider.class, UUID.randomUUID().toString());
+                realmRider.setName(transferRider.getName());
+                realmRider.setCountry(transferRider.getCountry());
+                realmRider.setStartNr(transferRider.getStartNr());
+            }
+        });
 
         if (callback != null)
             callback.onSuccess();
@@ -35,5 +41,13 @@ public class RiderRepository implements IRiderRepository {
 
         if (callback != null)
             callback.onSuccess(res);
+    }
+
+    @Override
+    public void clearAllRiders(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        realm.where(Rider.class).findAll().deleteAllFromRealm();
+        realm.commitTransaction();
     }
 }

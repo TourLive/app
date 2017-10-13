@@ -29,9 +29,7 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public void addRider(Rider rider) {
-        riderRepository.addRider(rider, onSaveRiderCallback);
-    }
+    public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }
 
     @Override
     public void getAllRiders() {
@@ -39,11 +37,15 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
+    public void clearAllRiders() { riderRepository.clearAllRiders(); }
+
+
+    @Override
     public void subscribeCallbacks() {
         onSaveRiderCallback = new IRiderRepository.OnSaveRiderCallback() {
             @Override
             public void onSuccess() {
-                //view.showMessage("Added");
+                view.addRiderToList();
             }
 
             @Override
