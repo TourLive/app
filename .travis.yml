@@ -7,6 +7,9 @@ addons:
     token:
       secure: "378979c462e37cdde726e8227e204ceb5b6e65ee"
 android:
+  licenses:
+    - android-sdk-license-.+
+    - '.+'
   components:
   - platform-tools
   - tools
