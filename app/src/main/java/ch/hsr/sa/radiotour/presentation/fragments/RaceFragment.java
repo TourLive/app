@@ -11,13 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TableLayout;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.IRiderPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.dataaccess.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 /**

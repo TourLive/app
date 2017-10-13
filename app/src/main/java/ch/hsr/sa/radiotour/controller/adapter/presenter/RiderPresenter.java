@@ -1,14 +1,11 @@
 package ch.hsr.sa.radiotour.controller.adapter.presenter;
 
-import android.widget.Toast;
-
-import ch.hsr.sa.radiotour.dataaccess.IRiderRepository;
-import ch.hsr.sa.radiotour.dataaccess.Rider;
-import ch.hsr.sa.radiotour.dataaccess.RiderRepository;
+import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
+import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
-import ch.hsr.sa.radiotour.presentation.fragments.RiderChartFragment;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 /**
  * Created by Dom on 12.10.2017.

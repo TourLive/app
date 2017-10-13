@@ -1,10 +1,12 @@
-package ch.hsr.sa.radiotour.dataaccess;
+package ch.hsr.sa.radiotour.dataaccess.repositories;
 
 import java.util.UUID;
 
+import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
+import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
 
 /**

@@ -1,6 +1,6 @@
-package ch.hsr.sa.radiotour.controller.adapter.presenter;
+package ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces;
 
-import ch.hsr.sa.radiotour.dataaccess.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 
 /**
  * Created by Dom on 12.10.2017.

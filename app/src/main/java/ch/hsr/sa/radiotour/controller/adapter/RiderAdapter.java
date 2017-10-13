@@ -1,14 +1,13 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.dataaccess.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 /**

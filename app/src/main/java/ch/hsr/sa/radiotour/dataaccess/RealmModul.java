@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess;
 
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.annotations.RealmModule;
 
 /**
