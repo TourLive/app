@@ -1,8 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
-import android.app.Activity;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +11,6 @@ import ch.hsr.sa.radiotour.R;
 import android.content.Context;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import io.realm.RealmList;
-
-/**
- * Created by Urs Forrer on 13.10.2017.
- */
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;

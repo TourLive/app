@@ -9,10 +9,6 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-/**
- * Created by Dom on 12.10.2017.
- */
-
 public class RiderRepository implements IRiderRepository {
 
     @Override

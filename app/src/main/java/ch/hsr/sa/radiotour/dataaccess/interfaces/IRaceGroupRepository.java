@@ -3,10 +3,6 @@ package ch.hsr.sa.radiotour.dataaccess.interfaces;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import io.realm.RealmList;
 
-/**
- * Created by Urs Forrer on 13.10.2017.
- */
-
 public interface IRaceGroupRepository {
     interface OnSaveRaceGroupCallback {
         void onSuccess();

@@ -1,15 +1,9 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
-import java.util.List;
-
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
-
-/**
- * Created by Urs Forrer on 13.10.2017.
- */
 
 public class RaceGroup extends RealmObject {
     @PrimaryKey

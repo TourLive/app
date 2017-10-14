@@ -7,10 +7,6 @@ import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
-/**
- * Created by Urs Forrer on 13.10.2017.
- */
-
 public class RaceGroupPresenter implements IRaceGroupPresenter {
     private RaceFragment raceFragment;
     private IRaceGroupRepository.OnSaveRaceGroupCallback onSaveRaceGroupCallback;

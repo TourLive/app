@@ -10,10 +10,6 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
-/**
- * Created by dgood on 10.10.2017.
- */
-
 public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHolder>{
 
     private RealmList<Rider> riders;

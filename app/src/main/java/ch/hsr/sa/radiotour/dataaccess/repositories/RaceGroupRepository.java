@@ -10,10 +10,6 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-/**
- * Created by Urs Forrer on 13.10.2017.
- */
-
 public class RaceGroupRepository implements IRaceGroupRepository {
     @Override
     public void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {

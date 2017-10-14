@@ -12,9 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
@@ -25,12 +22,7 @@ import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import io.realm.Realm;
 import io.realm.RealmList;
-
-/**
- * Created by Urs Forrer on 10.10.2017.
- */
 
 public class RaceFragment extends Fragment implements View.OnClickListener {
     private IRiderPresenter presenter;
