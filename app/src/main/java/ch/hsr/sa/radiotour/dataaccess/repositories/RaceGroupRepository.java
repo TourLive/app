@@ -29,7 +29,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
                 realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
                 RealmList<Rider> res = new RealmList<>();
                 for (Rider r : transferRaceGroup.getRiders()) {
-                    RealmResults<Rider> temp = realm.where(Rider.class).equalTo("name", r.getName()).findAll();
+                    RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
                     res.addAll(temp);
                 }
                 realmRaceGroup.setPosition(transferRaceGroup.getPosition());

@@ -131,6 +131,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             test.add(riders.get(i * 5));
             test.add(riders.get(i * 5 + 1));
             test.add(riders.get(i * 5 + 2));
+            test.add(riders.get(i * 5 + 3));
+            test.add(riders.get(i * 5 + 4));
             raceGroup.setRiders(test);
             raceGroupPresenter.addRaceGroup(raceGroup);
         }
