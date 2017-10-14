@@ -66,7 +66,18 @@ public class RaceGroup extends RealmObject {
     }
 
     public String getName() {
-        return "HALLO";
+        switch(getType()) {
+            case LEAD:
+                return "LEAD";
+            case LAST:
+                return "LAST";
+            case FELD:
+                return "FELD";
+            case NORMAL:
+                return "GROUP " + getPosition();
+            default:
+                return "DEFAULT";
+        }
     }
 
     public void setPosition(int position) {

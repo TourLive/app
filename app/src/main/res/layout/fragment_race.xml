@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/race_status"
-            android:textAlignment="center"
+            android:textAlignment="textStart"
             android:textSize="18sp"
             android:textStyle="bold"
             tools:layout_editor_absoluteX="0dp"
@@ -67,9 +67,12 @@
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRaceGroup"
         android:layout_width="434dp"
-        android:layout_height="510dp"
-        tools:layout_editor_absoluteY="0dp"
+        android:layout_height="511dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@+id/rvRider"
-        android:layout_marginLeft="8dp" />
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginEnd="8dp" />
 
 </android.support.constraint.ConstraintLayout>
