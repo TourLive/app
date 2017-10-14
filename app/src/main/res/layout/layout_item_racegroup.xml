@@ -1,52 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/racegroup_naming"
+    <TextView
+        android:id="@+id/racegroup_name"
+        android:layout_width="43dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="86dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:text="TextView"
+        app:layout_constraintHorizontal_bias="0.955"
+        app:layout_constraintLeft_toRightOf="@+id/racegroup_riders"
+        app:layout_constraintRight_toLeftOf="@+id/guideline3"
+        tools:layout_editor_absoluteY="11dp" />
+
+    <TextView
+        android:id="@+id/gaptime_before"
+        android:layout_width="133dp"
+        android:layout_height="53dp"
+        android:layout_marginTop="13dp"
+        android:text="TextView"
+        app:layout_constraintTop_toBottomOf="@+id/gaptime_actual"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline3" />
+
+    <TextView
+        android:id="@+id/gaptime_actual"
+        android:layout_width="133dp"
+        android:layout_height="53dp"
+        android:text="TextView"
+        tools:layout_editor_absoluteY="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/guideline3" />
+
+    <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/guideline2"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.75"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="720dp" />
 
-
-        <TextView
-            android:id="@+id/racegroup_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-
-        <TextView
-            android:id="@+id/racegroup_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="TextView" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/racegroup_timing"
-        android:layout_width="match_parent"
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:id="@+id/guideline3"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
 
-        <TextView
-            android:id="@+id/gaptime_actual"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/backgroup_racegroup_time"
-            android:text="00:00" />
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/racegroup_riders"
+        android:layout_width="944dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="-5dp"
+        android:layout_marginTop="-7dp"
+        app:layout_constraintRight_toLeftOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/gaptime_before"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@drawable/backgroup_racegroup_time"
-            android:text="00:15" />
-    </LinearLayout>
-
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
