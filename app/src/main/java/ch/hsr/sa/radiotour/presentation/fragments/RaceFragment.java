@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
@@ -124,11 +127,11 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             raceGroup.setPosition(i);
             raceGroup.setHistoryGapTime(60+i);
             raceGroup.setActualGapTime(i);
-            RealmList<Rider> tempRiders = new RealmList<>();
-            tempRiders.add(riders.get(5 * i));
-            tempRiders.add(riders.get(5 * i + 1));
-            tempRiders.add(riders.get(5 * i + 2));
-            raceGroup.setRiders(tempRiders);
+            RealmList<Rider> test = new RealmList<>();
+            test.add(riders.get(i * 5));
+            test.add(riders.get(i * 5 + 1));
+            test.add(riders.get(i * 5 + 2));
+            raceGroup.setRiders(test);
             raceGroupPresenter.addRaceGroup(raceGroup);
         }
     }
@@ -143,7 +146,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext());
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
