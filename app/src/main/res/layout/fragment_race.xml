@@ -1,47 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/tabRider">
+    android:orientation="vertical">
 
-    <TableRow
-         android:layout_width="400dp"
-         android:layout_height="match_parent" >
 
-         <android.support.v7.widget.AppCompatButton
-             android:id="@+id/demoButton"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Demo Data" />
-    </TableRow>
+    <LinearLayout
+        android:layout_width="89dp"
+        android:layout_height="135dp"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:id="@+id/linearLayout">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        <TextView
+            android:id="@+id/race_race_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_status"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
-        <android.support.v7.widget.AppCompatButton
+        <Button
+            android:id="@+id/demoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Demo Data"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="205dp" />
+
+        <Button
             android:id="@+id/deleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete Data" />
-    </TableRow>
+            android:layout_weight="1"
+            android:text="Delete Data"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="165dp" />
 
+    </LinearLayout>
 
-    <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRider"
+        android:layout_width="420dp"
+        android:layout_height="511dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toRightOf="@+id/linearLayout"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_editor_absoluteY="0dp" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvRider"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical">
-            </android.support.v7.widget.RecyclerView>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvRaceGroup"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="vertical">
-        </android.support.v7.widget.RecyclerView>
-        </TableRow>
-</TableLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRaceGroup"
+        android:layout_width="434dp"
+        android:layout_height="510dp"
+        tools:layout_editor_absoluteY="0dp"
+        app:layout_constraintLeft_toRightOf="@+id/rvRider"
+        android:layout_marginLeft="8dp" />
+
+</android.support.constraint.ConstraintLayout>

@@ -32,6 +32,9 @@ import io.realm.RealmList;
 public class RaceFragment extends Fragment implements View.OnClickListener {
     private IRiderPresenter presenter;
     private IRaceGroupPresenter raceGroupPresenter;
+    private RealmList<RaceGroup> raceGroups;
+    private RealmList<Rider> riders;
+
     private RiderAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
 
