@@ -139,7 +139,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     public void showRiders(RealmList<Rider> riders) {
         this.riders = riders;
         adapter = new RiderAdapter(riders);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 7);
+        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 10);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
     }
