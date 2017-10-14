@@ -39,8 +39,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         holder.racegroup_name.setText(String.valueOf(raceGroups.get(position).getName()));
         holder.gaptime_actual.setText(String.valueOf(raceGroups.get(position).getActualGapTime()));
         holder.gaptime_before.setText("(" + String.valueOf(raceGroups.get(position).getHistoryGapTime()) + ")");
-        //holder.racegroup_count.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
-        //System.out.print(raceGroups.get(position).getRiders().toString());
+        holder.racegroup_count.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
         RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
         holder.racegroup_riders.setLayoutManager(layoutManager);
         holder.racegroup_riders.setAdapter(adapter);
@@ -53,7 +52,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     public class RaceGroupViewHolder extends RecyclerView.ViewHolder {
         private TextView racegroup_name;
-        //private TextView racegroup_count;
+        private TextView racegroup_count;
         private TextView gaptime_actual;
         private TextView gaptime_before;
         private RecyclerView racegroup_riders;
@@ -62,7 +61,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             super(itemView);
             racegroup_name = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroup_riders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
-            //racegroup_count = (TextView) itemView.findViewById(R.id.racegroup_count);
+            racegroup_count = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptime_actual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptime_before = (TextView) itemView.findViewById(R.id.gaptime_before);
         }
