@@ -14,7 +14,7 @@
         android:layout_marginRight="8dp"
         android:orientation="vertical"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/guideline"
+        app:layout_constraintRight_toLeftOf="@+id/racefragment_guideline_one"
         tools:layout_editor_absoluteY="8dp">
 
         <TextView
@@ -48,7 +48,7 @@
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline"
+        android:id="@+id/racefragment_guideline_one"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.1"
         tools:layout_editor_absoluteY="0dp"
@@ -57,7 +57,7 @@
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/guideline4"
+        android:id="@+id/racegroup_guideline_two"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.55"
         tools:layout_editor_absoluteY="0dp"
@@ -71,8 +71,8 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline"
-        app:layout_constraintRight_toLeftOf="@+id/guideline4"
+        app:layout_constraintLeft_toLeftOf="@+id/racefragment_guideline_one"
+        app:layout_constraintRight_toLeftOf="@+id/racegroup_guideline_two"
         tools:layout_editor_absoluteY="8dp" />
 
     <android.support.v7.widget.RecyclerView
@@ -83,7 +83,7 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/guideline4"
+        app:layout_constraintLeft_toLeftOf="@+id/racegroup_guideline_two"
         app:layout_constraintRight_toRightOf="parent"
         tools:layout_editor_absoluteY="8dp" />
 
