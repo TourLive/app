@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -12,7 +14,6 @@ import io.realm.annotations.Required;
 public class RaceGroup extends RealmObject {
     @PrimaryKey
     private String id;
-
     @Required
     private String type;
     private int actualGapTime;

@@ -5,6 +5,7 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -26,7 +27,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
                 realmRaceGroup.setType(transferRaceGroup.getType());
                 realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
                 realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
+                Rider results = realm.where(Rider.class).findFirst();
+                RealmList<Rider> res = new RealmList<>();
+                res.add(results);
+
                 realmRaceGroup.setPosition(transferRaceGroup.getPosition());
+                realmRaceGroup.setRiders(res);
             }
         });
 
