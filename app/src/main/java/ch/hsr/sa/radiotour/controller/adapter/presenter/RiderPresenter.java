@@ -47,7 +47,6 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
-                //view.showMessage(message);
             }
         };
 
@@ -59,7 +58,6 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
-                //view.showMessage(message);
             }
         };
     }

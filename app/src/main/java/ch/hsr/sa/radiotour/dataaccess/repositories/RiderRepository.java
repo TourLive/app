@@ -38,7 +38,7 @@ public class RiderRepository implements IRiderRepository {
     public void getAllRiders(OnGetAllRidersCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Rider> results = realm.where(Rider.class).findAll();
-        RealmList<Rider> res = new RealmList<Rider>();
+        RealmList<Rider> res = new RealmList<>();
         res.addAll(results);
 
         if (callback != null)

@@ -32,8 +32,6 @@ import io.realm.RealmList;
 public class RaceFragment extends Fragment implements View.OnClickListener {
     private IRiderPresenter presenter;
     private IRaceGroupPresenter raceGroupPresenter;
-    private RealmList<Rider> riders;
-    private RealmList<RaceGroup> raceGroups;
     private RiderAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
 
@@ -89,7 +87,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.demoButton: {
-                add_DefaultData();
+                addDefaultData();
                 break;
             }
             case R.id.deleteButton:{
@@ -99,10 +97,13 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 raceGroupPresenter.getAllRaceGroups();
                 break;
             }
+            default:{
+
+            }
         }
     }
 
-    public void add_DefaultData(){
+    public void addDefaultData(){
         presenter.clearAllRiders();
         RealmList<Rider> riders = new RealmList<>();
         for(int i = 0; i < 50; i++){
