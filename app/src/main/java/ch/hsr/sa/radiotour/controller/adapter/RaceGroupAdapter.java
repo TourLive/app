@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.app.Activity;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -34,14 +35,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     @Override
     public void onBindViewHolder(RaceGroupViewHolder holder, int position) {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, 3);
         holder.racegroup_name.setText(String.valueOf(raceGroups.get(position).getName()));
         holder.gaptime_actual.setText(String.valueOf(raceGroups.get(position).getActualGapTime()));
-        holder.gaptime_before.setText(String.valueOf(raceGroups.get(position).getHistoryGapTime()));
+        holder.gaptime_before.setText("(" + String.valueOf(raceGroups.get(position).getHistoryGapTime()) + ")");
         //holder.racegroup_count.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
         //System.out.print(raceGroups.get(position).getRiders().toString());
         RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
-        holder.racegroup_riders.setLayoutManager(linearLayoutManager);
+        holder.racegroup_riders.setLayoutManager(layoutManager);
         holder.racegroup_riders.setAdapter(adapter);
     }
 
