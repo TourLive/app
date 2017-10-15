@@ -1,8 +1,10 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
         return riders.size();
     }
 
-    public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnDragListener {
+    public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
 
         private TextView tvNummer;
 
@@ -46,7 +48,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
             super(itemView);
             tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
             itemView.setOnClickListener(this);
-            itemView.setOnDragListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -62,26 +64,10 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
         }
 
         @Override
-        public boolean onDrag(View v, DragEvent event) {
-            int action = event.getAction();
-            switch (event.getAction()) {
-                case DragEvent.ACTION_DRAG_STARTED:
-                    Log.d("Drag Started", String.valueOf(selectedRiders.size()));
-                    break;
-                case DragEvent.ACTION_DRAG_ENTERED:
-                    Log.d("Drag Entered", String.valueOf(selectedRiders.size()));
-                    break;
-                case DragEvent.ACTION_DRAG_EXITED:
-                    Log.d("Drag Extied", String.valueOf(selectedRiders.size()));
-                    break;
-                case DragEvent.ACTION_DROP:
-                    Log.d("Drop", String.valueOf(selectedRiders.size()));
-                    break;
-                case DragEvent.ACTION_DRAG_ENDED:
-                    Log.d("Drag Ended", String.valueOf(selectedRiders.size()));
-                default:
-                    break;
-            }
+        public boolean onLongClick(View v) {
+            ClipData data = ClipData.newPlainText(" ", " ");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(v);
+            v.startDragAndDrop(data, shadowBuilder, selectedRiders, 0);
             return true;
         }
     }
