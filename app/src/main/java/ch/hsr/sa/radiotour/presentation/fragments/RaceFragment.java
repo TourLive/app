@@ -140,7 +140,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext());
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
