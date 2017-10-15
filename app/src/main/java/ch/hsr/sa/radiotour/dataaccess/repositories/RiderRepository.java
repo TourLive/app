@@ -9,10 +9,6 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 
-/**
- * Created by Dom on 12.10.2017.
- */
-
 public class RiderRepository implements IRiderRepository {
 
     @Override
@@ -38,7 +34,7 @@ public class RiderRepository implements IRiderRepository {
     public void getAllRiders(OnGetAllRidersCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Rider> results = realm.where(Rider.class).findAll();
-        RealmList<Rider> res = new RealmList<Rider>();
+        RealmList<Rider> res = new RealmList<>();
         res.addAll(results);
 
         if (callback != null)

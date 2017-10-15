@@ -7,10 +7,6 @@ import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
-/**
- * Created by Dom on 12.10.2017.
- */
-
 public class RiderPresenter implements IRiderPresenter {
     private RaceFragment view;
 
@@ -47,7 +43,6 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
-                //view.showMessage(message);
             }
         };
 
@@ -59,7 +54,6 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
-                //view.showMessage(message);
             }
         };
     }

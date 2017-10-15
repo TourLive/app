@@ -1,15 +1,12 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
 import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-/**
- * Created by Dom on 12.10.2017.
- */
-
 public class Rider extends RealmObject {
-
     @PrimaryKey
     private String id;
 
@@ -18,6 +15,9 @@ public class Rider extends RealmObject {
     private String name;
     @Required
     private String country;
+
+    @LinkingObjects("riders")
+    private final RealmResults<RaceGroup> raceGroups = null;
 
     public int getStartNr() {
         return startNr;

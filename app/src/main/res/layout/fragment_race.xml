@@ -1,41 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/tabRider">
+    android:orientation="vertical">
 
-    <TableRow
-         android:layout_width="400dp"
-         android:layout_height="match_parent" >
 
-         <android.support.v7.widget.AppCompatButton
-             android:id="@+id/demoButton"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:text="Demo Data" />
-    </TableRow>
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/racefragment_guideline_one"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/deleteButton"
+        <TextView
+            android:id="@+id/rider_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete Data" />
-    </TableRow>
+            android:layout_weight="1"
+            android:text="@string/race_status"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/demoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Demo Data"
+            android:textAlignment="center"
+            android:textStyle="bold" />
 
-    <TableRow
+        <Button
+            android:id="@+id/deleteButton"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Delete Data"
+            android:textStyle="bold" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvRider"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scrollbars="vertical">
-            </android.support.v7.widget.RecyclerView>
-        </TableRow>
-</TableLayout>
+    </LinearLayout>
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/racefragment_guideline_one"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="96dp" />
+
+    <android.support.constraint.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/racegroup_guideline_two"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.55"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="528dp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRider"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/racefragment_guideline_one"
+        app:layout_constraintRight_toLeftOf="@+id/racegroup_guideline_two"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="8dp"
+        tools:layout_constraintRight_creator="1"
+        tools:layout_constraintLeft_creator="1" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvRaceGroup"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintLeft_toLeftOf="@+id/racegroup_guideline_two"
+        app:layout_constraintRight_toRightOf="parent"
+        tools:layout_constraintTop_creator="1"
+        tools:layout_constraintRight_creator="1"
+        android:layout_marginTop="8dp"
+        tools:layout_constraintLeft_creator="1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

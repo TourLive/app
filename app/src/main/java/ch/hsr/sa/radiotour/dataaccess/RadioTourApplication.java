@@ -8,11 +8,6 @@ import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-
-/**
- * Created by Dom on 12.10.2017.
- */
-
 public class RadioTourApplication extends Application {
 
     private static RealmConfiguration realmConfig;
