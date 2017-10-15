@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 public interface IRaceGroupRepository {
@@ -14,11 +15,18 @@ public interface IRaceGroupRepository {
         void onError(String message);
     }
 
+    interface OnUpdateRaceGroupCallBack {
+        void onSuccess();
+        void onError(String message);
+    }
+
     void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback);
 
     void getAllRaceGroups(OnGetAllRaceGroupsCallback callback);
 
     void clearAllRaceGroups();
+
+    void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback);
 
     void deleteRaceGroup();
 }

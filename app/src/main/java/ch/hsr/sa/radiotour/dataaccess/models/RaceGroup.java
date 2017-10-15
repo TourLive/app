@@ -24,8 +24,8 @@ public class RaceGroup extends RealmObject {
         return riders;
     }
 
-    public void appendRider(Rider rider) {
-        riders.add(rider);
+    public void appendRiders(RealmList<Rider> newRiders) {
+        this.riders.addAll(newRiders);
     }
 
     public int getRidersCount() {

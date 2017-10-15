@@ -50,6 +50,20 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
     }
 
+    public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+
+        realm.beginTransaction();
+        RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
+        realmRaceGroup.appendRiders(newRiders);
+        realm.commitTransaction();
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
+
+    }
+
     @Override
     public void clearAllRaceGroups() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());

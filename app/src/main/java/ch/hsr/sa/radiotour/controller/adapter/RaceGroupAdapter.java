@@ -2,6 +2,8 @@ package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,19 +11,26 @@ import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import android.content.Context;
+
+import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
     private Context context;
+    private IRaceGroupPresenter raceGroupPresenter;
 
     private final int ITEM = 0;
     private final int ADDBUTTON = 1;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter){
         this.raceGroups = raceGroups;
         this.context = context;
+        this.raceGroupPresenter = raceGroupPresenter;
     }
 
     @Override
@@ -80,6 +89,27 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             racegroup_count = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptime_actual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptime_before = (TextView) itemView.findViewById(R.id.gaptime_before);
+            itemView.setOnDragListener(new View.OnDragListener() {
+                @Override
+                public boolean onDrag(View view, DragEvent dragEvent) {
+                    switch(dragEvent.getAction()) {
+                        case DragEvent.ACTION_DRAG_STARTED:
+                            return true;
+                        case DragEvent.ACTION_DROP:
+                            RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
+                            RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                            raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
+                            notifyItemChanged(getAdapterPosition());
+
+                            return true;
+                        default:
+                            new Exception("Not implemented");
+                    }
+                    return true;
+                }
+            });
         }
+
+
     }
 }
