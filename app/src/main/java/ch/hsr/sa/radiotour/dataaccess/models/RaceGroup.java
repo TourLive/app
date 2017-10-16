@@ -28,6 +28,10 @@ public class RaceGroup extends RealmObject {
         this.riders.addAll(newRiders);
     }
 
+    public void removeRider(Rider rider) {
+        this.riders.remove(rider);
+    }
+
     public int getRidersCount() {
         return riders.size();
     }
