@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import android.util.Log;
-
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
@@ -75,6 +73,21 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess();
         }
 
+    }
+
+    @Override
+    public void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+
+        realm.beginTransaction();
+        RaceGroup res = realm.where(RaceGroup.class).equalTo("id", raceGroup.getId()).findFirst();
+        res.setHistoryGapTime(res.getActualGapTime());
+        res.setActualGapTime(timeStamp);
+        realm.commitTransaction();
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
     }
 
     @Override

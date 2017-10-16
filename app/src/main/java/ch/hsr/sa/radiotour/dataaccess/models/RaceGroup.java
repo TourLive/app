@@ -18,6 +18,10 @@ public class RaceGroup extends RealmObject {
 
     private RealmList<Rider> riders;
 
+    public String getId() {
+        return id;
+    }
+
     public void setRiders(RealmList<Rider> riders) {
         this.riders = riders;
     }

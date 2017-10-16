@@ -8,7 +8,6 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
@@ -101,7 +100,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
-            itemView.setOnClickListener(this);
+            gaptimeActual.setOnClickListener(this);
             itemView.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View view, DragEvent dragEvent) {
@@ -126,15 +125,30 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         public void onClick(View view) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = LayoutInflater.from(context);
-            final View dialogView = inflater.inflate(R.layout.time_picker_dialog, null);
+            View dialogView = inflater.inflate(R.layout.time_picker_dialog, null);
             builder.setView(dialogView);
+
+            RecyclerView rvMinutes = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadMinutes);
+            RecyclerView rvSeconds = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadSeconds);
+
+            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8);
+            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8);
+
+            final TimeAdapter adapterMinutes = new TimeAdapter(context);
+            final TimeAdapter adapterSeconds = new TimeAdapter(context);
+            rvMinutes.setLayoutManager(layoutManagerMinutes);
+            rvMinutes.setAdapter(adapterMinutes);
+            rvSeconds.setLayoutManager(layoutManagerSeconds);
+            rvSeconds.setAdapter(adapterSeconds);
 
             builder.setTitle("Time Gap");
             builder.setMessage("Please enter the gap time relative to the leading group");
             builder.setPositiveButton("Change time", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    //raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), res);
+                    if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
+                        raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
+                    }
                }
             });
             builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {

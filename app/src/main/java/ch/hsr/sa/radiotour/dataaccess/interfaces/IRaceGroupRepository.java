@@ -28,5 +28,7 @@ public interface IRaceGroupRepository {
 
     void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback);
 
+    void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback);
+
     void deleteRaceGroup();
 }

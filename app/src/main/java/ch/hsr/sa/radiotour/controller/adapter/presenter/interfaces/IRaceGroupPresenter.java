@@ -9,5 +9,6 @@ public interface IRaceGroupPresenter extends IBasePresenter {
     void getAllRaceGroups();
     void clearAllRaceGroups();
     void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders);
+    void updateRaceGroupGapTime(RaceGroup raceGroup, String minutes, String seconds);
     void deleteRaceGroup();
 }
