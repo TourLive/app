@@ -76,6 +76,14 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
+    public void updateRaceGroupGapTime(RaceGroup raceGroup, String minutes, String seconds) {
+        long convertedMinutes = Long.parseLong(minutes);
+        long convertedSeconds = Long.parseLong(seconds);
+        long timeStamp = (60 * convertedMinutes) + convertedSeconds;
+        raceGroupRepository.updateRaceGroupGapTime(raceGroup, timeStamp, onUpdateRaceGroupCallBack);
+    }
+
+    @Override
     public void getAllRaceGroups() {
         raceGroupRepository.getAllRaceGroups(onGetAllRaceGroupsCallback);
     }

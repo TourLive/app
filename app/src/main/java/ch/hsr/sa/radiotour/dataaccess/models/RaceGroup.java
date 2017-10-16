@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import java.util.Date;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -10,11 +12,15 @@ public class RaceGroup extends RealmObject {
     private String id;
     @Required
     private String type;
-    private int actualGapTime;
-    private int historyGapTime;
+    private long actualGapTime;
+    private long historyGapTime;
     private int position;
 
     private RealmList<Rider> riders;
+
+    public String getId() {
+        return id;
+    }
 
     public void setRiders(RealmList<Rider> riders) {
         this.riders = riders;
@@ -44,19 +50,19 @@ public class RaceGroup extends RealmObject {
         this.type = type.toString();
     }
 
-    public int getActualGapTime() {
+    public long getActualGapTime() {
         return actualGapTime;
     }
 
-    public void setActualGapTime(int actualGapTime) {
+    public void setActualGapTime(long actualGapTime) {
         this.actualGapTime = actualGapTime;
     }
 
-    public int getHistoryGapTime() {
+    public long getHistoryGapTime() {
         return historyGapTime;
     }
 
-    public void setHistoryGapTime(int historyGapTime) {
+    public void setHistoryGapTime(long historyGapTime) {
         this.historyGapTime = historyGapTime;
     }
 
