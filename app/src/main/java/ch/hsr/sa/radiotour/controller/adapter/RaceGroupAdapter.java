@@ -129,18 +129,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             final View dialogView = inflater.inflate(R.layout.time_picker_dialog, null);
             builder.setView(dialogView);
 
-            final EditText minutes = (EditText) dialogView.findViewById(R.id.timePickerMinutes);
-            final EditText seconds = (EditText) dialogView.findViewById(R.id.timePickerSeconds);
-            minutes.setText(gaptimeActual.toString().substring(0,2));
-            seconds.setText(gaptimeActual.toString().substring(4,5));
-
-            builder.setTitle("Enter the time of the gap");
+            builder.setTitle("Time Gap");
+            builder.setMessage("Please enter the gap time relative to the leading group");
             builder.setPositiveButton("Change time", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    long min = Long.parseLong(minutes.getText().toString());
-                    long sec = Long.parseLong(seconds.getText().toString());
-                    long res = min + sec;
                     //raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), res);
                }
             });
