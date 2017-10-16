@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,11 +11,9 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import android.content.Context;
 
-import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
@@ -24,8 +21,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
 
-    private final int ITEM = 0;
-    private final int ADDBUTTON = 1;
+    private final static int ITEM = 0;
+    private final static int ADDBUTTON = 1;
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter){
         this.raceGroups = raceGroups;
@@ -52,13 +49,13 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         if (position >= getItemCount()) {
 
         } else {
-            holder.racegroup_name.setText(String.valueOf(raceGroups.get(position).getName()));
-            holder.gaptime_actual.setText(String.valueOf(raceGroups.get(position).getActualGapTime()));
-            holder.gaptime_before.setText("(" + String.valueOf(raceGroups.get(position).getHistoryGapTime()) + ")");
-            holder.racegroup_count.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
+            holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
+            holder.gaptimeActual.setText(String.valueOf(raceGroups.get(position).getActualGapTime()));
+            holder.gaptimeBefore.setText("(" + String.valueOf(raceGroups.get(position).getHistoryGapTime()) + ")");
+            holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
-            holder.racegroup_riders.setLayoutManager(layoutManager);
-            holder.racegroup_riders.setAdapter(adapter);
+            holder.racegroupRiders.setLayoutManager(layoutManager);
+            holder.racegroupRiders.setAdapter(adapter);
         }
     }
 
@@ -76,19 +73,19 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     }
 
     public class RaceGroupViewHolder extends RecyclerView.ViewHolder {
-        private TextView racegroup_name;
-        private TextView racegroup_count;
-        private TextView gaptime_actual;
-        private TextView gaptime_before;
-        private RecyclerView racegroup_riders;
+        private TextView racegroupName;
+        private TextView racegroupCount;
+        private TextView gaptimeActual;
+        private TextView gaptimeBefore;
+        private RecyclerView racegroupRiders;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
-            racegroup_name = (TextView) itemView.findViewById(R.id.racegroup_name);
-            racegroup_riders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
-            racegroup_count = (TextView) itemView.findViewById(R.id.racegroup_count);
-            gaptime_actual = (TextView) itemView.findViewById(R.id.gaptime_actual);
-            gaptime_before = (TextView) itemView.findViewById(R.id.gaptime_before);
+            racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
+            racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
+            racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
+            gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
+            gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
             itemView.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View view, DragEvent dragEvent) {
