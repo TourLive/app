@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import android.util.Log;
+
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
@@ -52,6 +54,17 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
     public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+
+        realm.beginTransaction();
+        for (Rider r : newRiders) {
+            RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.startNr", r.getStartNr()).findAll();
+            if (!res.isEmpty()) {
+                for (RaceGroup rG : res) {
+                    rG.removeRider(r);
+                }
+            }
+        }
+        realm.commitTransaction();
 
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();

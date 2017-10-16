@@ -25,8 +25,8 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
 
     @Override
     public void onBindViewHolder(RiderRaceGroupAdapter.RiderRaceGroupViewHolder holder, int position) {
-        holder.racegroup_rider_name.setText(String.valueOf(riders.get(position).getName()));
-        holder.racegroup_rider_startnr.setText(String.valueOf(riders.get(position).getStartNr()));
+        holder.racegroupRiderName.setText(String.valueOf(riders.get(position).getName()));
+        holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
     }
 
     @Override
@@ -35,13 +35,13 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
     }
 
     public class RiderRaceGroupViewHolder extends RecyclerView.ViewHolder {
-        private TextView racegroup_rider_name;
-        private TextView racegroup_rider_startnr;
+        private TextView racegroupRiderName;
+        private TextView racegroupRiderStartNr;
 
         public RiderRaceGroupViewHolder(View itemView) {
             super(itemView);
-            racegroup_rider_name = (TextView) itemView.findViewById(R.id.racegroup_rider_name);
-            racegroup_rider_startnr = (TextView) itemView.findViewById(R.id.racegroup_rider_startnr);
+            racegroupRiderName = (TextView) itemView.findViewById(R.id.racegroup_rider_name);
+            racegroupRiderStartNr = (TextView) itemView.findViewById(R.id.racegroup_rider_startnr);
 
         }
     }
