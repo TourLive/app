@@ -103,9 +103,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
                             return true;
                         default:
-                            new Exception("Not implemented");
+                            return true;
                     }
-                    return true;
                 }
             });
         }
