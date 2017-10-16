@@ -97,7 +97,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                             raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
                             notifyItemChanged(getAdapterPosition());
-
                             return true;
                         default:
                             return true;
