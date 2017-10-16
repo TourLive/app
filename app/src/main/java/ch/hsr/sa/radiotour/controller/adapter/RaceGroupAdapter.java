@@ -110,6 +110,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         case DragEvent.ACTION_DROP:
                             RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                            System.out.print(newRiders.toString());
                             raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
                             notifyItemChanged(getAdapterPosition());
                             return true;
