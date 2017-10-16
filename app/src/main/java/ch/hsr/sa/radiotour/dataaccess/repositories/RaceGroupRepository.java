@@ -58,10 +58,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.beginTransaction();
         for (Rider r : newRiders) {
             RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.startNr", r.getStartNr()).findAll();
-            if (res.isEmpty()) {
-                Log.d("EMPTY", "NO OVERLAPPING Racegroups");
-            } else {
-                Log.d("EMPTY", "OVERLAPPING Racegroups");
+            if (!res.isEmpty()) {
                 for (RaceGroup rG : res) {
                     rG.removeRider(r);
                 }
