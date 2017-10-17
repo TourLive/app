@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
 import io.realm.RealmList;
 
@@ -21,7 +22,7 @@ public interface IRiderStateRepository {
 
     void addRiderState(RiderState riderState, OnSaveRiderStateCallback callback);
 
-    void getRiderState(RiderState riderState, OnGetRiderStateCallback callback);
+    void getRiderState(Rider rider, OnGetRiderStateCallback callback);
 
     void clearAllRiderState();
 

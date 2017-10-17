@@ -55,7 +55,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
         for (Rider r : newRiders) {
-            RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.startNr", r.getStartNr()).findAll();
+            RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.riderState", r.getStartNr()).findAll();
             if (!res.isEmpty()) {
                 for (RaceGroup rG : res) {
                     rG.removeRider(r);

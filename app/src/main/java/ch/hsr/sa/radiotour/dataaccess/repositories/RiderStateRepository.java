@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStateRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
 import io.realm.Realm;
 
@@ -27,12 +29,13 @@ public class RiderStateRepository implements IRiderStateRepository {
     }
 
     @Override
-    public void getRiderState(RiderState riderState, OnGetRiderStateCallback callback) {
+    public void getRiderState(Rider rider, OnGetRiderStateCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RiderState res = realm.where(RiderState.class).equalTo("id", riderState.getId()).findFirst();
+        RiderStageConnection res = realm.where(RiderStageConnection.class).
+                equalTo("ridersStageConnections.startNr", rider.getStartNr()).findFirst();
 
         if (callback != null) {
-            callback.onSuccess(res);
+            callback.onSuccess(res.getRiderState());
         }
     }
 
