@@ -37,6 +37,13 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     private RecyclerView rvRaceGroup;
     private Button demoButton;
     private Button deleteButton;
+    private Button doctorButton;
+    private Button dropButton;
+    private Button defectButton;
+    private Button quitButton;
+    private Button dncButton;
+    private Button quitChoiceButton;
+    private Button unkonownRiderButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,6 +62,20 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         demoButton.setOnClickListener(this);
         deleteButton = (Button) root.findViewById(R.id.deleteButton);
         deleteButton.setOnClickListener(this);
+        doctorButton = (Button) root.findViewById(R.id.btnDoctor);
+        doctorButton.setOnClickListener(this);
+        dropButton = (Button) root.findViewById(R.id.btnDrop);
+        dropButton.setOnClickListener(this);
+        defectButton = (Button) root.findViewById(R.id.btnDefect);
+        defectButton.setOnClickListener(this);
+        quitButton = (Button) root.findViewById(R.id.btnQuit);
+        quitButton.setOnClickListener(this);
+        dncButton = (Button) root.findViewById(R.id.btnDNC);
+        dncButton.setOnClickListener(this);
+        quitChoiceButton = (Button) root.findViewById(R.id.btnQuitChoice);
+        quitChoiceButton.setOnClickListener(this);
+        unkonownRiderButton = (Button) root.findViewById(R.id.btnUnknownRider);
+        unkonownRiderButton.setOnClickListener(this);
         initRecyclerListener();
     }
 
@@ -94,6 +115,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 raceGroupPresenter.clearAllRaceGroups();
                 raceGroupPresenter.getAllRaceGroups();
                 break;
+            }
+            case R.id.btnQuitChoice:{
+                adapter.resetSelectedRiders();
             }
             default:{
 

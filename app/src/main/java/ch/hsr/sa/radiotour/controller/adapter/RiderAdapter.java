@@ -42,6 +42,20 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
         return riders.size();
     }
 
+
+
+    public RealmList<Rider> getSelectedRiders(){
+        return this.selectedRiders;
+    }
+
+    public void resetSelectedRiders(){
+        for(View view : selectedViews){
+            view.setBackgroundResource(R.color.cardview_light_background);
+        }
+        selectedViews.clear();
+        selectedRiders.clear();
+    }
+
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnDragListener{
 
         private TextView tvNummer;

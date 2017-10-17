@@ -33,12 +33,69 @@
             android:textStyle="bold" />
 
         <Button
+            android:id="@+id/btnDoctor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_doctor"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnDrop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_drop"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnDefect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_defect"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnQuit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_quit"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnDNC"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_dnc"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnQuitChoice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_quit_choice"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
+            android:id="@+id/btnUnknownRider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/race_unknown_driver"
+            android:textSize="@dimen/text_size_common" />
+
+        <Button
             android:id="@+id/demoButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Demo Data"
             android:textAlignment="center"
+            android:textSize="@dimen/text_size_common"
             android:textStyle="bold" />
 
         <Button
@@ -47,6 +104,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Delete Data"
+            android:textSize="@dimen/text_size_common"
             android:textStyle="bold" />
 
     </LinearLayout>
