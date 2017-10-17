@@ -15,9 +15,16 @@ public interface IRiderRepository {
         void onError(String message);
     }
 
+    interface OnGetRiderCallback {
+        Rider onSuccess(Rider rider);
+        void onError(String message);
+    }
+
     void addRider(Rider rider, OnSaveRiderCallback callback);
 
     void getAllRiders(OnGetAllRidersCallback callback);
+
+    RealmList<Rider> getAllRidersReturned();
 
     void clearAllRiders();
 }

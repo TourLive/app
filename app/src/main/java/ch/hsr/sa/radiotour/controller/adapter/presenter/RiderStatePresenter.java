@@ -6,6 +6,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStateRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import io.realm.RealmList;
 
 public class RiderStatePresenter implements IRiderStatePresenter {
     private RaceFragment raceFragment;
@@ -13,6 +14,7 @@ public class RiderStatePresenter implements IRiderStatePresenter {
     private IRiderStateRepository.OnSaveRiderStateCallback onSaveRiderStateCallback;
     private IRiderStateRepository.OnGetRiderStateCallback onGetRiderStateCallback;
     private IRiderStateRepository.OnUpdateRiderStateCallBack onUpdateRiderStateCallBack;
+    private IRiderStateRepository.OnGetAllRidersStatesCallback onGetAllRidersStatesCallback;
 
     public RiderStatePresenter(RaceFragment raceFragment){
         this.raceFragment = raceFragment;
@@ -56,6 +58,19 @@ public class RiderStatePresenter implements IRiderStatePresenter {
 
             }
         };
+
+        onGetAllRidersStatesCallback = new IRiderStateRepository.OnGetAllRidersStatesCallback(){
+            @Override
+            public void onSuccess(RealmList<RiderState> riderStates) {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
+
     }
 
     @Override
@@ -63,6 +78,7 @@ public class RiderStatePresenter implements IRiderStatePresenter {
         onGetRiderStateCallback = null;
         onUpdateRiderStateCallBack = null;
         onSaveRiderStateCallback = null;
+        onGetAllRidersStatesCallback = null;
     }
 
     @Override
@@ -76,8 +92,13 @@ public class RiderStatePresenter implements IRiderStatePresenter {
     }
 
     @Override
-    public void clearAllRiderState() {
+    public void getAllRiderStates(){
+        riderStateRepository.getAllRiderStates(onGetAllRidersStatesCallback);
+    }
 
+    @Override
+    public void clearAllRiderState() {
+        riderStateRepository.clearAllRiderState();
     }
 
     @Override

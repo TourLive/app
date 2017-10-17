@@ -12,8 +12,8 @@ public class RiderState extends RealmObject {
     @Required
     private String type;
 
-    @LinkingObjects("riderState")
-    private final RiderStageConnection riderState = null;
+    @LinkingObjects("riderStateConnection")
+    private final RealmResults<RiderStageConnection> riderState = null;
 
     public String getId() {
         return id;

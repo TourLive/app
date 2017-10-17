@@ -2,7 +2,9 @@ package ch.hsr.sa.radiotour.controller.adapter.presenter;
 
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
@@ -14,6 +16,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     private IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback onSaveRiderStageConnectionCallbackCallback;
     private IRiderStageConnectionRepository.OnGetAllRiderStageConnectionsCallback onGetAllRiderStageConnectionsCallback;
     private IRiderStageConnectionRepository.OnUpdateRiderStageConnectionCallBack onUpdateRiderStageConnectionCallBack;
+    private IRiderStageConnectionRepository.OnUpdateRiderStateCallBack onUpdateRiderStateCallBack;
 
     public RiderStageConnectionPresenter(RaceFragment raceFragment){
         this.raceFragment = raceFragment;
@@ -57,6 +60,18 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
 
             }
         };
+
+        onUpdateRiderStateCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStateCallBack() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
     }
 
     @Override
@@ -64,6 +79,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onSaveRiderStageConnectionCallbackCallback = null;
         onGetAllRiderStageConnectionsCallback = null;
         onUpdateRiderStageConnectionCallBack = null;
+        onUpdateRiderStateCallBack = null;
     }
 
     @Override
@@ -84,5 +100,15 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public void deleteRiderStageConnection() {
 
+    }
+
+    @Override
+    public void updateRiderState(RiderState newRiderState, Rider rider) {
+        riderStageConnectionRepository.updateRiderState(newRiderState, rider, onUpdateRiderStateCallBack);
+    }
+
+    @Override
+    public void clearAllRiderStageConnection() {
+        riderStageConnectionRepository.clearAllRiderStageConnection();
     }
 }

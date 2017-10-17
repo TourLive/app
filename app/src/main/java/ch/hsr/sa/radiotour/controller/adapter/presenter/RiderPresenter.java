@@ -2,9 +2,11 @@ package ch.hsr.sa.radiotour.controller.adapter.presenter;
 
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
+import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStateRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public class RiderPresenter implements IRiderPresenter {
@@ -28,6 +30,9 @@ public class RiderPresenter implements IRiderPresenter {
     public void getAllRiders() {
         riderRepository.getAllRiders(onGetAllRidersCallback);
     }
+
+    @Override
+    public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
 
     @Override
     public void clearAllRiders() { riderRepository.clearAllRiders(); }

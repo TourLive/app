@@ -7,6 +7,7 @@ public interface IRiderStatePresenter extends IBasePresenter {
     void addRiderState(RiderState riderState);
     void getRiderState(Rider rider);
     void clearAllRiderState();
+    void getAllRiderStates();
     void updateRiderState(final RiderState newRiderState);
     void deleteRiderState();
 }

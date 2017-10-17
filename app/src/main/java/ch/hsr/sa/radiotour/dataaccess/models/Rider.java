@@ -16,8 +16,8 @@ public class Rider extends RealmObject {
     @Required
     private String country;
 
-    @LinkingObjects("ridersStageConnections")
-    private final RealmResults<RiderStageConnection> stageConnections = null;
+    @LinkingObjects("riderStageConnection")
+    private final RealmResults<RiderStageConnection> stageConnection = null;
 
     @LinkingObjects("riders")
     private final RealmResults<RaceGroup> raceGroups = null;

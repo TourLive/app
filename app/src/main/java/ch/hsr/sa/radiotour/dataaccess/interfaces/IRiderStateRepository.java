@@ -20,6 +20,11 @@ public interface IRiderStateRepository {
         void onError(String message);
     }
 
+    interface OnGetAllRidersStatesCallback {
+        void onSuccess(RealmList<RiderState> riderStates);
+        void onError(String mesage);
+    }
+
     void addRiderState(RiderState riderState, OnSaveRiderStateCallback callback);
 
     void getRiderState(Rider rider, OnGetRiderStateCallback callback);
@@ -27,6 +32,8 @@ public interface IRiderStateRepository {
     void clearAllRiderState();
 
     void updateRiderState(final RiderState newRiderState, OnUpdateRiderStateCallBack callback);
+
+    void getAllRiderStates(OnGetAllRidersStatesCallback callback);
 
     void deleteRiderState();
 }

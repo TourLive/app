@@ -5,5 +5,5 @@ package ch.hsr.sa.radiotour.dataaccess.models;
  */
 
 public enum RiderStateType {
-    DOCTOR, DROP, DEFECT, QUIT, DNC;
+    AKTIVE, DOCTOR, DROP, DEFECT, QUIT, DNC;
 }
