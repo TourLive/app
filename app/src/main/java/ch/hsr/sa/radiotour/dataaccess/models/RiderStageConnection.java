@@ -20,24 +20,28 @@ public class RiderStageConnection extends RealmObject {
     @Required
     private Date virtualGap;
 
-    private RealmList<Rider> ridersStageConnections;
+    private Rider riderStageConnection;
 
-    private RealmList<RiderState> ridersStates;
+    private RiderState riderState;
 
-    public RealmList<RiderState> getRidersStates() {
-        return ridersStates;
+    public String getId() {
+        return id;
     }
 
-    public void setRidersStates(RealmList<RiderState> ridersStates) {
-        this.ridersStates = ridersStates;
+    public RiderState getRiderState() {
+        return riderState;
     }
 
-    public RealmList<Rider> getRidersStageConnections() {
-        return ridersStageConnections;
+    public void setRiderState(RiderState riderState) {
+        this.riderState = riderState;
     }
 
-    public void setRidersStageConnections(RealmList<Rider> ridersStageConnections) {
-        this.ridersStageConnections = ridersStageConnections;
+    public Rider getRiderStageConnection() {
+        return riderStageConnection;
+    }
+
+    public void setRiderStageConnection(Rider riderStageConnection) {
+        this.riderStageConnection = riderStageConnection;
     }
 
     public int getRank() {

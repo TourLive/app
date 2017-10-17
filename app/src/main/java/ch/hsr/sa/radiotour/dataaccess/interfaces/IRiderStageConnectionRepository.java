@@ -24,9 +24,9 @@ public interface IRiderStageConnectionRepository {
 
     void getRiderStageConnections(OnGetAllRiderStageConnectionsCallback callback);
 
-    void clearAllRaceGroups();
+    void clearRiderStageConnection();
 
-    void updateRiderStageConnection(RiderStageConnection riderStageConnection, final RealmList<RiderStageConnection> newRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
+    void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
 
     void deleteRiderStageConnection();
 }

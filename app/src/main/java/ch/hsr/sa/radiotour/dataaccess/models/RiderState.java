@@ -12,8 +12,8 @@ public class RiderState extends RealmObject {
     @Required
     private String type;
 
-    @LinkingObjects("ridersStates")
-    private final RealmResults<RiderStageConnection> ridersStates = null;
+    @LinkingObjects("riderState")
+    private final RiderStageConnection riderState = null;
 
     public RiderStateType getType() {
         return RiderStateType.valueOf(type);
