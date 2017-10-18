@@ -96,4 +96,13 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     public void deleteRiderStageConnection() {
 
     }
+
+    @Override
+    public RiderStageConnection getRiderByRank(final int rank) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("rank", rank).findFirst();
+        realm.commitTransaction();
+        return res;
+    }
 }

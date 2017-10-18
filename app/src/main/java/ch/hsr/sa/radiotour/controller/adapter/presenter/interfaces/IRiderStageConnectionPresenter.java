@@ -11,4 +11,5 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void deleteRiderStageConnection();
     void updateRiderState(final RiderStateType type, final Rider rider);
     void clearAllRiderStageConnection();
+    RiderStageConnection getRiderByRank(final int rank);
 }

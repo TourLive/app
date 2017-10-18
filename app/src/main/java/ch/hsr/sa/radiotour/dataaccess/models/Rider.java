@@ -62,6 +62,6 @@ public class Rider extends RealmObject {
     }
 
     public void removeStages(){
-        this.riderStages = new RealmList<>();
+        this.riderStages.clear();
     }
 }

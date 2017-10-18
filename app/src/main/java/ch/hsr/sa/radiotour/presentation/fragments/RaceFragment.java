@@ -171,8 +171,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         }
 
         riderStageConnectionPresenter.clearAllRiderStageConnection();
-        RiderStageConnection riderStageConnection = new RiderStageConnection();
+
         for(int i = 0; i < 50; i++){
+            RiderStageConnection riderStageConnection = new RiderStageConnection();
             riderStageConnection.setRank(i+1);
             riderStageConnection.setOfficialTime(new Date(100));
             riderStageConnection.setOfficialGap(new Date(100));
@@ -180,11 +181,12 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             riderStageConnection.setBonusPoint(100);
             riderStageConnection.setBonusTime(100);
             riderStageConnection.setType(RiderStateType.AKTIVE);
+            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
             RealmList<RiderStageConnection> test = new RealmList<>();
-            test.add(riderStageConnection);
+            test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
             presenter.updateRiderStateConnection(riders.get(i), test);
             test.clear();
-            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+
         }
 
     }

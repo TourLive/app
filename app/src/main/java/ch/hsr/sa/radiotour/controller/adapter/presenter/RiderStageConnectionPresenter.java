@@ -111,4 +111,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     public void clearAllRiderStageConnection() {
         riderStageConnectionRepository.clearAllRiderStageConnection();
     }
+
+    @Override
+    public RiderStageConnection getRiderByRank(final int rank) {
+        return riderStageConnectionRepository.getRiderByRank(rank);
+    }
 }
