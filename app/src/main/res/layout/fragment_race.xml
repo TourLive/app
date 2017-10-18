@@ -35,77 +35,95 @@
         <Button
             android:id="@+id/btnDoctor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_doctor"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_doctor"/>
 
         <Button
             android:id="@+id/btnDrop"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_drop"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_drop"/>
 
         <Button
             android:id="@+id/btnDefect"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_defect"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_defect"/>
 
         <Button
             android:id="@+id/btnQuit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_quit"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_quit"/>
 
         <Button
             android:id="@+id/btnDNC"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_dnc"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_dnc"/>
 
         <Button
             android:id="@+id/btnQuitChoice"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_quit_choice"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_common"/>
 
         <Button
             android:id="@+id/btnUnknownRider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="@string/race_unknown_driver"
-            android:textSize="@dimen/text_size_common" />
+            android:textSize="@dimen/text_size_common"
+            android:background="@drawable/button_shape_common"/>
 
         <Button
             android:id="@+id/demoButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
             android:text="Demo Data"
+            android:layout_marginBottom="@dimen/margin_common"
             android:textAlignment="center"
             android:textSize="@dimen/text_size_common"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/button_shape_common"/>
 
         <Button
             android:id="@+id/deleteButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/button_height_common"
             android:layout_weight="1"
+            android:layout_marginBottom="@dimen/margin_common"
             android:text="Delete Data"
             android:textSize="@dimen/text_size_common"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:background="@drawable/button_shape_common"/>
 
     </LinearLayout>
 

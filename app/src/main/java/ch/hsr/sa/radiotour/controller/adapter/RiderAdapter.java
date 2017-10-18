@@ -21,6 +21,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
     private RealmList<Rider> riders;
     private RealmList<Rider> selectedRiders;
     private ArrayList<View> selectedViews;
+    private RiderViewHolder holder;
 
     public RiderAdapter(RealmList<Rider> riders) {
         this.riders = riders;
@@ -31,7 +32,8 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider, parent, false);
-        return new RiderViewHolder(view);
+        holder = new RiderViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -59,8 +61,7 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
     }
 
     public void updateRiderState(RiderStageConnection connection){
-        Log.d("test","test");
-
+        holder.setStateColor(connection);
     }
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnDragListener{
@@ -107,6 +108,10 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
                 selectedRiders.clear();
             }
             return true;
+        }
+
+        private void setStateColor(RiderStageConnection connection){
+            tvNummer.setBackgroundResource(R.color.cardview_light_background);
         }
     }
 
