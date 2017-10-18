@@ -6,6 +6,7 @@ import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -89,7 +90,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void updateRiderState(final String type, final Rider rider,  OnUpdateRiderStateCallBack callback) {
+    public void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction(new Realm.Transaction() {
             @Override

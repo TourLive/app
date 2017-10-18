@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public interface IRiderStageConnectionRepository {
@@ -33,7 +34,7 @@ public interface IRiderStageConnectionRepository {
 
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
 
-    void updateRiderState(final String type, final Rider rider, OnUpdateRiderStateCallBack callback);
+    void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
 
     void deleteRiderStageConnection();
 }
