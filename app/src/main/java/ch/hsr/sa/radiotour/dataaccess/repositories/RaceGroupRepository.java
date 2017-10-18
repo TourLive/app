@@ -102,4 +102,16 @@ public class RaceGroupRepository implements IRaceGroupRepository {
     public void deleteRaceGroup() {
 
     }
+
+    @Override
+    public void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider, OnUpdateRaceGroupCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        raceGroup.removeRider(rider);
+        realm.commitTransaction();
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
+    }
 }

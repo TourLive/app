@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
 public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHolder>{
@@ -54,6 +56,11 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
         }
         selectedViews.clear();
         selectedRiders.clear();
+    }
+
+    public void updateRiderState(RiderStageConnection connection){
+        Log.d("test","test");
+
     }
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener, View.OnDragListener{

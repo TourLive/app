@@ -96,4 +96,9 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     @Override
     public void deleteRaceGroup() {
     }
+
+    @Override
+    public void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider) {
+        raceGroupRepository.deleteRiderInRaceGroup(raceGroup, rider, onUpdateRaceGroupCallBack);
+    }
 }

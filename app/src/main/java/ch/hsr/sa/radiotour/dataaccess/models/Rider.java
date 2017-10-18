@@ -8,6 +8,7 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Rider extends RealmObject {
+
     @PrimaryKey
     private String id;
 
@@ -21,6 +22,15 @@ public class Rider extends RealmObject {
 
     @LinkingObjects("riders")
     private final RealmResults<RaceGroup> raceGroups = null;
+
+
+    public RaceGroup getRaceGroups() {
+        return raceGroups.first();
+    }
+
+    public String getId() {
+        return id;
+    }
 
     public int getStartNr() {
         return startNr;

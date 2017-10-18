@@ -27,6 +27,11 @@ public class RiderStageConnection extends RealmObject {
     @LinkingObjects("riderStages")
     private final RealmResults<Rider> riders = null;
 
+
+    public Rider getRiders() {
+        return riders.first();
+    }
+
     public String getId() {
         return id;
     }

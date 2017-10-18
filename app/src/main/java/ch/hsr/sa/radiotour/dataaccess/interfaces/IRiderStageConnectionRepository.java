@@ -22,7 +22,7 @@ public interface IRiderStageConnectionRepository {
     }
 
     interface OnUpdateRiderStateCallBack {
-        void onSuccess();
+        void onSuccess(RiderStageConnection riderStageConnection);
         void onError(String message);
     }
 

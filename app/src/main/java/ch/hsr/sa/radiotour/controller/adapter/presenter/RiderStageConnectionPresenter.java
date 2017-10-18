@@ -63,8 +63,8 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
 
         onUpdateRiderStateCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStateCallBack() {
             @Override
-            public void onSuccess() {
-
+            public void onSuccess(RiderStageConnection connection) {
+                raceFragment.updateRiderState(connection);
             }
 
             @Override

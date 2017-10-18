@@ -81,15 +81,15 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     @Override
     public void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Rider res = realm.where(Rider.class).equalTo("startNr", rider.getStartNr()).findFirst();
-                for(RiderStageConnection sC : res.getRiderStages()){
-                    sC.setType(type);
-                }
-            }
-        });
+        realm.beginTransaction();
+        Rider res = realm.where(Rider.class).equalTo("startNr", rider.getStartNr()).findFirst();
+        for(RiderStageConnection sC : res.getRiderStages()){
+            sC.setType(type);
+        }
+        realm.commitTransaction();
+        RiderStageConnection state = realm.where(RiderStageConnection.class).equalTo("riders.id", rider.getId()).findFirst();
+        if (callback != null)
+            callback.onSuccess(state);
     }
 
     @Override

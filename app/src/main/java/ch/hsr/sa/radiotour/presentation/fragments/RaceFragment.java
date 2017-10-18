@@ -213,4 +213,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         raceGroupPresenter.getAllRaceGroups();
     }
 
+    public void updateRiderState(RiderStageConnection connection) {
+        adapter.updateRiderState(connection);
+        raceGroupPresenter.deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
+    }
+
 }
