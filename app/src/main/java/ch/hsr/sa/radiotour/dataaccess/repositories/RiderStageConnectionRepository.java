@@ -6,8 +6,6 @@ import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -28,8 +26,8 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
                 realmRiderStageConnection.setOfficialTime(transferRiderStateConnection.getOfficialTime());
                 realmRiderStageConnection.setRank(transferRiderStateConnection.getRank());
                 realmRiderStageConnection.setVirtualGap(transferRiderStateConnection.getVirtualGap());
-                RealmList<RiderState> riderStates = new RealmList<>();
-                for (RiderState state : transferRiderStateConnection.getRiderState()) {
+
+                /*for (RiderState state : transferRiderStateConnection.getRiderState()) {
                     RealmResults<RiderState> temp = realm.where(RiderState.class).equalTo("type", state.getType().toString()).findAll();
                     riderStates.addAll(temp);
                 }
@@ -39,7 +37,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
                     RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", rider.getStartNr()).findAll();
                     riderStage.addAll(temp);
                 }
-                realmRiderStageConnection.setRiderStageConnection(riderStage);
+                realmRiderStageConnection.setRiderStageConnection(riderStage);*/
             }
         });
 
@@ -78,8 +76,8 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             @Override
             public void execute(Realm realm) {
                 RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("id", newRiderStageConnection.getId()).findFirst();
-                res.setRiderStageConnection(newRiderStageConnection.getRiderStageConnection());
-                res.setRiderState(newRiderStageConnection.getRiderState());
+                //res.setRiderStageConnection(newRiderStageConnection.getRiderStageConnection());
+                //res.setRiderState(newRiderStageConnection.getRiderState());
                 res.setBonusPoint(newRiderStageConnection.getBonusPoint());
                 res.setBonusTime(newRiderStageConnection.getBonusTime());
                 res.setVirtualGap(newRiderStageConnection.getVirtualGap());
@@ -91,18 +89,12 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void updateRiderState(final RiderState newRiderState, final Rider rider,  OnUpdateRiderStateCallBack callback) {
+    public void updateRiderState(final String type, final Rider rider,  OnUpdateRiderStateCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("riderStageConnection.startNr", rider.getStartNr()).findFirst();
-                RealmList<RiderState> riderStates = new RealmList<>();
-                for (RiderState state : res.getRiderState()) {
-                    RealmResults<RiderState> temp = realm.where(RiderState.class).equalTo("type", state.getType().toString()).findAll();
-                    riderStates.addAll(temp);
-                }
-                res.setRiderState(riderStates);
+
             }
         });
     }

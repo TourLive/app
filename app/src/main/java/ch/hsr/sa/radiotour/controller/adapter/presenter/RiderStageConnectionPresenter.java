@@ -4,7 +4,6 @@ import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderStageCo
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
@@ -103,8 +102,8 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void updateRiderState(RiderState newRiderState, Rider rider) {
-        riderStageConnectionRepository.updateRiderState(newRiderState, rider, onUpdateRiderStateCallBack);
+    public void updateRiderState(final String type, Rider rider) {
+        riderStageConnectionRepository.updateRiderState(type, rider, onUpdateRiderStateCallBack);
     }
 
     @Override

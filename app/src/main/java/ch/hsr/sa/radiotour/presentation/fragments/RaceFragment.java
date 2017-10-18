@@ -19,24 +19,19 @@ import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderStatePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderStatePresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderState;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements View.OnClickListener {
     private IRiderPresenter presenter;
     private IRaceGroupPresenter raceGroupPresenter;
-    private IRiderStatePresenter riderStatePresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -69,7 +64,6 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         presenter = new RiderPresenter(this);
         raceGroupPresenter = new RaceGroupPresenter(this);
-        riderStatePresenter = new RiderStatePresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
         demoButton = (Button) root.findViewById(R.id.demoButton);
         demoButton.setOnClickListener(this);
@@ -106,7 +100,6 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         presenter.getAllRiders();
         raceGroupPresenter.subscribeCallbacks();
         raceGroupPresenter.getAllRaceGroups();
-        riderStatePresenter.subscribeCallbacks();
         riderStageConnectionPresenter.subscribeCallbacks();
     }
 
@@ -115,7 +108,6 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         super.onStop();
         presenter.unSubscribeCallbacks();
         raceGroupPresenter.unSubscribeCallbacks();
-        riderStatePresenter.unSubscribeCallbacks();
         riderStageConnectionPresenter.unSubscribeCallbacks();
     }
 
@@ -131,7 +123,6 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 presenter.getAllRiders();
                 raceGroupPresenter.clearAllRaceGroups();
                 raceGroupPresenter.getAllRaceGroups();
-                riderStatePresenter.clearAllRiderState();
                 riderStageConnectionPresenter.clearAllRiderStageConnection();
                 break;
             }
@@ -139,12 +130,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 adapter.resetSelectedRiders();
             }
             case R.id.btnDoctor:{
-                RiderState state = new RiderState();
-                state.setType(RiderStateType.DOCTOR);
-                RealmList<Rider> selectedRiders = adapter.getSelectedRiders();
-                for(Rider rider : selectedRiders){
-                    riderStageConnectionPresenter.updateRiderState(state, rider);
-                }
+
             }
             default:{
 
@@ -179,21 +165,6 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             raceGroup.setRiders(test);
             raceGroupPresenter.addRaceGroup(raceGroup);
         }
-        riderStatePresenter.clearAllRiderState();
-        RiderState riderState = new RiderState();
-        riderState.setType(RiderStateType.AKTIVE);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.DOCTOR);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.DEFECT);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.DNC);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.DROP);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.QUIT);
-        riderStatePresenter.addRiderState(riderState);
-        riderState.setType(RiderStateType.AKTIVE);
 
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setRank(5);
@@ -202,8 +173,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         riderStageConnection.setVirtualGap(new Date(100));
         riderStageConnection.setBonusPoint(100);
         riderStageConnection.setBonusTime(100);
-        riderStageConnection.setRiderState(new RealmList<RiderState>(riderState));
-        riderStageConnection.setRiderStageConnection(presenter.getAllRidersReturned());
+        //riderStageConnection.setRiderState(new RealmList<RiderState>(riderState));
+        //riderStageConnection.setRiderStageConnection(presenter.getAllRidersReturned());
         riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
 
     }

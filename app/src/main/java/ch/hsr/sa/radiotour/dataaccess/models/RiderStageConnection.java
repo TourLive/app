@@ -4,6 +4,8 @@ import java.util.Date;
 
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.RealmResults;
+import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
@@ -19,29 +21,14 @@ public class RiderStageConnection extends RealmObject {
     private Date officialGap;
     @Required
     private Date virtualGap;
+    @Required
+    private String typeState;
 
-    private RealmList<Rider> riderStageConnection;
-
-    private RealmList<RiderState> riderStateConnection;
+    @LinkingObjects("riderStages")
+    private final RealmResults<Rider> riders = null;
 
     public String getId() {
         return id;
-    }
-
-    public RealmList<RiderState> getRiderState() {
-        return riderStateConnection;
-    }
-
-    public void setRiderState(RealmList<RiderState> riderStateConnection) {
-        this.riderStateConnection = riderStateConnection;
-    }
-
-    public RealmList<Rider> getRiderStageConnection() {
-        return riderStageConnection;
-    }
-
-    public void setRiderStageConnection(RealmList<Rider> riderStageConnection) {
-        this.riderStageConnection = riderStageConnection;
     }
 
     public int getRank() {
@@ -90,5 +77,13 @@ public class RiderStageConnection extends RealmObject {
 
     public void setVirtualGap(Date virtualGap) {
         this.virtualGap = virtualGap;
+    }
+
+    public RiderStateType getType() {
+        return RiderStateType.valueOf(typeState);
+    }
+
+    public void setType(RiderStateType type) {
+        this.typeState = type.toString();
     }
 }

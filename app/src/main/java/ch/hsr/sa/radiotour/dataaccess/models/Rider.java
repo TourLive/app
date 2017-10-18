@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -16,8 +17,7 @@ public class Rider extends RealmObject {
     @Required
     private String country;
 
-    @LinkingObjects("riderStageConnection")
-    private final RealmResults<RiderStageConnection> stageConnection = null;
+    private RealmList<RiderStageConnection> riderStages;
 
     @LinkingObjects("riders")
     private final RealmResults<RaceGroup> raceGroups = null;
@@ -42,5 +42,14 @@ public class Rider extends RealmObject {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+
+    public RealmList<RiderStageConnection> getRiderStages() {
+        return riderStages;
+    }
+
+    public void setRiderStages(RealmList<RiderStageConnection> riderStages) {
+        this.riderStages = riderStages;
     }
 }
