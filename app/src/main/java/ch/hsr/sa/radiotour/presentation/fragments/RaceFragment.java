@@ -134,6 +134,31 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 for(Rider r : adapter.getSelectedRiders()){
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.DOCTOR, r);
                 }
+                adapter.resetSelectedRiders();
+            }
+            case R.id.btnDrop:{
+                for(Rider r : adapter.getSelectedRiders()){
+                    riderStageConnectionPresenter.updateRiderState(RiderStateType.DROP, r);
+                }
+                adapter.resetSelectedRiders();
+            }
+            case R.id.btnDefect:{
+                for(Rider r : adapter.getSelectedRiders()){
+                    riderStageConnectionPresenter.updateRiderState(RiderStateType.DEFECT, r);
+                }
+                adapter.resetSelectedRiders();
+            }
+            case R.id.btnQuit:{
+                for(Rider r : adapter.getSelectedRiders()){
+                    riderStageConnectionPresenter.updateRiderState(RiderStateType.QUIT, r);
+                }
+                adapter.resetSelectedRiders();
+            }
+            case R.id.btnDNC:{
+                for(Rider r : adapter.getSelectedRiders()){
+                    riderStageConnectionPresenter.updateRiderState(RiderStateType.DNC, r);
+                }
+                adapter.resetSelectedRiders();
             }
             default:{
 
