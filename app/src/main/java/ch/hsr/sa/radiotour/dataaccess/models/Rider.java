@@ -25,7 +25,11 @@ public class Rider extends RealmObject {
 
 
     public RaceGroup getRaceGroups() {
-        return raceGroups.first();
+        try{
+            return raceGroups.first();
+        } catch (Exception ex){
+            return null;
+        }
     }
 
     public String getId() {

@@ -240,7 +240,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void updateRiderState(RiderStageConnection connection) {
         adapter.updateRiderState(connection);
-        raceGroupPresenter.deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
+        if(connection.getRiders().getRaceGroups() != null){
+            raceGroupPresenter.deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
+        }
     }
 
 }
