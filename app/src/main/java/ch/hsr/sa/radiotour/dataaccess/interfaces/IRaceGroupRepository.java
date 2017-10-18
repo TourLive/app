@@ -31,4 +31,6 @@ public interface IRaceGroupRepository {
     void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback);
 
     void deleteRaceGroup();
+
+    void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider, OnUpdateRaceGroupCallBack callback);
 }

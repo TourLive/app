@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
 public interface IRiderRepository {
@@ -15,9 +16,23 @@ public interface IRiderRepository {
         void onError(String message);
     }
 
+    interface OnGetRiderCallback {
+        Rider onSuccess(Rider rider);
+        void onError(String message);
+    }
+
+    interface OnUpdateRiderStateCallback {
+        void onSuccess();
+        void onError(String message);
+    }
+
     void addRider(Rider rider, OnSaveRiderCallback callback);
 
     void getAllRiders(OnGetAllRidersCallback callback);
+
+    RealmList<Rider> getAllRidersReturned();
+
+    void updateRiderStateConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStateCallback callback);
 
     void clearAllRiders();
 }
