@@ -52,4 +52,16 @@ public class Rider extends RealmObject {
     public void setRiderStages(RealmList<RiderStageConnection> riderStages) {
         this.riderStages = riderStages;
     }
+
+    public void appendStages(RealmList<RiderStageConnection> newStageConnections) {
+        this.riderStages.addAll(newStageConnections);
+    }
+
+    public void removeStage(RiderStageConnection stageConnection) {
+        this.riderStages.remove(stageConnection);
+    }
+
+    public void removeStages(){
+        this.riderStages = new RealmList<>();
+    }
 }

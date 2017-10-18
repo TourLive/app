@@ -27,6 +27,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements View.OnClickListener {
@@ -130,7 +131,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
                 adapter.resetSelectedRiders();
             }
             case R.id.btnDoctor:{
-
+                for(Rider r : adapter.getSelectedRiders()){
+                    riderStageConnectionPresenter.updateRiderState(RiderStateType.DOCTOR, r);
+                }
             }
             default:{
 
@@ -139,6 +142,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     }
 
     public void addDefaultData(){
+
         presenter.clearAllRiders();
         RealmList<Rider> riders = new RealmList<>();
         for(int i = 0; i < 50; i++){
@@ -166,16 +170,22 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
             raceGroupPresenter.addRaceGroup(raceGroup);
         }
 
+        riderStageConnectionPresenter.clearAllRiderStageConnection();
         RiderStageConnection riderStageConnection = new RiderStageConnection();
-        riderStageConnection.setRank(5);
-        riderStageConnection.setOfficialTime(new Date(100));
-        riderStageConnection.setOfficialGap(new Date(100));
-        riderStageConnection.setVirtualGap(new Date(100));
-        riderStageConnection.setBonusPoint(100);
-        riderStageConnection.setBonusTime(100);
-        //riderStageConnection.setRiderState(new RealmList<RiderState>(riderState));
-        //riderStageConnection.setRiderStageConnection(presenter.getAllRidersReturned());
-        riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+        for(int i = 0; i < 50; i++){
+            riderStageConnection.setRank(i+1);
+            riderStageConnection.setOfficialTime(new Date(100));
+            riderStageConnection.setOfficialGap(new Date(100));
+            riderStageConnection.setVirtualGap(new Date(100));
+            riderStageConnection.setBonusPoint(100);
+            riderStageConnection.setBonusTime(100);
+            riderStageConnection.setType(RiderStateType.AKTIVE);
+            RealmList<RiderStageConnection> test = new RealmList<>();
+            test.add(riderStageConnection);
+            presenter.updateRiderStateConnection(riders.get(i), test);
+            test.clear();
+            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+        }
 
     }
 
