@@ -45,6 +45,8 @@ public class RiderAdapter extends RecyclerView.Adapter<RiderAdapter.RiderViewHol
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
+        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
+        drawable.setColor(getColorFromState(RiderStateType.AKTIVE));
     }
 
     @Override
