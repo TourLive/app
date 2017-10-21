@@ -141,30 +141,35 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.DOCTOR, r);
                 }
                 adapter.resetSelectedRiders();
+                break;
             }
             case R.id.btnDrop:{
                 for(Rider r : adapter.getSelectedRiders()){
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.DROP, r);
                 }
                 adapter.resetSelectedRiders();
+                break;
             }
             case R.id.btnDefect:{
                 for(Rider r : adapter.getSelectedRiders()){
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.DEFECT, r);
                 }
                 adapter.resetSelectedRiders();
+                break;
             }
             case R.id.btnQuit:{
                 for(Rider r : adapter.getSelectedRiders()){
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.QUIT, r);
                 }
                 adapter.resetSelectedRiders();
+                break;
             }
             case R.id.btnDNC:{
                 for(Rider r : adapter.getSelectedRiders()){
                     riderStageConnectionPresenter.updateRiderState(RiderStateType.DNC, r);
                 }
                 adapter.resetSelectedRiders();
+                break;
             }
             default:{
 
@@ -189,7 +194,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
         for (int i = 0; i < 5; i++) {
             raceGroup.setType(RaceGroupType.FELD);
             raceGroup.setPosition(i);
-            raceGroup.setHistoryGapTime(60+i);
+            raceGroup.setHistoryGapTime(60+(long)i);
             raceGroup.setActualGapTime(i);
             RealmList<Rider> test = new RealmList<>();
             test.add(riders.get(i * 5));
