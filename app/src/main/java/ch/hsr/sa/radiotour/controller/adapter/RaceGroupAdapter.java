@@ -23,6 +23,7 @@ import java.util.Collections;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
@@ -166,6 +167,29 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                     }
                 }
             });
+            if (layout_addButton != null) {
+                layout_addButton.setOnDragListener(new View.OnDragListener() {
+                    @Override
+                    public boolean onDrag(View view, DragEvent dragEvent) {
+                        switch(dragEvent.getAction()) {
+                            case DragEvent.ACTION_DRAG_STARTED:
+                                return true;
+                            case DragEvent.ACTION_DROP:
+                                RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                                int raceGroup_pos = raceGroups.get(getAdapterPosition()).getPosition();
+                                RaceGroup raceGroup = new RaceGroup();
+                                raceGroup.setPosition(raceGroup_pos + 1);
+                                raceGroup.setType(RaceGroupType.NORMAL);
+                                raceGroup.setRiders(newRiders);
+                                raceGroupPresenter.addRaceGroup(raceGroup);
+                                notifyDataSetChanged();
+                                return true;
+                            default:
+                                return true;
+                        }
+                    }
+                });
+            }
         }
 
 

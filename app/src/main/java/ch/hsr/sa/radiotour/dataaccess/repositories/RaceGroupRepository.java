@@ -12,7 +12,7 @@ import io.realm.RealmResults;
 
 public class RaceGroupRepository implements IRaceGroupRepository {
     @Override
-    public void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {
+    public void addInitialRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final RaceGroup transferRaceGroup = raceGroup;
 
@@ -39,6 +39,39 @@ public class RaceGroupRepository implements IRaceGroupRepository {
     }
 
     @Override
+    public void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+
+        realm.beginTransaction();
+        RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", raceGroup.getPosition()).findAllSorted("position");
+        for (RaceGroup rG : rGtoUpdate) {
+            rG.setPosition(rG.getPosition() + 1);
+        }
+
+        for (Rider r : raceGroup.getRiders()) {
+            RealmResults<RaceGroup> resRG = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
+            if (!resRG.isEmpty()) {
+                for (RaceGroup rG : resRG) {
+                    rG.removeRider(r);
+                }
+            }
+        }
+
+        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
+        realmRaceGroup.setType(raceGroup.getType());
+        realmRaceGroup.setActualGapTime(0);
+        realmRaceGroup.setHistoryGapTime(0);
+        realmRaceGroup.setPosition(raceGroup.getPosition());
+        realmRaceGroup.setRiders(raceGroup.getRiders());
+
+
+        realm.commitTransaction();
+        if (callback != null) {
+            callback.onSuccess();
+        }
+    }
+
+    @Override
     public void getAllRaceGroups(OnGetAllRaceGroupsCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
@@ -55,7 +88,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
         for (Rider r : newRiders) {
-            RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.startNr", r.getStartNr()).findAll();
+            RealmResults<RaceGroup> res = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
             if (!res.isEmpty()) {
                 for (RaceGroup rG : res) {
                     rG.removeRider(r);

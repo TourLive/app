@@ -5,6 +5,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 public interface IRaceGroupPresenter extends IBasePresenter {
+    void addInitialRaceGroup(RaceGroup raceGroup);
     void addRaceGroup(RaceGroup raceGroup);
     void getAllRaceGroups();
     void clearAllRaceGroups();
