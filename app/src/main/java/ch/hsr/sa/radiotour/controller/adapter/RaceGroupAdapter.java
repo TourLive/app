@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -30,8 +31,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
 
-    private static final int ITEM = 0;
-    private static final int ADDBUTTON = 1;
+    private static final int NORMALITEM = 0;
+    private static final int LASTITEM = 1;
     private OnStartDragListener onStartDragListener;
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener){
@@ -45,10 +46,10 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     @Override
     public RaceGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
-        if (viewType == ITEM) {
+        if (viewType == NORMALITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_racegroup, parent, false);
-        } else if (viewType == ADDBUTTON) {
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_racegroup_add, parent, false);
+        } else if (viewType == LASTITEM) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_racegroup_last, parent, false);
         } else {
             return null;
         }
@@ -58,27 +59,23 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     @Override
     public void onBindViewHolder(RaceGroupViewHolder holder, int position) {
         GridLayoutManager layoutManager = new GridLayoutManager(context, 3);
-        if (position >= getItemCount()) {
-
-        } else {
-            final RecyclerView.ViewHolder temp = (RecyclerView.ViewHolder) holder;
-            holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
-            holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
-            holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
-            holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
-            RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
-            holder.racegroupRiders.setLayoutManager(layoutManager);
-            holder.racegroupRiders.setAdapter(adapter);
-            holder.racegroupName.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                        onStartDragListener.onStartDrag(temp);
-                    }
-                    return false;
+        final RecyclerView.ViewHolder temp = holder;
+        holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
+        holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
+        holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
+        holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
+        RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
+        holder.racegroupRiders.setLayoutManager(layoutManager);
+        holder.racegroupRiders.setAdapter(adapter);
+        holder.racegroupName.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                    onStartDragListener.onStartDrag(temp);
                 }
-            });
-        }
+                return false;
+            }
+        });
     }
 
     public String convertLongToTimeString(long time) {
@@ -95,10 +92,10 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     @Override
     public int getItemViewType(int position) {
-        if (position < getItemCount()) {
-            return ITEM;
+        if (position < getItemCount() - 1) {
+            return NORMALITEM;
         } else {
-            return ADDBUTTON;
+            return LASTITEM;
         }
     }
     @Override
@@ -139,16 +136,20 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private TextView gaptimeActual;
         private TextView gaptimeBefore;
         private RecyclerView racegroupRiders;
+        private View layout_racegroup;
+        private View layout_addButton;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
+            layout_racegroup = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_RaceGroup);
+            layout_addButton = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButton);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
             gaptimeActual.setOnClickListener(this);
-            itemView.setOnDragListener(new View.OnDragListener() {
+            layout_racegroup.setOnDragListener(new View.OnDragListener() {
                 @Override
                 public boolean onDrag(View view, DragEvent dragEvent) {
                     switch(dragEvent.getAction()) {
