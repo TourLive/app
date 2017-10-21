@@ -21,6 +21,7 @@ import java.util.Collections;
 
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
@@ -35,6 +36,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener){
         this.raceGroups = raceGroups;
+        Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
         this.raceGroupPresenter = raceGroupPresenter;
         this.onStartDragListener = onStartDragListener;
@@ -67,7 +69,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
-            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+            holder.racegroupName.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
                     if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
@@ -111,6 +113,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             if (from < to) {
                 for (int i = from; i < to; i++) {
                     Collections.swap(raceGroups, i, i + 1);
+                    for (RaceGroup rG : raceGroups) {
+                        raceGroupPresenter.updateRaceGroupPosition(rG, raceGroups.indexOf(rG));
+                    }
                 }
             } else {
                 for (int i = from; i > to; i--) {

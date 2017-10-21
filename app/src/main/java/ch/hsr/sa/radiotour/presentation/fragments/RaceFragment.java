@@ -96,7 +96,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
         rvRider.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRider.setItemAnimator(new DefaultItemAnimator());
         rvRaceGroup.setHasFixedSize(true);
-        rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
+        rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
     }
 
