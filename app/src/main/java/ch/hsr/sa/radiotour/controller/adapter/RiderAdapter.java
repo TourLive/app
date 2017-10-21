@@ -1,6 +1,5 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.DragEvent;

@@ -114,4 +114,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess();
         }
     }
+
+    @Override
+    public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        raceGroup.setPosition(position);
+        realm.commitTransaction();
+    }
 }

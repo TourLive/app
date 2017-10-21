@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import android.util.Log;
-
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;

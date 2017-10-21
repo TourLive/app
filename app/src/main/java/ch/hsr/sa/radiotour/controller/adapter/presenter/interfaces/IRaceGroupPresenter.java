@@ -12,4 +12,5 @@ public interface IRaceGroupPresenter extends IBasePresenter {
     void updateRaceGroupGapTime(RaceGroup raceGroup, String minutes, String seconds);
     void deleteRaceGroup();
     void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider);
+    void updateRaceGroupPosition(RaceGroup raceGroup, int position);
 }
