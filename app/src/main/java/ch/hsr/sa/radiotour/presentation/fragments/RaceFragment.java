@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.Button;
 import java.util.Date;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
+import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
@@ -30,7 +33,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements View.OnClickListener {
+public class RaceFragment extends Fragment implements View.OnClickListener, OnStartDragListener {
     private IRiderPresenter presenter;
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -39,6 +42,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     private RiderAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
+
+    private ItemTouchHelper itemTouchHelper;
 
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
@@ -90,7 +95,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
     private void initRecyclerListener() {
         rvRider.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRider.setItemAnimator(new DefaultItemAnimator());
-        rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvRaceGroup.setHasFixedSize(true);
+        rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, true));
         rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
     }
 
@@ -226,7 +232,10 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this);
+        ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
+        itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(rvRaceGroup);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
@@ -245,4 +254,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener {
         }
     }
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
+    }
 }

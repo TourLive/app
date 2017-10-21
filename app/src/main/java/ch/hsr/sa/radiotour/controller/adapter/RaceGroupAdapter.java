@@ -1,11 +1,15 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -13,23 +17,27 @@ import android.widget.TextView;
 import ch.hsr.sa.radiotour.R;
 import android.content.Context;
 
+import java.util.Collections;
+
 import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
-public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
+public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> implements ItemTouchHelperAdapter {
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
 
     private final static int ITEM = 0;
     private final static int ADDBUTTON = 1;
+    private OnStartDragListener onStartDragListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener){
         this.raceGroups = raceGroups;
         this.context = context;
         this.raceGroupPresenter = raceGroupPresenter;
+        this.onStartDragListener = onStartDragListener;
     }
 
     @Override
@@ -51,6 +59,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         if (position >= getItemCount()) {
 
         } else {
+            final RecyclerView.ViewHolder temp = (RecyclerView.ViewHolder) holder;
             holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
             holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
             holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
@@ -58,6 +67,15 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
+            holder.itemView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                        onStartDragListener.onStartDrag(temp);
+                    }
+                    return false;
+                }
+            });
         }
     }
 
@@ -86,7 +104,31 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         return raceGroups.size();
     }
 
-    public class RaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    @Override
+    public boolean onItemMove(int from, int to) {
+        Log.v("", "FROM" + from + "TO" + to);
+        if (from < raceGroups.size() && to < raceGroups.size()) {
+            if (from < to) {
+                for (int i = from; i < to; i++) {
+                    Collections.swap(raceGroups, i, i + 1);
+                }
+            } else {
+                for (int i = from; i > to; i--) {
+                    Collections.swap(raceGroups, i, i - 1);
+                }
+            }
+            notifyItemMoved(from, to);
+        }
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        raceGroups.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public class RaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
         private TextView racegroupName;
         private TextView racegroupCount;
         private TextView gaptimeActual;
@@ -161,6 +203,16 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
+        }
+
+        @Override
+        public void onItemSelected() {
+            itemView.setBackgroundColor(Color.BLUE);
+        }
+
+        @Override
+        public void onItemClear() {
+            itemView.setBackgroundColor(Color.GREEN);
         }
     }
 }
