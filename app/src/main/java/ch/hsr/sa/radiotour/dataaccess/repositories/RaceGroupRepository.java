@@ -5,6 +5,7 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -120,6 +121,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
         raceGroup.setPosition(position);
+        if (position == 0) {
+            raceGroup.setType(RaceGroupType.LEAD);
+        } else {
+            raceGroup.setType(RaceGroupType.NORMAL);
+        }
         realm.commitTransaction();
     }
 }
