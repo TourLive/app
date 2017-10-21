@@ -30,8 +30,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
 
-    private final static int ITEM = 0;
-    private final static int ADDBUTTON = 1;
+    private static final int ITEM = 0;
+    private static final int ADDBUTTON = 1;
     private OnStartDragListener onStartDragListener;
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener){
@@ -157,7 +157,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         case DragEvent.ACTION_DROP:
                             RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                            System.out.print(newRiders.toString());
                             raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
                             notifyItemChanged(getAdapterPosition());
                             return true;
@@ -182,8 +181,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8);
             GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8);
 
-            final TimeAdapter adapterMinutes = new TimeAdapter(context);
-            final TimeAdapter adapterSeconds = new TimeAdapter(context);
+            final TimeAdapter adapterMinutes = new TimeAdapter();
+            final TimeAdapter adapterSeconds = new TimeAdapter();
             rvMinutes.setLayoutManager(layoutManagerMinutes);
             rvMinutes.setAdapter(adapterMinutes);
             rvSeconds.setLayoutManager(layoutManagerSeconds);

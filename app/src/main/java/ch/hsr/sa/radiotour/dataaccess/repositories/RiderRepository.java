@@ -54,8 +54,6 @@ public class RiderRepository implements IRiderRepository {
     @Override
     public void updateRiderStateConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStateCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmList<RiderStageConnection> actualConnections = new RealmList<>();
-
         realm.beginTransaction();
         Rider res = realm.where(Rider.class).equalTo("startNr", rider.getStartNr()).findFirst();
         res.removeStages();

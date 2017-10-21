@@ -63,13 +63,10 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
 
         @Override
         public boolean onDrag(View view, DragEvent dragEvent) {
-            switch(dragEvent.getAction()) {
-                case DragEvent.ACTION_DRAG_ENDED:
-                    selectedRider.clear();
-                    return true;
-                default:
-                    return true;
+            if (dragEvent.getAction() == DragEvent.ACTION_DRAG_ENDED) {
+                selectedRider.clear();
             }
+            return true;
         }
     }
 }
