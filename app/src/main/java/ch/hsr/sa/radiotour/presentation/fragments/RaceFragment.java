@@ -203,7 +203,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
             test.add(riders.get(i * 5 + 3));
             test.add(riders.get(i * 5 + 4));
             raceGroup.setRiders(test);
-            raceGroupPresenter.addRaceGroup(raceGroup);
+            raceGroupPresenter.addInitialRaceGroup(raceGroup);
         }
 
         riderStageConnectionPresenter.clearAllRiderStageConnection();

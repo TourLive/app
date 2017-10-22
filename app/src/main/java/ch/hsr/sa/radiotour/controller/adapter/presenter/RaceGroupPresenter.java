@@ -71,6 +71,11 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
+    public void addInitialRaceGroup(RaceGroup raceGroup) {
+        raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
+    }
+
+    @Override
     public void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders) {
         raceGroupRepository.updateRaceGroupRiders(raceGroup, newRiders, onUpdateRaceGroupCallBack);
     }
