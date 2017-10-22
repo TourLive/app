@@ -38,6 +38,11 @@ public class EditItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
+    public void onMoved(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, int fromPos, RecyclerView.ViewHolder target, int toPos, int x, int y) {
+        raceGroupAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
         raceGroupAdapter.onItemDismiss(viewHolder.getAdapterPosition());
     }

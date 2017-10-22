@@ -113,14 +113,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             if (from < to) {
                 for (int i = from; i < to; i++) {
                     Collections.swap(raceGroups, i, i + 1);
-                    for (RaceGroup rG : raceGroups) {
-                        raceGroupPresenter.updateRaceGroupPosition(rG, raceGroups.indexOf(rG));
-                    }
                 }
             } else {
                 for (int i = from; i > to; i--) {
                     Collections.swap(raceGroups, i, i - 1);
                 }
+            }
+            for (RaceGroup rG : raceGroups) {
+                raceGroupPresenter.updateRaceGroupPosition(rG, raceGroups.indexOf(rG));
             }
             notifyItemMoved(from, to);
         }
