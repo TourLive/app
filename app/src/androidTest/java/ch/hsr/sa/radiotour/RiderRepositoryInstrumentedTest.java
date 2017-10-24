@@ -96,7 +96,7 @@ public class RiderRepositoryInstrumentedTest {
     }
 
     @Test
-    public void addThreeRiders(){
+    public void getRidersTest(){
         Rider rider = new Rider();
         for(int i = 1; i < 4; i++){
             rider.setCountry("swiss");
@@ -111,7 +111,22 @@ public class RiderRepositoryInstrumentedTest {
         }
         assertEquals(3, riders.size());
         assertEquals(2, riders.get(1).getStartNr());
+    }
 
+    @Test
+    public void getAllRidersWithoutCallback(){
+        Rider rider = new Rider();
+        for(int i = 1; i < 4; i++){
+            rider.setCountry("swiss");
+            rider.setName("testrider" + 1);
+            rider.setStartNr(i);
+            synchronized (this){
+                repository.addRider(rider, onSaveRiderCallback);
+            }
+        }
+        riders = repository.getAllRidersReturned();
+        assertEquals(3, riders.size());
+        assertEquals(2, riders.get(1).getStartNr());
     }
 
     private void riderAddedSuccessfully(){
