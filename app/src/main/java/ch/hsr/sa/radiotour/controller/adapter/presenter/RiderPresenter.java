@@ -67,7 +67,7 @@ public class RiderPresenter implements IRiderPresenter {
             }
         };
 
-        onUpdateRiderStateCallback = new IRiderRepository.OnUpdateRiderStateCallback() {
+        onUpdateRiderStateCallback = new IRiderRepository.OnUpdateRiderStageCallback() {
             @Override
             public void onSuccess() {
 
