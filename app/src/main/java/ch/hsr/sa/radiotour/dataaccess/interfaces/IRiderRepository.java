@@ -16,11 +16,6 @@ public interface IRiderRepository {
         void onError(String message);
     }
 
-    interface OnGetRiderCallback {
-        Rider onSuccess(Rider rider);
-        void onError(String message);
-    }
-
     interface OnUpdateRiderStateCallback {
         void onSuccess();
         void onError(String message);
