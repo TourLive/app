@@ -129,6 +129,12 @@ public class RiderRepositoryInstrumentedTest {
         assertEquals(2, riders.get(1).getStartNr());
     }
 
+    @Test
+    public void clearAllRiders(){
+        repository.clearAllRiders();
+        assertEquals(0, repository.getAllRidersReturned().size());
+    }
+
     private void riderAddedSuccessfully(){
         notifyAll();
     }
