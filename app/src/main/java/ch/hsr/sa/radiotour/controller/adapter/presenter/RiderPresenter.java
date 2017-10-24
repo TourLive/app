@@ -13,7 +13,7 @@ public class RiderPresenter implements IRiderPresenter {
 
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
-    private IRiderRepository.OnUpdateRiderStateCallback onUpdateRiderStateCallback;
+    private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
 
 
     private IRiderRepository riderRepository;
