@@ -16,7 +16,7 @@ public interface IRiderRepository {
         void onError(String message);
     }
 
-    interface OnUpdateRiderStateCallback {
+    interface OnUpdateRiderStageCallback {
         void onSuccess();
         void onError(String message);
     }
@@ -27,7 +27,7 @@ public interface IRiderRepository {
 
     RealmList<Rider> getAllRidersReturned();
 
-    void updateRiderStateConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStateCallback callback);
+    void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStageCallback callback);
 
     void clearAllRiders();
 }
