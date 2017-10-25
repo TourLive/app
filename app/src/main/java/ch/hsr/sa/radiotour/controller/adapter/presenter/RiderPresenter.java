@@ -13,7 +13,7 @@ public class RiderPresenter implements IRiderPresenter {
 
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
-    private IRiderRepository.OnUpdateRiderStateCallback onUpdateRiderStateCallback;
+    private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
 
 
     private IRiderRepository riderRepository;
@@ -35,8 +35,8 @@ public class RiderPresenter implements IRiderPresenter {
     public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
 
     @Override
-    public void updateRiderStateConnection(Rider rider, RealmList<RiderStageConnection> connections) {
-        riderRepository.updateRiderStateConnection(rider, connections, onUpdateRiderStateCallback);
+    public void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections) {
+        riderRepository.updateRiderStageConnection(rider, connections, onUpdateRiderStateCallback);
     }
 
     @Override
@@ -67,7 +67,7 @@ public class RiderPresenter implements IRiderPresenter {
             }
         };
 
-        onUpdateRiderStateCallback = new IRiderRepository.OnUpdateRiderStateCallback() {
+        onUpdateRiderStateCallback = new IRiderRepository.OnUpdateRiderStageCallback() {
             @Override
             public void onSuccess() {
 

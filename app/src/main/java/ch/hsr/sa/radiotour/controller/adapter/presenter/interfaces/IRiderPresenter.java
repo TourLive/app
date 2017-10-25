@@ -8,6 +8,6 @@ public interface IRiderPresenter extends IBasePresenter {
     void addRider(Rider student);
     void getAllRiders();
     RealmList<Rider> getAllRidersReturned();
-    void updateRiderStateConnection(Rider rider, RealmList<RiderStageConnection> connections);
+    void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections);
     void clearAllRiders();
 }

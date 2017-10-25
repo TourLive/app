@@ -220,7 +220,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
             riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
             RealmList<RiderStageConnection> test = new RealmList<>();
             test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
-            presenter.updateRiderStateConnection(riders.get(i), test);
+            presenter.updateRiderStageConnection(riders.get(i), test);
             test.clear();
 
         }
