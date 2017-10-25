@@ -16,6 +16,7 @@ android:
   - extra-android-m2repository
   - platform-tools
   - tools
+  - sys-img-armeabi-v7a-addon-google_apis-google-24
   - sys-img-armeabi-v7a-android-24
 env:
   global:
@@ -39,13 +40,16 @@ branches:
   only:
   - master
 before_script:
-  - echo no | android create avd --force -n test -t android-${API} --abi ${ABI}
-  - emulator -avd test -no-skin -no-audio -no-window &
+  - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
+  - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}' # list all targets  
+  - echo no | android create avd --force -n test -t android-${API} --abi armeabi-v7a
+  - emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
   - adb shell input keyevent 82 &  
 script:
 - "./gradlew build assembleRelease"
 - ./gradlew connectedAndroidTest
+- ./gradlew testUnitTest
 - ./gradlew sonarqube
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
