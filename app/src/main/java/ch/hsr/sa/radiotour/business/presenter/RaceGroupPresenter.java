@@ -1,6 +1,6 @@
-package ch.hsr.sa.radiotour.controller.adapter.presenter;
+package ch.hsr.sa.radiotour.business.presenter;
 
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;

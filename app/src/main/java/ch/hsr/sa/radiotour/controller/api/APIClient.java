@@ -11,6 +11,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
 
 public final class APIClient {
@@ -36,24 +37,15 @@ public final class APIClient {
                 public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                     // If the response is JSONObject instead of expected JSONArray
                     try{
-                        JSONArray riders = data.getJSONArray("data");
-                        JSONObject rider = riders.getJSONObject(0);
-                        System.out.println(rider);
-                    } catch (Exception ex){
+                        Parser.parseRidersAndPersist(data.getJSONArray("data"));
+                    } catch (JSONException ex){
                         Log.d("error", ex.getMessage());
                     }
                 }
 
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                    // Pull out the first event on the public timeline
-                    try{
-                        JSONObject firstEvent = riders.getJSONObject(0);
-                        String riderName = firstEvent.getString("name");
-                        System.out.println(riderName);
-                    } catch (Exception ex){
-                        Log.d("error", ex.getMessage());
-                    }
+
                 }
 
                 @Override

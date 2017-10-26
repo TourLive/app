@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces;
+package ch.hsr.sa.radiotour.business.presenter.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
