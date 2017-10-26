@@ -40,6 +40,8 @@ public final class APIClient {
                         Parser.parseRidersAndPersist(data.getJSONArray("data"));
                     } catch (JSONException ex){
                         Log.d("error", ex.getMessage());
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
                 }
 
