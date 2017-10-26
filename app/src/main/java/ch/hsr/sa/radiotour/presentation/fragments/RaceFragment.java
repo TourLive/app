@@ -188,6 +188,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
             rider.setStartNr(i);
             rider.setCountry("swiss");
             rider.setName("rider" + i);
+            rider.setTeamName("empty");
+            rider.setShortTeamName("emtpy");
             RiderPresenter.getInstance().addRider(rider);
             riders.add(rider);
         }
