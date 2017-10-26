@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.controller.api;
 
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -16,23 +18,30 @@ public final class APIClient {
 
         private static AsyncHttpClient client = new AsyncHttpClient();
 
-        private static void get(UrlLink url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-            client.get(getAbsoluteUrl(url.toString()), params, responseHandler);
+        private static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+            client.get(getAbsoluteUrl(url), params, responseHandler);
         }
 
-        private static void post(UrlLink url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-            client.post(getAbsoluteUrl(url.toString()), params, responseHandler);
+        private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+            client.post(getAbsoluteUrl(url), params, responseHandler);
         }
 
         private static String getAbsoluteUrl(String relativeUrl) {
             return BASE_URL + relativeUrl;
         }
 
-        public static void getRiders(UrlLink url, RequestParams params, AsyncHttpResponseHandler responseHandler) throws JSONException{
+        public static void getRiders(String url, RequestParams params) throws JSONException{
             APIClient.get(url, null, new JsonHttpResponseHandler() {
                 @Override
-                public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+                public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                     // If the response is JSONObject instead of expected JSONArray
+                    try{
+                        JSONArray riders = data.getJSONArray("data");
+                        JSONObject rider = riders.getJSONObject(0);
+                        System.out.println(rider);
+                    } catch (Exception ex){
+                        Log.d("error", ex.getMessage());
+                    }
                 }
 
                 @Override
@@ -40,14 +49,16 @@ public final class APIClient {
                     // Pull out the first event on the public timeline
                     try{
                         JSONObject firstEvent = riders.getJSONObject(0);
-                        String tweetText = firstEvent.getString("name");
-                        System.out.println(tweetText);
+                        String riderName = firstEvent.getString("name");
+                        System.out.println(riderName);
                     } catch (Exception ex){
-
+                        Log.d("error", ex.getMessage());
                     }
+                }
 
-                    // Do something with the response
-
+                @Override
+                public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                    Log.d("failure", throwable.getMessage());
                 }
             });
 
