@@ -12,7 +12,7 @@ public class SpecialRanking extends RealmObject {
     @Required
     private String name;
 
-    private RealmList<Judgement> judgements;
+    private RealmList<Judgement> specialRankingJudgements;
 
     public String getName() {
         return name;
@@ -22,11 +22,11 @@ public class SpecialRanking extends RealmObject {
         this.name = name;
     }
 
-    public RealmList<Judgement> getJudgements() {
-        return judgements;
+    public RealmList<Judgement> getSpecialRankingJudgements() {
+        return specialRankingJudgements;
     }
 
-    public void setJudgements(RealmList<Judgement> judgements) {
-        this.judgements = judgements;
+    public void setSpecialRankingJudgements(RealmList<Judgement> judgements) {
+        this.specialRankingJudgements = judgements;
     }
 }
