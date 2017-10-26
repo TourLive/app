@@ -106,6 +106,8 @@ public class RiderRepositoryInstrumentedTest {
         rider.setCountry("swiss");
         rider.setName("testrider");
         rider.setStartNr(15);
+        rider.setTeamName("Swiss");
+        rider.setShortTeamName("CH");
         synchronized (this){
             riderRepository.addRider(rider, onSaveRiderCallback);
         }
@@ -127,6 +129,8 @@ public class RiderRepositoryInstrumentedTest {
             rider.setCountry("swiss");
             rider.setName("testrider" + 1);
             rider.setStartNr(i);
+            rider.setTeamName("Swiss");
+            rider.setShortTeamName("CH");
             synchronized (this){
                 riderRepository.addRider(rider, onSaveRiderCallback);
             }
@@ -145,6 +149,8 @@ public class RiderRepositoryInstrumentedTest {
             rider.setCountry("swiss");
             rider.setName("testrider" + 1);
             rider.setStartNr(i);
+            rider.setTeamName("Swiss");
+            rider.setShortTeamName("CH");
             synchronized (this){
                 riderRepository.addRider(rider, onSaveRiderCallback);
             }
@@ -179,6 +185,8 @@ public class RiderRepositoryInstrumentedTest {
         rider.setCountry("swiss");
         rider.setName("testrider" + 1);
         rider.setStartNr(15);
+        rider.setTeamName("Swiss");
+        rider.setShortTeamName("CH");
 
         synchronized (this){
             riderRepository.addRider(rider, onSaveRiderCallback);
