@@ -11,6 +11,8 @@ import io.realm.RealmList;
 public class RiderPresenter implements IRiderPresenter {
     private RaceFragment view;
 
+    private static RiderPresenter instance = null;
+
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
@@ -21,7 +23,13 @@ public class RiderPresenter implements IRiderPresenter {
     public RiderPresenter(RaceFragment view) {
         this.view = view;
         riderRepository = new RiderRepository();
+        instance = this;
     }
+
+    public static RiderPresenter getInstance() {
+        return instance;
+    }
+
 
     @Override
     public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }

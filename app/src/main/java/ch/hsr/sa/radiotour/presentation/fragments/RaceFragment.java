@@ -57,6 +57,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
     private Button quitChoiceButton;
     private Button unkonownRiderButton;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "RaceFragment - onCreateView");

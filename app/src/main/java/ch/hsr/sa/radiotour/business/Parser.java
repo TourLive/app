@@ -11,7 +11,6 @@ public final class Parser {
     private static String startNr = "startNr";
     private static String country = "country";
     private static String name = "name";
-    private static Context context = new Context();
 
     public static void parseRidersAndPersist(JSONArray riders){
         for(int i = 0; i <riders.length(); i++){
@@ -21,7 +20,7 @@ public final class Parser {
                 rider.setStartNr(jsonRider.getInt(startNr));
                 rider.setCountry(jsonRider.getString(country));
                 rider.setName(jsonRider.getString(name));
-                context.addRider(rider);
+                Context.addRider(rider);
             } catch (JSONException ex){
 
             }
