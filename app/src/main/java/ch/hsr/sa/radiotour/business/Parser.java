@@ -13,6 +13,8 @@ public final class Parser {
     private static String startNr = "startNr";
     private static String country = "country";
     private static String name = "name";
+    private static String team = "team";
+    private static String teamShort = "teamShort";
 
     public static void parseRidersAndPersist(JSONArray riders) throws JSONException, InterruptedException {
         final JSONArray ridersJson = riders;
@@ -26,6 +28,8 @@ public final class Parser {
                         rider.setStartNr(jsonRider.getInt(startNr));
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
+                        rider.setTeamName(jsonRider.getString(team));
+                        rider.setShortTeamName(jsonRider.getString(teamShort));
                         Context.addRider(rider);
                     } catch (JSONException e) {
                         e.printStackTrace();

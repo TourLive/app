@@ -20,7 +20,7 @@ public class Rider extends RealmObject {
     @Required
     private String teamName;
     @Required
-    private String shortTeamName;
+    private String teamShortName;
 
     private RealmList<RiderStageConnection> riderStages;
 
@@ -70,12 +70,12 @@ public class Rider extends RealmObject {
         this.teamName = teamName;
     }
 
-    public String getShortTeamName() {
-        return shortTeamName;
+    public String getTeamShortName() {
+        return teamShortName;
     }
 
-    public void setShortTeamName(String shortTeamName) {
-        this.shortTeamName = shortTeamName;
+    public void setShortTeamName(String teamShortName) {
+        this.teamShortName = teamShortName;
     }
 
     public RealmList<RiderStageConnection> getRiderStages() {
