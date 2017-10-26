@@ -112,8 +112,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroy(){
+        super.onDestroy();
         presenter.unSubscribeCallbacks();
         raceGroupPresenter.unSubscribeCallbacks();
         riderStageConnectionPresenter.unSubscribeCallbacks();
