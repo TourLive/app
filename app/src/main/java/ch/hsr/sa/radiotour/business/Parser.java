@@ -40,19 +40,18 @@ public final class Parser {
 
         runnable = new Runnable() {
             public void run() {
-                for (int i = 0; i < ridersJson.length(); i++) {
-                    try {
-                        RaceGroup raceGroupField = new RaceGroup();
-                        raceGroupField.setActualGapTime(0);
-                        raceGroupField.setHistoryGapTime(0);
-                        raceGroupField.setPosition(1);
-                        raceGroupField.setType(RaceGroupType.FELD);
-                        raceGroupField.setRiders(Context.getAllRiders());
-                        Context.addRaceGroup(raceGroupField);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                try {
+                    RaceGroup raceGroupField = new RaceGroup();
+                    raceGroupField.setActualGapTime(0);
+                    raceGroupField.setHistoryGapTime(0);
+                    raceGroupField.setPosition(1);
+                    raceGroupField.setType(RaceGroupType.FELD);
+                    raceGroupField.setRiders(Context.getAllRiders());
+                    Context.addRaceGroup(raceGroupField);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
+
             }
         };
         mythread = new Thread(runnable);
