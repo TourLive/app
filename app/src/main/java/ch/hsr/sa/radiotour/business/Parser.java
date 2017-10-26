@@ -29,7 +29,7 @@ public final class Parser {
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
-                        rider.setShortTeamName(jsonRider.getString(teamShort));
+                        rider.setTeamShortName(jsonRider.getString(teamShort));
                         Context.addRider(rider);
                     } catch (JSONException e) {
                         e.printStackTrace();

@@ -22,6 +22,8 @@ public class Reward extends RealmObject {
 
     private RealmList<Judgement> rewardJudgements;
 
+    private RealmList<RewardRiderConnection> rewardRiderConnections;
+
     public Integer getRewardId() {
         return rewardId;
     }
@@ -60,6 +62,14 @@ public class Reward extends RealmObject {
 
     public void setRewardJudgements(RealmList<Judgement> judgements) {
         this.rewardJudgements = judgements;
+    }
+
+    public RealmList<RewardRiderConnection> getRewardRiderConnections() {
+        return rewardRiderConnections;
+    }
+
+    public void setRewardRiderConnections(RealmList<RewardRiderConnection> rewardRiderConnections) {
+        this.rewardRiderConnections = rewardRiderConnections;
     }
 }
 

@@ -23,7 +23,6 @@ import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -189,7 +188,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
             rider.setCountry("swiss");
             rider.setName("rider" + i);
             rider.setTeamName("empty");
-            rider.setShortTeamName("emtpy");
+            rider.setTeamShortName("emtpy");
             RiderPresenter.getInstance().addRider(rider);
             riders.add(rider);
         }
