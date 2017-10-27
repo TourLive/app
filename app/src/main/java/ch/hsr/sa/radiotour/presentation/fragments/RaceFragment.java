@@ -141,7 +141,11 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         raceGroupPresenter.clearAllRaceGroups();
         RaceGroup raceGroup = new RaceGroup();
         for (int i = 0; i < 5; i++) {
-            raceGroup.setType(RaceGroupType.FELD);
+            if (i == 1) {
+                raceGroup.setType(RaceGroupType.FELD);
+            } else {
+                raceGroup.setType(RaceGroupType.LEAD);
+            }
             raceGroup.setPosition(i);
             raceGroup.setHistoryGapTime(60+(long)i);
             raceGroup.setActualGapTime(i);
