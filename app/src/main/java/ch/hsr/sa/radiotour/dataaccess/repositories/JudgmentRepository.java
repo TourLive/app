@@ -21,6 +21,7 @@ public class JudgmentRepository implements IJudgmentRepository {
                 Judgement realmJudgment = realm.createObject(Judgement.class, UUID.randomUUID().toString());
                 realmJudgment.setName(transferJudgment.getName());
                 realmJudgment.setDistance(transferJudgment.getDistance());
+                realmJudgment.setRewardId(transferJudgment.getRewardId());
             }
         });
 

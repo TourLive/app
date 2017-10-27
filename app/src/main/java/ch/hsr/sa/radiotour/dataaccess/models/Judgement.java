@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -12,6 +13,7 @@ public class Judgement extends RealmObject {
     private String id;
     @Required
     private String name;
+    int rewardId;
 
     private int distance;
 
@@ -41,5 +43,13 @@ public class Judgement extends RealmObject {
 
     public void setDistance(int distance) {
         this.distance = distance;
+    }
+
+    public int getRewardId() {
+        return rewardId;
+    }
+
+    public void setRewardId(int rewardId) {
+        this.rewardId = rewardId;
     }
 }
