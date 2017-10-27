@@ -6,20 +6,21 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.presentation.fragments.IPresenterFragments;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
 
 public class RiderStageConnectionPresenter implements IRiderStageConnectionPresenter {
-    private RaceFragment raceFragment;
+    private IPresenterFragments fragment;
     private IRiderStageConnectionRepository riderStageConnectionRepository;
     private IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback onSaveRiderStageConnectionCallbackCallback;
     private IRiderStageConnectionRepository.OnGetAllRiderStageConnectionsCallback onGetAllRiderStageConnectionsCallback;
     private IRiderStageConnectionRepository.OnUpdateRiderStageConnectionCallBack onUpdateRiderStageConnectionCallBack;
     private IRiderStageConnectionRepository.OnUpdateRiderStateCallBack onUpdateRiderStateCallBack;
 
-    public RiderStageConnectionPresenter(RaceFragment raceFragment){
-        this.raceFragment = raceFragment;
+    public RiderStageConnectionPresenter(IPresenterFragments fragment){
+        this.fragment = fragment;
         this.riderStageConnectionRepository = new RiderStageConnectionRepository();
     }
 

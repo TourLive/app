@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.Date;
 
@@ -31,7 +32,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements OnStartDragListener, View.OnClickListener {
+public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, View.OnClickListener {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -45,6 +46,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
 
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
+    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
         rvRider.setOnClickListener(this);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
+        button = (Button) root.findViewById(R.id.testADDButton);
+        button.setOnClickListener(this);
         initRecyclerListener();
     }
 
@@ -189,6 +193,12 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
 
     @Override
     public void onClick(View view) {
-        System.exit(1);
+        switch (view.getId()) {
+            case R.id.testADDButton:
+                break;
+            default:
+                break;
+        }
+
     }
 }
