@@ -14,18 +14,8 @@ public class SpecialRankingPresenter implements ISpecialRankingPresenter {
     }
 
     @Override
-    public void addSpecialRanking(SpecialRanking specialRanking) {
-        specialRankingRepository.addSpecialRanking(specialRanking, onSaveSpecialRankingCallback);
-    }
-
-    @Override
-    public void clearAllSpecialRankings() {
-        specialRankingRepository.clearAllSpecialRankings();
-    }
-
-    @Override
     public void subscribeCallbacks() {
-         onSaveSpecialRankingCallback = new ISpecialRankingRepository.OnSaveSpecialRankingCallback() {
+        onSaveSpecialRankingCallback = new ISpecialRankingRepository.OnSaveSpecialRankingCallback() {
             @Override
             public void onSuccess() {
 
@@ -41,5 +31,15 @@ public class SpecialRankingPresenter implements ISpecialRankingPresenter {
     @Override
     public void unSubscribeCallbacks() {
         onSaveSpecialRankingCallback = null;
+    }
+
+    @Override
+    public void addSpecialRanking(SpecialRanking specialRanking) {
+        specialRankingRepository.addSpecialRanking(specialRanking, onSaveSpecialRankingCallback);
+    }
+
+    @Override
+    public void clearAllSpecialRankings() {
+        specialRankingRepository.clearAllSpecialRankings();
     }
 }
