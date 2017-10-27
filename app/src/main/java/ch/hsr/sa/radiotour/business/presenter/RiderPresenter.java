@@ -1,6 +1,10 @@
-package ch.hsr.sa.radiotour.controller.adapter.presenter;
+package ch.hsr.sa.radiotour.business.presenter;
 
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
+import android.support.v4.app.Fragment;
+
+import java.util.ArrayList;
+
+import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -9,19 +13,28 @@ import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import io.realm.RealmList;
 
 public class RiderPresenter implements IRiderPresenter {
-    private RaceFragment view;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+
+    private static RiderPresenter instance = null;
 
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
 
 
-    private IRiderRepository riderRepository;
+    private RiderRepository riderRepository = new RiderRepository();
 
-    public RiderPresenter(RaceFragment view) {
-        this.view = view;
-        riderRepository = new RiderRepository();
+    public static RiderPresenter getInstance() {
+        if(instance == null){
+            instance = new RiderPresenter();
+        }
+        return instance;
     }
+
+    public void addView(Fragment frag){
+        this.fragments.add(frag);
+    }
+
 
     @Override
     public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }
@@ -48,7 +61,12 @@ public class RiderPresenter implements IRiderPresenter {
         onSaveRiderCallback = new IRiderRepository.OnSaveRiderCallback() {
             @Override
             public void onSuccess() {
-                view.addRiderToList();
+                for(Fragment frag : fragments){
+                    if(frag instanceof RaceFragment){
+                        RaceFragment rF = (RaceFragment) frag;
+                        rF.addRiderToList();
+                    }
+                }
             }
 
             @Override
@@ -59,7 +77,12 @@ public class RiderPresenter implements IRiderPresenter {
         onGetAllRidersCallback = new IRiderRepository.OnGetAllRidersCallback() {
             @Override
             public void onSuccess(RealmList<Rider> riders) {
-                view.showRiders(riders);
+                for(Fragment frag : fragments){
+                    if(frag instanceof RaceFragment) {
+                        RaceFragment rF = (RaceFragment) frag;
+                        rF.showRiders(riders);
+                    }
+                }
             }
 
             @Override

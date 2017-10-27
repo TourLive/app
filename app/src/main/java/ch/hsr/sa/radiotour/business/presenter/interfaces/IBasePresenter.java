@@ -1,4 +1,4 @@
-package ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces;
+package ch.hsr.sa.radiotour.business.presenter.interfaces;
 
 public interface IBasePresenter {
     void subscribeCallbacks();

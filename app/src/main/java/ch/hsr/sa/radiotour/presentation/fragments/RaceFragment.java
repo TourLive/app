@@ -20,12 +20,12 @@ import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderAdapter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.RaceGroupPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRaceGroupPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.presenter.interfaces.IRiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -34,7 +34,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements View.OnClickListener, OnStartDragListener {
-    private IRiderPresenter presenter;
+
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
@@ -57,6 +57,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
     private Button quitChoiceButton;
     private Button unkonownRiderButton;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "RaceFragment - onCreateView");
@@ -67,8 +68,9 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
 
     public void initComponents(View root){
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
+        rvRider.setAdapter(new RiderAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
-        presenter = new RiderPresenter(this);
+        RiderPresenter.getInstance().addView(this);
         raceGroupPresenter = new RaceGroupPresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
         demoButton = (Button) root.findViewById(R.id.demoButton);
@@ -103,17 +105,17 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
     @Override
     public void onStart() {
         super.onStart();
-        presenter.subscribeCallbacks();
-        presenter.getAllRiders();
+        RiderPresenter.getInstance().subscribeCallbacks();
+        RiderPresenter.getInstance().getAllRiders();
         raceGroupPresenter.subscribeCallbacks();
         raceGroupPresenter.getAllRaceGroups();
         riderStageConnectionPresenter.subscribeCallbacks();
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
-        presenter.unSubscribeCallbacks();
+    public void onDestroy(){
+        super.onDestroy();
+        RiderPresenter.getInstance().unSubscribeCallbacks();
         raceGroupPresenter.unSubscribeCallbacks();
         riderStageConnectionPresenter.unSubscribeCallbacks();
     }
@@ -126,8 +128,8 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
                 break;
             }
             case R.id.deleteButton:{
-                presenter.clearAllRiders();
-                presenter.getAllRiders();
+                RiderPresenter.getInstance().clearAllRiders();
+                RiderPresenter.getInstance().getAllRiders();
                 raceGroupPresenter.clearAllRaceGroups();
                 raceGroupPresenter.getAllRaceGroups();
                 riderStageConnectionPresenter.clearAllRiderStageConnection();
@@ -179,14 +181,16 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
 
     public void addDefaultData(){
 
-        presenter.clearAllRiders();
+        RiderPresenter.getInstance().clearAllRiders();
         RealmList<Rider> riders = new RealmList<>();
         for(int i = 0; i < 50; i++){
             Rider rider = new Rider();
             rider.setStartNr(i);
             rider.setCountry("swiss");
             rider.setName("rider" + i);
-            presenter.addRider(rider);
+            rider.setTeamName("empty");
+            rider.setShortTeamName("emtpy");
+            RiderPresenter.getInstance().addRider(rider);
             riders.add(rider);
         }
         raceGroupPresenter.clearAllRaceGroups();
@@ -220,7 +224,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
             riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
             RealmList<RiderStageConnection> test = new RealmList<>();
             test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
-            presenter.updateRiderStageConnection(riders.get(i), test);
+            RiderPresenter.getInstance().updateRiderStageConnection(riders.get(i), test);
             test.clear();
 
         }
@@ -245,7 +249,7 @@ public class RaceFragment extends Fragment implements View.OnClickListener, OnSt
     }
 
     public void addRiderToList(){
-        presenter.getAllRiders();
+        RiderPresenter.getInstance().getAllRiders();
     }
 
     public void addRaceGroupToList() {
