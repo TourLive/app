@@ -64,10 +64,12 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
         holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
         holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
+        if (raceGroups.get(position).getType() != RaceGroupType.FELD) {
+            RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
+            holder.racegroupRiders.setLayoutManager(layoutManager);
+            holder.racegroupRiders.setAdapter(adapter);
+        }
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
-        RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
-        holder.racegroupRiders.setLayoutManager(layoutManager);
-        holder.racegroupRiders.setAdapter(adapter);
         holder.racegroupName.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
