@@ -31,7 +31,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements OnStartDragListener, View.OnClickListener {
+public class RiderRaceGroupFragment extends Fragment {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -49,7 +49,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "RaceFragment - onCreateView");
-        View root = inflater.inflate(R.layout.fragment_race, container, false);
+        View root = inflater.inflate(R.layout.fragment_riderracegroup, container, false);
         initComponents(root);
         return root;
     }
@@ -58,7 +58,6 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
         RiderPresenter.getInstance().addView(this);
         raceGroupPresenter = new RaceGroupPresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
-        addDefaultData();
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setOnClickListener(this);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
@@ -120,75 +119,4 @@ public class RaceFragment extends Fragment implements OnStartDragListener, View.
         raceGroupPresenter.getAllRaceGroups();
     }
 
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        itemTouchHelper.startDrag(viewHolder);
-    }
-
-    public void addDefaultData(){
-
-        RiderPresenter.getInstance().clearAllRiders();
-        RealmList<Rider> riders = new RealmList<>();
-        for(int i = 0; i < 50; i++){
-            Rider rider = new Rider();
-            rider.setStartNr(i);
-            rider.setCountry("swiss");
-            rider.setName("rider" + i);
-            rider.setTeamName("empty");
-            rider.setShortTeamName("emtpy");
-            RiderPresenter.getInstance().addRider(rider);
-            riders.add(rider);
-        }
-        raceGroupPresenter.clearAllRaceGroups();
-        RaceGroup raceGroup = new RaceGroup();
-        for (int i = 0; i < 5; i++) {
-            if (i == 1) {
-                raceGroup.setType(RaceGroupType.FELD);
-            } else {
-                raceGroup.setType(RaceGroupType.LEAD);
-            }
-            raceGroup.setPosition(i);
-            raceGroup.setHistoryGapTime(60+(long)i);
-            raceGroup.setActualGapTime(i);
-            RealmList<Rider> test = new RealmList<>();
-            test.add(riders.get(i * 5));
-            test.add(riders.get(i * 5 + 1));
-            test.add(riders.get(i * 5 + 2));
-            test.add(riders.get(i * 5 + 3));
-            test.add(riders.get(i * 5 + 4));
-            raceGroup.setRiders(test);
-            raceGroupPresenter.addInitialRaceGroup(raceGroup);
-        }
-
-        riderStageConnectionPresenter.clearAllRiderStageConnection();
-
-        for(int i = 0; i < 50; i++){
-            RiderStageConnection riderStageConnection = new RiderStageConnection();
-            riderStageConnection.setRank(i+1);
-            riderStageConnection.setOfficialTime(new Date(100));
-            riderStageConnection.setOfficialGap(new Date(100));
-            riderStageConnection.setVirtualGap(new Date(100));
-            riderStageConnection.setBonusPoint(100);
-            riderStageConnection.setBonusTime(100);
-            if (i == 4 || i == 9 || i == 14) {
-                riderStageConnection.setType(RiderStateType.DOCTOR);
-            } else if (i == 3 || i == 8 || i == 13) {
-                riderStageConnection.setType(RiderStateType.DNC);
-            } else {
-                riderStageConnection.setType(RiderStateType.AKTIVE);
-            }
-            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
-            RealmList<RiderStageConnection> test = new RealmList<>();
-            test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
-            RiderPresenter.getInstance().updateRiderStageConnection(riders.get(i), test);
-            test.clear();
-
-        }
-
-    }
-
-    @Override
-    public void onClick(View view) {
-        System.exit(1);
-    }
 }
