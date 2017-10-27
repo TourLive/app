@@ -5,7 +5,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
 public interface IRiderPresenter extends IBasePresenter {
-    void addRider(Rider student);
+    void addRider(Rider rider);
     void getAllRiders();
     RealmList<Rider> getAllRidersReturned();
     void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections);
