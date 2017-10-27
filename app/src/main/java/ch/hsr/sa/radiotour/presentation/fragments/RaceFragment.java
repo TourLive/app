@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Date;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
@@ -23,11 +25,13 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment {
+public class RaceFragment extends Fragment implements OnStartDragListener {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -51,12 +55,13 @@ public class RaceFragment extends Fragment {
     }
 
     public void initComponents(View root){
-        rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
-        rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
-        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         RiderPresenter.getInstance().addView(this);
         raceGroupPresenter = new RaceGroupPresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
+        addDefaultData();
+        rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
+        rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
+        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         initRecyclerListener();
     }
 
@@ -114,4 +119,66 @@ public class RaceFragment extends Fragment {
         raceGroupPresenter.getAllRaceGroups();
     }
 
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        itemTouchHelper.startDrag(viewHolder);
+    }
+
+    public void addDefaultData(){
+
+        RiderPresenter.getInstance().clearAllRiders();
+        RealmList<Rider> riders = new RealmList<>();
+        for(int i = 0; i < 50; i++){
+            Rider rider = new Rider();
+            rider.setStartNr(i);
+            rider.setCountry("swiss");
+            rider.setName("rider" + i);
+            rider.setTeamName("empty");
+            rider.setShortTeamName("emtpy");
+            RiderPresenter.getInstance().addRider(rider);
+            riders.add(rider);
+        }
+        raceGroupPresenter.clearAllRaceGroups();
+        RaceGroup raceGroup = new RaceGroup();
+        for (int i = 0; i < 5; i++) {
+            raceGroup.setType(RaceGroupType.FELD);
+            raceGroup.setPosition(i);
+            raceGroup.setHistoryGapTime(60+(long)i);
+            raceGroup.setActualGapTime(i);
+            RealmList<Rider> test = new RealmList<>();
+            test.add(riders.get(i * 5));
+            test.add(riders.get(i * 5 + 1));
+            test.add(riders.get(i * 5 + 2));
+            test.add(riders.get(i * 5 + 3));
+            test.add(riders.get(i * 5 + 4));
+            raceGroup.setRiders(test);
+            raceGroupPresenter.addInitialRaceGroup(raceGroup);
+        }
+
+        riderStageConnectionPresenter.clearAllRiderStageConnection();
+
+        for(int i = 0; i < 50; i++){
+            RiderStageConnection riderStageConnection = new RiderStageConnection();
+            riderStageConnection.setRank(i+1);
+            riderStageConnection.setOfficialTime(new Date(100));
+            riderStageConnection.setOfficialGap(new Date(100));
+            riderStageConnection.setVirtualGap(new Date(100));
+            riderStageConnection.setBonusPoint(100);
+            riderStageConnection.setBonusTime(100);
+            if (i == 4 || i == 9 || i == 14) {
+                riderStageConnection.setType(RiderStateType.DOCTOR);
+            } else if (i == 3 || i == 8 || i == 13) {
+                riderStageConnection.setType(RiderStateType.DNC);
+            } else {
+                riderStageConnection.setType(RiderStateType.AKTIVE);
+            }
+            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+            RealmList<RiderStageConnection> test = new RealmList<>();
+            test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
+            RiderPresenter.getInstance().updateRiderStageConnection(riders.get(i), test);
+            test.clear();
+
+        }
+
+    }
 }

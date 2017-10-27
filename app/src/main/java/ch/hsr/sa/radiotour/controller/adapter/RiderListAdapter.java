@@ -1,19 +1,14 @@
 package ch.hsr.sa.radiotour.controller.adapter;
-import android.content.ClipData;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-
-import java.util.ArrayList;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
@@ -37,6 +32,12 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
+        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
+        drawable.setColor(getColorFromState(getRiderStateType(position)));
+    }
+
+    public RiderStateType getRiderStateType(int position){
+        return riders.get(position).getRiderStages().first().getType();
     }
 
     @Override
@@ -48,22 +49,22 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         int color;
         switch (stateType){
             case DOCTOR:
-                color = context.getResources().getColor(R.color.colorRed, null);
+                color = ContextCompat.getColor(context, R.color.colorBlue);
                 break;
             case DROP:
-                color = context.getResources().getColor(R.color.colorYellow, null);
+                color = ContextCompat.getColor(context, R.color.colorYellow);
                 break;
             case DEFECT:
-                color = context.getResources().getColor(R.color.colorBlue, null);
+                color = ContextCompat.getColor(context, R.color.colorRed);
                 break;
             case QUIT:
-                color = context.getResources().getColor(R.color.colorOrange, null);
+                color = ContextCompat.getColor(context, R.color.colorOlive);
                 break;
             case DNC:
-                color = context.getResources().getColor(R.color.colorOlive, null);
+                color = ContextCompat.getColor(context, R.color.colorOrange);
                 break;
             default:
-                color = context.getResources().getColor(R.color.cardview_light_background, null);
+                color = 0;
                 break;
         }
         return color;
