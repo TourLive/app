@@ -30,6 +30,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, View.OnClickListener {
@@ -65,7 +66,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         rvRider.setOnClickListener(this);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
-        button = (Button) root.findViewById(R.id.testADDButton);
+        button = (Button) root.findViewById(R.id.button);
         button.setOnClickListener(this);
         initRecyclerListener();
     }
@@ -194,7 +195,9 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.testADDButton:
+            case R.id.button:
+                MainActivity.viewPageAdapter.setDetail(true);
+                MainActivity.viewPager.getAdapter().notifyDataSetChanged();
                 break;
             default:
                 break;

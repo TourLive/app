@@ -41,7 +41,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG", "RaceFragment - onCreateView");
+        Log.d("TAG", "RiderRaceGroupFragment - onCreateView");
         View root = inflater.inflate(R.layout.fragment_riderracegroup, container, false);
         initComponents(root);
         return root;
