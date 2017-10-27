@@ -4,7 +4,12 @@ import ch.hsr.sa.radiotour.dataaccess.models.SpecialRanking;
 
 public interface ISpecialRankingRepository {
 
-    void addSpecialRanking(SpecialRanking specialRanking);
+    interface OnSaveSpecialRankingCallback {
+        void onSuccess();
+        void onError(String message);
+    }
+
+    void addSpecialRanking(SpecialRanking specialRanking, OnSaveSpecialRankingCallback callback);
 
     void clearAllSpecialRankings();
 }
