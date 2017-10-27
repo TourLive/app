@@ -12,7 +12,7 @@ public class Judgement extends RealmObject {
     private String id;
     @Required
     private String name;
-    @Required
+
     private int distance;
 
     @LinkingObjects("rewardJudgements")
