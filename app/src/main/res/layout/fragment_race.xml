@@ -28,9 +28,53 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Legende"
-            android:textSize="10sp"
+            android:text="STATUS"
             android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/rider_arzt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Arzt"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_dnc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DNC"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_quit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Aufgabe"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_drop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sturz"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_defect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Defekt"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
 
     </LinearLayout>
 
@@ -39,7 +83,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/racefragment_guideline_one"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.05" />
+        app:layout_constraintGuide_percent="0.07" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
