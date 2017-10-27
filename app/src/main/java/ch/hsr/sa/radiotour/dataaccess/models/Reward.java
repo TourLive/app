@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -15,10 +17,10 @@ public class Reward extends RealmObject {
     private Integer rewardId;
     @Required
     private String type;
-    @Required
-    private ArrayList<Integer> points;
-    @Required
-    private ArrayList<Integer> money;
+
+    private RealmList<Integer> points;
+
+    private RealmList<Integer> money;
 
     private RealmList<Judgement> rewardJudgements;
 
@@ -40,19 +42,19 @@ public class Reward extends RealmObject {
         this.type = type;
     }
 
-    public ArrayList<Integer> getPoints() {
+    public RealmList<Integer> getPoints() {
         return points;
     }
 
-    public void setPoints(ArrayList<Integer> points) {
+    public void setPoints(RealmList<Integer> points) {
         this.points = points;
     }
 
-    public ArrayList<Integer> getMoney() {
+    public RealmList<Integer> getMoney() {
         return money;
     }
 
-    public void setMoney(ArrayList<Integer> money) {
+    public void setMoney(RealmList<Integer> money) {
         this.money = money;
     }
 

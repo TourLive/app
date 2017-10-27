@@ -10,7 +10,6 @@ import io.realm.annotations.Required;
 public class RewardRiderConnection extends RealmObject {
     @PrimaryKey
     private String id;
-    @Required
     private int rank;
 
     public int getRank() {
@@ -21,7 +20,7 @@ public class RewardRiderConnection extends RealmObject {
         this.rank = rank;
     }
 
-    @LinkingObjects("riderRewardsConnections")
+    @LinkingObjects("riderRewardConnections")
     private final RealmResults<Rider> riders = null;
 
     @LinkingObjects("rewardRiderConnections")
