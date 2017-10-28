@@ -28,102 +28,60 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/race_status"
-            android:textSize="24sp"
+            android:text="STATUS"
             android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnDoctor"
+        <TextView
+            android:id="@+id/rider_arzt"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_doctor"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_doctor"/>
+            android:text="Arzt"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_dnc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="DNC"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_quit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Aufgabe"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_drop"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Sturz"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/rider_defect"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Defekt"
+            android:textAllCaps="true"
+            android:textSize="10sp" />
 
         <Button
-            android:id="@+id/btnDrop"
+            android:id="@+id/button"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_drop"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_drop"/>
-
-        <Button
-            android:id="@+id/btnDefect"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_defect"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_defect"/>
-
-        <Button
-            android:id="@+id/btnQuit"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_quit"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_quit"/>
-
-        <Button
-            android:id="@+id/btnDNC"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_dnc"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_dnc"/>
-
-        <Button
-            android:id="@+id/btnQuitChoice"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_quit_choice"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_common"/>
-
-        <Button
-            android:id="@+id/btnUnknownRider"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="@string/race_unknown_driver"
-            android:textSize="@dimen/text_size_common"
-            android:background="@drawable/button_shape_common"/>
-
-        <Button
-            android:id="@+id/demoButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:text="Demo Data"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:textAlignment="center"
-            android:textSize="@dimen/text_size_common"
-            android:textStyle="bold"
-            android:background="@drawable/button_shape_common"/>
-
-        <Button
-            android:id="@+id/deleteButton"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/button_height_common"
-            android:layout_weight="1"
-            android:layout_marginBottom="@dimen/margin_common"
-            android:text="Delete Data"
-            android:textSize="@dimen/text_size_common"
-            android:textStyle="bold"
-            android:background="@drawable/button_shape_common"/>
+            android:text="Button" />
 
     </LinearLayout>
 
@@ -132,18 +90,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/racefragment_guideline_one"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="96dp" />
+        app:layout_constraintGuide_percent="0.07" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/racegroup_guideline_two"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.55"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="528dp" />
+        app:layout_constraintGuide_percent="0.37" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvRider"
