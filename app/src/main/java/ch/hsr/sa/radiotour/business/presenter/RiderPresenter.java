@@ -10,6 +10,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
 public class RiderPresenter implements IRiderPresenter {
@@ -65,6 +66,11 @@ public class RiderPresenter implements IRiderPresenter {
                     if(frag instanceof RaceFragment){
                         RaceFragment rF = (RaceFragment) frag;
                         rF.addRiderToList();
+                    } else if (frag instanceof RiderRaceGroupFragment) {
+                        RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
+                        riderRaceGroupFragment.addRiderToList();
+                    } else {
+
                     }
                 }
             }
@@ -81,6 +87,11 @@ public class RiderPresenter implements IRiderPresenter {
                     if(frag instanceof RaceFragment) {
                         RaceFragment rF = (RaceFragment) frag;
                         rF.showRiders(riders);
+                    } else if (frag instanceof RiderRaceGroupFragment) {
+                        RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
+                        riderRaceGroupFragment.showRiders(riders);
+                    } else {
+
                     }
                 }
             }

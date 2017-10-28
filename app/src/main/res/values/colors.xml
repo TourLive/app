@@ -9,4 +9,6 @@
     <color name="colorBlue">#10b0f4</color>
     <color name="colorOrange">#f47a10</color>
     <color name="colorOlive">#b6cf80</color>
+    <color name="colorGrayDark">#424242</color>
+    <color name="colorTeal">#26A69A</color>
 </resources>
