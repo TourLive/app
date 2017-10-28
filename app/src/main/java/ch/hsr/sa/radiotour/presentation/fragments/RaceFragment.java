@@ -108,6 +108,11 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         rvRider.setAdapter(adapter);
     }
 
+    @Override
+    public void updateRiderStateOnGUI(RiderStageConnection connection) {
+        // DO nothing.
+    }
+
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
         raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this);

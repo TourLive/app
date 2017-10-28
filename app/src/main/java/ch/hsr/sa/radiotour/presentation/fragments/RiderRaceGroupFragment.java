@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,9 +28,11 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments {
+public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -41,6 +44,12 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
+
+    private Button btnDoctor;
+    private Button btnDNC;
+    private Button btnDefect;
+    private Button btnQuit;
+    private Button btnDrop;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,6 +67,19 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
+    }
+
+    private void initButtons(View root) {
+        btnDefect = (Button) root.findViewById(R.id.btn_Defect);
+        btnDNC = (Button) root.findViewById(R.id.btn_DNC);
+        btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
+        btnQuit = (Button) root.findViewById(R.id.btn_Quit);
+        btnDrop = (Button) root.findViewById(R.id.btn_Drop);
+        btnDefect.setOnClickListener(this);
+        btnDNC.setOnClickListener(this);
+        btnDoctor.setOnClickListener(this);
+        btnQuit.setOnClickListener(this);
+        btnDrop.setOnClickListener(this);
     }
 
     private void initRecyclerListener() {
@@ -98,6 +120,14 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         rvRider.setAdapter(adapter);
     }
 
+    @Override
+    public void updateRiderStateOnGUI(RiderStageConnection connection) {
+        adapter.updateRiderStateOnGUI(connection);
+        if(connection.getRiders().getRaceGroups() != null){
+            raceGroupPresenter.deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
+        }
+    }
+
     public int getFirstDigit(int number) {
         if (number/10 == 0) {
             return number;
@@ -119,4 +149,33 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         raceGroupPresenter.getAllRaceGroups();
     }
 
+    public void updateRiderStates(RiderStateType riderStateType) {
+        for (Rider r : adapter.getSelectedRiders()) {
+            riderStageConnectionPresenter.updateRiderState(riderStateType, r);
+        }
+        adapter.resetSelectRiders();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.btn_Defect:
+                updateRiderStates(RiderStateType.DEFECT);
+                break;
+            case R.id.btn_DNC:
+                updateRiderStates(RiderStateType.DNC);
+                break;
+            case R.id.btn_Doctor:
+                updateRiderStates(RiderStateType.DOCTOR);
+                break;
+            case R.id.btn_Drop:
+                updateRiderStates(RiderStateType.DROP);
+                break;
+            case R.id.btn_Quit:
+                updateRiderStates(RiderStateType.QUIT);
+                break;
+            default:
+                break;
+        }
+    }
 }

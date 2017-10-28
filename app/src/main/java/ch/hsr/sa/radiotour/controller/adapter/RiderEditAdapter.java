@@ -7,18 +7,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.RiderViewHolder> {
 
     private RealmList<Rider> riders;
     private android.content.Context context;
+    private RealmList<Rider> selectedRiders;
+    private ArrayList<View> selectedViews;
+    private ArrayList<RiderViewHolder> holders;
 
     public RiderEditAdapter(RealmList<Rider> riders) {
         this.riders = riders;
+        this.selectedRiders = new RealmList<>();
+        this.selectedViews = new ArrayList<>();
+        this.holders = new ArrayList<>();
     }
 
     @Override
@@ -38,6 +48,11 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     public RiderStateType getRiderStateType(int position){
         return riders.get(position).getRiderStages().first().getType();
+    }
+
+    public void updateRiderStateOnGUI(RiderStageConnection connection) {
+        GradientDrawable drawable = (GradientDrawable) holders.get(connection.getRiders().getStartNr()).tvNummer.getBackground();
+        drawable.setColor(getColorFromState(connection.getType()));
     }
 
     @Override
@@ -70,15 +85,40 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         return color;
     }
 
+    public void resetSelectRiders() {
+        for (View view : selectedViews) {
+            view.setBackgroundColor(0);
+        }
+        selectedRiders.clear();
+        selectedViews.clear();
+    }
 
+    public RealmList<Rider> getSelectedRiders() {
+        return this.selectedRiders;
+    }
 
-    public class RiderViewHolder extends RecyclerView.ViewHolder {
+    public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvNummer;
 
         public RiderViewHolder(View itemView) {
             super(itemView);
             tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            Rider rider = riders.get(getLayoutPosition());
+            if (selectedRiders.contains(rider)) {
+                selectedRiders.remove(rider);
+                selectedViews.remove(view);
+                itemView.setBackgroundColor(0);
+            } else {
+                selectedViews.add(view);
+                selectedRiders.add(rider);
+                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorTeal));
+            }
         }
     }
 
