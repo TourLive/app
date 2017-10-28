@@ -27,7 +27,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     public void onClick(View v) {
         if(v == btn_Import){
             try{
-                APIClient.getRiders(UrlLink.RIDERS, null);
+                APIClient.importData();
             } catch (Exception ex){
 
             }
