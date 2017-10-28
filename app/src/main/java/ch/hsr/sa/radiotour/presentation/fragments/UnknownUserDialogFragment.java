@@ -24,7 +24,7 @@ public class UnknownUserDialogFragment extends DialogFragment {
     }
 
     public interface UnknownUserAddListener {
-        void onFinishAddingUnknownUser(int count, RaceGroup raceGroup);
+        void onFinishAddingUnknownUser(int count);
     }
 
     public static UnknownUserDialogFragment newInstance() {
@@ -68,7 +68,7 @@ public class UnknownUserDialogFragment extends DialogFragment {
                 UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
                 RaceGroup raceGroup = null;
                 int count = seekBar.getProgress();
-                unknownUserAddListener.onFinishAddingUnknownUser(count, raceGroup);
+                unknownUserAddListener.onFinishAddingUnknownUser(count);
             }
         });
         alertDialogBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
