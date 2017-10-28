@@ -51,6 +51,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     private Button btnDefect;
     private Button btnQuit;
     private Button btnDrop;
+    private Button btnUnknownRiders;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,11 +78,13 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
         btnQuit = (Button) root.findViewById(R.id.btn_Quit);
         btnDrop = (Button) root.findViewById(R.id.btn_Drop);
+        btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
         btnDefect.setOnClickListener(this);
         btnDNC.setOnClickListener(this);
         btnDoctor.setOnClickListener(this);
         btnQuit.setOnClickListener(this);
         btnDrop.setOnClickListener(this);
+        btnUnknownRiders.setOnClickListener(this);
     }
 
     private void initRecyclerListener() {
@@ -175,6 +178,8 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 break;
             case R.id.btn_Quit:
                 updateRiderStates(RiderStateType.QUIT);
+                break;
+            case R.id.btn_UnkownRiders:
                 break;
             default:
                 break;
