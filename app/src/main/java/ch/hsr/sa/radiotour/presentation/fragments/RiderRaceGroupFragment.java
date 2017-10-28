@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,7 +34,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener {
+public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownUserDialogFragment.UnknownUserAddListener {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -180,6 +181,10 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 updateRiderStates(RiderStateType.QUIT);
                 break;
             case R.id.btn_UnkownRiders:
+                FragmentManager fm = getFragmentManager();
+                UnknownUserDialogFragment alertDialog = UnknownUserDialogFragment.newInstance();
+                alertDialog.setTargetFragment(RiderRaceGroupFragment.this, 300);
+                alertDialog.show(fm, "");
                 break;
             default:
                 break;
@@ -204,5 +209,10 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
             raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
         }
+    }
+
+    @Override
+    public void onFinishAddingUnknownUser(int count, RaceGroup raceGroup) {
+        Log.d("TEST - ", "" + count + " " + raceGroup.toString());
     }
 }
