@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
@@ -86,7 +89,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
 
 
-    public void showRiders(RealmList<Rider> riders) {
+    public void showRiders(final RealmList<Rider> riders) {
         this.riders = riders;
         adapter = new RiderEditAdapter(riders);
         int rows = getFirstDigit(riders.get(riders.size() -1).getStartNr());

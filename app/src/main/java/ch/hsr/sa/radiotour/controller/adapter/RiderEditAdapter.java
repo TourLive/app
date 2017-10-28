@@ -12,7 +12,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.RiderViewHolder>{
+public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.RiderViewHolder> {
 
     private RealmList<Rider> riders;
     private android.content.Context context;
@@ -32,8 +32,8 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
-        //GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
-        //drawable.setColor(getColorFromState(getRiderStateType(position)));
+        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
+        drawable.setColor(getColorFromState(getRiderStateType(position)));
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -69,6 +69,8 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         }
         return color;
     }
+
+
 
     public class RiderViewHolder extends RecyclerView.ViewHolder {
 
