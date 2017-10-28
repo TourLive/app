@@ -96,7 +96,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter);
+        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext());
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
