@@ -212,7 +212,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     }
 
     @Override
-    public void onFinishAddingUnknownUser(int count, RaceGroup raceGroup) {
-        Log.d("TEST - ", "" + count + " " + raceGroup.toString());
+    public void onFinishAddingUnknownUser(int count) {
+        Log.d("TEST - ", "" + count);
     }
 }
