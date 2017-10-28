@@ -231,7 +231,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
             rider.setUnknown(true);
             rider.setName("U" + i);
             rider.setCountry("U");
-            rider.setShortTeamName("U");
+            rider.setTeamShortName("U");
             rider.setTeamName("UNKNOWN");
             rider.setStartNr(i + 900);
             RiderPresenter.getInstance().addRider(rider);
