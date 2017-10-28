@@ -72,8 +72,6 @@ public class RaceGroup extends RealmObject {
         switch(getType()) {
             case LEAD:
                 return "LEAD";
-            case LAST:
-                return "LAST";
             case FELD:
                 return "FELD";
             case NORMAL:

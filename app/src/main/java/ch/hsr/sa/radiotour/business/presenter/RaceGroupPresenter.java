@@ -5,18 +5,18 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
-import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.IPresenterFragments;
 import io.realm.RealmList;
 
 public class RaceGroupPresenter implements IRaceGroupPresenter {
-    private RaceFragment raceFragment;
+    private IPresenterFragments fragment;
     private IRaceGroupRepository.OnSaveRaceGroupCallback onSaveRaceGroupCallback;
     private IRaceGroupRepository.OnGetAllRaceGroupsCallback onGetAllRaceGroupsCallback;
     private IRaceGroupRepository.OnUpdateRaceGroupCallBack onUpdateRaceGroupCallBack;
     private IRaceGroupRepository raceGroupRepository;
 
-    public RaceGroupPresenter(RaceFragment raceFragment) {
-        this.raceFragment = raceFragment;
+    public RaceGroupPresenter(IPresenterFragments fragment) {
+        this.fragment = fragment;
         this.raceGroupRepository = new RaceGroupRepository();
 
     }
@@ -25,7 +25,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         onSaveRaceGroupCallback = new IRaceGroupRepository.OnSaveRaceGroupCallback() {
             @Override
             public void onSuccess() {
-                raceFragment.addRaceGroupToList();
+                fragment.addRaceGroupToList();
             }
 
             @Override
@@ -37,7 +37,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         onGetAllRaceGroupsCallback = new IRaceGroupRepository.OnGetAllRaceGroupsCallback() {
             @Override
             public void onSuccess(RealmList<RaceGroup> raceGroups) {
-                raceFragment.showRaceGroups(raceGroups);
+                fragment.showRaceGroups(raceGroups);
             }
 
             @Override
@@ -48,7 +48,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         onUpdateRaceGroupCallBack = new IRaceGroupRepository.OnUpdateRaceGroupCallBack() {
             @Override
             public void onSuccess() {
-                raceFragment.addRaceGroupToList();
+                fragment.addRaceGroupToList();
             }
 
             @Override

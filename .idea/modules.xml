@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/RadioTour.iml" filepath="$PROJECT_DIR$/RadioTour.iml" />
+      <module fileurl="file://C:\SA\app\RadioTour.iml" filepath="C:\SA\app\RadioTour.iml" />
       <module fileurl="file://$PROJECT_DIR$/app.iml" filepath="$PROJECT_DIR$/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\SA\app\app\app.iml" filepath="C:\SA\app\app\app.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app-app.iml" filepath="$PROJECT_DIR$/app/app-app.iml" />
     </modules>
   </component>

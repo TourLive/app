@@ -12,7 +12,7 @@ android:
     - '.+'
   components:
   - tools
-  - build-tools-26.0.0
+  - build-tools-26.0.2
   - extra-android-m2repository
   - platform-tools
   - tools
