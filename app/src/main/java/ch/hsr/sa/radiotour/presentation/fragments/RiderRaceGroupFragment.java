@@ -14,17 +14,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
-import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
-import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderEditAdapter;
-import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
@@ -43,7 +35,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
-    private RealmList<Rider> unknownRiders;
+    private RealmList<Rider> unknownRiders = new RealmList<>();
 
     private RiderEditAdapter adapter;
     private LittleRaceGroupAdapter raceGroupAdapter;
@@ -194,7 +186,12 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 alertDialog.show(fm, "");
                 break;
             case R.id.txtUnknownRiders:
-                // Show as selected;
+                if (txtUnknownRiders.getBackground() == null) {
+                    txtUnknownRiders.setBackgroundResource(R.drawable.backgroup_shape_racetime);
+                } else {
+                    removeUnknownRiders();
+                }
+
             default:
                 break;
         }
@@ -206,8 +203,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
             adapter.resetSelectRiders();
         } else if (unknownRiders.size() != 0) {
             raceGroupPresenter.updateRaceGroupRiders(raceGroup, unknownRiders);
-            unknownRiders.clear();
-            txtUnknownRiders.setText("NOTHING");
+            removeUnknownRiders();
         }
         raceGroupAdapter.notifyItemChanged(position);
     }
@@ -221,8 +217,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
             adapter.resetSelectRiders();
         } else if (unknownRiders.size() != 0) {
             raceGroup.setRiders(unknownRiders);
-            unknownRiders.clear();
-            txtUnknownRiders.setText("NOTHING");
+            removeUnknownRiders();
         }
         raceGroupPresenter.addRaceGroup(raceGroup);
         raceGroupAdapter.notifyDataSetChanged();
@@ -243,5 +238,11 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
             unknownRiders.add(rider);
         }
         txtUnknownRiders.setText("" + count + " unknown Riders to add");
+    }
+
+    private void removeUnknownRiders() {
+        txtUnknownRiders.setBackgroundResource(0);
+        txtUnknownRiders.setText("EMPTY");
+        unknownRiders.clear();
     }
 }

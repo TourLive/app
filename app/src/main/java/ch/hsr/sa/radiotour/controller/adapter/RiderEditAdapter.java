@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
@@ -27,21 +28,10 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     private ArrayList<RiderViewHolder> holders;
 
     public RiderEditAdapter(RealmList<Rider> riders) {
-        this.riders = riders;
-        removeUnknownRiders();
+        this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.selectedRiders = new RealmList<>();
         this.selectedViews = new ArrayList<>();
         this.holders = new ArrayList<>();
-    }
-
-    private void removeUnknownRiders() {
-        Iterator<Rider> iterator = this.riders.iterator();
-        while(iterator.hasNext()) {
-            Rider r = iterator.next();
-            if (r.isUnknown()) {
-                iterator.remove();
-            }
-        }
     }
 
     @Override
