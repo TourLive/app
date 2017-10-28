@@ -146,7 +146,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
             rider.setCountry("swiss");
             rider.setName("rider" + i);
             rider.setTeamName("empty");
-            rider.setShortTeamName("emtpy");
+            rider.setTeamShortName("emtpy");
             RiderPresenter.getInstance().addRider(rider);
             riders.add(rider);
         }
