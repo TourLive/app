@@ -138,7 +138,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext());
+        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext(), this);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
@@ -177,6 +177,15 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 break;
             default:
                 break;
+        }
+    }
+
+    public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
+        if (adapter.getSelectedRiders().size() != 0) {
+            // Nur etwas machen, wenn auch Riders ausgewählt sind.
+            raceGroupPresenter.updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
+            raceGroupAdapter.notifyItemChanged(position);
+            adapter.resetSelectRiders();
         }
     }
 }

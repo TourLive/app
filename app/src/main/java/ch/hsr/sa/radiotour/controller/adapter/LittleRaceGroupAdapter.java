@@ -14,19 +14,22 @@ import java.util.Collections;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
 public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroupAdapter.LittleRaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
     private Context context;
+    private RiderRaceGroupFragment fragment;
 
     private static final int NORMALITEM = 0;
     private static final int FIRSTITEM = 1;
 
-    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context){
+    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, RiderRaceGroupFragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
+        this.fragment = fragment;
     }
 
     @Override
@@ -63,7 +66,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     }
 
 
-    public class LittleRaceGroupViewHolder extends RecyclerView.ViewHolder {
+    public class LittleRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView racegroupName;
         private TextView racegroupCount;
         private View layout_racegroup;
@@ -75,6 +78,12 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
             layout_addButton = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButton);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
+            layout_racegroup.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            fragment.onRaceGroupClicked(raceGroups.get(getAdapterPosition()), getAdapterPosition());
         }
     }
 }

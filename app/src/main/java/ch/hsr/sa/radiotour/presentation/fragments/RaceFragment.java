@@ -54,6 +54,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         Log.d("TAG", "RaceFragment - onCreateView");
         View root = inflater.inflate(R.layout.fragment_race, container, false);
         initComponents(root);
+        rvRider.setOnClickListener(this);
         return root;
     }
 
@@ -63,7 +64,6 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
         addDefaultData();
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
-        rvRider.setOnClickListener(this);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         button = (Button) root.findViewById(R.id.button);
