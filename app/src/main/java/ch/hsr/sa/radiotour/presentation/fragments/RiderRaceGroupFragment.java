@@ -67,6 +67,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
+        initButtons(root);
     }
 
     private void initButtons(View root) {

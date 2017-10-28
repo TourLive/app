@@ -44,6 +44,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
         drawable.setColor(getColorFromState(getRiderStateType(position)));
+        holders.add(holder);
     }
 
     public RiderStateType getRiderStateType(int position){
