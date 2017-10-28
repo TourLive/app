@@ -33,7 +33,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
 
-    private RiderListAdapter adapter;
+    private RiderEditAdapter adapter;
     private LittleRaceGroupAdapter raceGroupAdapter;
 
     private RecyclerView rvRider;
@@ -51,9 +51,9 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         RiderPresenter.getInstance().addView(this);
         raceGroupPresenter = new RaceGroupPresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
-        rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
+        rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
         rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
-        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
+        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
     }
 
@@ -88,10 +88,18 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void showRiders(RealmList<Rider> riders) {
         this.riders = riders;
-        adapter = new RiderListAdapter(riders);
-        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8);
+        adapter = new RiderEditAdapter(riders);
+        int rows = getFirstDigit(riders.get(riders.size() -1).getStartNr());
+        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
+    }
+
+    public int getFirstDigit(int number) {
+        if (number/10 == 0) {
+            return number;
+        }
+        return getFirstDigit(number/10);
     }
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {

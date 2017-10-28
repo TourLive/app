@@ -23,7 +23,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider_edit, parent, false);
         RiderViewHolder holder = new RiderViewHolder(view);
         context = parent.getContext();
         return holder;
@@ -32,8 +32,8 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
-        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
-        drawable.setColor(getColorFromState(getRiderStateType(position)));
+        //GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
+        //drawable.setColor(getColorFromState(getRiderStateType(position)));
     }
 
     public RiderStateType getRiderStateType(int position){
