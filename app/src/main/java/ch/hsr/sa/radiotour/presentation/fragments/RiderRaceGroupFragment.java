@@ -27,6 +27,7 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
@@ -182,9 +183,20 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
         if (adapter.getSelectedRiders().size() != 0) {
-            // Nur etwas machen, wenn auch Riders ausgewählt sind.
             raceGroupPresenter.updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
             raceGroupAdapter.notifyItemChanged(position);
+            adapter.resetSelectRiders();
+        }
+    }
+
+    public void onNewRaceGroupClicked(int position, RaceGroupType raceGroupType) {
+        if (adapter.getSelectedRiders().size() != 0) {
+            RaceGroup raceGroup = new RaceGroup();
+            raceGroup.setPosition(position);
+            raceGroup.setType(raceGroupType);
+            raceGroup.setRiders(adapter.getSelectedRiders());
+            raceGroupPresenter.addRaceGroup(raceGroup);
+            raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
         }
     }

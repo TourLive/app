@@ -14,6 +14,7 @@ import java.util.Collections;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
@@ -79,11 +80,24 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             layout_racegroup.setOnClickListener(this);
+            layout_addButton.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            fragment.onRaceGroupClicked(raceGroups.get(getAdapterPosition()), getAdapterPosition());
+            switch (view.getId()) {
+                case R.id.constraintLayout_RaceGroup:
+                    fragment.onRaceGroupClicked(raceGroups.get(getAdapterPosition()), getAdapterPosition());
+                    break;
+                case R.id.constraintLayout_AddButtonTop:
+                    //fragment.onNewRaceGroupClicked();
+                    break;
+
+                case R.id.constraintLayout_AddButton:
+                    int pos = raceGroups.get(getAdapterPosition()).getPosition() + 1;
+                    fragment.onNewRaceGroupClicked(pos, RaceGroupType.NORMAL);
+                    break;
+            }
         }
     }
 }
