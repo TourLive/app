@@ -22,6 +22,8 @@ public class Rider extends RealmObject {
     @Required
     private String teamShortName;
 
+    private boolean isUnknown = false;
+
     private RealmList<RiderStageConnection> riderStages;
 
     @LinkingObjects("riders")
@@ -96,5 +98,13 @@ public class Rider extends RealmObject {
 
     public void removeStages(){
         this.riderStages.clear();
+    }
+
+    public boolean isUnknown() {
+        return isUnknown;
+    }
+
+    public void setUnknown(boolean unknown) {
+        isUnknown = unknown;
     }
 }
