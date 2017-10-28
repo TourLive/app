@@ -26,6 +26,7 @@ public class RiderRepository implements IRiderRepository {
                 realmRider.setStartNr(transferRider.getStartNr());
                 realmRider.setTeamName(transferRider.getTeamName());
                 realmRider.setShortTeamName(transferRider.getTeamShortName());
+                realmRider.setUnknown(transferRider.isUnknown());
             }
         });
 

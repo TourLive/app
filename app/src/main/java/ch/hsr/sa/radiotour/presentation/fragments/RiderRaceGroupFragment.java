@@ -12,6 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +43,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
+    private RealmList<Rider> unknownRiders;
 
     private RiderEditAdapter adapter;
     private LittleRaceGroupAdapter raceGroupAdapter;
@@ -53,6 +57,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     private Button btnQuit;
     private Button btnDrop;
     private Button btnUnknownRiders;
+    private TextView txtUnknownRiders;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -80,12 +85,14 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         btnQuit = (Button) root.findViewById(R.id.btn_Quit);
         btnDrop = (Button) root.findViewById(R.id.btn_Drop);
         btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
+        txtUnknownRiders = (TextView) root.findViewById(R.id.txtUnknownRiders);
         btnDefect.setOnClickListener(this);
         btnDNC.setOnClickListener(this);
         btnDoctor.setOnClickListener(this);
         btnQuit.setOnClickListener(this);
         btnDrop.setOnClickListener(this);
         btnUnknownRiders.setOnClickListener(this);
+        txtUnknownRiders.setOnClickListener(this);
     }
 
     private void initRecyclerListener() {
@@ -186,6 +193,8 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 alertDialog.setTargetFragment(RiderRaceGroupFragment.this, 300);
                 alertDialog.show(fm, "");
                 break;
+            case R.id.txtUnknownRiders:
+                // Show as selected;
             default:
                 break;
         }
@@ -194,25 +203,45 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
         if (adapter.getSelectedRiders().size() != 0) {
             raceGroupPresenter.updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
-            raceGroupAdapter.notifyItemChanged(position);
             adapter.resetSelectRiders();
+        } else if (unknownRiders.size() != 0) {
+            raceGroupPresenter.updateRaceGroupRiders(raceGroup, unknownRiders);
+            unknownRiders.clear();
+            txtUnknownRiders.setText("NOTHING");
         }
+        raceGroupAdapter.notifyItemChanged(position);
     }
 
     public void onNewRaceGroupClicked(int position, RaceGroupType raceGroupType) {
+        RaceGroup raceGroup = new RaceGroup();
+        raceGroup.setPosition(position);
+        raceGroup.setType(raceGroupType);
         if (adapter.getSelectedRiders().size() != 0) {
-            RaceGroup raceGroup = new RaceGroup();
-            raceGroup.setPosition(position);
-            raceGroup.setType(raceGroupType);
             raceGroup.setRiders(adapter.getSelectedRiders());
-            raceGroupPresenter.addRaceGroup(raceGroup);
-            raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
+        } else if (unknownRiders.size() != 0) {
+            raceGroup.setRiders(unknownRiders);
+            unknownRiders.clear();
+            txtUnknownRiders.setText("NOTHING");
         }
+        raceGroupPresenter.addRaceGroup(raceGroup);
+        raceGroupAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onFinishAddingUnknownUser(int count) {
-        Log.d("TEST - ", "" + count);
+        unknownRiders = new RealmList<>();
+        for (int i = 0; i < count; i++) {
+            Rider rider = new Rider();
+            rider.setUnknown(true);
+            rider.setName("U" + i);
+            rider.setCountry("U");
+            rider.setShortTeamName("U");
+            rider.setTeamName("UNKNOWN");
+            rider.setStartNr(i + 900);
+            RiderPresenter.getInstance().addRider(rider);
+            unknownRiders.add(rider);
+        }
+        txtUnknownRiders.setText("" + count + " unknown Riders to add");
     }
 }

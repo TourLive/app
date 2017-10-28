@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -15,6 +16,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.internal.Collection;
 
 public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.RiderViewHolder> {
 
@@ -26,9 +28,20 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     public RiderEditAdapter(RealmList<Rider> riders) {
         this.riders = riders;
+        removeUnknownRiders();
         this.selectedRiders = new RealmList<>();
         this.selectedViews = new ArrayList<>();
         this.holders = new ArrayList<>();
+    }
+
+    private void removeUnknownRiders() {
+        Iterator<Rider> iterator = this.riders.iterator();
+        while(iterator.hasNext()) {
+            Rider r = iterator.next();
+            if (r.isUnknown()) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override
