@@ -15,8 +15,8 @@ import ch.hsr.sa.radiotour.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPageAdapter viewPageAdapter;
-    ViewPager viewPager;
+    public static ViewPageAdapter viewPageAdapter;
+    public static ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
