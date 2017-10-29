@@ -46,6 +46,19 @@ public class RiderRepository implements IRiderRepository {
     }
 
     @Override
+    public void removeRider(Rider rider, OnSaveRiderCallback callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        Rider foundRider = realm.where(Rider.class).equalTo("id",rider.getId()).findFirst();
+        foundRider.deleteFromRealm();
+        realm.commitTransaction();
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
+    }
+
+    @Override
     public RealmList<Rider> getAllRidersReturned() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Rider> results = realm.where(Rider.class).findAll();

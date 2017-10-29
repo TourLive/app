@@ -30,4 +30,6 @@ public interface IRiderRepository {
     void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStageCallback callback);
 
     void clearAllRiders();
+
+    void removeRider(Rider rider, OnSaveRiderCallback callback);
 }

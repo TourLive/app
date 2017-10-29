@@ -80,10 +80,12 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
 
         @Override
         public void onClick(View view) {
-            FragmentManager fm = fragment.getFragmentManager();
-            UnknownRiderTransferDialogFramgent alertDialog = UnknownRiderTransferDialogFramgent.newInstance();
-            alertDialog.setTargetFragment(fragment, 300);
-            alertDialog.show(fm, "");
+            if (riders.get(getAdapterPosition()).isUnknown()) {
+                FragmentManager fm = fragment.getFragmentManager();
+                UnknownRiderTransferDialogFramgent alertDialog = UnknownRiderTransferDialogFramgent.newInstance(riders.get(getAdapterPosition()));
+                alertDialog.setTargetFragment(fragment, 300);
+                alertDialog.show(fm, "");
+            }
         }
     }
 }
