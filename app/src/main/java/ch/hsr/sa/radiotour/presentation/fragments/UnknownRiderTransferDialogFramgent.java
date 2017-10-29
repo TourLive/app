@@ -7,23 +7,30 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import io.realm.RealmList;
 
 /**
  * Created by Urs Forrer on 29.10.2017.
  */
 
 public class UnknownRiderTransferDialogFramgent extends DialogFragment {
+    private TextView textView;
+    private Spinner spinner;
+    private RealmList<Rider> riders;
+
     public UnknownRiderTransferDialogFramgent() {
-
-    }
-
-    public interface UnknownUserAddListener {
-        void onFinishAddingUnknownUser(int count);
+        this.riders = RiderPresenter.getInstance().getAllRidersReturned();
     }
 
     public static UnknownRiderTransferDialogFramgent newInstance() {
@@ -37,7 +44,10 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_unknowntransfer, null);
         alertDialogBuilder.setView(dialogView);
-        final TextView textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
+        textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
+        spinner = (Spinner) dialogView.findViewById(R.id.riderSpinner);
+
+        addItemsToSpinner();
 
         alertDialogBuilder.setTitle("Change unknown rider to an known rider");
         alertDialogBuilder.setMessage("Please select the rider to which you want transfer the unknown rider to.");
@@ -56,5 +66,16 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         });
 
         return alertDialogBuilder.create();
+    }
+
+    private void addItemsToSpinner() {
+        List<String> list = new ArrayList<String>();
+        for (Rider r : riders) {
+            if (!r.isUnknown()) {
+                list.add("" + r.getStartNr() + " " + r.getCountry() + " " + r.getName());
+            }
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+        spinner.setAdapter(dataAdapter);
     }
 }
