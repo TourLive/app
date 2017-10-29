@@ -214,13 +214,15 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         raceGroup.setType(raceGroupType);
         if (adapter.getSelectedRiders().size() != 0) {
             raceGroup.setRiders(adapter.getSelectedRiders());
+            raceGroupPresenter.addRaceGroup(raceGroup);
+            raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
         } else if (unknownRiders.size() != 0) {
             raceGroup.setRiders(unknownRiders);
+            raceGroupPresenter.addRaceGroup(raceGroup);
+            raceGroupAdapter.notifyDataSetChanged();
             removeUnknownRiders();
         }
-        raceGroupPresenter.addRaceGroup(raceGroup);
-        raceGroupAdapter.notifyDataSetChanged();
     }
 
     @Override
