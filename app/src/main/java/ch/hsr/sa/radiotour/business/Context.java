@@ -44,4 +44,14 @@ public final class Context {
         JudgmentPresenter judgmentPresenter = new JudgmentPresenter();
         judgmentPresenter.clearAllJudgments();
     }
+
+    public static void addReward(Reward reward){
+        RewardPresenter rewardPresenter = new RewardPresenter();
+        rewardPresenter.addReward(reward);
+    }
+
+    public static void deleteRewards(){
+        RewardPresenter rewardPresenter = new RewardPresenter();
+        rewardPresenter.clearAllRewards();
+    }
 }
