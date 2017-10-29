@@ -72,15 +72,21 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
         private TextView racegroupCount;
         private View layout_racegroup;
         private View layout_addButton;
+        private View layout_addButtonTop;
 
         public LittleRaceGroupViewHolder(View itemView) {
             super(itemView);
             layout_racegroup = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_RaceGroup);
             layout_addButton = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButton);
+            layout_addButtonTop = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButtonTop);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             layout_racegroup.setOnClickListener(this);
             layout_addButton.setOnClickListener(this);
+            if (layout_addButtonTop != null) {
+                layout_addButtonTop.setOnClickListener(this);
+            }
+
         }
 
         @Override
@@ -90,7 +96,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
                     fragment.onRaceGroupClicked(raceGroups.get(getAdapterPosition()), getAdapterPosition());
                     break;
                 case R.id.constraintLayout_AddButtonTop:
-                    //fragment.onNewRaceGroupClicked();
+                    fragment.onNewRaceGroupClicked(0, RaceGroupType.LEAD);
                     break;
 
                 case R.id.constraintLayout_AddButton:

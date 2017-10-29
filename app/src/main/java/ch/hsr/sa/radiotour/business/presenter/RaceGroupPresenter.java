@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.app.Fragment;
+
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;

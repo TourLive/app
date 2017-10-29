@@ -116,7 +116,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
@@ -167,6 +167,21 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
             test.add(riders.get(i * 5 + 2));
             test.add(riders.get(i * 5 + 3));
             test.add(riders.get(i * 5 + 4));
+            if (i == 4) {
+                RealmList<Rider> unknownRiders = new RealmList<>();
+                for (int u = 1; u < 15; u++) {
+                    Rider rider = new Rider();
+                    rider.setUnknown(true);
+                    rider.setName("U" + u);
+                    rider.setCountry("U");
+                    rider.setTeamShortName("U");
+                    rider.setTeamName("UNKNOWN");
+                    rider.setStartNr(u + 900);
+                    RiderPresenter.getInstance().addRider(rider);
+                    unknownRiders.add(rider);
+                }
+                test.addAll(unknownRiders);
+            }
             raceGroup.setRiders(test);
             raceGroupPresenter.addInitialRaceGroup(raceGroup);
         }
@@ -195,6 +210,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
             test.clear();
 
         }
+
 
     }
 

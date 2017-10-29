@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
@@ -18,7 +19,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     private android.content.Context context;
 
     public RiderListAdapter(RealmList<Rider> riders) {
-        this.riders = riders;
+        this.riders = AdapterUtilitis.removeUnknownRiders(riders);
     }
 
     @Override
@@ -34,6 +35,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
         drawable.setColor(getColorFromState(getRiderStateType(position)));
+
     }
 
     public RiderStateType getRiderStateType(int position){

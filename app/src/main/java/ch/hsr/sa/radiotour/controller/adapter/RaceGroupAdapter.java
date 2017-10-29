@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.constraint.ConstraintLayout;
@@ -31,17 +32,19 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
+    private Fragment fragment;
 
     private static final int NORMALITEM = 0;
     private static final int LASTITEM = 1;
     private OnStartDragListener onStartDragListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener, Fragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
         this.raceGroupPresenter = raceGroupPresenter;
         this.onStartDragListener = onStartDragListener;
+        this.fragment = fragment;
     }
 
     @Override
@@ -65,7 +68,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
         holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
         if (raceGroups.get(position).getType() != RaceGroupType.FELD) {
-            RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders());
+            RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders(), fragment);
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
         }
