@@ -63,7 +63,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realmRaceGroup.setActualGapTime(0);
         realmRaceGroup.setHistoryGapTime(0);
         realmRaceGroup.setPosition(raceGroup.getPosition());
-        realmRaceGroup.setRiders(raceGroup.getRiders());
+        RealmList<Rider> res = new RealmList<>();
+        for (Rider r : raceGroup.getRiders()) {
+            RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
+            res.addAll(temp);
+        }
+        realmRaceGroup.setRiders(res);
 
 
         realm.commitTransaction();
