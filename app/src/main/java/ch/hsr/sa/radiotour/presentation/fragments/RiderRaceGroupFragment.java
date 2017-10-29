@@ -29,7 +29,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownUserDialogFragment.UnknownUserAddListener {
+public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
     private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
@@ -181,7 +181,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
                 break;
             case R.id.btn_UnkownRiders:
                 FragmentManager fm = getFragmentManager();
-                UnknownUserDialogFragment alertDialog = UnknownUserDialogFragment.newInstance();
+                UnknownRiderDialogFragment alertDialog = UnknownRiderDialogFragment.newInstance();
                 alertDialog.setTargetFragment(RiderRaceGroupFragment.this, 300);
                 alertDialog.show(fm, "");
                 break;

@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -18,8 +17,8 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
  * Created by Urs Forrer on 28.10.2017.
  */
 
-public class UnknownUserDialogFragment extends DialogFragment {
-    public UnknownUserDialogFragment() {
+public class UnknownRiderDialogFragment extends DialogFragment {
+    public UnknownRiderDialogFragment() {
 
     }
 
@@ -27,8 +26,8 @@ public class UnknownUserDialogFragment extends DialogFragment {
         void onFinishAddingUnknownUser(int count);
     }
 
-    public static UnknownUserDialogFragment newInstance() {
-        UnknownUserDialogFragment frag = new UnknownUserDialogFragment();
+    public static UnknownRiderDialogFragment newInstance() {
+        UnknownRiderDialogFragment frag = new UnknownRiderDialogFragment();
         return frag;
     }
 
@@ -36,11 +35,11 @@ public class UnknownUserDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View dialogView = inflater.inflate(R.layout.dialog_unknownuser, null);
+        View dialogView = inflater.inflate(R.layout.dialog_unknownrider, null);
         alertDialogBuilder.setView(dialogView);
 
         final SeekBar seekBar = (SeekBar) dialogView.findViewById(R.id.countUnknownRiders);
-        final TextView textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownUser);
+        final TextView textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

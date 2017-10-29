@@ -116,7 +116,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
