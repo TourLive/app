@@ -4,6 +4,7 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IJudgmentPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRepository;
+import io.realm.RealmList;
 
 
 public class JudgmentPresenter implements IJudgmentPresenter {
@@ -38,6 +39,11 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     @Override
     public void addJudgment(Judgement judgement) {
         judgmentRepository.addJudgment(judgement, onSaveJudgmentCallback);
+    }
+
+    @Override
+    public RealmList<Judgement> getJudgmentsById(int judgmentId){
+        return judgmentRepository.getJudgmentsById(judgmentId);
     }
 
     @Override

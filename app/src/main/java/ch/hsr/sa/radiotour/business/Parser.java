@@ -130,6 +130,8 @@ public final class Parser {
                         reward.setPoints(bonusList);
 
                         reward.setRewardId(jsonReward.getInt("id"));
+
+                        reward.setRewardJudgements(Context.getJudgmentsById(reward.getRewardId()));
                         Context.addReward(reward);
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -137,8 +139,8 @@ public final class Parser {
                 }
             }
         };
-        Thread threadJudgments = new Thread(runnable);
-        threadJudgments.start();
+        Thread threadRewards = new Thread(runnable);
+        threadRewards.start();
     }
 
 
