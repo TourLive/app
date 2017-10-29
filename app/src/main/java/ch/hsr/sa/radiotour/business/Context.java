@@ -54,4 +54,9 @@ public final class Context {
         RewardPresenter rewardPresenter = new RewardPresenter();
         rewardPresenter.clearAllRewards();
     }
+
+    public static RealmList<Judgement> getJudgmentsById(int judgmentId){
+        JudgmentPresenter judgmentPresenter = new JudgmentPresenter();
+        return judgmentPresenter.getJudgmentsById(judgmentId);
+    }
 }
