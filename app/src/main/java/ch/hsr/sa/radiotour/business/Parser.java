@@ -96,6 +96,7 @@ public final class Parser {
         };
         Thread threadJudgments = new Thread(runnable);
         threadJudgments.start();
+        threadJudgments.join();
     }
 
     public static void parseRewardsAndPersist(JSONArray rewards) throws JSONException, InterruptedException {
@@ -141,6 +142,7 @@ public final class Parser {
         };
         Thread threadRewards = new Thread(runnable);
         threadRewards.start();
+        threadRewards.join();
     }
 
 
