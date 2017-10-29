@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
+
 import ch.hsr.sa.radiotour.business.Context;
 import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
@@ -36,6 +38,7 @@ public final class APIClient {
         clearDatabase();
         getRiders(UrlLink.RIDERS, null);
         getJudgments(UrlLink.JUDGEMENTS, null);
+        getRewards(UrlLink.JUDGEMENTS, null);
     }
 
     public static void clearDatabase(){
@@ -46,7 +49,6 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // If the response is JSONObject instead of expected JSONArray
                 try{
                     Parser.parseRidersAndPersist(data.getJSONArray("data"));
                 } catch (JSONException ex){
@@ -72,9 +74,33 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // If the response is JSONObject instead of expected JSONArray
                 try{
                     Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"));
+                } catch (JSONException ex){
+                    Log.d("error", ex.getMessage());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
+
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                Log.d("failure", throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getRewards(String url, RequestParams params) throws JSONException{
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    Parser.parseRewardsAndPersist(data.getJSONObject("data").getJSONArray("rewards"));
                 } catch (JSONException ex){
                     Log.d("error", ex.getMessage());
                 } catch (InterruptedException e) {
