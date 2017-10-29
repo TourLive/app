@@ -26,6 +26,7 @@ public class RiderRepository implements IRiderRepository {
                 realmRider.setStartNr(transferRider.getStartNr());
                 realmRider.setTeamName(transferRider.getTeamName());
                 realmRider.setTeamShortName(transferRider.getTeamShortName());
+                realmRider.setUnknown(transferRider.isUnknown());
             }
         });
 
@@ -42,6 +43,19 @@ public class RiderRepository implements IRiderRepository {
 
         if (callback != null)
             callback.onSuccess(res);
+    }
+
+    @Override
+    public void removeRider(Rider rider, OnSaveRiderCallback callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        Rider foundRider = realm.where(Rider.class).equalTo("id",rider.getId()).findFirst();
+        foundRider.deleteFromRealm();
+        realm.commitTransaction();
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
     }
 
     @Override

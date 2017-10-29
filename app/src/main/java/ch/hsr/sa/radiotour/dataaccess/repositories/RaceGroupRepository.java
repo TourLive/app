@@ -47,6 +47,9 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", raceGroup.getPosition()).findAllSorted("position");
         for (RaceGroup rG : rGtoUpdate) {
             rG.setPosition(rG.getPosition() + 1);
+            if (rG.getType() == RaceGroupType.LEAD) {
+                rG.setType(RaceGroupType.NORMAL);
+            }
         }
 
         for (Rider r : raceGroup.getRiders()) {
@@ -63,7 +66,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realmRaceGroup.setActualGapTime(0);
         realmRaceGroup.setHistoryGapTime(0);
         realmRaceGroup.setPosition(raceGroup.getPosition());
-        realmRaceGroup.setRiders(raceGroup.getRiders());
+        RealmList<Rider> res = new RealmList<>();
+        for (Rider r : raceGroup.getRiders()) {
+            RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
+            res.addAll(temp);
+        }
+        realmRaceGroup.setRiders(res);
 
 
         realm.commitTransaction();
