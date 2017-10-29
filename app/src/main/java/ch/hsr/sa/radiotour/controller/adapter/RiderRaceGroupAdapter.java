@@ -1,7 +1,10 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.ClipData;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,15 +13,20 @@ import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderDialogFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
 public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupAdapter.RiderRaceGroupViewHolder>{
     private RealmList<Rider> riders;
     private RealmList<Rider> selectedRider;
+    private Fragment fragment;
 
-    public RiderRaceGroupAdapter(RealmList<Rider> riders){
+    public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment){
         this.riders = riders;
         this.selectedRider = new RealmList<>();
+        this.fragment = fragment;
     }
 
     @Override
@@ -38,7 +46,7 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
         return riders.size();
     }
 
-    public class RiderRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnDragListener {
+    public class RiderRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnDragListener, View.OnClickListener {
         private TextView racegroupRiderName;
         private TextView racegroupRiderStartNr;
 
@@ -48,6 +56,7 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
             racegroupRiderStartNr = (TextView) itemView.findViewById(R.id.racegroup_rider_startnr);
             itemView.setOnLongClickListener(this);
             itemView.setOnDragListener(this);
+            itemView.setOnClickListener(this);
         }
 
 
@@ -67,6 +76,14 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
                 selectedRider.clear();
             }
             return true;
+        }
+
+        @Override
+        public void onClick(View view) {
+            FragmentManager fm = fragment.getFragmentManager();
+            UnknownRiderTransferDialogFramgent alertDialog = UnknownRiderTransferDialogFramgent.newInstance();
+            alertDialog.setTargetFragment(fragment, 300);
+            alertDialog.show(fm, "");
         }
     }
 }
