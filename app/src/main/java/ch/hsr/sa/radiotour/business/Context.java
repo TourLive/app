@@ -47,12 +47,12 @@ public final class Context {
     }
 
     public static void addReward(Reward reward){
-        RewardPresenter rewardPresenter = new RewardPresenter();
+        RewardPresenter rewardPresenter = RewardPresenter.getInstance();
         rewardPresenter.addReward(reward);
     }
 
     public static void deleteRewards(){
-        RewardPresenter rewardPresenter = new RewardPresenter();
+        RewardPresenter rewardPresenter = RewardPresenter.getInstance();
         rewardPresenter.clearAllRewards();
     }
 
