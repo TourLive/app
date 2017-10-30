@@ -39,6 +39,7 @@ public final class APIClient {
         getRiders(UrlLink.RIDERS, null);
         getJudgments(UrlLink.JUDGEMENTS, null);
         getRewards(UrlLink.JUDGEMENTS, null);
+        getStages(UrlLink.STAGES, null);
     }
 
     public static void clearDatabase(){
@@ -110,6 +111,33 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
+
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                Log.d("failure", throwable.getMessage());
+            }
+        });
+    }
+
+    public static void getStages(String url, RequestParams params) throws JSONException{
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
+                try{
+                    Parser.parseStagesAndPersist(stages);
+
+                } catch (JSONException ex){
+                    Log.d("error", ex.getMessage());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
             }
 
