@@ -60,18 +60,19 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback) {
+    public void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, final  RiderStageConnection oldRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("id", newRiderStageConnection.getId()).findFirst();
+                RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("id", oldRiderStageConnection.getId()).findFirst();
                 res.setBonusPoint(newRiderStageConnection.getBonusPoint());
                 res.setBonusTime(newRiderStageConnection.getBonusTime());
                 res.setVirtualGap(newRiderStageConnection.getVirtualGap());
                 res.setOfficialGap(newRiderStageConnection.getOfficialGap());
                 res.setOfficialTime(newRiderStageConnection.getOfficialTime());
                 res.setRank(newRiderStageConnection.getRank());
+                res.setType(newRiderStageConnection.getType());
             }
         });
     }
