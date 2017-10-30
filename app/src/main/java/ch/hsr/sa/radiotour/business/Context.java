@@ -8,6 +8,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRepository;
 import io.realm.RealmList;
 
 public final class Context {
@@ -36,12 +37,12 @@ public final class Context {
     }
 
     public static void addJudgment(Judgement judgment){
-        JudgmentPresenter judgmentPresenter = new JudgmentPresenter();
+        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
         judgmentPresenter.addJudgment(judgment);
     }
 
     public static void deleteJudgments(){
-        JudgmentPresenter judgmentPresenter = new JudgmentPresenter();
+        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
         judgmentPresenter.clearAllJudgments();
     }
 
@@ -56,7 +57,7 @@ public final class Context {
     }
 
     public static RealmList<Judgement> getJudgmentsById(int judgmentId){
-        JudgmentPresenter judgmentPresenter = new JudgmentPresenter();
+        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
         return judgmentPresenter.getJudgmentsById(judgmentId);
     }
 }
