@@ -1,16 +1,30 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.support.v4.app.Fragment;
+
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRewardPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RewardRepository;
 
 public class RewardPresenter implements IRewardPresenter {
-    private IRewardRepository.OnSaveRewardCallback onSaveRewardCallback;
-    private IRewardRepository rewardRepository;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private static RewardPresenter instance = null;
 
-    public RewardPresenter(){
-        this.rewardRepository = new RewardRepository();
+    private IRewardRepository.OnSaveRewardCallback onSaveRewardCallback;
+    private RewardRepository rewardRepository = new RewardRepository();
+
+    public static RewardPresenter getInstance() {
+        if(instance == null){
+            instance = new RewardPresenter();
+        }
+        return instance;
+    }
+
+    public void addView(Fragment frag){
+        this.fragments.add(frag);
     }
 
 
@@ -19,7 +33,9 @@ public class RewardPresenter implements IRewardPresenter {
         onSaveRewardCallback = new IRewardRepository.OnSaveRewardCallback() {
             @Override
             public void onSuccess() {
-
+                for(Fragment frag : fragments){
+                    // call specifc update function for each fragment type
+                }
             }
 
             @Override
