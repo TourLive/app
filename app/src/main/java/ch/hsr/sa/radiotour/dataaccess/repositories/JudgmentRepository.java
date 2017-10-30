@@ -5,8 +5,9 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
-import ch.hsr.sa.radiotour.dataaccess.models.SpecialRanking;
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 
 public class JudgmentRepository implements IJudgmentRepository {
@@ -27,6 +28,21 @@ public class JudgmentRepository implements IJudgmentRepository {
 
         if (callback != null)
             callback.onSuccess();
+    }
+
+    @Override
+    public RealmList<Judgement> getJudgmentsById(final int judgmentId){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmList<Judgement> results = new RealmList<>();
+        RealmResults<Judgement> judgments = realm.where(Judgement.class).findAll();
+
+        for(Judgement j : judgments){
+            if(j.getRewardId() == judgmentId){
+                results.add(j);
+            }
+        }
+
+        return results;
     }
 
     @Override
