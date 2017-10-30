@@ -68,6 +68,15 @@ public class RiderRepository implements IRiderRepository {
     }
 
     @Override
+    public RealmList<Rider> getAllUnknownRidersReturned() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Rider> results = realm.where(Rider.class).equalTo("isUnknown", true).findAll().sort("startNr");
+        RealmList<Rider> res = new RealmList<>();
+        res.addAll(results);
+        return res;
+    }
+
+    @Override
     public void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStageCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
