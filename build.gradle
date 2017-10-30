@@ -3,9 +3,7 @@
 buildscript {
     repositories {
         jcenter()
-        maven {
-            url "https://maven.google.com"
-        }
+        google()
         maven {
             url "https://jitpack.io"
         }
@@ -19,9 +17,7 @@ buildscript {
     }
 }
 
-plugins {
-    id "org.sonarqube" version "2.5"
-}
+apply plugin: 'org.sonarqube'
 
 allprojects {
     repositories {
