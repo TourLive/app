@@ -63,7 +63,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         raceGroupPresenter = new RaceGroupPresenter(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
         // Lädt bei jedem Mal immer wieder die Default Daten.
-        addDefaultData();
+        //addDefaultData();
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);

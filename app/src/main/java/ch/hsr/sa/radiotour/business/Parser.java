@@ -4,14 +4,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Time;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
+import ch.hsr.sa.radiotour.dataaccess.models.RewardRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.models.StageType;
 import io.realm.RealmList;
@@ -25,6 +32,7 @@ public final class Parser {
     private static String teamShort = "teamShort";
 
     public static void deleteData(){
+        Context.deleteAllRiderStageConnections();
         Context.deleteRiders();
         Context.deleteRaceGroups();
         Context.deleteJudgments();
@@ -39,13 +47,38 @@ public final class Parser {
                 for (int i = 0; i < ridersJson.length(); i++) {
                     try {
                         JSONObject jsonRider = ridersJson.getJSONObject(i);
+
                         Rider rider = new Rider();
                         rider.setStartNr(jsonRider.getInt(startNr));
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
-                        Context.addRider(rider);
+                        synchronized (this){
+                            Context.addRider(rider);
+                        }
+
+                        RiderStageConnection riderStageConnection = new RiderStageConnection();
+                        riderStageConnection.setBonusPoint(0);
+                        riderStageConnection.setBonusTime(0);
+                        riderStageConnection.setOfficialGap(new Date(jsonRider.getLong("timeRueckLong")));
+                        riderStageConnection.setOfficialTime(new Date(jsonRider.getLong("timeOffLong")));
+                        riderStageConnection.setVirtualGap(new Date(jsonRider.getLong("timeVirtLong")));
+                        riderStageConnection.setRank(i+1);
+                        String state = jsonRider.getString("active");
+                        if(state.equals("true")){
+                            riderStageConnection.setType(RiderStateType.AKTIVE);
+                        } else {
+                            riderStageConnection.setType(RiderStateType.DNC);
+                        }
+                        synchronized (this){
+                            Context.addRiderStageConnection(riderStageConnection);
+                        }
+                        RealmList<RiderStageConnection> riderStageConnections = new RealmList<RiderStageConnection>();
+                        riderStageConnections.add(Context.getRiderStageConnectionByRank(i+1));
+
+                        Context.updateRiderStageConnection(rider, riderStageConnections);
+
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -154,9 +187,8 @@ public final class Parser {
         final JSONArray stagesJson = stages;
         Runnable runnable = new Runnable() {
             public void run() {
-                for (int i = 0; i < stagesJson.length(); i++) {
                     try {
-                        JSONObject jsonStage = stagesJson.getJSONObject(i);
+                        JSONObject jsonStage = stagesJson.getJSONObject(stagesJson.length() - 1);
                         Stage stage = new Stage();
                         stage.setStageId(jsonStage.getInt("stageId"));
                         stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));
@@ -166,12 +198,12 @@ public final class Parser {
                         stage.setStartTime(new Date(jsonStage.getLong("starttimeAsTimestamp")));
                         stage.setEndTime(new Date(jsonStage.getLong("endtimeAsTimestamp")));
                         stage.setDistance(jsonStage.getInt("distance"));
-
+                        stage.setStageConnections(Context.getAllRiderStageConnections());
                         Context.addStage(stage);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                }
+
             }
         };
         Thread threadRewards = new Thread(runnable);
