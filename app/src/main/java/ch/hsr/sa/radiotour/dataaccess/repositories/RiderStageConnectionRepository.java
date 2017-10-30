@@ -103,4 +103,13 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         realm.commitTransaction();
         return res;
     }
+
+    @Override
+    public RealmList<RiderStageConnection> getAllRiderStateConnections(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<RiderStageConnection> res = realm.where(RiderStageConnection.class).findAll();
+        RealmList<RiderStageConnection> resList = new RealmList<>();
+        resList.addAll(res);
+        return resList;
+    }
 }
