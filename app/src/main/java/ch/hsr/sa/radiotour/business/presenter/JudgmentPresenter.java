@@ -1,5 +1,9 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.support.v4.app.Fragment;
+
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IJudgmentPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
@@ -8,19 +12,32 @@ import io.realm.RealmList;
 
 
 public class JudgmentPresenter implements IJudgmentPresenter {
-    private IJudgmentRepository.OnSaveJudgmentCallback onSaveJudgmentCallback;
-    private IJudgmentRepository judgmentRepository;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private static JudgmentPresenter instance = null;
+    private JudgmentRepository judgmentRepository = new JudgmentRepository();
 
-    public JudgmentPresenter(){
-        this.judgmentRepository = new JudgmentRepository();
+    private IJudgmentRepository.OnSaveJudgmentCallback onSaveJudgmentCallback;
+
+    public static JudgmentPresenter getInstance() {
+        if(instance == null){
+            instance = new JudgmentPresenter();
+        }
+        return instance;
     }
+
+    public void addView(Fragment frag){
+        this.fragments.add(frag);
+    }
+
 
     @Override
     public void subscribeCallbacks() {
         onSaveJudgmentCallback = new IJudgmentRepository.OnSaveJudgmentCallback() {
             @Override
             public void onSuccess() {
-
+                for(Fragment frag : fragments){
+                    // call specifc update function for each fragment type
+                }
             }
 
             @Override
