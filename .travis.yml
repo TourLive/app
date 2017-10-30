@@ -47,7 +47,7 @@ before_script:
   - android-wait-for-emulator
   - adb shell input keyevent 82 &  
 script:
-- "./gradlew build assembleRelease"
+- ./gradlew build assembleRelease
 - ./gradlew connectedAndroidTest
 - ./gradlew sonarqube
 before_cache:
@@ -61,6 +61,8 @@ cache:
   - '.gradle'
 after_success:
 - sh set_tags.sh
+before_deploy:
+- cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
 deploy:
   provider: releases
   api_key:
