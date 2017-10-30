@@ -4,12 +4,16 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
+
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.Stage;
+import ch.hsr.sa.radiotour.dataaccess.models.StageType;
 import io.realm.RealmList;
 
 public final class Parser {
@@ -25,6 +29,7 @@ public final class Parser {
         Context.deleteRaceGroups();
         Context.deleteJudgments();
         Context.deleteRewards();
+        Context.deleteStages();
     }
 
     public static void parseRidersAndPersist(JSONArray riders) throws JSONException, InterruptedException {
@@ -134,6 +139,34 @@ public final class Parser {
 
                         reward.setRewardJudgements(Context.getJudgmentsById(reward.getRewardId()));
                         Context.addReward(reward);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        Thread threadRewards = new Thread(runnable);
+        threadRewards.start();
+        threadRewards.join();
+    }
+
+    public static void parseStagesAndPersist(JSONArray stages) throws JSONException, InterruptedException {
+        final JSONArray stagesJson = stages;
+        Runnable runnable = new Runnable() {
+            public void run() {
+                for (int i = 0; i < stagesJson.length(); i++) {
+                    try {
+                        JSONObject jsonStage = stagesJson.getJSONObject(i);
+                        Stage stage = new Stage();
+                        stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));
+                        stage.setName(jsonStage.getString("stageName"));
+                        stage.setTo(jsonStage.getString("to"));
+                        stage.setFrom(jsonStage.getString("from"));
+                        stage.setStartTime(new Date(jsonStage.getLong("starttimeAsTimestamp")));
+                        stage.setEndTime(new Date(jsonStage.getLong("endtimeAsTimestamp")));
+                        stage.setDistance(jsonStage.getInt("distance"));
+
+                        Context.addStage(stage);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

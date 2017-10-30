@@ -4,10 +4,12 @@ import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRepository;
 import io.realm.RealmList;
 
@@ -59,5 +61,15 @@ public final class Context {
     public static RealmList<Judgement> getJudgmentsById(int judgmentId){
         JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
         return judgmentPresenter.getJudgmentsById(judgmentId);
+    }
+
+    public static void addStage(Stage stage){
+        StagePresenter stagePresenter = StagePresenter.getInstance();
+        stagePresenter.addStage(stage);
+    }
+
+    public static void deleteStages(){
+        StagePresenter stagePresenter = StagePresenter.getInstance();
+        stagePresenter.clearAllStages();
     }
 }
