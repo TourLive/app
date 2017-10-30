@@ -10,6 +10,7 @@ import io.realm.annotations.Required;
 public class Stage extends RealmObject {
     @PrimaryKey
     private String id;
+    private int stageId;
     @Required
     private String name;
     @Required
@@ -25,6 +26,14 @@ public class Stage extends RealmObject {
     private String to;
 
     private RealmList<RiderStageConnection> stageConnections;
+
+    public int getStageId() {
+        return stageId;
+    }
+
+    public void setStageId(int stageId) {
+        this.stageId = stageId;
+    }
 
     public String getName() {
         return name;

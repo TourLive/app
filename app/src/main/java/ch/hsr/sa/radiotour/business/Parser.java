@@ -158,6 +158,7 @@ public final class Parser {
                     try {
                         JSONObject jsonStage = stagesJson.getJSONObject(i);
                         Stage stage = new Stage();
+                        stage.setStageId(jsonStage.getInt("stageId"));
                         stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));
                         stage.setName(jsonStage.getString("stageName"));
                         stage.setTo(jsonStage.getString("to"));
