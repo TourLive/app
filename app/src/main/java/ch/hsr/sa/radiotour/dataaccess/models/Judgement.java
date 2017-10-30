@@ -20,13 +20,6 @@ public class Judgement extends RealmObject {
     @LinkingObjects("rewardJudgements")
     private final RealmResults<Reward> rewards = null;
 
-    @LinkingObjects("specialRankingJudgements")
-    private final RealmResults<SpecialRanking> specialRankings = null;
-
-    public SpecialRanking getSpecialRankings(){
-        return this.specialRankings.first();
-    }
-
     public Reward getRewards() { return this.rewards.first(); }
 
     public String getName() {
