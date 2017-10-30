@@ -230,6 +230,42 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(RiderStateType.AKTIVE, endRes.getType());
     }
 
+    @Test
+    public void updateRiderState() {
+        Date date = new Date();
+        RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
+        RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setBonusPoint(10);
+        riderStageConnection.setBonusTime(20);
+        riderStageConnection.setOfficialGap(date);
+        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setRank(1);
+        riderStageConnection.setType(RiderStateType.DNC);
+        riderStageConnection.setVirtualGap(date);
+
+        synchronized (this) {
+            riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
+        }
+
+        initalRider();
+
+        Rider rider = realm.where(Rider.class).findAll().first();
+        RiderStageConnection stageConnection = realm.where(RiderStageConnection.class).findAll().first();
+        riderStageConnections.add(stageConnection);
+
+        synchronized (this) {
+            riderRepository.updateRiderStageConnection(rider, riderStageConnections, onUpdateRiderStageCallback);
+        }
+
+        synchronized (this) {
+            riderStageConnectionRepository.updateRiderState(RiderStateType.DROP, rider, onUpdateRiderStateCallBack);
+        }
+
+        RiderStageConnection res = riderStageConnectionRepository.getRiderByRank(1);
+
+        assertEquals(RiderStateType.DROP, res.getType());
+    }
+
     private void initalRider() {
         Rider rider = new Rider();
         rider.setTeamShortName("T");
