@@ -94,8 +94,8 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection) {
-        riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, onUpdateRiderStageConnectionCallBack);
+    public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection) {
+        riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, oldRiderStageConnection, onUpdateRiderStageConnectionCallBack);
     }
 
     @Override

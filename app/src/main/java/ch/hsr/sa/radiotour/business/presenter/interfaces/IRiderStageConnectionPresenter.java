@@ -7,7 +7,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void addRiderStageConnection(RiderStageConnection riderStageConnection);
     void getRiderStageConnections();
-    void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection);
+    void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
     void deleteRiderStageConnection();
     void updateRiderState(final RiderStateType type, final Rider rider);
     void clearAllRiderStageConnection();
