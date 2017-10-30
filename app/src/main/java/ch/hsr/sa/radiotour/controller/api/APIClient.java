@@ -19,6 +19,7 @@ import cz.msebera.android.httpclient.Header;
 
 public final class APIClient {
     private static final String BASE_URL = "https://tlng.cnlab.ch/";
+    private static String RACE_ID = "";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -36,14 +37,43 @@ public final class APIClient {
 
     public static void importData() throws JSONException{
         clearDatabase();
+        getActualRaceId(UrlLink.GLOBALSETTINGS, null);
+    }
+
+    public static void fillData() throws JSONException{
         getRiders(UrlLink.RIDERS, null);
-        getJudgments(UrlLink.JUDGEMENTS, null);
+        getJudgments((UrlLink.JUDGEMENTS + RACE_ID), null);
         getRewards(UrlLink.JUDGEMENTS, null);
-        getStages(UrlLink.STAGES, null);
+        getStages((UrlLink.STAGES + RACE_ID), null);
     }
 
     public static void clearDatabase(){
         Parser.deleteData();
+    }
+
+    public static void getActualRaceId(String url, RequestParams params) throws JSONException {
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
+                try{
+                    RACE_ID = settings.getJSONObject(1).getString("parameter");
+                    fillData();
+                } catch (JSONException ex){
+                    Log.d("error", ex.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                Log.d("failure", throwable.getMessage());
+            }
+        });
+
     }
 
     public static void getRiders(String url, RequestParams params) throws JSONException{
