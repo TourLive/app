@@ -22,6 +22,7 @@ public class RewardRepository implements IRewardRepository {
                 realmReward.setPoints(transferReward.getPoints());
                 realmReward.setRewardId(transferReward.getRewardId());
                 realmReward.setType(transferReward.getType());
+                realmReward.setRewardJudgements(transferReward.getRewardJudgements());
             }
         });
 

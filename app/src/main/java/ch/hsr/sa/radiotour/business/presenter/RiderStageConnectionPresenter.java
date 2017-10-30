@@ -117,4 +117,10 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     public RiderStageConnection getRiderByRank(final int rank) {
         return riderStageConnectionRepository.getRiderByRank(rank);
     }
+
+    @Override
+    public RealmList<RiderStageConnection> getAllRiderStateConnections(){
+        return riderStageConnectionRepository.getAllRiderStateConnections();
+    }
+
 }
