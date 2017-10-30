@@ -12,9 +12,9 @@ import ch.hsr.sa.radiotour.dataaccess.repositories.RewardRepository;
 public class RewardPresenter implements IRewardPresenter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
     private static RewardPresenter instance = null;
+    private RewardRepository rewardRepository = new RewardRepository();
 
     private IRewardRepository.OnSaveRewardCallback onSaveRewardCallback;
-    private RewardRepository rewardRepository = new RewardRepository();
 
     public static RewardPresenter getInstance() {
         if(instance == null){
