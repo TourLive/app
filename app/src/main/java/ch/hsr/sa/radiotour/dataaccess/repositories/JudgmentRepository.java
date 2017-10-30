@@ -5,7 +5,6 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
-import ch.hsr.sa.radiotour.dataaccess.models.SpecialRanking;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
