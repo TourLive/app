@@ -270,19 +270,22 @@ public class RaceGroupRepositoryInstrumentedTest {
         }
 
         synchronized (this) {
-            raceGroupRepository.addRaceGroup(raceGroupOne, onSaveRaceGroupCallback);
+            raceGroupRepository.addRaceGroup(raceGroupTwo, onSaveRaceGroupCallback);
         }
 
         RealmResults<RaceGroup> res = realm.where(RaceGroup.class).findAll();
+        RealmList<Rider> riderToTransfer = new RealmList<>();
+        riderToTransfer.add(res.get(0).getRiders().first());
+
         assertEquals(3, res.get(0).getRiders().size());
         assertEquals(3, res.get(1).getRiders().size());
 
         synchronized (this) {
-            raceGroupRepository.updateRaceGroupRiders(res.get(0), res.get(1).getRiders(), onUpdateRaceGroupCallBack);
+            raceGroupRepository.updateRaceGroupRiders(res.get(1), riderToTransfer, onUpdateRaceGroupCallBack);
         }
 
         RealmResults<RaceGroup> endRes = realm.where(RaceGroup.class).findAll();
-        assertEquals(6, res.get(0).getRiders().size());
-        assertEquals(0, res.get(1).getRiders().size());
+        assertEquals(2, res.get(0).getRiders().size());
+        assertEquals(4, res.get(1).getRiders().size());
     }
 }
