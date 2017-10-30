@@ -6,8 +6,9 @@ import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import io.realm.annotations.RealmModule;
 
-@RealmModule(classes = {Rider.class, RaceGroup.class, RiderStageConnection.class, Judgement.class, Reward.class, RewardRiderConnection.class})
+@RealmModule(classes = {Rider.class, RaceGroup.class, RiderStageConnection.class, Judgement.class, Reward.class, RewardRiderConnection.class, Stage.class})
 public class RealmModul {
 }
