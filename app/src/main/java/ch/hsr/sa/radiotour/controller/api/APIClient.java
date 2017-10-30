@@ -20,6 +20,7 @@ import cz.msebera.android.httpclient.Header;
 public final class APIClient {
     private static final String BASE_URL = "https://tlng.cnlab.ch/";
     private static String RACE_ID = "";
+    private static String STAGE_ID = "";
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
@@ -41,10 +42,18 @@ public final class APIClient {
     }
 
     public static void fillData() throws JSONException{
-        getRiders(UrlLink.RIDERS, null);
-        getJudgments((UrlLink.JUDGEMENTS + RACE_ID), null);
-        getRewards(UrlLink.JUDGEMENTS, null);
-        getStages((UrlLink.STAGES + RACE_ID), null);
+        synchronized (APIClient.client) {
+            getRiders(UrlLink.RIDERS + STAGE_ID, null);
+        }
+        synchronized (APIClient.client) {
+            getJudgments(UrlLink.JUDGEMENTS + RACE_ID, null);
+        }
+        synchronized (APIClient.client){
+            getRewards(UrlLink.JUDGEMENTS + RACE_ID, null);
+        }
+        synchronized (APIClient.client){
+            getStages(UrlLink.STAGES + RACE_ID, null);
+        }
     }
 
     public static void clearDatabase(){
@@ -61,6 +70,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
+                    STAGE_ID = settings.getJSONObject(0).getString("parameter");
                     RACE_ID = settings.getJSONObject(1).getString("parameter");
                     fillData();
                 } catch (JSONException ex){

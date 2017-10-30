@@ -16,6 +16,7 @@ public class StageRepository implements IStageRepository {
             @Override
             public void execute(Realm realm) {
                 Stage realmStage = realm.createObject(Stage.class, UUID.randomUUID().toString());
+                realmStage.setStageId(stage.getStageId());
                 realmStage.setDistance(stage.getDistance());
                 realmStage.setEndTime(stage.getEndTime());
                 realmStage.setStartTime(stage.getStartTime());
