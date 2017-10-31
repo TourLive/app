@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 
 import ch.hsr.sa.radiotour.R;
@@ -25,13 +26,13 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     private android.content.Context context;
     private RealmList<Rider> selectedRiders;
     private ArrayList<View> selectedViews;
-    private ArrayList<RiderViewHolder> holders;
+    private HashMap<Integer, RiderViewHolder> holderHashMap;
 
     public RiderEditAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.selectedRiders = new RealmList<>();
         this.selectedViews = new ArrayList<>();
-        this.holders = new ArrayList<>();
+        this.holderHashMap = new HashMap<>();
     }
 
     @Override
@@ -47,7 +48,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
         drawable.setColor(getColorFromState(getRiderStateType(position)));
-        holders.add(holder);
+        holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -55,7 +56,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     }
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
-        GradientDrawable drawable = (GradientDrawable) holders.get(connection.getRiders().getStartNr()).tvNummer.getBackground();
+        GradientDrawable drawable = (GradientDrawable) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer.getBackground();
         drawable.setColor(getColorFromState(connection.getType()));
     }
 

@@ -27,6 +27,8 @@ public interface IRiderRepository {
 
     RealmList<Rider> getAllRidersReturned();
 
+    RealmList<Rider> getAllUnknownRidersReturned();
+
     void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections, OnUpdateRiderStageCallback callback);
 
     void clearAllRiders();
