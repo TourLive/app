@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     public void onClick(View v) {
         if(v == btn_Import){
             try{
-                progressBar.setCancelable(true);
+                progressBar.setCancelable(false);
                 progressBar.setMessage("Import starting ...");
                 progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
                 progressBar.setProgress(0);
@@ -48,33 +49,31 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 new Thread(new Runnable() {
                     public void run() {
                         while (progressBarStatus < 100) {
-                            try{
-                                progressBarStatus = importData();
-                            } catch (JSONException ex){
-                                Log.d("error", ex.getMessage());
-                            }
+                            progressBarStatus = importData();
                             progressBarHandler.post(new Runnable() {
                                 public void run() {
                                     progressBar.setProgress(progressBarStatus);
                                 }
                             });
                         }
-                        // performing operation if file is downloaded,
                         if (progressBarStatus >= 100) {
-                        // sleeping for 1 second after operation completed
-                        try {Thread.sleep(1000);} catch (InterruptedException e) {e.printStackTrace();}
-                        // close the progress bar dialog
-                        progressBar.dismiss();
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            progressBar.setProgress(0);
+                            progressBar.dismiss();
+                        }
                     }
-                }
                 }).start();
             } catch (Exception ex){
-
+                Log.d("error", ex.getMessage());
             }
         }
     }
 
-    private int importData() throws JSONException {
+    private int importData() {
         while (progressBarStatus <= 100) {
             if (progressBarStatus < 20) {
                 progressBarHandler.post(new Runnable() {
@@ -82,7 +81,15 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                         progressBar.setMessage(getResources().getText(R.string.import_delete_data));
                     }
                 });
-                APIClient.deleteData();
+                String message = APIClient.deleteData();
+                if(!message.equals("success")){
+                    ErrorDialog dialog = new ErrorDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    dialog.setArguments(bundle);
+                    dialog.show(this.getFragmentManager(), "Error");
+                    break;
+                }
                 return 20;
             } else if (progressBarStatus < 40) {
                 progressBarHandler.post(new Runnable() {
@@ -90,7 +97,15 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                         progressBar.setMessage(getResources().getText(R.string.import_driver));
                     }
                 });
-                APIClient.getRiders();
+                String message = APIClient.getRiders();
+                if(!message.equals("success")){
+                    ErrorDialog dialog = new ErrorDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    dialog.setArguments(bundle);
+                    dialog.show(this.getFragmentManager(), "Error");
+                    break;
+                }
                 return 40;
             } else if (progressBarStatus < 60) {
                 progressBarHandler.post(new Runnable() {
@@ -98,7 +113,15 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                         progressBar.setMessage(getResources().getText(R.string.import_judgment));
                     }
                 });
-                APIClient.getJudgments();
+                String message = APIClient.getJudgments();
+                if(!message.equals("success")){
+                    ErrorDialog dialog = new ErrorDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    dialog.setArguments(bundle);
+                    dialog.show(this.getFragmentManager(), "Error");
+                    break;
+                }
                 return 60;
             } else if (progressBarStatus < 80) {
                 progressBarHandler.post(new Runnable() {
@@ -106,18 +129,34 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                         progressBar.setMessage(getResources().getText(R.string.import_reward));
                     }
                 });
-                APIClient.getRewards();
+                String message = APIClient.getRewards();
+                if(!message.equals("success")){
+                    ErrorDialog dialog = new ErrorDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    dialog.setArguments(bundle);
+                    dialog.show(this.getFragmentManager(), "Error");
+                    break;
+                }
                 return 80;
-            } else{
+            } else {
                 progressBarHandler.post(new Runnable() {
                     public void run() {
                         progressBar.setMessage(getResources().getText(R.string.import_stage));
                     }
                 });
-                APIClient.getStages();
+                String message = APIClient.getStages();
+                if(!message.equals("success")){
+                    ErrorDialog dialog = new ErrorDialog();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("message", message);
+                    dialog.setArguments(bundle);
+                    dialog.show(this.getFragmentManager(), "Error");
+                    break;
+                }
                 return 100;
             }
-        }//end of while
+        }
         return 100;
-    }//end of doOperation
+    }
 }

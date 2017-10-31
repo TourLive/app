@@ -35,32 +35,33 @@ public final class APIClient {
         return BASE_URL + relativeUrl;
     }
 
-    public static void deleteData() throws JSONException{
+    public static String deleteData(){
         clearDatabase();
-        getActualRaceId(UrlLink.GLOBALSETTINGS, null);
+        return getActualRaceId(UrlLink.GLOBALSETTINGS, null);
     }
 
-    public static void getRiders() throws JSONException{
-        getRiders(UrlLink.RIDERS + STAGE_ID, null);
+    public static String getRiders() {
+        return getRiders(UrlLink.RIDERS + STAGE_ID, null);
     }
 
-    public static void getJudgments() throws JSONException{
-        getJudgments(UrlLink.JUDGEMENTS + RACE_ID, null);
+    public static String getJudgments() {
+        return getJudgments(UrlLink.JUDGEMENTS + RACE_ID, null);
     }
 
-    public static void getRewards() throws JSONException{
-        getRewards(UrlLink.JUDGEMENTS + RACE_ID, null);
+    public static String getRewards() {
+        return getRewards(UrlLink.JUDGEMENTS + RACE_ID, null);
     }
 
-    public static void getStages() throws JSONException{
-        getStages(UrlLink.STAGES + RACE_ID, null);
+    public static String getStages() {
+        return getStages(UrlLink.STAGES + RACE_ID, null);
     }
 
     public static void clearDatabase(){
         Parser.deleteData();
     }
 
-    public static void getActualRaceId(String url, RequestParams params) throws JSONException {
+    public static String getActualRaceId(String url, RequestParams params) {
+        final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -72,29 +73,32 @@ public final class APIClient {
                 try{
                     STAGE_ID = settings.getJSONObject(0).getString("parameter");
                     RACE_ID = settings.getJSONObject(1).getString("parameter");
+                    messages[0] = "success";
                 } catch (JSONException ex){
-                    Log.d("error", ex.getMessage());
+                    messages[0] = ex.getMessage();
                 }
             }
 
             @Override
-            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                Log.d("failure", throwable.getMessage());
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders) {
+                messages[0] = throwable.getMessage();
             }
         });
-
+        return messages[0];
     }
 
-    public static void getRiders(String url, RequestParams params) throws JSONException{
+    public static String getRiders(String url, RequestParams params) {
+        final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
                     Parser.parseRidersAndPersist(data.getJSONArray("data"));
+                    messages[0] = "success";
                 } catch (JSONException ex){
-                    Log.d("error", ex.getMessage());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    messages[0] = ex.getMessage();
+                } catch (InterruptedException ex) {
+                    messages[0] = ex.getMessage();
                 }
             }
 
@@ -105,21 +109,24 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                Log.d("failure", throwable.getMessage());
+                messages[0] = throwable.getMessage();
             }
         });
+        return messages[0];
     }
 
-    public static void getJudgments(String url, RequestParams params) throws JSONException{
+    public static String getJudgments(String url, RequestParams params) {
+        final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
                     Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"));
+                    messages[0] = "success";
                 } catch (JSONException ex){
-                    Log.d("error", ex.getMessage());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    messages[0] = ex.getMessage();
+                } catch (InterruptedException ex) {
+                    messages[0] = ex.getMessage();
                 }
             }
 
@@ -130,21 +137,24 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                Log.d("failure", throwable.getMessage());
+                messages[0] = throwable.getMessage();
             }
         });
+        return messages[0];
     }
 
-    public static void getRewards(String url, RequestParams params) throws JSONException{
+    public static String getRewards(String url, RequestParams params) {
+        final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
                     Parser.parseRewardsAndPersist(data.getJSONObject("data").getJSONArray("rewards"));
+                    messages[0] = "success";
                 } catch (JSONException ex){
-                    Log.d("error", ex.getMessage());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    messages[0] = ex.getMessage();
+                } catch (InterruptedException ex) {
+                    messages[0] = ex.getMessage();
                 }
             }
 
@@ -155,12 +165,14 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                Log.d("failure", throwable.getMessage());
+                messages[0] = throwable.getMessage();
             }
         });
+        return messages[0];
     }
 
-    public static void getStages(String url, RequestParams params) throws JSONException{
+    public static String getStages(String url, RequestParams params) {
+        final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -171,19 +183,20 @@ public final class APIClient {
             public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
                 try{
                     Parser.parseStagesAndPersist(stages);
-
+                    messages[0] = "success";
                 } catch (JSONException ex){
-                    Log.d("error", ex.getMessage());
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    messages[0] = ex.getMessage();
+                } catch (InterruptedException ex) {
+                    messages[0] = ex.getMessage();
                 }
 
             }
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                Log.d("failure", throwable.getMessage());
+                messages[0] = throwable.getMessage();
             }
         });
+        return messages[0];
     }
 }
