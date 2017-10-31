@@ -1,5 +1,9 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.support.v4.app.Fragment;
+
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -8,20 +12,29 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.IPresenterFragments;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
 
 public class RiderStageConnectionPresenter implements IRiderStageConnectionPresenter {
-    private IPresenterFragments fragment;
-    private IRiderStageConnectionRepository riderStageConnectionRepository;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
+    private static RiderStageConnectionPresenter instance = null;
+    private RiderStageConnectionRepository riderStageConnectionRepository = new RiderStageConnectionRepository();
+
     private IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback onSaveRiderStageConnectionCallbackCallback;
     private IRiderStageConnectionRepository.OnGetAllRiderStageConnectionsCallback onGetAllRiderStageConnectionsCallback;
     private IRiderStageConnectionRepository.OnUpdateRiderStageConnectionCallBack onUpdateRiderStageConnectionCallBack;
     private IRiderStageConnectionRepository.OnUpdateRiderStateCallBack onUpdateRiderStateCallBack;
 
-    public RiderStageConnectionPresenter(IPresenterFragments fragment){
-        this.fragment = fragment;
-        this.riderStageConnectionRepository = new RiderStageConnectionRepository();
+    public static RiderStageConnectionPresenter getInstance() {
+        if(instance == null){
+            instance = new RiderStageConnectionPresenter();
+        }
+        return instance;
+    }
+
+    public void addView(Fragment frag){
+        this.fragments.add(frag);
     }
 
     @Override
@@ -29,7 +42,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onSaveRiderStageConnectionCallbackCallback = new IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback() {
             @Override
             public void onSuccess() {
-
+                for(Fragment frag : fragments){
+                    // call specifc update function for each fragment type
+                }
             }
 
             @Override
@@ -41,7 +56,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onGetAllRiderStageConnectionsCallback = new IRiderStageConnectionRepository.OnGetAllRiderStageConnectionsCallback() {
             @Override
             public void onSuccess(RealmList<RiderStageConnection> stageConnections) {
-
+                for(Fragment frag : fragments){
+                    // call specifc update function for each fragment type
+                }
             }
 
             @Override
@@ -53,7 +70,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onUpdateRiderStageConnectionCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStageConnectionCallBack() {
             @Override
             public void onSuccess() {
-
+                for(Fragment frag : fragments){
+                    // call specifc update function for each fragment type
+                }
             }
 
             @Override
@@ -65,7 +84,14 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onUpdateRiderStateCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStateCallBack() {
             @Override
             public void onSuccess(RiderStageConnection connection) {
-                fragment.updateRiderStateOnGUI(connection);
+                for(Fragment frag : fragments){
+                    if(frag instanceof RaceFragment){
+                        ((RaceFragment) frag).updateRiderStateOnGUI(connection);
+                    }
+                    if(frag instanceof RiderRaceGroupFragment){
+                        ((RiderRaceGroupFragment) frag).updateRiderStateOnGUI(connection);
+                    }
+                }
             }
 
             @Override
