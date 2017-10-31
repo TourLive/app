@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -62,7 +63,8 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
                 RaceGroup raceGroup = selectedUnknownRider.getRaceGroups();
                 RealmList<Rider> rider = new RealmList<>();
                 rider.add(getRider(startNr));
-                //RiderPresenter.getInstance().removeRider(selectedUnknownRider);
+                RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
+                RiderPresenter.getInstance().removeRider(selectedUnknownRider);
             }
         });
         alertDialogBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
