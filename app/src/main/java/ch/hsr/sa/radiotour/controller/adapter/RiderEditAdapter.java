@@ -28,6 +28,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     private ArrayList<View> selectedViews;
     private HashMap<Integer, RiderViewHolder> holderHashMap;
 
+
     public RiderEditAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.selectedRiders = new RealmList<>();
