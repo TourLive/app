@@ -31,7 +31,6 @@ import io.realm.RealmList;
 
 public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
-    private IRaceGroupPresenter raceGroupPresenter;
     private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -61,7 +60,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void initComponents(View root){
         RiderPresenter.getInstance().addView(this);
-        raceGroupPresenter = new RaceGroupPresenter(this);
+        RaceGroupPresenter.getInstance().addView(this);
         riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
         rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
@@ -100,8 +99,8 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         super.onStart();
         RiderPresenter.getInstance().subscribeCallbacks();
         RiderPresenter.getInstance().getAllRiders();
-        raceGroupPresenter.subscribeCallbacks();
-        raceGroupPresenter.getAllRaceGroups();
+        RaceGroupPresenter.getInstance().subscribeCallbacks();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
         riderStageConnectionPresenter.subscribeCallbacks();
     }
 
@@ -109,7 +108,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     public void onDestroy(){
         super.onDestroy();
         RiderPresenter.getInstance().unSubscribeCallbacks();
-        raceGroupPresenter.unSubscribeCallbacks();
+        RaceGroupPresenter.getInstance().unSubscribeCallbacks();
         riderStageConnectionPresenter.unSubscribeCallbacks();
     }
 
@@ -129,7 +128,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         adapter.updateRiderStateOnGUI(connection);
         if(connection.getRiders().getRaceGroups() != null){
-            raceGroupPresenter.deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
+            RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
         }
     }
 
@@ -151,7 +150,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     }
 
     public void addRaceGroupToList() {
-        raceGroupPresenter.getAllRaceGroups();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
     }
 
     public void updateRiderStates(RiderStateType riderStateType) {
@@ -199,10 +198,10 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
         if (adapter.getSelectedRiders().size() != 0) {
-            raceGroupPresenter.updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
             adapter.resetSelectRiders();
         } else if (unknownRiders.size() != 0) {
-            raceGroupPresenter.updateRaceGroupRiders(raceGroup, unknownRiders);
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders);
             removeUnknownRiders();
         }
         raceGroupAdapter.notifyItemChanged(position);
@@ -214,12 +213,12 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         raceGroup.setType(raceGroupType);
         if (adapter.getSelectedRiders().size() != 0) {
             raceGroup.setRiders(adapter.getSelectedRiders());
-            raceGroupPresenter.addRaceGroup(raceGroup);
+            RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
         } else if (unknownRiders.size() != 0) {
             raceGroup.setRiders(unknownRiders);
-            raceGroupPresenter.addRaceGroup(raceGroup);
+            RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
             removeUnknownRiders();
         }
