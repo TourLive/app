@@ -35,8 +35,6 @@ import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, View.OnClickListener {
 
-    private IRaceGroupPresenter raceGroupPresenter;
-    private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
 
@@ -60,10 +58,8 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     public void initComponents(View root){
         RiderPresenter.getInstance().addView(this);
-        raceGroupPresenter = new RaceGroupPresenter(this);
-        riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
-        // Lädt bei jedem Mal immer wieder die Default Daten.
-        //addDefaultData();
+        RaceGroupPresenter.getInstance().addView(this);
+        RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
@@ -85,17 +81,17 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         super.onStart();
         RiderPresenter.getInstance().subscribeCallbacks();
         RiderPresenter.getInstance().getAllRiders();
-        raceGroupPresenter.subscribeCallbacks();
-        raceGroupPresenter.getAllRaceGroups();
-        riderStageConnectionPresenter.subscribeCallbacks();
+        RaceGroupPresenter.getInstance().subscribeCallbacks();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
+        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
     }
 
     @Override
     public void onDestroy(){
         super.onDestroy();
         RiderPresenter.getInstance().unSubscribeCallbacks();
-        raceGroupPresenter.unSubscribeCallbacks();
-        riderStageConnectionPresenter.unSubscribeCallbacks();
+        RaceGroupPresenter.getInstance().unSubscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
 
@@ -116,7 +112,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), raceGroupPresenter, this, RaceFragment.this);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
@@ -128,90 +124,12 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
     }
 
     public void addRaceGroupToList() {
-        raceGroupPresenter.getAllRaceGroups();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
     }
 
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
-    }
-
-    public void addDefaultData(){
-
-        RiderPresenter.getInstance().clearAllRiders();
-        RealmList<Rider> riders = new RealmList<>();
-        for(int i = 0; i < 50; i++){
-            Rider rider = new Rider();
-            rider.setStartNr(i);
-            rider.setCountry("swiss");
-            rider.setName("rider" + i);
-            rider.setTeamName("empty");
-            rider.setTeamShortName("emtpy");
-            RiderPresenter.getInstance().addRider(rider);
-            riders.add(rider);
-        }
-        raceGroupPresenter.clearAllRaceGroups();
-        RaceGroup raceGroup = new RaceGroup();
-        for (int i = 0; i < 5; i++) {
-            if (i == 1) {
-                raceGroup.setType(RaceGroupType.FELD);
-            } else {
-                raceGroup.setType(RaceGroupType.LEAD);
-            }
-            raceGroup.setPosition(i);
-            raceGroup.setHistoryGapTime(60+(long)i);
-            raceGroup.setActualGapTime(i);
-            RealmList<Rider> test = new RealmList<>();
-            test.add(riders.get(i * 5));
-            test.add(riders.get(i * 5 + 1));
-            test.add(riders.get(i * 5 + 2));
-            test.add(riders.get(i * 5 + 3));
-            test.add(riders.get(i * 5 + 4));
-            if (i == 4) {
-                RealmList<Rider> unknownRiders = new RealmList<>();
-                for (int u = 1; u < 15; u++) {
-                    Rider rider = new Rider();
-                    rider.setUnknown(true);
-                    rider.setName("U" + u);
-                    rider.setCountry("U");
-                    rider.setTeamShortName("U");
-                    rider.setTeamName("UNKNOWN");
-                    rider.setStartNr(u + 900);
-                    RiderPresenter.getInstance().addRider(rider);
-                    unknownRiders.add(rider);
-                }
-                test.addAll(unknownRiders);
-            }
-            raceGroup.setRiders(test);
-            raceGroupPresenter.addInitialRaceGroup(raceGroup);
-        }
-
-        riderStageConnectionPresenter.clearAllRiderStageConnection();
-
-        for(int i = 0; i < 50; i++){
-            RiderStageConnection riderStageConnection = new RiderStageConnection();
-            riderStageConnection.setRank(i+1);
-            riderStageConnection.setOfficialTime(new Date(100));
-            riderStageConnection.setOfficialGap(new Date(100));
-            riderStageConnection.setVirtualGap(new Date(100));
-            riderStageConnection.setBonusPoint(100);
-            riderStageConnection.setBonusTime(100);
-            if (i == 4 || i == 9 || i == 14) {
-                riderStageConnection.setType(RiderStateType.DOCTOR);
-            } else if (i == 3 || i == 8 || i == 13) {
-                riderStageConnection.setType(RiderStateType.DNC);
-            } else {
-                riderStageConnection.setType(RiderStateType.AKTIVE);
-            }
-            riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
-            RealmList<RiderStageConnection> test = new RealmList<>();
-            test.add(riderStageConnectionPresenter.getRiderByRank(i+1));
-            RiderPresenter.getInstance().updateRiderStageConnection(riders.get(i), test);
-            test.clear();
-
-        }
-
-
     }
 
     @Override

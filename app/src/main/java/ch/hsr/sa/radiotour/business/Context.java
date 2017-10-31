@@ -31,53 +31,43 @@ public final class Context {
     }
 
     public static void addRaceGroup(RaceGroup raceGroup){
-        RaceGroupPresenter pres = new RaceGroupPresenter(null);
-        pres.addRaceGroup(raceGroup);
+        RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
     }
 
     public static void deleteRaceGroups(){
-        RaceGroupPresenter pres = new RaceGroupPresenter(null);
-        pres.clearAllRaceGroups();
+        RaceGroupPresenter.getInstance().clearAllRaceGroups();
     }
 
     public static void addJudgment(Judgement judgment){
-        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
-        judgmentPresenter.addJudgment(judgment);
+        JudgmentPresenter.getInstance().addJudgment(judgment);
     }
 
     public static void deleteJudgments(){
-        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
-        judgmentPresenter.clearAllJudgments();
+        JudgmentPresenter.getInstance().clearAllJudgments();
     }
 
     public static void addReward(Reward reward){
-        RewardPresenter rewardPresenter = RewardPresenter.getInstance();
-        rewardPresenter.addReward(reward);
+        RewardPresenter.getInstance().addReward(reward);
     }
 
     public static void deleteRewards(){
-        RewardPresenter rewardPresenter = RewardPresenter.getInstance();
-        rewardPresenter.clearAllRewards();
+        RewardPresenter.getInstance().clearAllRewards();
     }
 
     public static RealmList<Judgement> getJudgmentsById(int judgmentId){
-        JudgmentPresenter judgmentPresenter = JudgmentPresenter.getInstance();
-        return judgmentPresenter.getJudgmentsById(judgmentId);
+        return JudgmentPresenter.getInstance().getJudgmentsById(judgmentId);
     }
 
     public static void addStage(Stage stage){
-        StagePresenter stagePresenter = StagePresenter.getInstance();
-        stagePresenter.addStage(stage);
+        StagePresenter.getInstance().addStage(stage);
     }
 
     public static void deleteStages(){
-        StagePresenter stagePresenter = StagePresenter.getInstance();
-        stagePresenter.clearAllStages();
+        StagePresenter.getInstance().clearAllStages();
     }
 
     public static void addRiderStageConnection(RiderStageConnection riderStageConnection){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+        RiderStageConnectionPresenter.getInstance().addRiderStageConnection(riderStageConnection);
     }
 
     public static void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> riderStageConnection){
@@ -85,17 +75,14 @@ public final class Context {
     }
 
     public static void deleteAllRiderStageConnections(){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        riderStageConnectionPresenter.clearAllRiderStageConnection();
+        RiderStageConnectionPresenter.getInstance().clearAllRiderStageConnection();
     }
 
     public static RiderStageConnection getRiderStageConnectionByRank(int rank){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        return riderStageConnectionPresenter.getRiderByRank(rank);
+        return RiderStageConnectionPresenter.getInstance().getRiderByRank(rank);
     }
 
     public static RealmList<RiderStageConnection> getAllRiderStageConnections(){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        return riderStageConnectionPresenter.getAllRiderStateConnections();
+        return RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
     }
 }
