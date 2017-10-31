@@ -49,6 +49,9 @@ public class RiderPresenter implements IRiderPresenter {
     public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
 
     @Override
+    public RealmList<Rider> getAllUnknownRidersReturned() { return riderRepository.getAllUnknownRidersReturned(); }
+
+    @Override
     public void removeRider(Rider rider) {
         riderRepository.removeRider(rider, onSaveRiderCallback);
     }

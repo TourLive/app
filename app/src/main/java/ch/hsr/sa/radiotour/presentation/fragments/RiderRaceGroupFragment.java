@@ -227,8 +227,16 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     @Override
     public void onFinishAddingUnknownUser(int count) {
+        int start;
+        RealmList<Rider> dbUnknownRiders = RiderPresenter.getInstance().getAllUnknownRidersReturned();
+        if (dbUnknownRiders == null || dbUnknownRiders.size() == 0) {
+            start = 0;
+        } else {
+            start = dbUnknownRiders.get(dbUnknownRiders.size() - 1).getStartNr() - 900 + 1;
+        }
+
         unknownRiders = new RealmList<>();
-        for (int i = 0; i < count; i++) {
+        for (int i = start; i < count + start; i++) {
             Rider rider = new Rider();
             rider.setUnknown(true);
             rider.setName("U" + i);
