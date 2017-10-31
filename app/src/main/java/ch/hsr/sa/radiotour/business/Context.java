@@ -67,8 +67,7 @@ public final class Context {
     }
 
     public static void addRiderStageConnection(RiderStageConnection riderStageConnection){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        riderStageConnectionPresenter.addRiderStageConnection(riderStageConnection);
+        RiderStageConnectionPresenter.getInstance().addRiderStageConnection(riderStageConnection);
     }
 
     public static void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> riderStageConnection){
@@ -76,17 +75,14 @@ public final class Context {
     }
 
     public static void deleteAllRiderStageConnections(){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        riderStageConnectionPresenter.clearAllRiderStageConnection();
+        RiderStageConnectionPresenter.getInstance().clearAllRiderStageConnection();
     }
 
     public static RiderStageConnection getRiderStageConnectionByRank(int rank){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        return riderStageConnectionPresenter.getRiderByRank(rank);
+        return RiderStageConnectionPresenter.getInstance().getRiderByRank(rank);
     }
 
     public static RealmList<RiderStageConnection> getAllRiderStageConnections(){
-        RiderStageConnectionPresenter riderStageConnectionPresenter = new RiderStageConnectionPresenter(null);
-        return riderStageConnectionPresenter.getAllRiderStateConnections();
+        return RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
     }
 }
