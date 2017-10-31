@@ -2,32 +2,51 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.app.Fragment;
 
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.IPresenterFragments;
+import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
 public class RaceGroupPresenter implements IRaceGroupPresenter {
-    private IPresenterFragments fragment;
+    private ArrayList<android.support.v4.app.Fragment> fragments = new ArrayList<>();
+    private static RaceGroupPresenter instance = null;
+    private RaceGroupRepository raceGroupRepository = new RaceGroupRepository();
+
     private IRaceGroupRepository.OnSaveRaceGroupCallback onSaveRaceGroupCallback;
     private IRaceGroupRepository.OnGetAllRaceGroupsCallback onGetAllRaceGroupsCallback;
     private IRaceGroupRepository.OnUpdateRaceGroupCallBack onUpdateRaceGroupCallBack;
-    private IRaceGroupRepository raceGroupRepository;
 
-    public RaceGroupPresenter(IPresenterFragments fragment) {
-        this.fragment = fragment;
-        this.raceGroupRepository = new RaceGroupRepository();
-
+    public static RaceGroupPresenter getInstance() {
+        if(instance == null){
+            instance = new RaceGroupPresenter();
+        }
+        return instance;
     }
+
+    public void addView(android.support.v4.app.Fragment frag){
+        this.fragments.add(frag);
+    }
+
     @Override
     public void subscribeCallbacks() {
         onSaveRaceGroupCallback = new IRaceGroupRepository.OnSaveRaceGroupCallback() {
             @Override
             public void onSuccess() {
-                fragment.addRaceGroupToList();
+                for(android.support.v4.app.Fragment frag : fragments){
+                    if(frag instanceof RaceFragment){
+                        ((RaceFragment) frag).addRaceGroupToList();
+                    }
+                    if(frag instanceof RiderRaceGroupFragment){
+                        ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                    }
+                }
             }
 
             @Override
@@ -39,7 +58,14 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         onGetAllRaceGroupsCallback = new IRaceGroupRepository.OnGetAllRaceGroupsCallback() {
             @Override
             public void onSuccess(RealmList<RaceGroup> raceGroups) {
-                fragment.showRaceGroups(raceGroups);
+                for(android.support.v4.app.Fragment frag : fragments){
+                    if(frag instanceof RaceFragment){
+                        ((RaceFragment) frag).showRaceGroups(raceGroups);
+                    }
+                    if(frag instanceof RiderRaceGroupFragment){
+                        ((RiderRaceGroupFragment) frag).showRaceGroups(raceGroups);
+                    }
+                }
             }
 
             @Override
@@ -50,7 +76,15 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         onUpdateRaceGroupCallBack = new IRaceGroupRepository.OnUpdateRaceGroupCallBack() {
             @Override
             public void onSuccess() {
-                fragment.addRaceGroupToList();
+
+                for(android.support.v4.app.Fragment frag : fragments){
+                    if(frag instanceof RaceFragment){
+                        ((RaceFragment) frag).addRaceGroupToList();
+                    }
+                    if(frag instanceof RiderRaceGroupFragment){
+                        ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                    }
+                }
             }
 
             @Override
