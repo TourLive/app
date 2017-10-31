@@ -35,7 +35,6 @@ import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, View.OnClickListener {
 
-    private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
 
@@ -60,7 +59,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
     public void initComponents(View root){
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
-        riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
+        RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
@@ -84,7 +83,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         RiderPresenter.getInstance().getAllRiders();
         RaceGroupPresenter.getInstance().subscribeCallbacks();
         RaceGroupPresenter.getInstance().getAllRaceGroups();
-        riderStageConnectionPresenter.subscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
     }
 
     @Override
@@ -92,7 +91,7 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         super.onDestroy();
         RiderPresenter.getInstance().unSubscribeCallbacks();
         RaceGroupPresenter.getInstance().unSubscribeCallbacks();
-        riderStageConnectionPresenter.unSubscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
 

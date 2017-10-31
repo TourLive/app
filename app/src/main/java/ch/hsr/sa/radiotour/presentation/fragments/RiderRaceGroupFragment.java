@@ -31,7 +31,6 @@ import io.realm.RealmList;
 
 public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
-    private IRiderStageConnectionPresenter riderStageConnectionPresenter;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
     private RealmList<Rider> unknownRiders = new RealmList<>();
@@ -61,7 +60,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     public void initComponents(View root){
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
-        riderStageConnectionPresenter = new RiderStageConnectionPresenter(this);
+        RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
         rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
@@ -101,7 +100,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         RiderPresenter.getInstance().getAllRiders();
         RaceGroupPresenter.getInstance().subscribeCallbacks();
         RaceGroupPresenter.getInstance().getAllRaceGroups();
-        riderStageConnectionPresenter.subscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
     }
 
     @Override
@@ -109,7 +108,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         super.onDestroy();
         RiderPresenter.getInstance().unSubscribeCallbacks();
         RaceGroupPresenter.getInstance().unSubscribeCallbacks();
-        riderStageConnectionPresenter.unSubscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
 
@@ -155,7 +154,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void updateRiderStates(RiderStateType riderStateType) {
         for (Rider r : adapter.getSelectedRiders()) {
-            riderStageConnectionPresenter.updateRiderState(riderStateType, r);
+            RiderStageConnectionPresenter.getInstance().updateRiderState(riderStateType, r);
         }
         adapter.resetSelectRiders();
     }
