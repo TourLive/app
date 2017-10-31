@@ -1,15 +1,17 @@
 <resources>
     <string name="import_import">Import</string>
+    <string name="import_data">DATEN IMPORTIEREN</string>
+    <string name="import_demomode">Demomode</string>
+    <string name="import_demodata">Demodaten laden</string>
+    <string name="import_config">Konfiguration</string>
+    <string name="import_secret">Shared Secret</string>
+    <string name="import_save_secret">SECRET ABSPEICHERN</string>
     <string name="import_driver">FAHRER IMPORTIEREN</string>
     <string name="import_stage">ETAPPEN IMPORTIEREN</string>
     <string name="import_marchtable">MARSCHTABELLE IMPORTIEREN</string>
     <string name="import_actual_rankinglist">AKTUELLE RANGLISTE IMPORTIEREN</string>
     <string name="import_speciallist">SPEZIALKLASSEMENT IMPORTIEREN</string>
-    <string name="import_config">Konfiguration</string>
-    <string name="import_secret">Shared Secret</string>
-    <string name="import_save_secret">SECRET ABSPEICHERN</string>
     <string name="import_actual_stage">Aktuelle Etappe</string>
-    <string name="import_change_stage">ETAPPE WECHSELN</string>
     <string name="import_status">Status</string>
     <string name="import_status_ok">Status ok</string>
     <string name="import_status_error">Das Tablet kann aktuell keine Verbindung zum Server aufbauen</string>
