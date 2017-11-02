@@ -14,4 +14,5 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void clearAllRiderStageConnection();
     RiderStageConnection getRiderByRank(final int rank);
     RealmList<RiderStageConnection> getAllRiderStateConnections();
+    void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection);
 }

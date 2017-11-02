@@ -41,4 +41,6 @@ public interface IRiderStageConnectionRepository {
     RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
+
+    void updateRiderStageConnectionRank(final int rank, RiderStageConnection connection);
 }
