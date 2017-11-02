@@ -3,9 +3,14 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,38 +43,61 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     @Override
     public void onClick(View v) {
         if(v == btn_Import){
-            try{
-                progressBar.setCancelable(false);
-                progressBar.setMessage("Import starting ...");
-                progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-                progressBar.setProgress(0);
-                progressBar.setMax(100);
-                progressBar.show();
-                progressBarStatus = 0;
-                new Thread(new Runnable() {
-                    public void run() {
-                        while (progressBarStatus < 100) {
-                            progressBarStatus = importData();
-                            progressBarHandler.post(new Runnable() {
-                                public void run() {
-                                    progressBar.setProgress(progressBarStatus);
-                                }
-                            });
+            if(isNetworkAvailable()) {
+                new AlertDialog.Builder(getContext())
+                    .setTitle(R.string.import_start_import)
+                    .setMessage(R.string.import_start_info)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override public void onClick(DialogInterface dialog, int which) {
+                            startImport();
                         }
-                        if (progressBarStatus >= 100) {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            progressBar.setProgress(0);
-                            progressBar.dismiss();
-                        }
-                    }
-                }).start();
-            } catch (Exception ex){
-                Log.d("error", ex.getMessage());
+                    })
+                    .create()
+                    .show();
+            } else {
+                new AlertDialog.Builder(getContext())
+                        .setTitle(R.string.import_no_internet_title)
+                        .setMessage(R.string.import_no_internet_connection)
+                        .setPositiveButton(android.R.string.ok,null)
+                        .create()
+                        .show();
             }
+        }
+    }
+
+    private void startImport(){
+        try{
+            progressBar.setCancelable(false);
+            progressBar.setMessage("Import starting ...");
+            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressBar.setProgress(0);
+            progressBar.setMax(100);
+            progressBar.show();
+            progressBarStatus = 0;
+            new Thread(new Runnable() {
+                public void run() {
+                    while (progressBarStatus < 100) {
+                        progressBarStatus = importData();
+                        progressBarHandler.post(new Runnable() {
+                            public void run() {
+                                progressBar.setProgress(progressBarStatus);
+                            }
+                        });
+                    }
+                    if (progressBarStatus >= 100) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        progressBar.setProgress(0);
+                        progressBar.dismiss();
+                    }
+                }
+            }).start();
+        } catch (Exception ex){
+            Log.d("error", ex.getMessage());
         }
     }
 
@@ -88,6 +116,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     bundle.putString("message", message);
                     dialog.setArguments(bundle);
                     dialog.show(this.getFragmentManager(), "Error");
+                    APIClient.clearDatabase();
                     break;
                 }
                 return 20;
@@ -104,6 +133,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     bundle.putString("message", message);
                     dialog.setArguments(bundle);
                     dialog.show(this.getFragmentManager(), "Error");
+                    APIClient.clearDatabase();
                     break;
                 }
                 return 40;
@@ -120,6 +150,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     bundle.putString("message", message);
                     dialog.setArguments(bundle);
                     dialog.show(this.getFragmentManager(), "Error");
+                    APIClient.clearDatabase();
                     break;
                 }
                 return 60;
@@ -136,6 +167,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     bundle.putString("message", message);
                     dialog.setArguments(bundle);
                     dialog.show(this.getFragmentManager(), "Error");
+                    APIClient.clearDatabase();
                     break;
                 }
                 return 80;
@@ -152,11 +184,18 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     bundle.putString("message", message);
                     dialog.setArguments(bundle);
                     dialog.show(this.getFragmentManager(), "Error");
+                    APIClient.clearDatabase();
                     break;
                 }
                 return 100;
             }
         }
         return 100;
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
