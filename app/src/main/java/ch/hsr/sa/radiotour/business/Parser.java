@@ -4,10 +4,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.sql.Array;
 import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.StringTokenizer;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
@@ -91,6 +95,9 @@ public final class Parser {
         Thread threadGroup = createDefaultGroup();
         threadGroup.start();
         threadGroup.join();
+        Thread threadRank = updateRiderConnectionRankByOfficalGap();
+        threadRank.start();
+        threadRank.join();
     }
 
     private static Thread createDefaultGroup(){
@@ -112,6 +119,32 @@ public final class Parser {
         };
         Thread threadGroup = new Thread(runnable);
         return threadGroup;
+    }
+
+    private static Thread updateRiderConnectionRankByOfficalGap(){
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    HashMap<Long, RiderStageConnection> gapConnectionMap = new HashMap<>();
+                    ArrayList<Long> gaps = new ArrayList<>();
+                    for(RiderStageConnection con : connections){
+                        gapConnectionMap.put(con.getOfficialGap().getTime(), con);
+                        gaps.add(con.getOfficialGap().getTime());
+                    }
+                    gaps.sort(Comparator.naturalOrder());
+                    for(int i = 0; i < gaps.size(); i++){
+                        RiderStageConnection connection = gapConnectionMap.get(gaps.get(i));
+                        Context.updateRiderStageConnectionRank(i+1,connection);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        Thread threadRank= new Thread(runnable);
+        return threadRank;
     }
 
     public static void parseJudgmentsAndPersist(JSONArray judgments) throws JSONException, InterruptedException {
