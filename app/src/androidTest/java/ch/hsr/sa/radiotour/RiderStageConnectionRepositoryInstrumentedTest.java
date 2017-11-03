@@ -293,6 +293,30 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     }
 
     @Test
+    public void updateRiderStageConnectionRank(){
+        Date date = new Date();
+        RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setBonusPoint(10);
+        riderStageConnection.setBonusTime(20);
+        riderStageConnection.setOfficialGap(date);
+        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setRank(1);
+        riderStageConnection.setType(RiderStateType.DNC);
+        riderStageConnection.setVirtualGap(date);
+
+        synchronized (this) {
+            riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
+        }
+
+        final int rank = 300;
+        RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
+        synchronized (this) {
+            riderStageConnectionRepository.updateRiderStageConnectionRank(rank, res);
+        }
+        assertEquals(300, realm.where(RiderStageConnection.class).findAll().first().getRank());
+    }
+
+    @Test
     public void clearAllRaceGroups(){
         riderStageConnectionRepository.clearAllRiderStageConnection();
         synchronized (this) {
