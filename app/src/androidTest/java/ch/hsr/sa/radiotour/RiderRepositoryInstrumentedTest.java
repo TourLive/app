@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,11 +10,14 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
+import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRiderConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RewardRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import ch.hsr.sa.radiotour.dataaccess.repositories.RewardRiderConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
 import io.realm.Realm;
@@ -29,10 +33,12 @@ public class RiderRepositoryInstrumentedTest {
     private Realm realm;
     private RiderRepository riderRepository;
     private RiderStageConnectionRepository riderStageConnectionRepository;
+    private RewardRiderConnectionRepository rewardRiderConnectionRepository;
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback OnUpdateRiderStageCallback;
     private IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback onSaveRiderStageConnectionCallbackCallback;
+    private IRewardRiderConnectionRepository.OnSaveRewardRiderConnectionCallback onSaveRewardRiderConnectionCallback;
 
     private RealmList<Rider> riders = new RealmList<>();
 
@@ -40,6 +46,7 @@ public class RiderRepositoryInstrumentedTest {
     public void initTestData() {
         this.riderRepository = new RiderRepository();
         this.riderStageConnectionRepository = new RiderStageConnectionRepository();
+        this.rewardRiderConnectionRepository = new RewardRiderConnectionRepository();
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
         riders.clear();
@@ -48,6 +55,7 @@ public class RiderRepositoryInstrumentedTest {
             public void execute(Realm realm) {
                 realm.where(Rider.class).findAll().deleteAllFromRealm();
                 realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
+                realm.where(RewardRiderConnection.class).findAll().deleteAllFromRealm();
             }
         });
     }
@@ -98,6 +106,20 @@ public class RiderRepositoryInstrumentedTest {
 
             }
         };
+
+        onSaveRewardRiderConnectionCallback = new IRewardRiderConnectionRepository.OnSaveRewardRiderConnectionCallback() {
+            @Override
+            public void onSuccess() { successFullyAdded(); }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
+    }
+
+    private void successFullyAdded() {
+        notifyAll();
     }
 
     @Test
@@ -205,6 +227,33 @@ public class RiderRepositoryInstrumentedTest {
         assertEquals(1, riderStageConnections.get(0).getRank());
         assertEquals(100, riderStageConnections.get(0).getBonusPoint());
         assertEquals(200, riderStageConnections.get(0).getBonusTime());
+    }
+
+    public void checkRiderRewardConnection(){
+        RewardRiderConnection rewardRiderConnection = new RewardRiderConnection();
+        rewardRiderConnection.setRank(1);
+
+        synchronized (this){
+            rewardRiderConnectionRepository.addRewardRiderConnection(rewardRiderConnection, onSaveRewardRiderConnectionCallback);
+        }
+
+        RealmList<RewardRiderConnection> connections = new RealmList<>();
+        RealmResults<RewardRiderConnection> realmConnections = realm.where(RewardRiderConnection.class).findAll();
+        connections.addAll(realmConnections);
+
+        Rider rider = new Rider();
+        rider.setCountry("swiss");
+        rider.setName("testrider" + 1);
+        rider.setStartNr(15);
+        rider.setTeamName("Swiss");
+        rider.setTeamShortName("CH");
+        rider.setRiderRewardConnections(connections);
+
+        synchronized (this){
+            riderRepository.addRider(rider, onSaveRiderCallback);
+        }
+
+        Assert.assertEquals(1, realm.where(Rider.class).findAll().first().getRiderRewardConnections().first().getRank());
     }
 
     private void riderAddedSuccessfully(){

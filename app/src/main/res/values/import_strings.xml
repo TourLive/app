@@ -28,4 +28,9 @@
     <string name="import_download">Download</string>
     <string name="import_processing">Verarbeitung</string>
     <string name="import_overall_progress">Gesamtfortschritt</string>
+    <string name="import_no_internet_connection">Es versteht keine Verbindung zum Internet! \n\nDer Import kann nicht gestartet werden.</string>
+    <string name="import_no_internet_title">Kein Internet vorhanden</string>
+    <string name="import_start_import">Import der Daten vom Server starten</string>
+    <string name="import_start_info">Sämtliche Daten in der Datenbank werden gelöscht.
+        \nFalls die Daten zu einem späteren Zeitpunkt verfügbar sein sollen bitte ein Backup anelegen.</string>
 </resources>
