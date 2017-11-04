@@ -149,4 +149,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         return riderStageConnectionRepository.getAllRiderStateConnections();
     }
 
+    @Override
+    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection){
+        riderStageConnectionRepository.updateRiderStageConnectionRank(rank, connection);
+    }
+
 }

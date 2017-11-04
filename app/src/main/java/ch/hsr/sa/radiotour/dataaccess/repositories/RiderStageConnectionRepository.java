@@ -113,4 +113,16 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         resList.addAll(res);
         return resList;
     }
+
+    @Override
+    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("id", connection.getId()).findFirst();
+                res.setRank(rank);
+            }
+        });
+    }
 }

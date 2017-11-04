@@ -74,6 +74,10 @@ public final class Context {
         RiderPresenter.getInstance().updateRiderStageConnection(rider, riderStageConnection);
     }
 
+    public static void updateRiderStageConnectionRank(int rank, RiderStageConnection connection){
+        RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionRank(rank, connection);
+    }
+
     public static void deleteAllRiderStageConnections(){
         RiderStageConnectionPresenter.getInstance().clearAllRiderStageConnection();
     }
