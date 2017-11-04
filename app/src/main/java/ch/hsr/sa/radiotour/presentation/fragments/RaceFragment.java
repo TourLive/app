@@ -9,11 +9,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-
-import java.util.Date;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
@@ -22,18 +20,14 @@ import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, View.OnClickListener {
+public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, RecyclerView.OnItemTouchListener {
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -45,14 +39,13 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
-    private Button button;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "RaceFragment - onCreateView");
         View root = inflater.inflate(R.layout.fragment_race, container, false);
         initComponents(root);
-        rvRider.setOnClickListener(this);
+        rvRider.addOnItemTouchListener(this);
         return root;
     }
 
@@ -63,8 +56,6 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
-        button = (Button) root.findViewById(R.id.button);
-        button.setOnClickListener(this);
         initRecyclerListener();
     }
 
@@ -133,15 +124,19 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.button:
-                MainActivity.viewPageAdapter.setDetail(true);
-                MainActivity.viewPager.getAdapter().notifyDataSetChanged();
-                break;
-            default:
-                break;
-        }
+    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+        MainActivity.viewPageAdapter.setDetail(true);
+        MainActivity.viewPager.getAdapter().notifyDataSetChanged();
+        return true;
+    }
+
+    @Override
+    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+
+    }
+
+    @Override
+    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
 }
