@@ -11,9 +11,11 @@ import android.widget.TextView;
 import java.util.Collections;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import io.realm.RealmList;
 
 public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.JudgementViewHolder> {
@@ -39,7 +41,8 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
         holder.itemJudgementKM.setText(String.valueOf(judgements.get(position).getDistance()));
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        JudgmentRiderAdapter adapter = new JudgmentRiderAdapter(RewardPresenter.getInstance().getRewardReturnedByJudgment(judgements.get(position)));
+        RealmList<JudgmentRiderConnection> judgmentRiderConnections = JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgements.get(position));
+        JudgmentRiderAdapter adapter = new JudgmentRiderAdapter(RewardPresenter.getInstance().getRewardReturnedByJudgment(judgements.get(position)), judgmentRiderConnections, context);
         holder.rvJudgmentRiders.setLayoutManager(layoutManager);
         holder.rvJudgmentRiders.setAdapter(adapter);
     }

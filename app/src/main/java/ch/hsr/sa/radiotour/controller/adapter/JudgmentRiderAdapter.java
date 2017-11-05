@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,18 +8,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
-import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-
-/**
- * Created by Urs Forrer on 05.11.2017.
- */
+import io.realm.RealmList;
 
 public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdapter.JudgmentRiderViewHolder> {
     private Reward reward;
+    private RealmList<JudgmentRiderConnection> judgmentRiderConnections;
+    private Context context;
 
-    public JudgmentRiderAdapter(Reward reward) {
+    public JudgmentRiderAdapter(Reward reward, RealmList<JudgmentRiderConnection> judgmentRiderConnections, Context context) {
         this.reward = reward;
+        this.context = context;
+        this.judgmentRiderConnections = judgmentRiderConnections;
     }
 
     @Override
@@ -31,14 +33,26 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
     @Override
     public void onBindViewHolder(JudgmentRiderViewHolder holder, int position) {
         holder.itemRank.setText(String.valueOf(position + 1));
+        holder.itemRiderName.setText(getRiderNameByRank(position + 1));
+    }
+
+    private String getRiderNameByRank(int rank) {
+        for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
+            if (jRC.getRank() == rank) {
+                return jRC.getRiders().getName();
+            }
+        }
+        return context.getResources().getString(R.string.placeholder_rider_judgment);
     }
 
     @Override
     public int getItemCount() {
         int size = 0;
-        for (int i = 0; i < reward.getPoints().size(); i++) {
-            if (reward.getPoints().get(i) != 0) {
-                size++;
+        if (reward != null && reward instanceof Reward) {
+            for (int i = 0; i < reward.getPoints().size(); i++) {
+                if (reward.getPoints().get(i) != 0) {
+                    size++;
+                }
             }
         }
         return size;
