@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.Context;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +11,18 @@ import android.widget.TextView;
 import java.util.Collections;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentComperator;
 import io.realm.RealmList;
 
 public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.JudgementViewHolder> {
     private RealmList<Judgement> judgements;
+    private Context context;
 
-    public JudgementAdapter(RealmList<Judgement> judgements) {
+    public JudgementAdapter(RealmList<Judgement> judgements, Context context) {
         this.judgements = judgements;
+        this.context = context;
         Collections.sort(judgements, new JudgmentComperator());
     }
 
@@ -31,8 +36,12 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     @Override
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
-        holder.itemJudgementPlace.setText(String.valueOf(judgements.get(position).getDistance()));
         holder.itemJudgementKM.setText(String.valueOf(judgements.get(position).getDistance()));
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        JudgmentRiderAdapter adapter = new JudgmentRiderAdapter(RewardPresenter.getInstance().getRewardReturnedByJudgment(judgements.get(position)));
+        holder.rvJudgmentRiders.setLayoutManager(layoutManager);
+        holder.rvJudgmentRiders.setAdapter(adapter);
     }
 
     @Override
@@ -42,14 +51,14 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
     public class JudgementViewHolder extends RecyclerView.ViewHolder {
         private TextView itemTitleJudgement;
-        private TextView itemJudgementPlace;
         private TextView itemJudgementKM;
+        private RecyclerView rvJudgmentRiders;
 
         public JudgementViewHolder(View itemView) {
             super(itemView);
             itemTitleJudgement = (TextView) itemView.findViewById(R.id.itemTitleJudgement);
-            itemJudgementPlace = (TextView) itemView.findViewById(R.id.itemJudgementPlace);
             itemJudgementKM = (TextView) itemView.findViewById(R.id.itemJudgementKM);
+            rvJudgmentRiders = (RecyclerView) itemView.findViewById(R.id.rvRiderJudgement);
         }
     }
 

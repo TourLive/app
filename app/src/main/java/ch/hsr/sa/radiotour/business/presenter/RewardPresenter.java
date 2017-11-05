@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRewardPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RewardRepository;
 
@@ -56,7 +57,13 @@ public class RewardPresenter implements IRewardPresenter {
     }
 
     @Override
+    public Reward getRewardReturnedByJudgment(Judgement judgement) {
+        return rewardRepository.getRewardReturnedByJudgment(judgement);
+    }
+
+    @Override
     public void clearAllRewards() {
         rewardRepository.clearAllRewards();
     }
+
 }
