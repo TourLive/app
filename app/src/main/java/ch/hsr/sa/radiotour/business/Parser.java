@@ -154,11 +154,13 @@ public final class Parser {
                 for (int i = 0; i < judgmentsJson.length(); i++) {
                     try {
                         JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
-                        Judgement judgment = new Judgement();
-                        judgment.setDistance(jsonJudgment.getInt("rennkm"));
-                        judgment.setName(jsonJudgment.getString("name"));
-                        judgment.setRewardId(jsonJudgment.getInt("rewardId"));
-                        Context.addJudgment(judgment);
+                        if (jsonJudgment.getInt("etappe") == 8) {
+                            Judgement judgment = new Judgement();
+                            judgment.setDistance(jsonJudgment.getInt("rennkm"));
+                            judgment.setName(jsonJudgment.getString("name"));
+                            judgment.setRewardId(jsonJudgment.getInt("rewardId"));
+                            Context.addJudgment(judgment);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
