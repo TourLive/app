@@ -6,5 +6,6 @@ import io.realm.RealmList;
 public interface IJudgmentPresenter extends IBasePresenter {
     void addJudgment(Judgement judgement);
     void clearAllJudgments();
+    void getAllJudgments();
     RealmList<Judgement> getJudgmentsById(int judgmentId);
 }
