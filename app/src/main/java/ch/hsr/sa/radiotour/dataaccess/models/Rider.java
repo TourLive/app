@@ -26,7 +26,7 @@ public class Rider extends RealmObject {
 
     private RealmList<RiderStageConnection> riderStages;
 
-    private RealmList<RewardRiderConnection> riderRewardConnections;
+    private RealmList<JudgmentRiderConnection> judgmentRiderConnections_riders;
 
     @LinkingObjects("riders")
     private final RealmResults<RaceGroup> raceGroups = null;
@@ -98,12 +98,12 @@ public class Rider extends RealmObject {
         this.riderStages.remove(stageConnection);
     }
 
-    public RealmList<RewardRiderConnection> getRiderRewardConnections() {
-        return riderRewardConnections;
+    public RealmList<JudgmentRiderConnection> getJudgmentRewardConnections() {
+        return judgmentRiderConnections_riders;
     }
 
-    public void setRiderRewardConnections(RealmList<RewardRiderConnection> riderRewardConnections) {
-        this.riderRewardConnections = riderRewardConnections;
+    public void setJudgmentRewardConnections(RealmList<JudgmentRiderConnection> judgmentRiderConnections) {
+        this.judgmentRiderConnections_riders = judgmentRiderConnections;
     }
 
     public void removeStages(){

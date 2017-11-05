@@ -7,7 +7,7 @@ import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
-public class RewardRiderConnection extends RealmObject {
+public class JudgmentRiderConnection extends RealmObject {
     @PrimaryKey
     private String id;
     private int rank;
@@ -20,18 +20,18 @@ public class RewardRiderConnection extends RealmObject {
         this.rank = rank;
     }
 
-    @LinkingObjects("riderRewardConnections")
+    @LinkingObjects("judgmentRiderConnections_riders")
     private final RealmResults<Rider> riders = null;
 
-    @LinkingObjects("rewardRiderConnections")
-    private final RealmResults<Reward> rewards = null;
+    @LinkingObjects("judgmentRiderConnections")
+    private final RealmResults<Judgement> judgements = null;
 
     public Rider getRiders() {
         return riders.first();
     }
 
-    public Reward getRewards() {
-        return rewards.first();
+    public Judgement getRewards() {
+        return judgements.first();
     }
 
 }

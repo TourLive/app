@@ -12,11 +12,9 @@ import android.view.ViewGroup;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RewardRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.JudgementAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import io.realm.RealmList;
@@ -56,7 +54,7 @@ public class SpecialFragment extends Fragment {
         JudgmentPresenter.getInstance().getAllJudgments();
         RiderPresenter.getInstance().subscribeCallbacks();
         RewardPresenter.getInstance().subscribeCallbacks();
-        RewardRiderConnectionPresenter.getInstance().subscribeCallbacks();
+        JudgmentRiderConnectionPresenter.getInstance().subscribeCallbacks();
     }
 
     @Override
@@ -65,7 +63,7 @@ public class SpecialFragment extends Fragment {
         JudgmentPresenter.getInstance().unSubscribeCallbacks();
         RiderPresenter.getInstance().unSubscribeCallbacks();
         RewardPresenter.getInstance().unSubscribeCallbacks();
-        RewardRiderConnectionPresenter.getInstance().unSubscribeCallbacks();
+        JudgmentRiderConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
     public void showJudgments(RealmList<Judgement> judgements) {
