@@ -23,11 +23,24 @@ public class JudgmentRepository implements IJudgmentRepository {
                 realmJudgment.setName(transferJudgment.getName());
                 realmJudgment.setDistance(transferJudgment.getDistance());
                 realmJudgment.setRewardId(transferJudgment.getRewardId());
+                realmJudgment.setRewardRiderConnections(transferJudgment.getJudgmentRiderConnections());
             }
         });
 
         if (callback != null)
             callback.onSuccess();
+    }
+
+    @Override
+    public void getAllJudgments(OnGetAllJudgmentCallback callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Judgement> results = realm.where(Judgement.class).findAll();
+        RealmList<Judgement> res = new RealmList<>();
+        res.addAll(results);
+
+        if (callback != null) {
+            callback.onSuccess(res);
+        }
     }
 
     @Override

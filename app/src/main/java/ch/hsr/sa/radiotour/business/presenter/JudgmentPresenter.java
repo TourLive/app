@@ -8,6 +8,7 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IJudgmentPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRepository;
+import ch.hsr.sa.radiotour.presentation.fragments.SpecialFragment;
 import io.realm.RealmList;
 
 
@@ -17,6 +18,7 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     private JudgmentRepository judgmentRepository = new JudgmentRepository();
 
     private IJudgmentRepository.OnSaveJudgmentCallback onSaveJudgmentCallback;
+    private IJudgmentRepository.OnGetAllJudgmentCallback onGetAllJudgmentCallback;
 
     public static JudgmentPresenter getInstance() {
         if(instance == null){
@@ -45,6 +47,20 @@ public class JudgmentPresenter implements IJudgmentPresenter {
 
             }
         };
+        onGetAllJudgmentCallback = new IJudgmentRepository.OnGetAllJudgmentCallback() {
+            @Override
+            public void onSuccess(RealmList<Judgement> judgements) {
+                for(Fragment frag : fragments){
+                    SpecialFragment specialFragment = (SpecialFragment) frag;
+                    specialFragment.showJudgments(judgements);
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
     }
 
     @Override
@@ -61,6 +77,11 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     @Override
     public RealmList<Judgement> getJudgmentsById(int judgmentId){
         return judgmentRepository.getJudgmentsById(judgmentId);
+    }
+
+    @Override
+    public void getAllJudgments() {
+        judgmentRepository.getAllJudgments(onGetAllJudgmentCallback);
     }
 
     @Override

@@ -4,8 +4,10 @@ import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 public class RewardRepository implements IRewardRepository {
@@ -23,12 +25,18 @@ public class RewardRepository implements IRewardRepository {
                 realmReward.setRewardId(transferReward.getRewardId());
                 realmReward.setType(transferReward.getType());
                 realmReward.setRewardJudgements(transferReward.getRewardJudgements());
-                realmReward.setRewardRiderConnections(transferReward.getRewardRiderConnections());
             }
         });
 
         if (callback != null)
             callback.onSuccess();
+    }
+
+    @Override
+    public Reward getRewardReturnedByJudgment(Judgement judgement) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        Reward res = realm.where(Reward.class).equalTo("rewardJudgements.id", judgement.getId()).findFirst();
+        return res;
     }
 
     @Override
