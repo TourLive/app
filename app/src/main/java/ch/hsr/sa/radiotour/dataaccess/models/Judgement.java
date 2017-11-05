@@ -20,6 +20,8 @@ public class Judgement extends RealmObject {
     @LinkingObjects("rewardJudgements")
     private final RealmResults<Reward> rewards = null;
 
+    private RealmList<JudgmentRiderConnection> judgmentRiderConnections;
+
     public Reward getRewards() { return this.rewards.first(); }
 
     public String getName() {
@@ -45,4 +47,17 @@ public class Judgement extends RealmObject {
     public void setRewardId(int rewardId) {
         this.rewardId = rewardId;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public RealmList<JudgmentRiderConnection> getJudgmentRiderConnections() {
+        return judgmentRiderConnections;
+    }
+
+    public void setRewardRiderConnections(RealmList<JudgmentRiderConnection> judgmentRiderConnections) {
+        this.judgmentRiderConnections = judgmentRiderConnections;
+    }
+
 }

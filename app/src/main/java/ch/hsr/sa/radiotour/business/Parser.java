@@ -4,21 +4,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.Array;
-import java.sql.Time;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
-import ch.hsr.sa.radiotour.dataaccess.models.RewardRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -154,11 +148,13 @@ public final class Parser {
                 for (int i = 0; i < judgmentsJson.length(); i++) {
                     try {
                         JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
-                        Judgement judgment = new Judgement();
-                        judgment.setDistance(jsonJudgment.getInt("rennkm"));
-                        judgment.setName(jsonJudgment.getString("name"));
-                        judgment.setRewardId(jsonJudgment.getInt("rewardId"));
-                        Context.addJudgment(judgment);
+                        if (jsonJudgment.getInt("etappe") == 8) {
+                            Judgement judgment = new Judgement();
+                            judgment.setDistance(jsonJudgment.getInt("rennkm"));
+                            judgment.setName(jsonJudgment.getString("name"));
+                            judgment.setRewardId(jsonJudgment.getInt("rewardId"));
+                            Context.addJudgment(judgment);
+                        }
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
