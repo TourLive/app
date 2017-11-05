@@ -6,8 +6,10 @@ import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IJudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRiderConnectionRepository;
+import io.realm.RealmList;
 
 public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectionPresenter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
@@ -52,6 +54,11 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
     @Override
     public void addJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection) {
         judgmentRiderConnectionRepository.addJudgmentRiderConnection(judgmentRiderConnection, onSaveJudgmentRiderConnectionCallback);
+    }
+
+    @Override
+    public RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement) {
+        return judgmentRiderConnectionRepository.getJudgmentRiderConnectionsReturnedByJudgment(judgement);
     }
 
     @Override
