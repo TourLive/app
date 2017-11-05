@@ -3,20 +3,20 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
-import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRiderConnectionRepository;
-import ch.hsr.sa.radiotour.dataaccess.models.RewardRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import io.realm.Realm;
 
-public class RewardRiderConnectionRepository implements IRewardRiderConnectionRepository {
+public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnectionRepository {
     @Override
-    public void addRewardRiderConnection(RewardRiderConnection rewardRiderConnection, OnSaveRewardRiderConnectionCallback callback) {
+    public void addJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection, OnSaveJudgmentRiderConnectionCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        final RewardRiderConnection transferConnection = rewardRiderConnection;
+        final JudgmentRiderConnection transferConnection = judgmentRiderConnection;
 
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                RewardRiderConnection realmConnection= realm.createObject(RewardRiderConnection.class, UUID.randomUUID().toString());
+                JudgmentRiderConnection realmConnection= realm.createObject(JudgmentRiderConnection.class, UUID.randomUUID().toString());
                 realmConnection.setRank(transferConnection.getRank());
             }
         });
@@ -26,12 +26,12 @@ public class RewardRiderConnectionRepository implements IRewardRiderConnectionRe
     }
 
     @Override
-    public void clearAllRewardRiderConnections() {
+    public void clearAllJudgmentRiderConnections() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.where(RewardRiderConnection.class).findAll().deleteAllFromRealm();
+                realm.where(JudgmentRiderConnection.class).findAll().deleteAllFromRealm();
             }
         });
     }
