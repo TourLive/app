@@ -45,4 +45,9 @@ public class Judgement extends RealmObject {
     public void setRewardId(int rewardId) {
         this.rewardId = rewardId;
     }
+
+    public String getId() {
+        return id;
+    }
+
 }

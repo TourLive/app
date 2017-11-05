@@ -40,7 +40,7 @@ public class SpecialFragment extends Fragment {
         JudgmentPresenter.getInstance().addView(this);
         RewardPresenter.getInstance().addView(this);
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
-        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>()));
+        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext()));
         initRecyclerListener();
     }
 
@@ -70,7 +70,7 @@ public class SpecialFragment extends Fragment {
 
     public void showJudgments(RealmList<Judgement> judgements) {
         this.judgements = judgements;
-        judgementAdapter = new JudgementAdapter(judgements);
+        judgementAdapter = new JudgementAdapter(judgements, getContext());
         rvJudgement.setAdapter(judgementAdapter);
     }
 
