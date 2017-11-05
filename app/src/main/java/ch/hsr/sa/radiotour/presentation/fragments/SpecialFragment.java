@@ -2,6 +2,9 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,8 +17,17 @@ import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.JudgementAdapter;
+import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
+import io.realm.RealmList;
 
 public class SpecialFragment extends Fragment {
+    private RealmList<Judgement> judgements;
+
+    private JudgementAdapter judgementAdapter;
+
+    private RecyclerView rvJudgement;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","SpecialFragment onCreateView");
@@ -25,16 +37,23 @@ public class SpecialFragment extends Fragment {
     }
 
     public void initComponents(View root) {
+        JudgmentPresenter.getInstance().addView(this);
+        RewardPresenter.getInstance().addView(this);
+        rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
+        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>()));
         initRecyclerListener();
     }
 
     private void initRecyclerListener() {
+        rvJudgement.setLayoutManager(new LinearLayoutManager(getContext()));
+        rvJudgement.setItemAnimator(new DefaultItemAnimator());
     }
 
     @Override
     public void onStart() {
         super.onStart();
         JudgmentPresenter.getInstance().subscribeCallbacks();
+        JudgmentPresenter.getInstance().getAllJudgments();
         RiderPresenter.getInstance().subscribeCallbacks();
         RewardPresenter.getInstance().subscribeCallbacks();
         RewardRiderConnectionPresenter.getInstance().subscribeCallbacks();
@@ -47,6 +66,12 @@ public class SpecialFragment extends Fragment {
         RiderPresenter.getInstance().unSubscribeCallbacks();
         RewardPresenter.getInstance().unSubscribeCallbacks();
         RewardRiderConnectionPresenter.getInstance().unSubscribeCallbacks();
+    }
+
+    public void showJudgments(RealmList<Judgement> judgements) {
+        this.judgements = judgements;
+        judgementAdapter = new JudgementAdapter(judgements);
+        rvJudgement.setAdapter(judgementAdapter);
     }
 
 

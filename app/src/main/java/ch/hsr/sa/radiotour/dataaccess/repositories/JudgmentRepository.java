@@ -31,6 +31,18 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
+    public void getAllJudgments(OnGetAllJudgmentCallback callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Judgement> results = realm.where(Judgement.class).findAll();
+        RealmList<Judgement> res = new RealmList<>();
+        res.addAll(results);
+
+        if (callback != null) {
+            callback.onSuccess(res);
+        }
+    }
+
+    @Override
     public RealmList<Judgement> getJudgmentsById(final int judgmentId){
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmList<Judgement> results = new RealmList<>();
