@@ -31,12 +31,9 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
-
     private RiderListAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
-
     private ItemTouchHelper itemTouchHelper;
-
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
 
