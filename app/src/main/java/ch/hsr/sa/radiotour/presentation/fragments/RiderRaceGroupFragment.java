@@ -193,10 +193,10 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     }
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
-        if (adapter.getSelectedRiders().size() != 0) {
+        if (!adapter.getSelectedRiders().isEmpty()) {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
             adapter.resetSelectRiders();
-        } else if (unknownRiders.size() != 0) {
+        } else if (!unknownRiders.isEmpty()) {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders);
             removeUnknownRiders();
         }
@@ -207,12 +207,12 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RaceGroup raceGroup = new RaceGroup();
         raceGroup.setPosition(position);
         raceGroup.setType(raceGroupType);
-        if (adapter.getSelectedRiders().size() != 0) {
+        if (!adapter.getSelectedRiders().isEmpty()) {
             raceGroup.setRiders(adapter.getSelectedRiders());
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
-        } else if (unknownRiders.size() != 0) {
+        } else if (!unknownRiders.isEmpty()) {
             raceGroup.setRiders(unknownRiders);
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
@@ -224,7 +224,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void onFinishAddingUnknownUser(int count) {
         int start;
         RealmList<Rider> dbUnknownRiders = RiderPresenter.getInstance().getAllUnknownRidersReturned();
-        if (dbUnknownRiders == null || dbUnknownRiders.size() == 0) {
+        if (dbUnknownRiders == null || dbUnknownRiders.isEmpty()) {
             start = 0;
         } else {
             start = dbUnknownRiders.get(dbUnknownRiders.size() - 1).getStartNr() - 900 + 1;

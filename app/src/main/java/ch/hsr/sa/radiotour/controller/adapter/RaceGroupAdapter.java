@@ -147,8 +147,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
-            layout_racegroup = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_RaceGroup);
-            layout_addButton = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButton);
+            layout_racegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
+            layout_addButton = itemView.findViewById(R.id.constraintLayout_AddButton);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);

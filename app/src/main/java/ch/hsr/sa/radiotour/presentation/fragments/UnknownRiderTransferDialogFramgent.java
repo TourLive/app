@@ -86,13 +86,13 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
     }
 
     private void addItemsToSpinner() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
             if (!r.isUnknown()) {
                 list.add("" + r.getStartNr() + "-" + r.getCountry() + "-" + r.getName());
             }
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
         spinner.setAdapter(dataAdapter);
     }
 }

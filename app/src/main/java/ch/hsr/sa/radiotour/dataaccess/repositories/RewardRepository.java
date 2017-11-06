@@ -33,8 +33,7 @@ public class RewardRepository implements IRewardRepository {
     @Override
     public Reward getRewardReturnedByJudgment(Judgement judgement) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        Reward res = realm.where(Reward.class).equalTo("rewardJudgements.id", judgement.getId()).findFirst();
-        return res;
+        return realm.where(Reward.class).equalTo("rewardJudgements.id", judgement.getId()).findFirst();
     }
 
     @Override
