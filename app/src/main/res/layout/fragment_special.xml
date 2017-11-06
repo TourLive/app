@@ -20,10 +20,10 @@
 
         <TextView
             android:id="@+id/titleJudgements"
+            style="@style/HeaderTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Wertungen (Spezialklassemente)"
-            style="@style/HeaderTitle"
+            android:text="@string/specrank_special_ranking"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
