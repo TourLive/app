@@ -141,14 +141,14 @@ public final class Parser {
         return threadRank;
     }
 
-    public static void parseJudgmentsAndPersist(JSONArray judgments) throws JSONException, InterruptedException {
+    public static void parseJudgmentsAndPersist(JSONArray judgments, final int STAGE_NR) throws JSONException, InterruptedException {
         final JSONArray judgmentsJson = judgments;
         Runnable runnable = new Runnable() {
             public void run() {
                 for (int i = 0; i < judgmentsJson.length(); i++) {
                     try {
                         JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
-                        if (jsonJudgment.getInt("etappe") == 8) {
+                        if (jsonJudgment.getInt("etappe") == STAGE_NR) {
                             Judgement judgment = new Judgement();
                             judgment.setDistance(jsonJudgment.getInt("rennkm"));
                             judgment.setName(jsonJudgment.getString("name"));
@@ -212,12 +212,12 @@ public final class Parser {
         threadRewards.join();
     }
 
-    public static void parseStagesAndPersist(JSONArray stages) throws JSONException, InterruptedException {
+    public static void parseStagesAndPersist(JSONArray stages, final int STAGE_NR) throws JSONException, InterruptedException {
         final JSONArray stagesJson = stages;
         Runnable runnable = new Runnable() {
             public void run() {
                     try {
-                        JSONObject jsonStage = stagesJson.getJSONObject(stagesJson.length() - 1);
+                        JSONObject jsonStage = stagesJson.getJSONObject(STAGE_NR);
                         Stage stage = new Stage();
                         stage.setStageId(jsonStage.getInt("stageId"));
                         stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));

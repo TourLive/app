@@ -6,6 +6,43 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/spacerTitle"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Import" />
+
+    <View
+        android:id="@+id/spacerTitleConf"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Config" />
+
+    <View
+        android:id="@+id/spacerTitleDemo"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Demomode" />
+
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"
@@ -22,14 +59,13 @@
 
     <TextView
         android:id="@+id/txt_Import"
+        style="@style/HeaderTitle"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="34dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_import"
-        android:textSize="@dimen/text_size_title"
-        android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -46,7 +82,7 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_Import" />
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitle" />
 
     <TextView
         android:id="@+id/txt_Demomode"
@@ -56,8 +92,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_demomode"
-        android:textSize="@dimen/text_size_title"
-        android:textStyle="bold"
+        style="@style/HeaderTitle"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_Import" />
@@ -71,8 +106,9 @@
         android:layout_marginTop="8dp"
         android:text="@string/import_demodata"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_Demomode" />
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitleDemo" />
 
     <TextView
         android:id="@+id/txt_Config"
@@ -82,8 +118,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_config"
-        android:textSize="@dimen/text_size_title"
-        android:textStyle="bold"
+        style="@style/HeaderTitle"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_ImportDemodata" />
@@ -99,9 +134,9 @@
         android:textSize="@dimen/text_size_undertitle"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_Config" />
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitleConf" />
 
     <Button
         android:id="@+id/btn_SaveSharedSecret"
@@ -122,19 +157,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Secret"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
-        app:layout_constraintTop_toBottomOf="@+id/txt_Config" /><![CDATA[
-    />
-
-
-
-
-
-
-]]>
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitleConf" />
 </android.support.constraint.ConstraintLayout>
