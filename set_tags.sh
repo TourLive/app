@@ -20,7 +20,7 @@ if [ "$TRAVIS_BRANCH" = "$BRANCH" ]; then
 
       echo -e "Done magic with tags.\n"
 	  
-	  cp app/build/outputs/apk/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
+	  cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
   fi
   fi
 fi
