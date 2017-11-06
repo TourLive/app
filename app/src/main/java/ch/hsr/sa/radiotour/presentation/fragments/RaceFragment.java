@@ -27,7 +27,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener, RecyclerView.OnItemTouchListener {
+public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener {
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -45,7 +45,6 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         Log.d("TAG", "RaceFragment - onCreateView");
         View root = inflater.inflate(R.layout.fragment_race, container, false);
         initComponents(root);
-        rvRider.addOnItemTouchListener(this);
         return root;
     }
 
@@ -121,22 +120,5 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
     @Override
     public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
         itemTouchHelper.startDrag(viewHolder);
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-        MainActivity.viewPageAdapter.setDetail(true);
-        MainActivity.viewPager.getAdapter().notifyDataSetChanged();
-        return true;
-    }
-
-    @Override
-    public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-    }
-
-    @Override
-    public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
     }
 }
