@@ -32,7 +32,7 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
 
     @Override
     public void onBindViewHolder(JudgmentRiderViewHolder holder, int position) {
-        holder.itemRank.setText(String.valueOf(position + 1));
+        holder.itemRank.setText(String.valueOf(position + 1) + ".");
         holder.itemRiderName.setText(getRiderNameByRank(position + 1));
     }
 

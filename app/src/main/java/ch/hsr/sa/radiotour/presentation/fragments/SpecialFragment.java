@@ -21,9 +21,7 @@ import io.realm.RealmList;
 
 public class SpecialFragment extends Fragment {
     private RealmList<Judgement> judgements;
-
     private JudgementAdapter judgementAdapter;
-
     private RecyclerView rvJudgement;
 
     @Override
