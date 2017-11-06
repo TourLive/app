@@ -27,7 +27,6 @@ import io.realm.RealmList;
  */
 
 public class UnknownRiderTransferDialogFramgent extends DialogFragment {
-    private TextView textView;
     private Spinner spinner;
     private Rider selectedUnknownRider;
 
@@ -47,7 +46,6 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_unknowntransfer, null);
         alertDialogBuilder.setView(dialogView);
-        textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
         spinner = (Spinner) dialogView.findViewById(R.id.riderSpinner);
 
         addItemsToSpinner();

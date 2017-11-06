@@ -16,13 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
-
-import org.json.JSONException;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
-import ch.hsr.sa.radiotour.controller.api.UrlLink;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btn_Import;

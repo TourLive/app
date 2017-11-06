@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -24,10 +23,9 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements IPresenterFragments, OnStartDragListener {
+public class RaceFragment extends Fragment implements OnStartDragListener {
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -92,7 +90,6 @@ public class RaceFragment extends Fragment implements IPresenterFragments, OnSta
         rvRider.setAdapter(adapter);
     }
 
-    @Override
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         // DO nothing.
     }

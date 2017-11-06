@@ -10,7 +10,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
-import ch.hsr.sa.radiotour.presentation.fragments.IPresenterFragments;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;

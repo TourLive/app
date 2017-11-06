@@ -7,8 +7,6 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import io.realm.Realm;
-import io.realm.RealmResults;
-
 
 public class RewardRepository implements IRewardRepository {
     @Override
