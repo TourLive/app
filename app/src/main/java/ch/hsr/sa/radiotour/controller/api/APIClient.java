@@ -18,6 +18,7 @@ public final class APIClient {
     private static final String BASE_URL = "https://tlng.cnlab.ch/";
     private static String RACE_ID = "";
     private static String STAGE_ID = "";
+    private static int STAGE_NR = 0;
 
     private static SyncHttpClient client = new SyncHttpClient();
 
@@ -121,7 +122,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
-                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"));
+                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), STAGE_NR);
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
@@ -182,7 +183,13 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
                 try{
-                    Parser.parseStagesAndPersist(stages);
+                    for(int i = 0; i < stages.length(); i++){
+                        JSONObject stage = stages.getJSONObject(i);
+                        if(stage.getInt("stageId") ==  Integer.valueOf(STAGE_ID)){
+                            STAGE_NR = i; // gets the second last stage, cause of data leak on API
+                        }
+                    };
+                    Parser.parseStagesAndPersist(stages, STAGE_NR);
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
