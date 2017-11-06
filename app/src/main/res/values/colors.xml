@@ -11,4 +11,6 @@
     <color name="colorOlive">#b6cf80</color>
     <color name="colorGrayDark">#424242</color>
     <color name="colorTeal">#26a69a</color>
+    <color name="colorBackground">#fffafafa</color>
+    <color name="colorHeaderBorder">#AD424242</color>
 </resources>

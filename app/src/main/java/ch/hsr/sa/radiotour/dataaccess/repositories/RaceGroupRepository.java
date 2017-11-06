@@ -162,9 +162,9 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
         raceGroup.setPosition(position);
-        if (position == 0) {
+        if (position == 0 && raceGroup.getType() != RaceGroupType.FELD) {
             raceGroup.setType(RaceGroupType.LEAD);
-        } else {
+        } else if (raceGroup.getType() != RaceGroupType.FELD) {
             raceGroup.setType(RaceGroupType.NORMAL);
         }
         realm.commitTransaction();
