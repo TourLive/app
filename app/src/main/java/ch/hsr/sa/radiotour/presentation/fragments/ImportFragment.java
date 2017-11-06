@@ -140,10 +140,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             } else if (progressBarStatus < 60) {
                 progressBarHandler.post(new Runnable() {
                     public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_judgment));
+                        progressBar.setMessage(getResources().getText(R.string.import_stage));
                     }
                 });
-                String message = APIClient.getJudgments();
+                String message = APIClient.getStages();
                 if(!message.equals("success")){
                     ErrorDialog dialog = new ErrorDialog();
                     Bundle bundle = new Bundle();
@@ -174,10 +174,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             } else {
                 progressBarHandler.post(new Runnable() {
                     public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_stage));
+                        progressBar.setMessage(getResources().getText(R.string.import_judgment));
                     }
                 });
-                String message = APIClient.getStages();
+                String message = APIClient.getJudgments();
                 if(!message.equals("success")){
                     ErrorDialog dialog = new ErrorDialog();
                     Bundle bundle = new Bundle();
