@@ -20,16 +20,14 @@ import io.realm.RealmList;
 
 public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroupAdapter.LittleRaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
-    private Context context;
     private RiderRaceGroupFragment fragment;
 
     private static final int NORMALITEM = 0;
     private static final int FIRSTITEM = 1;
 
-    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, RiderRaceGroupFragment fragment){
+    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
-        this.context = context;
         this.fragment = fragment;
     }
 

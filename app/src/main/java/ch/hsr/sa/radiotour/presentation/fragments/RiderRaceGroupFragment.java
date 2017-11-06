@@ -19,9 +19,7 @@ import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderEditAdapter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -29,7 +27,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
+public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -123,7 +121,6 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         rvRider.setAdapter(adapter);
     }
 
-    @Override
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         adapter.updateRiderStateOnGUI(connection);
         if(connection.getRiders().getRaceGroups() != null){
@@ -140,7 +137,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext(), this);
+        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, this);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 

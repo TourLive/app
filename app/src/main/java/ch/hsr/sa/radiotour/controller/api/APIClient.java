@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.controller.api;
 
-import android.util.Log;
-
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -188,7 +186,7 @@ public final class APIClient {
                         if(stage.getInt("stageId") ==  Integer.valueOf(STAGE_ID)){
                             STAGE_NR = i; // gets the second last stage, cause of data leak on API
                         }
-                    };
+                    }
                     Parser.parseStagesAndPersist(stages, STAGE_NR);
                     messages[0] = "success";
                 } catch (JSONException ex){
