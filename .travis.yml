@@ -62,8 +62,9 @@ cache:
 after_success:
 - sh set_tags.sh
 before_deploy:
-- cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
+- ls app/build/outputs/apk/debug
 - ls app/build/outputs/apk/
+- cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
 deploy:
   provider: releases
   api_key:
