@@ -49,6 +49,7 @@ before_script:
 script:
 - ./gradlew build assembleRelease
 - ./gradlew connectedAndroidTest
+- ./gradlew clean sonarqube
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
