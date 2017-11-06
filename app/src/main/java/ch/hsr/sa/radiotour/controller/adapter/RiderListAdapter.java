@@ -11,6 +11,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
 public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.RiderViewHolder>{
@@ -72,13 +73,21 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         return color;
     }
 
-    public class RiderViewHolder extends RecyclerView.ViewHolder {
+    public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvNummer;
 
         public RiderViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
             tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
+        }
+
+
+        @Override
+        public void onClick(View view) {
+            MainActivity.viewPageAdapter.setDetail(true);
+            MainActivity.viewPager.getAdapter().notifyDataSetChanged();
         }
     }
 
