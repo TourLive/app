@@ -12,5 +12,10 @@
     <style name="TabLayoutTextApperance" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">8dp</item>
     </style>
+    <style name="HeaderTitle">
+        <item name="android:textColor">#FF424242</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>
