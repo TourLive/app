@@ -1,11 +1,17 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
+import android.speech.tts.TextToSpeech;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,8 +50,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
-        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
-        drawable.setColor(getColorFromState(getRiderStateType(position)));
+        setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
         holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
@@ -54,8 +59,11 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     }
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
-        GradientDrawable drawable = (GradientDrawable) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer.getBackground();
-        drawable.setColor(getColorFromState(connection.getType()));
+        RiderStateType stateType = connection.getType();
+        if(!holderHashMap.isEmpty()){
+            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            setRiderStateAnimation(tvNumber, stateType);
+        }
     }
 
     @Override
@@ -63,29 +71,30 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         return riders.size();
     }
 
-    private int getColorFromState(RiderStateType stateType){
-        int color;
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+        GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
-            case DOCTOR:
-                color = ContextCompat.getColor(context, R.color.colorBlue);
-                break;
-            case DROP:
-                color = ContextCompat.getColor(context, R.color.colorYellow);
-                break;
-            case DEFECT:
-                color = ContextCompat.getColor(context, R.color.colorRed);
-                break;
             case QUIT:
-                color = ContextCompat.getColor(context, R.color.colorOlive);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
                 break;
             case DNC:
-                color = ContextCompat.getColor(context, R.color.colorOrange);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
+                break;
+            case DOCTOR:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorBlue));
+                break;
+            case DEFECT:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorRed));
+                break;
+            case DROP:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorOlive));
                 break;
             default:
-                color = 0;
+                drawable.setColor(0);
                 break;
         }
-        return color;
     }
 
     public void resetSelectRiders() {
