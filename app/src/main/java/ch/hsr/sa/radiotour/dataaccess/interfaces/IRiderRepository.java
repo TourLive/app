@@ -25,6 +25,8 @@ public interface IRiderRepository {
 
     void getAllRiders(OnGetAllRidersCallback callback);
 
+    Rider getRiderByStartNr(int startNr);
+
     RealmList<Rider> getAllRidersReturned();
 
     RealmList<Rider> getAllUnknownRidersReturned();
