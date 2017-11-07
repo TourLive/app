@@ -8,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
@@ -19,9 +22,11 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     private RealmList<Rider> riders;
     private android.content.Context context;
+    private HashMap<Integer, RiderViewHolder> holderHashMap;
 
     public RiderListAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
+        this.holderHashMap = new HashMap<>();
     }
 
     @Override
@@ -36,6 +41,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
+        holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -45,6 +51,14 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     @Override
     public int getItemCount() {
         return riders.size();
+    }
+
+    public void updateRiderStateOnGUI(RiderStageConnection connection) {
+        RiderStateType stateType = connection.getType();
+        if(!holderHashMap.isEmpty()){
+            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            setRiderStateAnimation(tvNumber, stateType);
+        }
     }
 
     private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
