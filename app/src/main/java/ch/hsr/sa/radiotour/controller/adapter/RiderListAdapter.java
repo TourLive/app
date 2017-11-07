@@ -1,4 +1,5 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -34,9 +35,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
-        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
-        drawable.setColor(getColorFromState(getRiderStateType(position)));
-
+        setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -48,29 +47,30 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         return riders.size();
     }
 
-    private int getColorFromState(RiderStateType stateType){
-        int color;
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+        GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
-            case DOCTOR:
-                color = ContextCompat.getColor(context, R.color.colorBlue);
-                break;
             case DROP:
-                color = ContextCompat.getColor(context, R.color.colorYellow);
-                break;
-            case DEFECT:
-                color = ContextCompat.getColor(context, R.color.colorRed);
-                break;
-            case QUIT:
-                color = ContextCompat.getColor(context, R.color.colorOlive);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
                 break;
             case DNC:
-                color = ContextCompat.getColor(context, R.color.colorOrange);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
+                break;
+            case DOCTOR:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorBlue));
+                break;
+            case DEFECT:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorRed));
+                break;
+            case QUIT:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorOlive));
                 break;
             default:
-                color = 0;
+                drawable.setColor(0);
                 break;
         }
-        return color;
     }
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
