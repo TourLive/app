@@ -19,7 +19,7 @@ public class JudgmentRiderConnection extends RealmObject {
         this.rank = rank;
     }
 
-    @LinkingObjects("judgmentRiderConnections_riders")
+    @LinkingObjects("judgmentRiderConnectionsRiders")
     private final RealmResults<Rider> riders = null;
 
     @LinkingObjects("judgmentRiderConnections")

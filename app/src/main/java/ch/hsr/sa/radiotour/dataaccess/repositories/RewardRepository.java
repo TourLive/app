@@ -14,16 +14,13 @@ public class RewardRepository implements IRewardRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final Reward transferReward = reward;
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Reward realmReward= realm.createObject(Reward.class, UUID.randomUUID().toString());
-                realmReward.setMoney(transferReward.getMoney());
-                realmReward.setPoints(transferReward.getPoints());
-                realmReward.setRewardId(transferReward.getRewardId());
-                realmReward.setType(transferReward.getType());
-                realmReward.setRewardJudgements(transferReward.getRewardJudgements());
-            }
+        realm.executeTransaction((Realm db) -> {
+            Reward realmReward= db.createObject(Reward.class, UUID.randomUUID().toString());
+            realmReward.setMoney(transferReward.getMoney());
+            realmReward.setPoints(transferReward.getPoints());
+            realmReward.setRewardId(transferReward.getRewardId());
+            realmReward.setType(transferReward.getType());
+            realmReward.setRewardJudgements(transferReward.getRewardJudgements());
         });
 
         if (callback != null)
@@ -39,11 +36,8 @@ public class RewardRepository implements IRewardRepository {
     @Override
     public void clearAllRewards() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Reward.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction((Realm db) -> {
+            db.where(Reward.class).findAll().deleteAllFromRealm();
         });
     }
 }

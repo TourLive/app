@@ -48,11 +48,11 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     .show();
             } else {
                 new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.import_no_internet_title)
-                        .setMessage(R.string.import_no_internet_connection)
-                        .setPositiveButton(android.R.string.ok,null)
-                        .create()
-                        .show();
+                    .setTitle(R.string.import_no_internet_title)
+                    .setMessage(R.string.import_no_internet_connection)
+                    .setPositiveButton(android.R.string.ok,null)
+                    .create()
+                    .show();
             }
         }
     }

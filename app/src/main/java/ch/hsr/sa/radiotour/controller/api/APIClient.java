@@ -13,10 +13,14 @@ import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
 
 public final class APIClient {
+    private APIClient() {
+        throw new IllegalStateException("Utility class");
+    }
+
     private static final String BASE_URL = "https://tlng.cnlab.ch/";
-    private static String RACE_ID = "";
-    private static String STAGE_ID = "";
-    private static int STAGE_NR = 0;
+    private static String RACEID = "";
+    private static String STAGEID = "";
+    private static int STAGENR = 0;
 
     private static SyncHttpClient client = new SyncHttpClient();
 
@@ -40,19 +44,19 @@ public final class APIClient {
     }
 
     public static String getRiders() {
-        return getRiders(UrlLink.RIDERS + STAGE_ID, null);
+        return getRiders(UrlLink.RIDERS + STAGEID, null);
     }
 
     public static String getJudgments() {
-        return getJudgments(UrlLink.JUDGEMENTS + RACE_ID, null);
+        return getJudgments(UrlLink.JUDGEMENTS + RACEID, null);
     }
 
     public static String getRewards() {
-        return getRewards(UrlLink.JUDGEMENTS + RACE_ID, null);
+        return getRewards(UrlLink.JUDGEMENTS + RACEID, null);
     }
 
     public static String getStages() {
-        return getStages(UrlLink.STAGES + RACE_ID, null);
+        return getStages(UrlLink.STAGES + RACEID, null);
     }
 
     public static void clearDatabase(){
@@ -70,8 +74,8 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    STAGE_ID = settings.getJSONObject(0).getString("parameter");
-                    RACE_ID = settings.getJSONObject(1).getString("parameter");
+                    STAGEID = settings.getJSONObject(0).getString("parameter");
+                    RACEID = settings.getJSONObject(1).getString("parameter");
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
@@ -94,9 +98,7 @@ public final class APIClient {
                 try{
                     Parser.parseRidersAndPersist(data.getJSONArray("data"));
                     messages[0] = "success";
-                } catch (JSONException ex){
-                    messages[0] = ex.getMessage();
-                } catch (InterruptedException ex) {
+                } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
             }
@@ -120,11 +122,9 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
-                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), STAGE_NR);
+                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), STAGENR);
                     messages[0] = "success";
-                } catch (JSONException ex){
-                    messages[0] = ex.getMessage();
-                } catch (InterruptedException ex) {
+                } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
             }
@@ -150,9 +150,7 @@ public final class APIClient {
                 try{
                     Parser.parseRewardsAndPersist(data.getJSONObject("data").getJSONArray("rewards"));
                     messages[0] = "success";
-                } catch (JSONException ex){
-                    messages[0] = ex.getMessage();
-                } catch (InterruptedException ex) {
+                } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
             }
@@ -183,15 +181,13 @@ public final class APIClient {
                 try{
                     for(int i = 0; i < stages.length(); i++){
                         JSONObject stage = stages.getJSONObject(i);
-                        if(stage.getInt("stageId") ==  Integer.valueOf(STAGE_ID)){
-                            STAGE_NR = i; // gets the second last stage, cause of data leak on API
+                        if(stage.getInt("stageId") ==  Integer.valueOf(STAGEID)){
+                            STAGENR = i; // gets the second last stage, cause of data leak on API
                         }
                     }
-                    Parser.parseStagesAndPersist(stages, STAGE_NR);
+                    Parser.parseStagesAndPersist(stages, STAGENR);
                     messages[0] = "success";
-                } catch (JSONException ex){
-                    messages[0] = ex.getMessage();
-                } catch (InterruptedException ex) {
+                } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
 

@@ -81,7 +81,7 @@ public class RiderPresenter implements IRiderPresenter {
                         RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
                         riderRaceGroupFragment.addRiderToList();
                     } else {
-
+                        // Do nothing because a not supported fragment
                     }
                 }
             }
@@ -102,7 +102,7 @@ public class RiderPresenter implements IRiderPresenter {
                         RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
                         riderRaceGroupFragment.showRiders(riders);
                     } else {
-
+                        // Do nothing because a not supported fragment
                     }
                 }
             }
