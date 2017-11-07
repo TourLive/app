@@ -50,7 +50,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
-            case DROP:
+            case QUIT:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);
                 break;
@@ -64,7 +64,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
             case DEFECT:
                 drawable.setColor(ContextCompat.getColor(context, R.color.colorRed));
                 break;
-            case QUIT:
+            case DROP:
                 drawable.setColor(ContextCompat.getColor(context, R.color.colorOlive));
                 break;
             default:
