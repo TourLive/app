@@ -1,4 +1,5 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -7,9 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.HashMap;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
@@ -18,9 +22,11 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     private RealmList<Rider> riders;
     private android.content.Context context;
+    private HashMap<Integer, RiderViewHolder> holderHashMap;
 
     public RiderListAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
+        this.holderHashMap = new HashMap<>();
     }
 
     @Override
@@ -34,9 +40,8 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
-        GradientDrawable drawable = (GradientDrawable) holder.tvNummer.getBackground();
-        drawable.setColor(getColorFromState(getRiderStateType(position)));
-
+        setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
+        holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -48,29 +53,38 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         return riders.size();
     }
 
-    private int getColorFromState(RiderStateType stateType){
-        int color;
+    public void updateRiderStateOnGUI(RiderStageConnection connection) {
+        RiderStateType stateType = connection.getType();
+        if(!holderHashMap.isEmpty()){
+            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            setRiderStateAnimation(tvNumber, stateType);
+        }
+    }
+
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+        GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
-            case DOCTOR:
-                color = ContextCompat.getColor(context, R.color.colorBlue);
-                break;
-            case DROP:
-                color = ContextCompat.getColor(context, R.color.colorYellow);
-                break;
-            case DEFECT:
-                color = ContextCompat.getColor(context, R.color.colorRed);
-                break;
             case QUIT:
-                color = ContextCompat.getColor(context, R.color.colorOlive);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
                 break;
             case DNC:
-                color = ContextCompat.getColor(context, R.color.colorOrange);
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
+                break;
+            case DOCTOR:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorBlue));
+                break;
+            case DEFECT:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorRed));
+                break;
+            case DROP:
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorOlive));
                 break;
             default:
-                color = 0;
+                drawable.setColor(0);
                 break;
         }
-        return color;
     }
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
