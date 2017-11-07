@@ -10,11 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
@@ -22,16 +19,12 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
-/**
- * Created by Urs Forrer on 29.10.2017.
- */
-
 public class UnknownRiderTransferDialogFramgent extends DialogFragment {
     private Spinner spinner;
     private Rider selectedUnknownRider;
 
     public UnknownRiderTransferDialogFramgent() {
-
+        // Empty Constructor needed to work as expected
     }
 
     public static UnknownRiderTransferDialogFramgent newInstance(Rider rider) {
@@ -52,25 +45,18 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
 
         alertDialogBuilder.setTitle("Change unknown rider to an known rider");
         alertDialogBuilder.setMessage("Please select the rider to which you want transfer the unknown rider to.");
-        alertDialogBuilder.setPositiveButton("Change the unknown rider",  new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String[] parts = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().split("\\-");
-                String startNr = parts[0];
-                Log.d("", "" + selectedUnknownRider.toString());
-                RaceGroup raceGroup = selectedUnknownRider.getRaceGroups();
-                RealmList<Rider> rider = new RealmList<>();
-                rider.add(getRider(startNr));
-                RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
-                RiderPresenter.getInstance().removeRider(selectedUnknownRider);
-            }
+        alertDialogBuilder.setPositiveButton("Chnane the unknown rider", (DialogInterface dialog, int which) -> {
+            String[] parts = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().split("\\-");
+            String startNr = parts[0];
+            Log.d("", "" + selectedUnknownRider.toString());
+            RaceGroup raceGroup = selectedUnknownRider.getRaceGroups();
+            RealmList<Rider> rider = new RealmList<>();
+            rider.add(getRider(startNr));
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
+            RiderPresenter.getInstance().removeRider(selectedUnknownRider);
         });
-        alertDialogBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-
+        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> {
+            dialog.dismiss();
         });
 
         return alertDialogBuilder.create();
@@ -89,7 +75,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         List<String> list = new ArrayList<>();
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
             if (!r.isUnknown()) {
-                list.add("" + r.getStartNr() + "-" + r.getCountry() + "-" + r.getName());
+                list.add("" + Integer.toString(r.getStartNr()) + "-" + r.getCountry() + "-" + r.getName());
             }
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
