@@ -86,8 +86,8 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
         @Override
         public void onClick(View view) {
-            MainActivity.viewPageAdapter.setDetail(true);
-            MainActivity.viewPager.getAdapter().notifyDataSetChanged();
+            MainActivity.changeFirstFragment(true);
+            MainActivity.notifyAdapter();
         }
     }
 

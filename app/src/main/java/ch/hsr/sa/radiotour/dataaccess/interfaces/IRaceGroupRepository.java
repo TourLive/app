@@ -1,6 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
-import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;

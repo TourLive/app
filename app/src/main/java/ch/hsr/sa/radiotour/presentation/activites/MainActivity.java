@@ -15,8 +15,8 @@ import ch.hsr.sa.radiotour.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static ViewPageAdapter viewPageAdapter;
-    public static ViewPager viewPager;
+    private static ViewPageAdapter viewPageAdapter;
+    private static ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+    }
+
+    public static void notifyAdapter() {
+        viewPager.getAdapter().notifyDataSetChanged();
+    }
+
+    public static void changeFirstFragment(boolean bool) {
+        viewPageAdapter.setDetail(bool);
     }
 
     private void setTabMenu() {

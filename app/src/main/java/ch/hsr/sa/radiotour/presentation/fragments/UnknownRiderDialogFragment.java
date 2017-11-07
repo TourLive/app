@@ -27,8 +27,7 @@ public class UnknownRiderDialogFragment extends DialogFragment {
     }
 
     public static UnknownRiderDialogFragment newInstance() {
-        UnknownRiderDialogFragment frag = new UnknownRiderDialogFragment();
-        return frag;
+        return new UnknownRiderDialogFragment();
     }
 
     @Override

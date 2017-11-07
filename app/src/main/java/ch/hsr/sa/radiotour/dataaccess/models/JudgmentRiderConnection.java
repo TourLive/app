@@ -5,7 +5,6 @@ import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
 import io.realm.annotations.PrimaryKey;
-import io.realm.annotations.Required;
 
 public class JudgmentRiderConnection extends RealmObject {
     @PrimaryKey

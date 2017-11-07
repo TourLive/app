@@ -72,7 +72,7 @@ public final class Parser {
                         synchronized (this){
                             Context.addRiderStageConnection(riderStageConnection);
                         }
-                        RealmList<RiderStageConnection> riderStageConnections = new RealmList<RiderStageConnection>();
+                        RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
                         riderStageConnections.add(Context.getRiderStageConnectionByRank(i+1));
 
                         Context.updateRiderStageConnection(rider, riderStageConnections);

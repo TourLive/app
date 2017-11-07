@@ -19,9 +19,7 @@ import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderEditAdapter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -29,7 +27,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
-public class RiderRaceGroupFragment extends Fragment implements IPresenterFragments, View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
+public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
@@ -123,7 +121,6 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         rvRider.setAdapter(adapter);
     }
 
-    @Override
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         adapter.updateRiderStateOnGUI(connection);
         if(connection.getRiders().getRaceGroups() != null){
@@ -140,7 +137,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, getContext(), this);
+        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, this);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
@@ -196,10 +193,10 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     }
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
-        if (adapter.getSelectedRiders().size() != 0) {
+        if (!adapter.getSelectedRiders().isEmpty()) {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
             adapter.resetSelectRiders();
-        } else if (unknownRiders.size() != 0) {
+        } else if (!unknownRiders.isEmpty()) {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders);
             removeUnknownRiders();
         }
@@ -210,12 +207,12 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
         RaceGroup raceGroup = new RaceGroup();
         raceGroup.setPosition(position);
         raceGroup.setType(raceGroupType);
-        if (adapter.getSelectedRiders().size() != 0) {
+        if (!adapter.getSelectedRiders().isEmpty()) {
             raceGroup.setRiders(adapter.getSelectedRiders());
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
-        } else if (unknownRiders.size() != 0) {
+        } else if (!unknownRiders.isEmpty()) {
             raceGroup.setRiders(unknownRiders);
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
@@ -227,7 +224,7 @@ public class RiderRaceGroupFragment extends Fragment implements IPresenterFragme
     public void onFinishAddingUnknownUser(int count) {
         int start;
         RealmList<Rider> dbUnknownRiders = RiderPresenter.getInstance().getAllUnknownRidersReturned();
-        if (dbUnknownRiders == null || dbUnknownRiders.size() == 0) {
+        if (dbUnknownRiders == null || dbUnknownRiders.isEmpty()) {
             start = 0;
         } else {
             start = dbUnknownRiders.get(dbUnknownRiders.size() - 1).getStartNr() - 900 + 1;
