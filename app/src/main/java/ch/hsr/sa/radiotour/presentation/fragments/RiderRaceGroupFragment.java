@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderEditAdapter;
@@ -26,6 +29,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
@@ -46,6 +50,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private Button btnDrop;
     private Button btnUnknownRiders;
     private TextView txtUnknownRiders;
+
+    private static final Integer SLEEP_TIME = 10000;
+    private Handler stateHandler = new Handler();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -158,17 +165,21 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        RealmList<Rider> selectedRiders = adapter.getSelectedRiders();
         switch(view.getId()) {
             case R.id.btn_Defect:
+                resetStateAfterXSeconds(selectedRiders);
                 updateRiderStates(RiderStateType.DEFECT);
                 break;
             case R.id.btn_DNC:
                 updateRiderStates(RiderStateType.DNC);
                 break;
             case R.id.btn_Doctor:
+                resetStateAfterXSeconds(selectedRiders);
                 updateRiderStates(RiderStateType.DOCTOR);
                 break;
             case R.id.btn_Drop:
+                resetStateAfterXSeconds(selectedRiders);
                 updateRiderStates(RiderStateType.DROP);
                 break;
             case R.id.btn_Quit:
@@ -190,6 +201,33 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             default:
                 break;
         }
+    }
+
+    private void resetStateAfterXSeconds(RealmList<Rider> selectedRiders) {
+        ArrayList<Integer> ridersStartNr = new ArrayList<>();
+        for(Rider r : selectedRiders){
+            ridersStartNr.add(r.getStartNr());
+        }
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    Thread.sleep(SLEEP_TIME);
+                    RealmList<Rider> managedRiders = RiderPresenter.getInstance().getAllRidersReturned();
+                    for(Integer startNr : ridersStartNr){
+                        stateHandler.post(new Runnable() {
+                            public void run() {
+                                Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
+                                RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
+                            }
+                        });
+                    }
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        Thread thread = new Thread(runnable);
+        thread.start();
     }
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {

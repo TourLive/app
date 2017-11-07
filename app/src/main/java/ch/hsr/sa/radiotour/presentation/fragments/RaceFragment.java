@@ -91,7 +91,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
     }
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
-        // DO nothing.
+        adapter.updateRiderStateOnGUI(connection);
     }
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
