@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
@@ -28,7 +27,7 @@ import io.realm.RealmList;
 public class RaceFragment extends Fragment implements OnStartDragListener {
 
     private RealmList<RaceGroup> raceGroups;
-    private RealmList<Rider> riders;
+    private RealmList<Rider> riders = new RealmList<>();
     private RiderListAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
     private ItemTouchHelper itemTouchHelper;
@@ -48,7 +47,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
-        rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
+        rvRider.setAdapter(new RiderListAdapter(riders));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         initRecyclerListener();
     }
