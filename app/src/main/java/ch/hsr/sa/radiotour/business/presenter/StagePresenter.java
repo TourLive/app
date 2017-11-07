@@ -8,7 +8,6 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IStagePresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IStageRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.repositories.StageRepository;
-import io.realm.RealmList;
 
 public class StagePresenter implements IStagePresenter {
     private ArrayList<Fragment> fragments = new ArrayList<>();

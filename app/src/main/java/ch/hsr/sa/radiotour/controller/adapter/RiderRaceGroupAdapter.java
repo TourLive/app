@@ -4,7 +4,6 @@ import android.content.ClipData;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +12,6 @@ import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
-import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderDialogFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 

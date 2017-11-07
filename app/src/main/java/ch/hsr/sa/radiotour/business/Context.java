@@ -12,7 +12,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
-import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRepository;
 import io.realm.RealmList;
 
 public final class Context {

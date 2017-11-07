@@ -27,7 +27,6 @@ import io.realm.RealmList;
  */
 
 public class UnknownRiderTransferDialogFramgent extends DialogFragment {
-    private TextView textView;
     private Spinner spinner;
     private Rider selectedUnknownRider;
 
@@ -47,7 +46,6 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_unknowntransfer, null);
         alertDialogBuilder.setView(dialogView);
-        textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
         spinner = (Spinner) dialogView.findViewById(R.id.riderSpinner);
 
         addItemsToSpinner();
@@ -88,13 +86,13 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
     }
 
     private void addItemsToSpinner() {
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
             if (!r.isUnknown()) {
                 list.add("" + r.getStartNr() + "-" + r.getCountry() + "-" + r.getName());
             }
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
         spinner.setAdapter(dataAdapter);
     }
 }

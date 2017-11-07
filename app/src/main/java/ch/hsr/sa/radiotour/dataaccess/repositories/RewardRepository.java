@@ -7,8 +7,6 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import io.realm.Realm;
-import io.realm.RealmResults;
-
 
 public class RewardRepository implements IRewardRepository {
     @Override
@@ -35,8 +33,7 @@ public class RewardRepository implements IRewardRepository {
     @Override
     public Reward getRewardReturnedByJudgment(Judgement judgement) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        Reward res = realm.where(Reward.class).equalTo("rewardJudgements.id", judgement.getId()).findFirst();
-        return res;
+        return realm.where(Reward.class).equalTo("rewardJudgements.id", judgement.getId()).findFirst();
     }
 
     @Override

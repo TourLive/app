@@ -20,16 +20,14 @@ import io.realm.RealmList;
 
 public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroupAdapter.LittleRaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
-    private Context context;
     private RiderRaceGroupFragment fragment;
 
     private static final int NORMALITEM = 0;
     private static final int FIRSTITEM = 1;
 
-    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, RiderRaceGroupFragment fragment){
+    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
-        this.context = context;
         this.fragment = fragment;
     }
 
@@ -76,9 +74,9 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
 
         public LittleRaceGroupViewHolder(View itemView) {
             super(itemView);
-            layout_racegroup = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_RaceGroup);
-            layout_addButton = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButton);
-            layout_addButtonTop = (ConstraintLayout) itemView.findViewById(R.id.constraintLayout_AddButtonTop);
+            layout_racegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
+            layout_addButton = itemView.findViewById(R.id.constraintLayout_AddButton);
+            layout_addButtonTop = itemView.findViewById(R.id.constraintLayout_AddButtonTop);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             layout_racegroup.setOnClickListener(this);
