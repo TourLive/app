@@ -1,17 +1,12 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import ch.hsr.sa.radiotour.R;
-import android.content.Context;
-
 import java.util.Collections;
-
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
@@ -68,21 +63,21 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     public class LittleRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView racegroupName;
         private TextView racegroupCount;
-        private View layout_racegroup;
-        private View layout_addButton;
-        private View layout_addButtonTop;
+        private View layoutRacegroup;
+        private View layoutAddButton;
+        private View layoutAddButtonTop;
 
         public LittleRaceGroupViewHolder(View itemView) {
             super(itemView);
-            layout_racegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
-            layout_addButton = itemView.findViewById(R.id.constraintLayout_AddButton);
-            layout_addButtonTop = itemView.findViewById(R.id.constraintLayout_AddButtonTop);
+            layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
+            layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
+            layoutAddButtonTop = itemView.findViewById(R.id.constraintLayout_AddButtonTop);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
-            layout_racegroup.setOnClickListener(this);
-            layout_addButton.setOnClickListener(this);
-            if (layout_addButtonTop != null) {
-                layout_addButtonTop.setOnClickListener(this);
+            layoutRacegroup.setOnClickListener(this);
+            layoutAddButton.setOnClickListener(this);
+            if (layoutAddButtonTop != null) {
+                layoutAddButtonTop.setOnClickListener(this);
             }
 
         }

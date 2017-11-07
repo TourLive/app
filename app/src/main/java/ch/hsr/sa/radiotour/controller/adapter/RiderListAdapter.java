@@ -56,7 +56,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
         if(!holderHashMap.isEmpty()){
-            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
         }
     }

@@ -182,7 +182,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                 } else {
                     removeUnknownRiders();
                 }
-
+                break;
             default:
                 break;
         }

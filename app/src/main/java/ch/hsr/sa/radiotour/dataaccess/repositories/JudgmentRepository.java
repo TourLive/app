@@ -15,16 +15,12 @@ public class JudgmentRepository implements IJudgmentRepository {
     public void addJudgment(Judgement judgement, OnSaveJudgmentCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final Judgement transferJudgment = judgement;
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Judgement realmJudgment = realm.createObject(Judgement.class, UUID.randomUUID().toString());
-                realmJudgment.setName(transferJudgment.getName());
-                realmJudgment.setDistance(transferJudgment.getDistance());
-                realmJudgment.setRewardId(transferJudgment.getRewardId());
-                realmJudgment.setRewardRiderConnections(transferJudgment.getJudgmentRiderConnections());
-            }
+        realm.executeTransaction((Realm db) -> {
+            Judgement realmJudgment = db.createObject(Judgement.class, UUID.randomUUID().toString());
+            realmJudgment.setName(transferJudgment.getName());
+            realmJudgment.setDistance(transferJudgment.getDistance());
+            realmJudgment.setRewardId(transferJudgment.getRewardId());
+            realmJudgment.setRewardRiderConnections(transferJudgment.getJudgmentRiderConnections());
         });
 
         if (callback != null)
@@ -61,11 +57,8 @@ public class JudgmentRepository implements IJudgmentRepository {
     @Override
     public void clearAllJudgments() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Judgement.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction((Realm db) -> {
+            db.where(Judgement.class).findAll().deleteAllFromRealm();
         });
     }
 }
