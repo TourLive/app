@@ -11,15 +11,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-
-/**
- * Created by Urs Forrer on 28.10.2017.
- */
 
 public class UnknownRiderDialogFragment extends DialogFragment {
     public UnknownRiderDialogFragment() {
-
+        // Empty Constructor needed to work as expected
     }
 
     public interface UnknownUserAddListener {
@@ -43,38 +38,30 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                textView.setText("" + i);
+                textView.setText("" + Integer.toString(i));
             }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
+                // Do nothing because method has to be implemented, but not needed.
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                // Do nothing because method has to be implemented, but not needed.
             }
         });
 
         alertDialogBuilder.setTitle("Adding Unknown Riders");
         alertDialogBuilder.setMessage("Please select how many unknown riders you would add and select the racegroup.");
-        alertDialogBuilder.setPositiveButton("Add unknown riders",  new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // on success
-                UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
-                RaceGroup raceGroup = null;
-                int count = seekBar.getProgress();
-                unknownUserAddListener.onFinishAddingUnknownUser(count);
-            }
+        alertDialogBuilder.setPositiveButton("Add unknown riders", (DialogInterface dialog, int which) ->  {
+           UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
+           int count = seekBar.getProgress();
+           unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
-        alertDialogBuilder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
 
+        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> {
+           dialog.dismiss();
         });
 
         return alertDialogBuilder.create();
