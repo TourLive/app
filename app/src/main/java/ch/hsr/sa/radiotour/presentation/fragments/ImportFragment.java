@@ -124,7 +124,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 progressBarHandler.post(() -> {
                     progressBar.setMessage(getResources().getText(R.string.import_reward));
                 });
-                String message = APIClient.getRewards();
+                String message = APIClient.getJudgments();
                 if(!message.equals("success")){
                     setErrorDialog(message);
                     break;
@@ -134,7 +134,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 progressBarHandler.post(() -> {
                     progressBar.setMessage(getResources().getText(R.string.import_judgment));
                 });
-                String message = APIClient.getJudgments();
+                String message = APIClient.getRewards();
                 if(!message.equals("success")){
                     setErrorDialog(message);
                     break;
