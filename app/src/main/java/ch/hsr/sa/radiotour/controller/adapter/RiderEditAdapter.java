@@ -1,6 +1,8 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
 import android.speech.tts.TextToSpeech;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -58,8 +60,10 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
-        TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
-        setRiderStateAnimation(tvNumber, stateType);
+        if(!holderHashMap.isEmpty()){
+            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            setRiderStateAnimation(tvNumber, stateType);
+        }
     }
 
     @Override
