@@ -20,7 +20,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import io.realm.RealmList;
 
 public class SpecialFragment extends Fragment {
-    private RealmList<Judgement> judgements;
+    private RealmList<Judgement> judgements = new RealmList<>();
     private JudgementAdapter judgementAdapter;
     private RecyclerView rvJudgement;
 
@@ -36,7 +36,7 @@ public class SpecialFragment extends Fragment {
         JudgmentPresenter.getInstance().addView(this);
         RewardPresenter.getInstance().addView(this);
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
-        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext()));
+        rvJudgement.setAdapter(new JudgementAdapter(judgements, getContext()));
         initRecyclerListener();
     }
 

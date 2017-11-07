@@ -14,9 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.LittleRaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderEditAdapter;
@@ -29,20 +27,16 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
-    private RealmList<RaceGroup> raceGroups;
-    private RealmList<Rider> riders;
+    private RealmList<RaceGroup> raceGroups = new RealmList<>();
+    private RealmList<Rider> riders = new RealmList<>();
     private RealmList<Rider> unknownRiders = new RealmList<>();
-
     private RiderEditAdapter adapter;
     private LittleRaceGroupAdapter raceGroupAdapter;
-
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
-
     private Button btnDoctor;
     private Button btnDNC;
     private Button btnDefect;
@@ -50,7 +44,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private Button btnDrop;
     private Button btnUnknownRiders;
     private TextView txtUnknownRiders;
-
     private static final Integer SLEEP_TIME = 10000;
     private Handler stateHandler = new Handler();
 
@@ -67,7 +60,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
-        rvRider.setAdapter(new RiderEditAdapter(new RealmList<Rider>()));
+        rvRider.setAdapter(new RiderEditAdapter(riders));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
         initButtons(root);
@@ -122,7 +115,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void showRiders(final RealmList<Rider> riders) {
         this.riders = riders;
         adapter = new RiderEditAdapter(riders);
-        int rows = getFirstDigit(riders.get(riders.size() -1).getStartNr());
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
@@ -135,16 +127,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         }
     }
 
-    public int getFirstDigit(int number) {
-        if (number/10 == 0) {
-            return number;
-        }
-        return getFirstDigit(number/10);
-    }
-
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new LittleRaceGroupAdapter(raceGroups, this);
+        raceGroupAdapter = new LittleRaceGroupAdapter(this.raceGroups, this);
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
@@ -208,24 +193,19 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         for(Rider r : selectedRiders){
             ridersStartNr.add(r.getStartNr());
         }
-        Runnable runnable = new Runnable() {
-            public void run() {
-                try {
-                    Thread.sleep(SLEEP_TIME);
-                    RealmList<Rider> managedRiders = RiderPresenter.getInstance().getAllRidersReturned();
-                    for(Integer startNr : ridersStartNr){
-                        stateHandler.post(new Runnable() {
-                            public void run() {
-                                Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
-                                RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
-                            }
-                        });
-                    }
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+        Runnable runnable = (() -> {
+            try {
+                Thread.sleep(SLEEP_TIME);
+                for(Integer startNr : ridersStartNr){
+                    stateHandler.post(() -> {
+                        Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
+                        RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
+                    });
                 }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
-        };
+        });
         Thread thread = new Thread(runnable);
         thread.start();
     }
@@ -280,7 +260,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             RiderPresenter.getInstance().addRider(rider);
             unknownRiders.add(rider);
         }
-        txtUnknownRiders.setText("" + count + " unknown Riders to add");
+        txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");
     }
 
     private void removeUnknownRiders() {

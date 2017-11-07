@@ -26,7 +26,7 @@ import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements OnStartDragListener {
 
-    private RealmList<RaceGroup> raceGroups;
+    private RealmList<RaceGroup> raceGroups = new RealmList<>();
     private RealmList<Rider> riders = new RealmList<>();
     private RiderListAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
@@ -95,7 +95,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
+        raceGroupAdapter = new RaceGroupAdapter(this.raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
