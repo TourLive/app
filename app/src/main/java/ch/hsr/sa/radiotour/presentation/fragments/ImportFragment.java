@@ -91,93 +91,67 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private int importData() {
         while (progressBarStatus <= 100) {
             if (progressBarStatus < 20) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_delete_data));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_delete_data));
                 });
                 String message = APIClient.deleteData();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 20;
             } else if (progressBarStatus < 40) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_driver));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_driver));
                 });
                 String message = APIClient.getRiders();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 40;
             } else if (progressBarStatus < 60) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_stage));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_stage));
                 });
                 String message = APIClient.getStages();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 60;
             } else if (progressBarStatus < 80) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_reward));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_reward));
                 });
                 String message = APIClient.getRewards();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 80;
             } else {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_judgment));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_judgment));
                 });
                 String message = APIClient.getJudgments();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 100;
             }
         }
         return 100;
+    }
+
+    private void setErrorDialog(String message) {
+        ErrorDialog dialog = new ErrorDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("message", message);
+        dialog.setArguments(bundle);
+        dialog.show(this.getFragmentManager(), "Error");
+        APIClient.clearDatabase();
     }
 
     private boolean isNetworkAvailable() {
