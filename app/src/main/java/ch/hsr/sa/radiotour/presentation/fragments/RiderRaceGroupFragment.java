@@ -109,9 +109,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
-
-
-
     public void showRiders(final RealmList<Rider> riders) {
         this.riders = riders;
         adapter = new RiderEditAdapter(riders);
