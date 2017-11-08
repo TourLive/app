@@ -11,7 +11,6 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class RiderRepository implements IRiderRepository {
-
     @Override
     public void addRider(Rider rider, OnSaveRiderCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
@@ -67,8 +66,7 @@ public class RiderRepository implements IRiderRepository {
     @Override
     public Rider getRiderByStartNr(int startNr) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        Rider rider = realm.where(Rider.class).equalTo("startNr", startNr).findFirst();
-        return rider;
+        return realm.where(Rider.class).equalTo("startNr", startNr).findFirst();
     }
 
     @Override
@@ -101,8 +99,6 @@ public class RiderRepository implements IRiderRepository {
     @Override
     public void clearAllRiders(){
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.beginTransaction();
-        realm.where(Rider.class).findAll().deleteAllFromRealm();
-        realm.commitTransaction();
+        realm.executeTransaction((Realm db) -> db.where(Rider.class).findAll().deleteAllFromRealm());
     }
 }

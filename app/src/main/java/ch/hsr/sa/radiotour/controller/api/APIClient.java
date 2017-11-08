@@ -68,7 +68,7 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -105,7 +105,7 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -131,7 +131,7 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -157,7 +157,7 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -173,7 +173,7 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-
+                // Not needed and therefore not implemented
             }
 
             @Override

@@ -39,7 +39,6 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
         holder.itemJudgementKM.setText("KM " + judgements.get(position).getDistance());
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         RealmList<JudgmentRiderConnection> judgmentRiderConnections = JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgements.get(position));
         JudgmentRiderAdapter adapter = new JudgmentRiderAdapter(RewardPresenter.getInstance().getRewardReturnedByJudgment(judgements.get(position)), judgmentRiderConnections, context);

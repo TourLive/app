@@ -32,9 +32,6 @@ public class StageRepository implements IStageRepository {
     @Override
     public void clearAllStages() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-
-        realm.executeTransaction((Realm db) -> {
-            db.where(Stage.class).findAll().deleteAllFromRealm();
-        });
+        realm.executeTransaction((Realm db) -> db.where(Stage.class).findAll().deleteAllFromRealm());
     }
 }

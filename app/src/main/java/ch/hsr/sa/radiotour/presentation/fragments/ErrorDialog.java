@@ -10,7 +10,10 @@ import ch.hsr.sa.radiotour.R;
 
 public class ErrorDialog extends DialogFragment {
 
-    public ErrorDialog(){}
+    public ErrorDialog(){
+        // Empty Constructor needed to work as expected
+    }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
