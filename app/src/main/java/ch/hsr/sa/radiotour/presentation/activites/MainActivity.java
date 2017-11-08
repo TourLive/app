@@ -36,11 +36,12 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                // Has to be implemented, but not needed
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
+                // Has to be implemented, but not needed
             }
 
             @Override

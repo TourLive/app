@@ -55,9 +55,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
             RiderPresenter.getInstance().removeRider(selectedUnknownRider);
         });
-        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> {
-            dialog.dismiss();
-        });
+        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
 
         return alertDialogBuilder.create();
     }

@@ -27,7 +27,7 @@ import io.realm.RealmList;
 public class RaceFragment extends Fragment implements OnStartDragListener {
 
     private RealmList<RaceGroup> raceGroups = new RealmList<>();
-    private RealmList<Rider> riders = new RealmList<>();
+    private RealmList<Rider> riders;
     private RiderListAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
     private ItemTouchHelper itemTouchHelper;
@@ -47,7 +47,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
-        rvRider.setAdapter(new RiderListAdapter(riders));
+        rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         initRecyclerListener();
     }

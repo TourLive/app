@@ -59,9 +59,7 @@ public class UnknownRiderDialogFragment extends DialogFragment {
            unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
 
-        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> {
-           dialog.dismiss();
-        });
+        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
 
         return alertDialogBuilder.create();
     }

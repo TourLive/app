@@ -36,8 +36,6 @@ public class RewardRepository implements IRewardRepository {
     @Override
     public void clearAllRewards() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction((Realm db) -> {
-            db.where(Reward.class).findAll().deleteAllFromRealm();
-        });
+        realm.executeTransaction((Realm db) -> db.where(Reward.class).findAll().deleteAllFromRealm());
     }
 }

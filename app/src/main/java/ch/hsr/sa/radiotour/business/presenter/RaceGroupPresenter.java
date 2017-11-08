@@ -48,7 +48,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
 
@@ -67,7 +67,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
         onUpdateRaceGroupCallBack = new IRaceGroupRepository.OnUpdateRaceGroupCallBack() {
