@@ -18,6 +18,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.models.StageType;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public final class Parser {
@@ -104,7 +105,13 @@ public final class Parser {
                 raceGroupField.setHistoryGapTime(0);
                 raceGroupField.setPosition(1);
                 raceGroupField.setType(RaceGroupType.FELD);
-                raceGroupField.setRiders(Context.getAllRiders());
+                RealmList<Rider> activeRiders = new RealmList<>();
+                for(Rider r : Context.getAllRiders()){
+                    if(r.getRiderStages().first().getType() == RiderStateType.AKTIVE){
+                        activeRiders.add(r);
+                    }
+                }
+                raceGroupField.setRiders(activeRiders);
                 Context.addRaceGroup(raceGroupField);
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACEGROUP - " + e.getMessage());
