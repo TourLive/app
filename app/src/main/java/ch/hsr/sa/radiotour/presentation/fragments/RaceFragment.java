@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
@@ -27,8 +26,8 @@ import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements OnStartDragListener {
 
-    private RealmList<RaceGroup> raceGroups;
-    private RealmList<Rider> riders;
+    private RealmList<RaceGroup> raceGroups = new RealmList<>();
+    private RealmList<Rider> riders = new RealmList<>();
     private RiderListAdapter adapter;
     private RaceGroupAdapter raceGroupAdapter;
     private ItemTouchHelper itemTouchHelper;
@@ -48,7 +47,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
-        rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
+        rvRider.setAdapter(new RiderListAdapter(riders));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         initRecyclerListener();
     }
@@ -96,11 +95,11 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        raceGroupAdapter = new RaceGroupAdapter(raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
+        this.raceGroupAdapter = new RaceGroupAdapter(this.raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
-        rvRaceGroup.setAdapter(raceGroupAdapter);
+        rvRaceGroup.setAdapter(this.raceGroupAdapter);
     }
 
     public void addRiderToList(){

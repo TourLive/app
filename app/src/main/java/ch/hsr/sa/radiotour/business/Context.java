@@ -15,7 +15,9 @@ import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import io.realm.RealmList;
 
 public final class Context {
-
+    private Context() {
+        // Empty, needed to hide public Constructor
+    }
 
     public static void addRider(Rider rider){
         RiderPresenter.getInstance().addRider(rider);

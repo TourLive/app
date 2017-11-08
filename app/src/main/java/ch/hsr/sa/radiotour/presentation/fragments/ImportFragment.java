@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -20,7 +18,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
-    private Button btn_Import;
+    private Button btnImport;
     private ProgressDialog progressBar;
     private int progressBarStatus;
     private Handler progressBarHandler = new Handler();
@@ -29,34 +27,32 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","ImportFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_import, container, false);
-        btn_Import = (Button) root.findViewById(R.id.btn_Import);
-        btn_Import.setOnClickListener(this);
+        btnImport = (Button) root.findViewById(R.id.btn_Import);
+        btnImport.setOnClickListener(this);
         progressBar = new ProgressDialog(getActivity());
         return root;
     }
 
     @Override
     public void onClick(View v) {
-        if(v == btn_Import){
+        if(v == btnImport){
             if(isNetworkAvailable()) {
                 new AlertDialog.Builder(getContext())
                     .setTitle(R.string.import_start_import)
                     .setMessage(R.string.import_start_info)
                     .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override public void onClick(DialogInterface dialog, int which) {
-                            startImport();
-                        }
+                    .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> {
+                        startImport();
                     })
                     .create()
                     .show();
             } else {
                 new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.import_no_internet_title)
-                        .setMessage(R.string.import_no_internet_connection)
-                        .setPositiveButton(android.R.string.ok,null)
-                        .create()
-                        .show();
+                    .setTitle(R.string.import_no_internet_title)
+                    .setMessage(R.string.import_no_internet_connection)
+                    .setPositiveButton(android.R.string.ok,null)
+                    .create()
+                    .show();
             }
         }
     }
@@ -70,25 +66,21 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             progressBar.setMax(100);
             progressBar.show();
             progressBarStatus = 0;
-            new Thread(new Runnable() {
-                public void run() {
-                    while (progressBarStatus < 100) {
-                        progressBarStatus = importData();
-                        progressBarHandler.post(new Runnable() {
-                            public void run() {
-                                progressBar.setProgress(progressBarStatus);
-                            }
-                        });
+            new Thread(() -> {
+                while (progressBarStatus < 100) {
+                    progressBarStatus = importData();
+                    progressBarHandler.post(() -> {
+                        progressBar.setProgress(progressBarStatus);
+                    });
+                }
+                if (progressBarStatus >= 100) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
                     }
-                    if (progressBarStatus >= 100) {
-                        try {
-                            Thread.sleep(1000);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        progressBar.setProgress(0);
-                        progressBar.dismiss();
-                    }
+                    progressBar.setProgress(0);
+                    progressBar.dismiss();
                 }
             }).start();
         } catch (Exception ex){
@@ -99,93 +91,67 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private int importData() {
         while (progressBarStatus <= 100) {
             if (progressBarStatus < 20) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_delete_data));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_delete_data));
                 });
                 String message = APIClient.deleteData();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 20;
             } else if (progressBarStatus < 40) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_driver));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_driver));
                 });
                 String message = APIClient.getRiders();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 40;
             } else if (progressBarStatus < 60) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_stage));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_stage));
                 });
                 String message = APIClient.getStages();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 60;
             } else if (progressBarStatus < 80) {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_judgment));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_reward));
                 });
                 String message = APIClient.getJudgments();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 80;
             } else {
-                progressBarHandler.post(new Runnable() {
-                    public void run() {
-                        progressBar.setMessage(getResources().getText(R.string.import_reward));
-                    }
+                progressBarHandler.post(() -> {
+                    progressBar.setMessage(getResources().getText(R.string.import_judgment));
                 });
                 String message = APIClient.getRewards();
                 if(!message.equals("success")){
-                    ErrorDialog dialog = new ErrorDialog();
-                    Bundle bundle = new Bundle();
-                    bundle.putString("message", message);
-                    dialog.setArguments(bundle);
-                    dialog.show(this.getFragmentManager(), "Error");
-                    APIClient.clearDatabase();
+                    setErrorDialog(message);
                     break;
                 }
                 return 100;
             }
         }
         return 100;
+    }
+
+    private void setErrorDialog(String message) {
+        ErrorDialog dialog = new ErrorDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString("message", message);
+        dialog.setArguments(bundle);
+        dialog.show(this.getFragmentManager(), "Error");
+        APIClient.clearDatabase();
     }
 
     private boolean isNetworkAvailable() {

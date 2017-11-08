@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.support.v4.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,12 +14,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import ch.hsr.sa.radiotour.R;
 import android.content.Context;
-
 import java.util.Collections;
-
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
@@ -33,7 +29,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private Context context;
     private IRaceGroupPresenter raceGroupPresenter;
     private Fragment fragment;
-
     private static final int NORMALITEM = 0;
     private static final int LASTITEM = 1;
     private OnStartDragListener onStartDragListener;
@@ -73,14 +68,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.racegroupRiders.setAdapter(adapter);
         }
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
-        holder.racegroupName.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                    onStartDragListener.onStartDrag(temp);
-                }
-                return false;
+        holder.racegroupName.setOnTouchListener((View v, MotionEvent event) -> {
+            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
+                onStartDragListener.onStartDrag(temp);
             }
+            return false;
         });
     }
 
@@ -142,56 +134,50 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private TextView gaptimeActual;
         private TextView gaptimeBefore;
         private RecyclerView racegroupRiders;
-        private View layout_racegroup;
-        private View layout_addButton;
+        private View layoutRacegroup;
+        private View layoutAddButton;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
-            layout_racegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
-            layout_addButton = itemView.findViewById(R.id.constraintLayout_AddButton);
+            layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
+            layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
             gaptimeActual.setOnClickListener(this);
-            layout_racegroup.setOnDragListener(new View.OnDragListener() {
-                @Override
-                public boolean onDrag(View view, DragEvent dragEvent) {
+            layoutRacegroup.setOnDragListener((View view, DragEvent dragEvent) -> {
+                switch(dragEvent.getAction()) {
+                    case DragEvent.ACTION_DRAG_STARTED:
+                        return true;
+                    case DragEvent.ACTION_DROP:
+                        RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
+                        RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                        raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
+                        notifyItemChanged(getAdapterPosition());
+                        return true;
+                    default:
+                        return false;
+                }
+            });
+            if (layoutAddButton != null) {
+                layoutAddButton.setOnDragListener((View view, DragEvent dragEvent) -> {
                     switch(dragEvent.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:
                             return true;
                         case DragEvent.ACTION_DROP:
-                            RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                            raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
-                            notifyItemChanged(getAdapterPosition());
+                            int raceGroup_pos = raceGroups.get(getAdapterPosition()).getPosition();
+                            RaceGroup raceGroup = new RaceGroup();
+                            raceGroup.setPosition(raceGroup_pos + 1);
+                            raceGroup.setType(RaceGroupType.NORMAL);
+                            raceGroup.setRiders(newRiders);
+                            raceGroupPresenter.addRaceGroup(raceGroup);
+                            notifyDataSetChanged();
                             return true;
                         default:
-                            return true;
-                    }
-                }
-            });
-            if (layout_addButton != null) {
-                layout_addButton.setOnDragListener(new View.OnDragListener() {
-                    @Override
-                    public boolean onDrag(View view, DragEvent dragEvent) {
-                        switch(dragEvent.getAction()) {
-                            case DragEvent.ACTION_DRAG_STARTED:
-                                return true;
-                            case DragEvent.ACTION_DROP:
-                                RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                                int raceGroup_pos = raceGroups.get(getAdapterPosition()).getPosition();
-                                RaceGroup raceGroup = new RaceGroup();
-                                raceGroup.setPosition(raceGroup_pos + 1);
-                                raceGroup.setType(RaceGroupType.NORMAL);
-                                raceGroup.setRiders(newRiders);
-                                raceGroupPresenter.addRaceGroup(raceGroup);
-                                notifyDataSetChanged();
-                                return true;
-                            default:
-                                return true;
-                        }
+                            return false;
                     }
                 });
             }
@@ -220,19 +206,13 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
             builder.setTitle("Time Gap");
             builder.setMessage("Please enter the gap time relative to the leading group");
-            builder.setPositiveButton("Change time", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
-                        raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
-                    }
-               }
-            });
-            builder.setNegativeButton("Dismiss", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    // Do nothing
+            builder.setPositiveButton("Change time", (DialogInterface dialogInterface, int i) -> {
+                if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
+                    raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
                 }
+            });
+            builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> {
+                // Do nothing special
             });
             AlertDialog alertDialog = builder.create();
             alertDialog.show();

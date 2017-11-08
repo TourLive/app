@@ -15,13 +15,9 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
     public void addJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection, OnSaveJudgmentRiderConnectionCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final JudgmentRiderConnection transferConnection = judgmentRiderConnection;
-
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                JudgmentRiderConnection realmConnection= realm.createObject(JudgmentRiderConnection.class, UUID.randomUUID().toString());
-                realmConnection.setRank(transferConnection.getRank());
-            }
+        realm.executeTransaction((Realm db) -> {
+            JudgmentRiderConnection realmConnection = db.createObject(JudgmentRiderConnection.class, UUID.randomUUID().toString());
+            realmConnection.setRank(transferConnection.getRank());
         });
 
         if (callback != null)
@@ -40,11 +36,8 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
     @Override
     public void clearAllJudgmentRiderConnections() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(JudgmentRiderConnection.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction((Realm db) -> {
+            realm.where(JudgmentRiderConnection.class).findAll().deleteAllFromRealm();
         });
     }
 }

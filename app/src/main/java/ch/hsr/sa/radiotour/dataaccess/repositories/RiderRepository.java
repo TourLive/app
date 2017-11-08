@@ -17,17 +17,14 @@ public class RiderRepository implements IRiderRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final Rider transferRider = rider;
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Rider realmRider = realm.createObject(Rider.class, UUID.randomUUID().toString());
-                realmRider.setName(transferRider.getName());
-                realmRider.setCountry(transferRider.getCountry());
-                realmRider.setStartNr(transferRider.getStartNr());
-                realmRider.setTeamName(transferRider.getTeamName());
-                realmRider.setTeamShortName(transferRider.getTeamShortName());
-                realmRider.setUnknown(transferRider.isUnknown());
-            }
+        realm.executeTransaction((Realm db) -> {
+            Rider realmRider = db.createObject(Rider.class, UUID.randomUUID().toString());
+            realmRider.setName(transferRider.getName());
+            realmRider.setCountry(transferRider.getCountry());
+            realmRider.setStartNr(transferRider.getStartNr());
+            realmRider.setTeamName(transferRider.getTeamName());
+            realmRider.setTeamShortName(transferRider.getTeamShortName());
+            realmRider.setUnknown(transferRider.isUnknown());
         });
 
         if (callback != null)
