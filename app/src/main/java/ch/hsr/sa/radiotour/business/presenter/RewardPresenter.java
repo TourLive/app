@@ -41,7 +41,7 @@ public class RewardPresenter implements IRewardPresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
     }

@@ -168,9 +168,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             return true;
                         case DragEvent.ACTION_DROP:
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                            int raceGroup_pos = raceGroups.get(getAdapterPosition()).getPosition();
+                            int raceGroupPos = raceGroups.get(getAdapterPosition()).getPosition();
                             RaceGroup raceGroup = new RaceGroup();
-                            raceGroup.setPosition(raceGroup_pos + 1);
+                            raceGroup.setPosition(raceGroupPos + 1);
                             raceGroup.setType(RaceGroupType.NORMAL);
                             raceGroup.setRiders(newRiders);
                             raceGroupPresenter.addRaceGroup(raceGroup);
@@ -211,9 +211,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                     raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
                 }
             });
-            builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> {
-                // Do nothing special
-            });
+            builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 

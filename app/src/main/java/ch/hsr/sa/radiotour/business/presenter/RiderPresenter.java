@@ -88,6 +88,7 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
+                // Not needed and therefore not implemented
             }
         };
 
@@ -109,17 +110,19 @@ public class RiderPresenter implements IRiderPresenter {
 
             @Override
             public void onError(String message) {
+                // Not needed and therefore not implemented
             }
         };
 
         onUpdateRiderStateCallback = new IRiderRepository.OnUpdateRiderStageCallback() {
             @Override
             public void onSuccess() {
-
+                // Not needed and therefore not implemented
             }
 
             @Override
             public void onError(String message) {
+                // Not needed and therefore not implemented
             }
         };
     }

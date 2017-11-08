@@ -41,7 +41,7 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
     }

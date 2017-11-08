@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.business;
 
+import android.util.Log;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,7 +40,7 @@ public final class Parser {
         Context.deleteStages();
     }
 
-    public static void parseRidersAndPersist(JSONArray riders) throws JSONException, InterruptedException {
+    public static void parseRidersAndPersist(JSONArray riders) throws InterruptedException {
         final JSONArray ridersJson = riders;
         Runnable runnable = new Runnable() {
             public void run() {
@@ -79,7 +80,7 @@ public final class Parser {
                         Context.updateRiderStageConnection(rider, riderStageConnections);
 
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                        Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERS - " + e.getMessage());
                     }
                 }
             }
@@ -106,11 +107,10 @@ public final class Parser {
                 raceGroupField.setRiders(Context.getAllRiders());
                 Context.addRaceGroup(raceGroupField);
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACEGROUP - " + e.getMessage());
             }
         });
-        Thread threadGroup = new Thread(runnable);
-        return threadGroup;
+        return new Thread(runnable);
     }
 
     private static Thread updateRiderConnectionRankByOfficalGap(){
@@ -129,14 +129,13 @@ public final class Parser {
                     Context.updateRiderStageConnectionRank(i+1,connection);
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
             }
         });
-        Thread threadRank = new Thread(runnable);
-        return threadRank;
+        return new Thread(runnable);
     }
 
-    public static void parseJudgmentsAndPersist(JSONArray judgments, final int STAGE_NR) throws JSONException, InterruptedException {
+    public static void parseJudgmentsAndPersist(JSONArray judgments, final int STAGE_NR) throws InterruptedException {
         final JSONArray judgmentsJson = judgments;
         Runnable runnable = (() -> {
             for (int i = 0; i < judgmentsJson.length(); i++) {
@@ -150,7 +149,7 @@ public final class Parser {
                         Context.addJudgment(judgment);
                     }
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - JUDGMENTS - " + e.getMessage());
                 }
             }
         });
@@ -159,7 +158,7 @@ public final class Parser {
         threadJudgments.join();
     }
 
-    public static void parseRewardsAndPersist(JSONArray rewards) throws JSONException, InterruptedException {
+    public static void parseRewardsAndPersist(JSONArray rewards) throws InterruptedException {
         final JSONArray rewardsJson = rewards;
         Runnable runnable = (() -> {
             for (int i = 0; i < rewardsJson.length(); i++) {
@@ -194,7 +193,7 @@ public final class Parser {
                     reward.setRewardJudgements(Context.getJudgmentsById(reward.getRewardId()));
                     Context.addReward(reward);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - REWARDS - " + e.getMessage());
                 }
             }
         });
@@ -203,7 +202,7 @@ public final class Parser {
         threadRewards.join();
     }
 
-    public static void parseStagesAndPersist(JSONArray stages, final int STAGE_NR) throws JSONException, InterruptedException {
+    public static void parseStagesAndPersist(JSONArray stages, final int STAGE_NR) throws InterruptedException {
         final JSONArray stagesJson = stages;
         Runnable runnable = (() -> {
             try {
@@ -220,7 +219,7 @@ public final class Parser {
                 stage.setStageConnections(Context.getAllRiderStageConnections());
                 Context.addStage(stage);
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(Parser.class.getSimpleName(), "APP - PARSER - STAGES - " + e.getMessage());
             }
         });
         Thread threadRewards = new Thread(runnable);

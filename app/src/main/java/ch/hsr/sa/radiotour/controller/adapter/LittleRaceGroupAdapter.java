@@ -91,10 +91,11 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
                 case R.id.constraintLayout_AddButtonTop:
                     fragment.onNewRaceGroupClicked(0, RaceGroupType.LEAD);
                     break;
-
                 case R.id.constraintLayout_AddButton:
                     int pos = raceGroups.get(getAdapterPosition()).getPosition() + 1;
                     fragment.onNewRaceGroupClicked(pos, RaceGroupType.NORMAL);
+                    break;
+                default:
                     break;
             }
         }

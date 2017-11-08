@@ -203,7 +203,8 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                     });
                 }
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                Log.d(RiderRaceGroupFragment.class.getSimpleName(), "APP - OUTPUT - " + e.getMessage());
+                Thread.currentThread().interrupt();
             }
         });
         Thread thread = new Thread(runnable);
