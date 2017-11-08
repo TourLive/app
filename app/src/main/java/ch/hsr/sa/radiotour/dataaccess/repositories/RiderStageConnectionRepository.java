@@ -48,9 +48,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     @Override
     public void clearAllRiderStageConnection() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction((Realm db) -> {
-            db.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
-        });
+        realm.executeTransaction((Realm db) -> db.where(RiderStageConnection.class).findAll().deleteAllFromRealm());
     }
 
     @Override
@@ -84,7 +82,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
 
     @Override
     public void deleteRiderStageConnection() {
-
+        // Not implemented yet
     }
 
     @Override

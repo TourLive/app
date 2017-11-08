@@ -57,8 +57,6 @@ public class JudgmentRepository implements IJudgmentRepository {
     @Override
     public void clearAllJudgments() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.executeTransaction((Realm db) -> {
-            db.where(Judgement.class).findAll().deleteAllFromRealm();
-        });
+        realm.executeTransaction((Realm db) -> db.where(Judgement.class).findAll().deleteAllFromRealm());
     }
 }

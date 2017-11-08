@@ -139,7 +139,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
     @Override
     public void deleteRaceGroup() {
-
+        // Not implemented yet
     }
 
     @Override

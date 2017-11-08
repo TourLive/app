@@ -40,7 +40,7 @@ public class StagePresenter implements IStagePresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
     }
