@@ -22,7 +22,6 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment implements OnStartDragListener {
@@ -51,7 +50,6 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         initRecyclerListener();
-        resetRiderStates();
     }
 
     private void initRecyclerListener() {
@@ -60,24 +58,6 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         rvRaceGroup.setHasFixedSize(true);
         rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    private void resetRiderStates(){
-        RealmList<Rider> riders = RiderPresenter.getInstance().getAllRidersReturned();
-        for(Rider r : riders){
-            RiderStageConnection connection = r.getRiderStages().first();
-            if(connection.getType() != RiderStateType.QUIT && connection.getType() != RiderStateType.DNC){
-                RiderStageConnection newConnection = new RiderStageConnection();
-                newConnection.setType(RiderStateType.AKTIVE);
-                newConnection.setRank(connection.getRank());
-                newConnection.setOfficialGap(connection.getOfficialGap());
-                newConnection.setVirtualGap(connection.getVirtualGap());
-                newConnection.setOfficialTime(connection.getOfficialTime());
-                newConnection.setBonusTime(connection.getBonusTime());
-                newConnection.setBonusPoint(connection.getBonusPoint());
-                RiderStageConnectionPresenter.getInstance().updateRiderStageConnection(newConnection, connection);
-            }
-        }
     }
 
     @Override
