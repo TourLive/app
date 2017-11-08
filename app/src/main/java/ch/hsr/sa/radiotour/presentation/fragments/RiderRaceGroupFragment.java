@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -261,6 +263,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             unknownRiders.add(rider);
         }
         txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");
+        txtUnknownRiders.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
     }
 
     private void removeUnknownRiders() {
