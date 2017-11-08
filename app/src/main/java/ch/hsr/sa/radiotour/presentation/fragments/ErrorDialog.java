@@ -17,10 +17,7 @@ public class ErrorDialog extends DialogFragment {
                 .setIcon(R.drawable.error)
                 .setTitle(R.string.import_error)
                 .setMessage(getArguments().getString("message"))
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }).create();
+                .setPositiveButton("OK", (DialogInterface dialog, int which) -> {})
+                .create();
     }
 }

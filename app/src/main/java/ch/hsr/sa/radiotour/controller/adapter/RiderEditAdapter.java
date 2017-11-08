@@ -1,21 +1,15 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Handler;
-import android.speech.tts.TextToSpeech;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -61,7 +55,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
         if(!holderHashMap.isEmpty()){
-            TextView tvNumber = (TextView) holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
+            TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
         }
     }
