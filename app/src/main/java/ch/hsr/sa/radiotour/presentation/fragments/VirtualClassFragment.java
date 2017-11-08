@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 
 public class VirtualClassFragment extends Fragment {
     @Override
@@ -15,5 +16,17 @@ public class VirtualClassFragment extends Fragment {
         Log.d("TAG","VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
         return root;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        RiderPresenter.getInstance().subscribeCallbacks();
+    }
+
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        RiderPresenter.getInstance().unSubscribeCallbacks();
     }
 }
