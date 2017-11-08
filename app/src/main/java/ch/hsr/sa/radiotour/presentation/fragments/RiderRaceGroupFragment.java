@@ -121,7 +121,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         adapter.updateRiderStateOnGUI(connection);
         boolean stillInRace = connection.getRiders().getRiderStages().first().getType() != RiderStateType.QUIT
                 && connection.getRiders().getRiderStages().first().getType() != RiderStateType.DNC;
-        if(connection.getRiders().getRaceGroups() != null && stillInRace){
+        if(connection.getRiders().getRaceGroups() != null && !stillInRace){
             RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
         }
     }
