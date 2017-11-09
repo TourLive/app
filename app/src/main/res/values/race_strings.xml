@@ -10,4 +10,7 @@
     <string name="race_stand">Stand</string>
     <string name="race_count_unkown_racers">Anzahl unbekannte Fahrer hinzufügen</string>
     <string name="race_add">Hinzufügen</string>
+    <string name="race_lead">SPITZENGRUPPE</string>
+    <string name="race_field">FELD</string>
+    <string name="race_group">GRUPPE</string>
 </resources>

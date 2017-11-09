@@ -104,21 +104,10 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     @Override
     public boolean onItemMove(int from, int to) {
         Log.v("", "FROM" + from + "TO" + to);
-        if (from < raceGroups.size() && to < raceGroups.size()) {
-            if (from < to) {
-                for (int i = from; i < to; i++) {
-                    Collections.swap(raceGroups, i, i + 1);
-                }
-            } else {
-                for (int i = from; i > to; i--) {
-                    Collections.swap(raceGroups, i, i - 1);
-                }
-            }
-            for (RaceGroup rG : raceGroups) {
-                raceGroupPresenter.updateRaceGroupPosition(rG, raceGroups.indexOf(rG));
-            }
-            notifyItemMoved(from, to);
-        }
+        RaceGroup toRaceGroup = raceGroups.get(to);
+        RaceGroup fromRaceGroup = raceGroups.get(from);
+        RealmList<Rider> fromGroupRiders = fromRaceGroup.getRiders();
+        raceGroupPresenter.updateRaceGroupRiders(toRaceGroup, fromGroupRiders);
         return true;
     }
 
