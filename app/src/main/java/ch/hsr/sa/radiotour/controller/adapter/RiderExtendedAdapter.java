@@ -5,24 +5,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import de.codecrafters.tableview.TableDataAdapter;
 
 public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
+    private Context context;
 
     public RiderExtendedAdapter(final Context context, final List<RiderExtended> data) {
         super(context, data);
+        this.context = context;
     }
 
     @Override
     public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
         final RiderExtended rider = getRowData(rowIndex);
 
-        TextView textView = new TextView(getContext());
+        TextView textView = new TextView(context);
         textView.setPadding(8, 0, 8, 0);
-
+        Calendar cal;
         switch (columnIndex) {
             case 0:
                 textView.setText(String.valueOf(rider.getStartNr()));
@@ -43,13 +46,19 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 textView.setText(String.valueOf(rider.getMoney()));
                 break;
             case 6:
-                textView.setText(String.valueOf(rider.getVirtualGap().toString()));
+                cal = Calendar.getInstance();
+                cal.setTime(rider.getVirtualGap());
+                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
                 break;
             case 7:
-                textView.setText(String.valueOf(rider.getOfficialGap().toString()));
+                cal = Calendar.getInstance();
+                cal.setTime(rider.getOfficialGap());
+                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
                 break;
             case 8:
-                textView.setText(String.valueOf(rider.getOfficialTime().toString()));
+                cal = Calendar.getInstance();
+                cal.setTime(rider.getOfficialTime());
+                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
                 break;
         }
         return textView;
