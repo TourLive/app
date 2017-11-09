@@ -25,6 +25,7 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
 
         TextView textView = new TextView(context);
         textView.setPadding(8, 0, 8, 0);
+        textView.setTextSize(10);
         Calendar cal;
         switch (columnIndex) {
             case 0:
