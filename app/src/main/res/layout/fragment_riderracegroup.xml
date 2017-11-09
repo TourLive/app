@@ -43,7 +43,8 @@
         android:text="Arzt"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Rider" />
+        app:layout_constraintTop_toTopOf="@+id/Rider"
+        android:background="@color/colorBlue"/>
 
     <Button
         android:id="@+id/btn_DNC"
@@ -61,7 +62,8 @@
         android:layout_marginStart="16dp"
         android:text="Defekt"
         app:layout_constraintStart_toEndOf="@+id/btn_DNC"
-        app:layout_constraintTop_toTopOf="@+id/Rider" />
+        app:layout_constraintTop_toTopOf="@+id/Rider"
+        android:background="@color/colorRed"/>
 
     <Button
         android:id="@+id/btn_Quit"
@@ -79,7 +81,8 @@
         android:layout_marginStart="16dp"
         android:text="Sturz"
         app:layout_constraintStart_toEndOf="@+id/btn_Quit"
-        app:layout_constraintTop_toTopOf="@+id/Rider" />
+        app:layout_constraintTop_toTopOf="@+id/Rider"
+        android:background="@color/colorOlive"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvEditRider"
