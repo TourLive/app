@@ -9,9 +9,18 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.RiderExtendedAdapter;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
+import ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView;
 
 public class VirtualClassFragment extends Fragment {
     private RecyclerView rvRiderKlassement;
@@ -20,19 +29,47 @@ public class VirtualClassFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
+        initComponents(root);
+        intiTable(root);
         return root;
     }
 
     public void initComponents(View root){
         RiderPresenter.getInstance().addView(this);
-        rvRiderKlassement = (RecyclerView) root.findViewById(R.id.rvRiderKlassement);
-        initRecyclerListener();
     }
 
-    private void initRecyclerListener() {
-        rvRiderKlassement.setHasFixedSize(true);
-        rvRiderKlassement.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvRiderKlassement.setItemAnimator(new DefaultItemAnimator());
+    private void intiTable(View root) {
+        List<RiderExtended> list = new ArrayList<>();
+        list.addAll(createRiders());
+        Log.d("TEST", Integer.toString(list.size()));
+        for (RiderExtended r : list) {
+            System.out.println(r.getName());
+        }
+        final SortableVirtualClassementView sortableVirtualClassementView = (SortableVirtualClassementView) root.findViewById(R.id.tableView);
+        if (sortableVirtualClassementView != null) {
+            final RiderExtendedAdapter riderExtendedAdapter = new RiderExtendedAdapter(getContext(), list);
+            sortableVirtualClassementView.setDataAdapter(riderExtendedAdapter);
+        }
+    }
+
+    private List<RiderExtended> createRiders() {
+        List<RiderExtended> createdRiders = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            RiderExtended rE = new RiderExtended();
+            rE.setBonusPoint(i);
+            rE.setBonusTime(i);
+            rE.setCountry("CHF" + i);
+            rE.setMoney(100 * i);
+            rE.setName("NAME" + i);
+            rE.setOfficialGap(new Date());
+            rE.setOfficialTime(new Date());
+            rE.setVirtualGap(new Date());
+            rE.setRank(i);
+            rE.setStartNr(1+i);
+            rE.setTeamShortName("T" + i);
+            createdRiders.add(rE);
+        }
+        return createdRiders;
     }
 
     @Override
