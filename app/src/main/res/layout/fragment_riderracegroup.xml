@@ -47,13 +47,14 @@
         android:background="@color/colorBlue"/>
 
     <Button
-        android:id="@+id/btn_DNC"
+        android:id="@+id/btn_Drop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="DNC"
+        android:text="Sturz"
         app:layout_constraintStart_toEndOf="@+id/btn_Doctor"
-        app:layout_constraintTop_toTopOf="@+id/Rider" />
+        app:layout_constraintTop_toTopOf="@+id/Rider"
+        android:background="@color/colorOlive"/>
 
     <Button
         android:id="@+id/btn_Defect"
@@ -61,9 +62,18 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Defekt"
-        app:layout_constraintStart_toEndOf="@+id/btn_DNC"
+        app:layout_constraintStart_toEndOf="@+id/btn_Drop"
         app:layout_constraintTop_toTopOf="@+id/Rider"
         android:background="@color/colorRed"/>
+
+    <Button
+        android:id="@+id/btn_DNC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="DNC"
+        app:layout_constraintStart_toEndOf="@+id/btn_Defect"
+        app:layout_constraintTop_toTopOf="@+id/Rider" />
 
     <Button
         android:id="@+id/btn_Quit"
@@ -71,18 +81,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:text="Aufgabe"
-        app:layout_constraintStart_toEndOf="@+id/btn_Defect"
+        app:layout_constraintStart_toEndOf="@+id/btn_DNC"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
-
-    <Button
-        android:id="@+id/btn_Drop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Sturz"
-        app:layout_constraintStart_toEndOf="@+id/btn_Quit"
-        app:layout_constraintTop_toTopOf="@+id/Rider"
-        android:background="@color/colorOlive"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvEditRider"
@@ -105,7 +105,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:text="Unknown Riders"
-        app:layout_constraintStart_toEndOf="@+id/btn_Drop"
+        app:layout_constraintStart_toEndOf="@+id/btn_Quit"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
 
     <TextView
