@@ -11,4 +11,5 @@ public final class UrlLink {
     public static final String JUDGEMENTS = "api/masterdata/judgements/";
     public static final String STATES = "json_public/status.php";
     public static final String GLOBALSETTINGS = "api/getAllGlobalSettings";
+    public static final String MAILLOTS = "http://tourlive.ch/api/masterdata/jerseys/race/";
 }

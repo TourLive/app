@@ -1,12 +1,14 @@
 package ch.hsr.sa.radiotour.business;
 
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
+import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
+import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -89,5 +91,15 @@ public final class Context {
 
     public static RealmList<RiderStageConnection> getAllRiderStageConnections(){
         return RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+    }
+
+    public static void addMaillot(Maillot maillot){ MaillotPresenter.getInstance().addMaillot(maillot); }
+
+    public static void deleteMaillots(){
+        MaillotPresenter.getInstance().clearAllMaillots();
+    }
+
+    public static RealmList<Maillot> getAllMaillots(){
+        return MaillotPresenter.getInstance().getAllMaillots();
     }
 }
