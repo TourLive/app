@@ -64,6 +64,15 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         }
     }
 
+    public void updateAnimateRiderInGroup(RealmList<Rider> riders){
+        if(!holderHashMap.isEmpty()){
+            for(Rider r : riders){
+                TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
+                animateRiderInGroup(tvNumber, r.getStartNr());
+            }
+        }
+    }
+
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
         if(!holderHashMap.isEmpty()){
@@ -103,15 +112,6 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
             default:
                 drawable.setColor(0);
                 break;
-        }
-    }
-
-    public void updateAnimateRiderInGroup(RealmList<Rider> riders){
-        if(!holderHashMap.isEmpty()){
-            for(Rider r : riders){
-                TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
-                animateRiderInGroup(tvNumber, r.getStartNr());
-            }
         }
     }
 
