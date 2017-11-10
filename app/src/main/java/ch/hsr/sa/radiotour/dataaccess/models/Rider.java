@@ -12,6 +12,8 @@ public class Rider extends RealmObject {
     @PrimaryKey
     private String id;
 
+    private Integer riderID;
+
     private int startNr;
     @Required
     private String name;
@@ -38,6 +40,14 @@ public class Rider extends RealmObject {
         } catch (Exception ex){
             return null;
         }
+    }
+
+    public Integer getRiderID() {
+        return riderID;
+    }
+
+    public void setRiderID(Integer riderID) {
+        this.riderID = riderID;
     }
 
     public String getId() {

@@ -11,7 +11,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashMap;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
@@ -45,6 +48,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
+        animateRiderInGroup(holder.tvNummer, riders.get(position).getStartNr());
         holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
@@ -52,11 +56,31 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         return riders.get(position).getRiderStages().first().getType();
     }
 
+    public void animateRiderInGroup(TextView tvNumber, Integer startNr){
+        RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
+        if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
+            GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
+            drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+        }
+    }
+
+    public void updateAnimateRiderInGroup(RealmList<Rider> riders){
+        if(!holderHashMap.isEmpty()){
+            for(Rider r : riders){
+                TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
+                animateRiderInGroup(tvNumber, r.getStartNr());
+            }
+        }
+    }
+
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
         if(!holderHashMap.isEmpty()){
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
+            if(stateType == RiderStateType.AKTIVE){
+                animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
+            }
         }
     }
 
