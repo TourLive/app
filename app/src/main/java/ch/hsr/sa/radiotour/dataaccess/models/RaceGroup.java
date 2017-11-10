@@ -1,10 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
-import android.content.res.Resources;
-
-import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
-import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
