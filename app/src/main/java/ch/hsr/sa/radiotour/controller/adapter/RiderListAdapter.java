@@ -63,7 +63,9 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         if(!holderHashMap.isEmpty()){
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
-            animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
+            if(stateType == RiderStateType.AKTIVE){
+                animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
+            }
         }
     }
 
@@ -96,7 +98,8 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     public void animateRiderInGroup(TextView tvNumber, Integer startNr){
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
         if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
-            tvNumber.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+            GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
+            drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
         }
     }
 
