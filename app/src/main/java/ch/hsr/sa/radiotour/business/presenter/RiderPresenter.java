@@ -2,15 +2,20 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.support.v4.app.Fragment;
 
+import com.facebook.stetho.common.ArrayListAccumulator;
+
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 import io.realm.RealmList;
 
 public class RiderPresenter implements IRiderPresenter {
@@ -36,6 +41,9 @@ public class RiderPresenter implements IRiderPresenter {
         this.fragments.add(frag);
     }
 
+    public void removeView(Fragment fragment) {
+        this.fragments.remove(fragment);
+    }
 
     @Override
     public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }
@@ -102,6 +110,9 @@ public class RiderPresenter implements IRiderPresenter {
                     } else if (frag instanceof RiderRaceGroupFragment) {
                         RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
                         riderRaceGroupFragment.showRiders(riders);
+                    } else if (frag instanceof VirtualClassFragment) {
+                        VirtualClassFragment virtualClassFragment = (VirtualClassFragment) frag;
+                        virtualClassFragment.showRiders(riderToExtendedRider(riders));
                     } else {
                         // Do nothing because a not supported fragment
                     }
@@ -125,6 +136,25 @@ public class RiderPresenter implements IRiderPresenter {
                 // Not needed and therefore not implemented
             }
         };
+    }
+
+    private List<RiderExtended> riderToExtendedRider (RealmList<Rider> riders) {
+        List<RiderExtended> newRiders = new ArrayList<>();
+        for (Rider r : riders) {
+            RiderExtended riderExtended = new RiderExtended();
+            riderExtended.setVirtualGap(r.getRiderStages().first().getVirtualGap());
+            riderExtended.setTeamShortName(r.getTeamShortName());
+            riderExtended.setStartNr(r.getStartNr());
+            riderExtended.setRank(r.getRiderStages().first().getRank());
+            riderExtended.setOfficialTime(r.getRiderStages().first().getOfficialTime());
+            riderExtended.setOfficialGap(r.getRiderStages().first().getOfficialGap());
+            riderExtended.setName(r.getName());
+            riderExtended.setMoney(0);
+            riderExtended.setCountry(r.getCountry());
+            riderExtended.setTeamName(r.getTeamName());
+            newRiders.add(riderExtended);
+        }
+        return newRiders;
     }
 
     @Override
