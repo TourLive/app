@@ -59,6 +59,10 @@ public final class APIClient {
         return getStages(UrlLink.STAGES + RACEID, null);
     }
 
+    public static String getMaillots() {
+        return getMaillots(UrlLink.MAILLOTS + RACEID, null);
+    }
+
     public static void clearDatabase(){
         Parser.deleteData();
     }
@@ -186,6 +190,33 @@ public final class APIClient {
                         }
                     }
                     Parser.parseStagesAndPersist(stages, STAGENR);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                messages[0] = throwable.getMessage();
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getMaillots(String url, RequestParams params) {
+        final String[] messages = {"success"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray maillots) {
+                try{
+                    Parser.parseMaillotsAndPersist(maillots);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();

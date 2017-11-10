@@ -23,6 +23,7 @@ public class StageRepository implements IStageRepository {
             realmStage.setName(stage.getName());
             realmStage.setType(stage.getType());
             realmStage.setStageConnections(stage.getStageConnections());
+            realmStage.setMaillotConnections(stage.getMaillotConnections());
         });
 
         if (callback != null)
