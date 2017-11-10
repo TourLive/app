@@ -108,6 +108,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
 
     public void addRaceGroupToList() {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
+        adapter.updateAnimateRiderInGroup(riders);
     }
 
     @Override
