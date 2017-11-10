@@ -18,6 +18,7 @@ public class RiderRepository implements IRiderRepository {
 
         realm.executeTransaction((Realm db) -> {
             Rider realmRider = db.createObject(Rider.class, UUID.randomUUID().toString());
+            realmRider.setRiderID(transferRider.getRiderID());
             realmRider.setName(transferRider.getName());
             realmRider.setCountry(transferRider.getCountry());
             realmRider.setStartNr(transferRider.getStartNr());
