@@ -110,9 +110,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 return 40;
             }  else if (progressBarStatus < 50) {
                 progressBarHandler.post(() -> {
-                    progressBar.setMessage(getResources().getText(R.string.import_stage));
+                    progressBar.setMessage(getResources().getText(R.string.import_maillot));
                 });
-                String message = APIClient.getStages();
+                String message = APIClient.getMaillots();
                 if(!message.equals(SUCCESS_MESSAGE)){
                     setErrorDialog(message);
                     break;
