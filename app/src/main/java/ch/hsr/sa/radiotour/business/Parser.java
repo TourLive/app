@@ -31,6 +31,7 @@ public final class Parser {
     private static String name = "name";
     private static String team = "team";
     private static String teamShort = "teamShort";
+    private static String riderID = "riderId";
 
     public static void deleteData(){
         Context.deleteAllRiderStageConnections();
@@ -55,6 +56,7 @@ public final class Parser {
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
+                        rider.setRiderID(jsonRider.getInt(riderID));
                         synchronized (this){
                             Context.addRider(rider);
                         }
