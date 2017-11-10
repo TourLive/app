@@ -11,7 +11,11 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
@@ -41,6 +45,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     public void onBindViewHolder(RiderViewHolder holder, int position) {
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
+        animateRiderInGroup(holder.tvNummer, riders.get(position).getStartNr());
         holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
@@ -58,6 +63,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         if(!holderHashMap.isEmpty()){
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
+            animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
         }
     }
 
@@ -84,6 +90,13 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
             default:
                 drawable.setColor(0);
                 break;
+        }
+    }
+
+    public void animateRiderInGroup(TextView tvNumber, Integer startNr){
+        RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
+        if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
+            tvNumber.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGrayLight));
         }
     }
 
