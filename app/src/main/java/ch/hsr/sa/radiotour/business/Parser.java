@@ -40,8 +40,8 @@ public final class Parser {
         Context.deleteRaceGroups();
         Context.deleteJudgments();
         Context.deleteRewards();
-        Context.deleteStages();
         Context.deleteMaillots();
+        Context.deleteStages();
     }
 
     public static void parseRidersAndPersist(JSONArray riders) throws InterruptedException {
