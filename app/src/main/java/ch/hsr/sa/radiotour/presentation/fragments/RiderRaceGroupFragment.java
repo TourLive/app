@@ -140,6 +140,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
 
     public void addRaceGroupToList() {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
+        adapter.updateAnimateRiderInGroup(adapter.getSelectedRiders());
     }
 
     public void updateRiderStates(RiderStateType riderStateType) {
@@ -231,6 +232,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             raceGroup.setRiders(adapter.getSelectedRiders());
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
+            adapter.updateAnimateRiderInGroup(adapter.getSelectedRiders());
             adapter.resetSelectRiders();
         } else if (!unknownRiders.isEmpty()) {
             raceGroup.setRiders(unknownRiders);
