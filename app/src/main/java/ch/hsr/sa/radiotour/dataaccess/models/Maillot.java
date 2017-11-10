@@ -20,7 +20,7 @@ public class Maillot extends RealmObject {
     @Required
     private String partner;
 
-    @LinkingObjects("stageConnections")
+    @LinkingObjects("maillotConnections")
     private final RealmResults<Stage> stages = null;
 
     public String getId() {

@@ -27,7 +27,7 @@ public class Stage extends RealmObject {
 
     private RealmList<RiderStageConnection> stageConnections;
 
-    private RealmList<RiderStageConnection> maillotConnections;
+    private RealmList<Maillot> maillotConnections;
 
     public int getStageId() {
         return stageId;
@@ -101,11 +101,11 @@ public class Stage extends RealmObject {
         this.stageConnections = stageConnections;
     }
 
-    public RealmList<RiderStageConnection> getMaillotConnections() {
+    public RealmList<Maillot> getMaillotConnections() {
         return maillotConnections;
     }
 
-    public void setMaillotConnections(RealmList<RiderStageConnection> maillotConnections) {
+    public void setMaillotConnections(RealmList<Maillot> maillotConnections) {
         this.maillotConnections = maillotConnections;
     }
 }

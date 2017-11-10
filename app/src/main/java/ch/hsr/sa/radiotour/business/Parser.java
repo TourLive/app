@@ -9,6 +9,7 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
+import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
@@ -226,6 +227,7 @@ public final class Parser {
                 stage.setEndTime(new Date(jsonStage.getLong("endtimeAsTimestamp")));
                 stage.setDistance(jsonStage.getInt("distance"));
                 stage.setStageConnections(Context.getAllRiderStageConnections());
+                stage.setMaillotConnections(Context.getAllMaillots());
                 Context.addStage(stage);
             } catch (JSONException e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - STAGES - " + e.getMessage());
@@ -236,6 +238,26 @@ public final class Parser {
         threadRewards.join();
     }
 
-
-
+    public static void parseMaillotsAndPersist(JSONArray maillots) throws InterruptedException {
+        final JSONArray maillotsJson = maillots;
+        Runnable runnable = (() -> {
+            for (int i = 0; i < maillotsJson.length(); i++) {
+                try {
+                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
+                    Maillot maillot = new Maillot();
+                    maillot.setType(jsonMaillot.getString("type"));
+                    maillot.setPartner(jsonMaillot.getString("partner"));
+                    maillot.setName(jsonMaillot.getString("name"));
+                    maillot.setDbIDd(jsonMaillot.getInt("dbId"));
+                    maillot.setColor(jsonMaillot.getString("color"));
+                    Context.addMaillot(maillot);
+                } catch (JSONException e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+                }
+            }
+        });
+        Thread threadMaillots = new Thread(runnable);
+        threadMaillots.start();
+        threadMaillots.join();
+    }
 }

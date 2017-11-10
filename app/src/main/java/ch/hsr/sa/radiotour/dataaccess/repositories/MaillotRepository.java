@@ -6,6 +6,8 @@ import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import io.realm.Realm;
+import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class MaillotRepository implements IMaillotRepository {
     @Override
@@ -23,6 +25,15 @@ public class MaillotRepository implements IMaillotRepository {
 
         if (callback != null)
             callback.onSuccess();
+    }
+
+    @Override
+    public RealmList<Maillot> getAllMaillots(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
+        RealmList<Maillot> res = new RealmList<>();
+        res.addAll(results);
+        return res;
     }
 
     @Override

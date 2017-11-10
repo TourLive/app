@@ -8,6 +8,7 @@ import ch.hsr.sa.radiotour.business.presenter.interfaces.IMaillotPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.repositories.MaillotRepository;
+import io.realm.RealmList;
 
 public class MaillotPresenter implements IMaillotPresenter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
@@ -59,5 +60,10 @@ public class MaillotPresenter implements IMaillotPresenter {
     @Override
     public void clearAllMaillots() {
         maillotRepository.clearAllMaillots();
+    }
+
+    @Override
+    public RealmList<Maillot> getAllMaillots(){
+        return maillotRepository.getAllMaillots();
     }
 }
