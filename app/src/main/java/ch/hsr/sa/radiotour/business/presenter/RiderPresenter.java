@@ -11,6 +11,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
+import ch.hsr.sa.radiotour.presentation.fragments.JudgmentDetailFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
