@@ -2,8 +2,6 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.support.v4.app.Fragment;
 
-import com.facebook.stetho.common.ArrayListAccumulator;
-
 import java.util.ArrayList;
 import java.util.List;
 

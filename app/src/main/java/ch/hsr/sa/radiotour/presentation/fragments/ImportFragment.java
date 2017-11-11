@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 
@@ -109,9 +110,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 }
                 return 40;
             }  else if (progressBarStatus < 50) {
-                progressBarHandler.post(() -> {
-                    progressBar.setMessage(getResources().getText(R.string.import_maillot));
-                });
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_maillot)));
                 String message = APIClient.getMaillots();
                 if(!message.equals(SUCCESS_MESSAGE)){
                     setErrorDialog(message);
@@ -119,9 +118,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 }
                 return 50;
             }   else if (progressBarStatus < 60) {
-                progressBarHandler.post(() -> {
-                    progressBar.setMessage(getResources().getText(R.string.import_stage));
-                });
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));
                 String message = APIClient.getStages();
                 if(!message.equals(SUCCESS_MESSAGE)){
                     setErrorDialog(message);

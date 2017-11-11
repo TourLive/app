@@ -5,7 +5,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
@@ -26,7 +29,8 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
         TextView textView = new TextView(context);
         textView.setPadding(8, 0, 8, 0);
         textView.setTextSize(10);
-        Calendar cal;
+
+        DateFormat df = new SimpleDateFormat("HH:mm:ss.SSS");
         switch (columnIndex) {
             case 0:
                 textView.setText(String.valueOf(rider.getStartNr()));
@@ -47,19 +51,15 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 textView.setText(String.valueOf(rider.getMoney()));
                 break;
             case 6:
-                cal = Calendar.getInstance();
-                cal.setTime(rider.getVirtualGap());
-                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+                textView.setText(df.format(rider.getVirtualGap()));
                 break;
             case 7:
-                cal = Calendar.getInstance();
-                cal.setTime(rider.getOfficialGap());
-                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+                textView.setText(df.format(rider.getOfficialGap()));
                 break;
             case 8:
-                cal = Calendar.getInstance();
-                cal.setTime(rider.getOfficialTime());
-                textView.setText(String.valueOf(cal.get(Calendar.MINUTE)));
+                textView.setText(df.format(rider.getOfficialTime()));
+                break;
+            default:
                 break;
         }
         return textView;

@@ -126,7 +126,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
 
     @Override
     public void deleteRiderStageConnection() {
-
+        // Not implemented yet
     }
 
     @Override
