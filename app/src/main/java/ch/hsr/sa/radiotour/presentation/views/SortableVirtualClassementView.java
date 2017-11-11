@@ -1,12 +1,10 @@
 package ch.hsr.sa.radiotour.presentation.views;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.VirtualClassementComparators;
 import de.codecrafters.tableview.SortableTableView;
