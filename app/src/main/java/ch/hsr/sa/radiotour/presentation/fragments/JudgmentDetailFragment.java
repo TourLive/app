@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,9 +23,10 @@ public class JudgmentDetailFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_detail_judgment, container, false);
         id = getArguments().getString("id");
         rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
-        rvRidersToSelect.setAdapter(new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned()));
-        GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.VERTICAL, false);
-        rvRidersToSelect.setLayoutManager(mLayoutManager);
+        RiderBasicAdapter riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned());
+        rvRidersToSelect.setAdapter(riderBasicAdapter);
+        rvRidersToSelect.setLayoutManager(new GridLayoutManager(getContext(), 12));
+        rvRidersToSelect.setHasFixedSize(true);
         return root;
     }
 }

@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,15 +71,16 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
 
         @Override
         public void onClick(View view) {
-            Rider rider = riders.get(getLayoutPosition());
+            Rider rider = riders.get(getAdapterPosition());
+            Log.d("DA", rider.toString());
             if (selectedRiders.contains(rider)) {
                 selectedRiders.remove(rider);
                 selectedViews.remove(view);
-                itemView.setBackgroundColor(0);
+                view.setBackgroundColor(0);
             } else {
                 selectedViews.add(view);
                 selectedRiders.add(rider);
-                itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.colorTeal));
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorTeal));
             }
         }
     }
