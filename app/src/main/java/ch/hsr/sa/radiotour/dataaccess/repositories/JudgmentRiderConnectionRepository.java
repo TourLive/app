@@ -18,6 +18,8 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.executeTransaction((Realm db) -> {
             JudgmentRiderConnection realmConnection = db.createObject(JudgmentRiderConnection.class, UUID.randomUUID().toString());
             realmConnection.setRank(transferConnection.getRank());
+            realmConnection.setJudgements(transferConnection.getJudgements());
+            realmConnection.setRider(transferConnection.getRider());
         });
 
         if (callback != null)

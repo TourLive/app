@@ -5,4 +5,9 @@
     <string name="specrank_save_judgement">WERTUNG SPEICHERN</string>
     <string name="specrank_delete">Löschen</string>
     <string name="placeholder_rider_judgment">Noch keine Resulate eingegeben</string>
+    <string name="rank_one">Platz 1</string>
+    <string name="rank_two">Platz 2</string>
+    <string name="rank_three">Platz 3</string>
+    <string name="rank_four">Platz 4</string>
+    <string name="rank_five">Platz 5</string>
 </resources>

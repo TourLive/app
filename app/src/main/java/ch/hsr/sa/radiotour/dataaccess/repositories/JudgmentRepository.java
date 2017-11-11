@@ -20,7 +20,6 @@ public class JudgmentRepository implements IJudgmentRepository {
             realmJudgment.setName(transferJudgment.getName());
             realmJudgment.setDistance(transferJudgment.getDistance());
             realmJudgment.setRewardId(transferJudgment.getRewardId());
-            realmJudgment.setRewardRiderConnections(transferJudgment.getJudgmentRiderConnections());
         });
 
         if (callback != null)
