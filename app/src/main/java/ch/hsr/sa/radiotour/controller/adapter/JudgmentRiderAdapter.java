@@ -39,7 +39,7 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
     private String getRiderNameByRank(int rank) {
         for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
             if (jRC.getRank() == rank) {
-                return jRC.getRiders().getName();
+                return jRC.getRider().first().getName();
             }
         }
         return context.getResources().getString(R.string.placeholder_rider_judgment);

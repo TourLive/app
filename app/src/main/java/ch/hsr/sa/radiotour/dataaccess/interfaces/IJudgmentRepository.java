@@ -22,4 +22,6 @@ public interface IJudgmentRepository {
     RealmList<Judgement> getJudgmentsById(final int judgmentId);
 
     void clearAllJudgments();
+
+    Judgement getJudgmentByObjectIdReturned (final String id);
 }

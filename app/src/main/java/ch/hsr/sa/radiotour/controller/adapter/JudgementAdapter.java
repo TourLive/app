@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,15 +17,18 @@ import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.presentation.fragments.OnJudgmentClickListener;
 import io.realm.RealmList;
 
 public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.JudgementViewHolder> {
     private RealmList<Judgement> judgements;
     private Context context;
+    private OnJudgmentClickListener onJudgmentClickListener;
 
-    public JudgementAdapter(RealmList<Judgement> judgements, Context context) {
+    public JudgementAdapter(RealmList<Judgement> judgements, Context context, OnJudgmentClickListener onJudgmentClickListener) {
         this.judgements = judgements;
         this.context = context;
+        this.onJudgmentClickListener = onJudgmentClickListener;
         Collections.sort(judgements, new JudgmentComperator());
     }
 
@@ -51,7 +55,7 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
         return judgements.size();
     }
 
-    public class JudgementViewHolder extends RecyclerView.ViewHolder {
+    public class JudgementViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView itemTitleJudgement;
         private TextView itemJudgementKM;
         private RecyclerView rvJudgmentRiders;
@@ -61,6 +65,12 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
             itemTitleJudgement = (TextView) itemView.findViewById(R.id.itemTitleJudgement);
             itemJudgementKM = (TextView) itemView.findViewById(R.id.itemJudgementKM);
             rvJudgmentRiders = (RecyclerView) itemView.findViewById(R.id.rvRiderJudgement);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()));
         }
     }
 

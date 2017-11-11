@@ -17,6 +17,7 @@ import java.util.List;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
@@ -72,12 +73,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
     }
 
     private void addItemsToSpinner() {
-        List<String> list = new ArrayList<>();
-        for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
-            if (!r.isUnknown()) {
-                list.add("" + Integer.toString(r.getStartNr()) + "-" + r.getCountry() + "-" + r.getName());
-            }
-        }
+        List<String> list = AdapterUtilitis.listWithAllRidersForSpinner();
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, list);
         spinner.setAdapter(dataAdapter);
     }
