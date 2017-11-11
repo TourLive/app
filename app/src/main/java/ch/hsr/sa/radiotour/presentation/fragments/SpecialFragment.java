@@ -78,22 +78,15 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         Log.d("DA", "on Judgement clicked");
         Log.d("DA", "" + judgement.toString());
         openDetailJudgmentFragment(judgement.getId());
-
     }
 
     private void openDetailJudgmentFragment(String judgementId) {
         Bundle arguments = new Bundle();
         arguments.putString("id", judgementId);
-        Fragment f = getChildFragmentManager().findFragmentById(R.id.layoutDetailJudgment);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        if (f == null) {
-            JudgmentDetailFragment fragment = new JudgmentDetailFragment();
-            fragment.setArguments(arguments);
-            transaction.add(R.id.layoutDetailJudgment, fragment);
-        } else {
-            f.setArguments(arguments);
-            transaction.replace(R.id.layoutDetailJudgment, f);
-        }
+        JudgmentDetailFragment fragment = new JudgmentDetailFragment();
+        fragment.setArguments(arguments);
+        transaction.replace(R.id.layoutDetailJudgment, fragment);
         transaction.commit();
     }
 }
