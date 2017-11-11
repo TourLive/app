@@ -37,6 +37,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     public void initComponents(View root) {
         JudgmentPresenter.getInstance().addView(this);
         RewardPresenter.getInstance().addView(this);
+        JudgmentRiderConnectionPresenter.getInstance().addView(this);
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
         rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext(), this));
         initRecyclerListener();
@@ -88,5 +89,9 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         fragment.setArguments(arguments);
         transaction.replace(R.id.layoutDetailJudgment, fragment);
         transaction.commit();
+    }
+
+    public void updateList() {
+        JudgmentPresenter.getInstance().getAllJudgments();
     }
 }
