@@ -1,4 +1,5 @@
 package ch.hsr.sa.radiotour.controller.adapter;
+
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -11,7 +12,6 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
-import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;

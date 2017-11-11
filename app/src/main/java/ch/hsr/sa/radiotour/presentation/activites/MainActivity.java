@@ -1,17 +1,17 @@
 package ch.hsr.sa.radiotour.presentation.activites;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
+import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.SpecialFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
-import ch.hsr.sa.radiotour.R;
 
 public class MainActivity extends AppCompatActivity {
 
