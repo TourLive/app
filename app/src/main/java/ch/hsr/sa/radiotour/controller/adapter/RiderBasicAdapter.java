@@ -18,14 +18,12 @@ import io.realm.RealmList;
 
 public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.RiderViewHolder> {
     private RealmList<Rider> riders;
-    private RealmList<Rider> selectedRiders;
-    private ArrayList<View> selectedViews;
+    private Rider selectedRider = null;
+    private View selectedView = null;
     private Context context;
 
     public RiderBasicAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
-        this.selectedRiders = new RealmList<>();
-        this.selectedViews = new ArrayList<>();
     }
 
     @Override
@@ -46,19 +44,6 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         return riders.size();
     }
 
-
-    public void resetSelectRiders() {
-        for (View view : selectedViews) {
-            view.setBackgroundColor(0);
-        }
-        selectedRiders.clear();
-        selectedViews.clear();
-    }
-
-    public RealmList<Rider> getSelectedRiders() {
-        return this.selectedRiders;
-    }
-
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tvNummer;
@@ -72,16 +57,12 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         @Override
         public void onClick(View view) {
             Rider rider = riders.get(getAdapterPosition());
-            Log.d("DA", rider.toString());
-            if (selectedRiders.contains(rider)) {
-                selectedRiders.remove(rider);
-                selectedViews.remove(view);
-                view.setBackgroundColor(0);
-            } else {
-                selectedViews.add(view);
-                selectedRiders.add(rider);
-                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorTeal));
+            if (selectedView != null) {
+                selectedView.setBackgroundResource(0);
             }
+            selectedRider = rider;
+            selectedView = view;
+            view.setBackgroundResource(R.color.colorTeal);
         }
     }
 
