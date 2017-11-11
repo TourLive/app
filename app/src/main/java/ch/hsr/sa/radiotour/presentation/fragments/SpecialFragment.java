@@ -19,10 +19,11 @@ import ch.hsr.sa.radiotour.controller.adapter.JudgementAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import io.realm.RealmList;
 
-public class SpecialFragment extends Fragment {
+public class SpecialFragment extends Fragment implements OnJudgmentClickListener {
     private RealmList<Judgement> judgements;
     private JudgementAdapter judgementAdapter;
     private RecyclerView rvJudgement;
+    private OnJudgmentClickListener onJudgmentClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class SpecialFragment extends Fragment {
         JudgmentPresenter.getInstance().addView(this);
         RewardPresenter.getInstance().addView(this);
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
-        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext()));
+        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext(), this));
         initRecyclerListener();
     }
 
@@ -66,9 +67,14 @@ public class SpecialFragment extends Fragment {
 
     public void showJudgments(RealmList<Judgement> judgements) {
         this.judgements = judgements;
-        judgementAdapter = new JudgementAdapter(judgements, getContext());
+        judgementAdapter = new JudgementAdapter(judgements, getContext(), this);
         rvJudgement.setAdapter(judgementAdapter);
     }
 
 
+    @Override
+    public void onJudgmentClicked(Judgement judgement) {
+        Log.d("DA", "on Judgement clicked");
+        Log.d("DA", "" + judgement.toString());
+    }
 }
