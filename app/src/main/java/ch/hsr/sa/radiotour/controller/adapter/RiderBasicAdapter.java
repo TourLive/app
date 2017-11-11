@@ -1,15 +1,11 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
@@ -42,6 +38,15 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     @Override
     public int getItemCount() {
         return riders.size();
+    }
+
+    public void resetSelectedRider() {
+        selectedView.setBackgroundColor(0);
+        selectedRider = null;
+    }
+
+    public Rider getSelectedRider() {
+        return this.selectedRider;
     }
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
