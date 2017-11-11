@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -76,5 +77,23 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     public void onJudgmentClicked(Judgement judgement) {
         Log.d("DA", "on Judgement clicked");
         Log.d("DA", "" + judgement.toString());
+        openDetailJudgmentFragment(judgement.getId());
+
+    }
+
+    private void openDetailJudgmentFragment(String judgementId) {
+        Bundle arguments = new Bundle();
+        arguments.putString("id", judgementId);
+        Fragment f = getChildFragmentManager().findFragmentById(R.id.layoutDetailJudgment);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        if (f == null) {
+            JudgmentDetailFragment fragment = new JudgmentDetailFragment();
+            fragment.setArguments(arguments);
+            transaction.add(R.id.layoutDetailJudgment, fragment);
+        } else {
+            f.setArguments(arguments);
+            transaction.replace(R.id.layoutDetailJudgment, f);
+        }
+        transaction.commit();
     }
 }
