@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -10,7 +11,6 @@ public class JudgmentRiderConnection extends RealmObject {
     @PrimaryKey
     private String id;
     private int rank;
-
     public int getRank() {
         return rank;
     }
@@ -19,18 +19,24 @@ public class JudgmentRiderConnection extends RealmObject {
         this.rank = rank;
     }
 
-    @LinkingObjects("judgmentRiderConnectionsRiders")
-    private final RealmResults<Rider> riders = null;
+    private RealmList<Rider> rider = null;
 
-    @LinkingObjects("judgmentRiderConnections")
-    private final RealmResults<Judgement> judgements = null;
+    private RealmList<Judgement> judgements;
 
-    public Rider getRiders() {
-        return riders.first();
+    public RealmList<Judgement> getJudgements() {
+        return judgements;
     }
 
-    public Judgement getRewards() {
-        return judgements.first();
+    public void setJudgements(RealmList<Judgement> judgements) {
+        this.judgements = judgements;
+    }
+
+    public RealmList<Rider> getRider() {
+        return rider;
+    }
+
+    public void setRider(RealmList<Rider> rider) {
+        this.rider = rider;
     }
 
 }

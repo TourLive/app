@@ -80,6 +80,11 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     }
 
     @Override
+    public Judgement getJudgmentByObjectIdReturned(String id) {
+        return judgmentRepository.getJudgmentByObjectIdReturned(id);
+    }
+
+    @Override
     public void getAllJudgments() {
         judgmentRepository.getAllJudgments(onGetAllJudgmentCallback);
     }

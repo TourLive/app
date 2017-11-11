@@ -20,7 +20,6 @@ public class JudgmentRepository implements IJudgmentRepository {
             realmJudgment.setName(transferJudgment.getName());
             realmJudgment.setDistance(transferJudgment.getDistance());
             realmJudgment.setRewardId(transferJudgment.getRewardId());
-            realmJudgment.setRewardRiderConnections(transferJudgment.getJudgmentRiderConnections());
         });
 
         if (callback != null)
@@ -52,6 +51,12 @@ public class JudgmentRepository implements IJudgmentRepository {
         }
 
         return results;
+    }
+
+    @Override
+    public Judgement getJudgmentByObjectIdReturned (final String id) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        return realm.where(Judgement.class).equalTo("id", id).findFirst();
     }
 
     @Override
