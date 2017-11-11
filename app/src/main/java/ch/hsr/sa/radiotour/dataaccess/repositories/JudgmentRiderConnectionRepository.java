@@ -18,8 +18,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
 
         realm.beginTransaction();
         RealmResults<JudgmentRiderConnection> res = realm.where(JudgmentRiderConnection.class).equalTo("rank", judgmentRiderConnection.getRank()).equalTo("judgements.id", judgmentRiderConnection.getJudgements().first().getId()).findAll();
-        for (JudgmentRiderConnection jRc : res) {
-            jRc.deleteFromRealm();
+
+        if(res.size() != 0) {
+            for (JudgmentRiderConnection jRc : res) {
+                jRc.deleteFromRealm();
+            }
         }
         realm.commitTransaction();
 
