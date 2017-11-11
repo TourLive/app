@@ -10,6 +10,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRiderConnectionRepository;
+import ch.hsr.sa.radiotour.presentation.fragments.SpecialFragment;
 import io.realm.RealmList;
 
 public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectionPresenter {
@@ -36,7 +37,10 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
             @Override
             public void onSuccess() {
                 for(Fragment frag : fragments){
-                    // call specifc update function for each fragment type
+                    if (frag instanceof SpecialFragment) {
+                        SpecialFragment specialFragment = (SpecialFragment) frag;
+                        specialFragment.updateList();
+                    }
                 }
             }
 
