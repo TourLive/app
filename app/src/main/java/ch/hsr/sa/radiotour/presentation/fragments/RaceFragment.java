@@ -11,14 +11,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
-import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
