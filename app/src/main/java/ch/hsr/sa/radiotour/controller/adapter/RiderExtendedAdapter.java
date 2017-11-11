@@ -59,6 +59,8 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 8:
                 textView.setText(df.format(rider.getOfficialTime()));
                 break;
+            default:
+                break;
         }
         return textView;
     }

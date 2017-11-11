@@ -86,7 +86,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
     }
@@ -133,6 +133,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
     @Override
     public void deleteRaceGroup() {
+        // Not implemented yet
     }
 
     @Override

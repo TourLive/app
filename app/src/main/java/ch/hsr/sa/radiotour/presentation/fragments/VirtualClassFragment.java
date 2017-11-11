@@ -20,20 +20,18 @@ import ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView;
 
 public class VirtualClassFragment extends Fragment {
     private SortableVirtualClassementView sortableVirtualClassementView;
-    private Context context;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
-        initComponents(root);
         intiTable(root);
+        initComponents();
         return root;
     }
 
-    public void initComponents(View root){
+    public void initComponents(){
         RiderPresenter.getInstance().addView(this);
-        context = getContext();
     }
 
     private void intiTable(View root) {
@@ -43,26 +41,6 @@ public class VirtualClassFragment extends Fragment {
             final RiderExtendedAdapter riderExtendedAdapter = new RiderExtendedAdapter(getContext(), list);
             sortableVirtualClassementView.setDataAdapter(riderExtendedAdapter);
         }
-    }
-
-    private List<RiderExtended> createRiders() {
-        List<RiderExtended> createdRiders = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            RiderExtended rE = new RiderExtended();
-            rE.setBonusPoint(i);
-            rE.setBonusTime(i);
-            rE.setCountry("CHF" + i);
-            rE.setMoney(100 * i);
-            rE.setName("NAME" + i);
-            rE.setOfficialGap(new Date());
-            rE.setOfficialTime(new Date());
-            rE.setVirtualGap(new Date());
-            rE.setRank(i);
-            rE.setStartNr(1+i);
-            rE.setTeamShortName("T" + i);
-            createdRiders.add(rE);
-        }
-        return createdRiders;
     }
 
     @Override
