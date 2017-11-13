@@ -55,31 +55,8 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
 
     private void initRecyclerListener() {
         rvRider.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvRider.setItemAnimator(new DefaultItemAnimator());
-        rvRaceGroup.setHasFixedSize(true);
         rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RiderPresenter.getInstance().subscribeCallbacks();
-        RiderPresenter.getInstance().getAllRiders();
-        RaceGroupPresenter.getInstance().subscribeCallbacks();
-        RaceGroupPresenter.getInstance().getAllRaceGroups();
-        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        RiderPresenter.getInstance().unSubscribeCallbacks();
-        RaceGroupPresenter.getInstance().unSubscribeCallbacks();
-        RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
-    }
-
-
 
 
     public void showRiders(RealmList<Rider> riders) {
@@ -88,6 +65,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {

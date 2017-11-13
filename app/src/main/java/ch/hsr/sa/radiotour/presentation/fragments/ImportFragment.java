@@ -16,7 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btnImport;
@@ -89,6 +96,19 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         }
         progressBar.setProgress(0);
         progressBar.dismiss();
+        progressBarHandler.post(() -> {
+            RiderPresenter.getInstance().subscribeCallbacks();
+            RiderPresenter.getInstance().getAllRiders();
+            RaceGroupPresenter.getInstance().subscribeCallbacks();
+            RaceGroupPresenter.getInstance().getAllRaceGroups();
+            RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
+            JudgmentPresenter.getInstance().subscribeCallbacks();
+            JudgmentPresenter.getInstance().getAllJudgments();
+            RiderPresenter.getInstance().subscribeCallbacks();
+            RewardPresenter.getInstance().subscribeCallbacks();
+            JudgmentRiderConnectionPresenter.getInstance().subscribeCallbacks();
+            MainActivity.temp();
+        });
     }
 
     private int importData() {
