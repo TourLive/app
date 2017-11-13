@@ -16,12 +16,8 @@ public interface IJudgmentRepository {
     }
 
     void addJudgment(Judgement judgement, OnSaveJudgmentCallback callback);
-
     void getAllJudgments(OnGetAllJudgmentCallback callback);
-
     RealmList<Judgement> getJudgmentsById(final int judgmentId);
-
     void clearAllJudgments();
-
     Judgement getJudgmentByObjectIdReturned (final String id);
 }
