@@ -1,12 +1,16 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
+import android.media.Image;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
@@ -33,7 +37,28 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         holder.name.setText(maillots.get(position).getDbIDd() + " | " + maillots.get(position).getName());
         holder.partner.setText(maillots.get(position).getPartner());
         holder.type.setText(maillots.get(position).getPartner());
-        holder.trikot.setColorFilter(context.getResources().getColor(R.color.colorBlue));
+        getMaillotColor(maillots.get(position).getColor(), holder.trikot);
+    }
+
+    private void getMaillotColor(String color, ImageView view) {
+        int colorCode = ContextCompat.getColor(context, R.color.colorGrayDark);
+        switch (color) {
+            case "yellow":
+                colorCode = ContextCompat.getColor(context, R.color.yellow);
+                break;
+            case "red":
+                colorCode = ContextCompat.getColor(context, R.color.red);
+                break;
+            case "blue":
+                colorCode = ContextCompat.getColor(context, R.color.blue);
+                break;
+            case "black":
+                colorCode = ContextCompat.getColor(context, R.color.black);
+                break;
+            default:
+                break;
+        }
+        view.setColorFilter(colorCode);
     }
 
     @Override
