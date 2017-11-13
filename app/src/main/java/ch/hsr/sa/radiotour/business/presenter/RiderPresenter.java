@@ -55,6 +55,9 @@ public class RiderPresenter implements IRiderPresenter {
     public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
 
     @Override
+    public RealmList<Rider> getAllActiveRidersReturned() { return riderRepository.getAllActiveRidersReturned(); }
+
+    @Override
     public Rider getRiderByStartNr(int startNr){ return riderRepository.getRiderByStartNr(startNr); }
 
     @Override

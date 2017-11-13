@@ -65,6 +65,15 @@ public class RiderRepository implements IRiderRepository {
     }
 
     @Override
+    public RealmList<Rider> getAllActiveRidersReturned() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Rider> results = realm.where(Rider.class).isNotEmpty("raceGroups").findAll();
+        RealmList<Rider> res = new RealmList<>();
+        res.addAll(results);
+        return res;
+    }
+
+    @Override
     public Rider getRiderByStartNr(int startNr) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         return realm.where(Rider.class).equalTo("startNr", startNr).findFirst();
