@@ -1,7 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -24,6 +24,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
+    private Judgement judgement;
     private String id;
     private RecyclerView rvRidersToSelect;
     private RiderBasicAdapter riderBasicAdapter;
@@ -32,19 +33,32 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView rankThree;
     private TextView rankFour;
     private TextView rankFive;
+    private TextView rankOneTxt;
+    private TextView rankTwoTxt;
+    private TextView rankThreeTxt;
+    private TextView rankFourTxt;
+    private TextView rankFiveTxt;
+    private TextView title;
     private List<TextView> textViews = new ArrayList<>();
+    private List<TextView> headers = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","JudgmentDetailFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_detail_judgment, container, false);
         id = getArguments().getString("id");
+        judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(id);
+
+        title = (TextView) root.findViewById(R.id.titleJudgements2);
+        title.setText(judgement.getDistance() + " | " + judgement.getName());
+
         rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
         riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned());
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(getContext(), 12));
         rvRidersToSelect.setHasFixedSize(true);
         initRankView(root);
+
         return root;
     }
 
@@ -54,23 +68,36 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankThree = (TextView) root.findViewById(R.id.RankThree);
         rankFour = (TextView) root.findViewById(R.id.RankFour);
         rankFive = (TextView) root.findViewById(R.id.RankFive);
-
+        rankOneTxt = (TextView) root.findViewById(R.id.txtRankOne);
+        rankTwoTxt = (TextView) root.findViewById(R.id.txtRankTwo);
+        rankThreeTxt = (TextView) root.findViewById(R.id.txtRankThree);
+        rankFourTxt = (TextView) root.findViewById(R.id.txtRankFour);
+        rankFiveTxt = (TextView) root.findViewById(R.id.txtRankFive);
         initListener();
-
-        textViews.add(rankOne);
-        textViews.add(rankTwo);
-        textViews.add(rankThree);
-        textViews.add(rankFour);
-        textViews.add(rankFive);
+        iniList();
 
         List<Boolean> work = getWorkProcesses();
         for (int o = 1; o < work.size(); o++) {
             if (!work.get(o)) {
                 textViews.get(o).setVisibility(View.GONE);
+                headers.get(o).setVisibility(View.GONE);
             }
         }
 
         initTextViewsWithData();
+    }
+
+    private void iniList() {
+        textViews.add(rankOne);
+        textViews.add(rankTwo);
+        textViews.add(rankThree);
+        textViews.add(rankFour);
+        textViews.add(rankFive);
+        headers.add(rankOneTxt);
+        headers.add(rankTwoTxt);
+        headers.add(rankThreeTxt);
+        headers.add(rankFourTxt);
+        headers.add(rankFiveTxt);
     }
 
     private void initListener() {
@@ -83,7 +110,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     private void initTextViewsWithData() {
 
-        for (JudgmentRiderConnection jRc : JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(id))){
+        for (JudgmentRiderConnection jRc : JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement)){
             switch (jRc.getRank()) {
                 case 1:
                     rankOne.setText(String.valueOf(jRc.getRider().first().getStartNr()));
@@ -107,7 +134,6 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     }
 
     private List<Boolean> getWorkProcesses() {
-        Judgement judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(id);
         List<Boolean> res = new ArrayList<>();
         for (int i : judgement.getRewards().getPoints()) {
             if (i != 0) {
@@ -153,14 +179,16 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     }
 
     private void saveJudgmnet(int rank, Rider rider) {
-        JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
-        judgmentRiderConnection.setRank(rank);
-        RealmList<Rider> riderToAdd = new RealmList<>();
-        riderToAdd.add(rider);
-        judgmentRiderConnection.setRider(riderToAdd);
-        RealmList<Judgement> judgementToAdd = new RealmList<>();
-        judgementToAdd.add(JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(id));
-        judgmentRiderConnection.setJudgements(judgementToAdd);
-        JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
+        if (rider != null) {
+            JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
+            judgmentRiderConnection.setRank(rank);
+            RealmList<Rider> riderToAdd = new RealmList<>();
+            riderToAdd.add(rider);
+            judgmentRiderConnection.setRider(riderToAdd);
+            RealmList<Judgement> judgementToAdd = new RealmList<>();
+            judgementToAdd.add(judgement);
+            judgmentRiderConnection.setJudgements(judgementToAdd);
+            JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
+        }
     }
 }
