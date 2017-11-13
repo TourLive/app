@@ -10,8 +10,6 @@ public interface IMaillotRepository {
     }
 
     void addMaillot(Maillot maillot, OnSaveMaillotCallback callback);
-
     RealmList<Maillot> getAllMaillots();
-
     void clearAllMaillots();
 }

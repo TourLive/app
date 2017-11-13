@@ -11,7 +11,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
-import ch.hsr.sa.radiotour.presentation.fragments.JudgmentDetailFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
@@ -54,6 +53,9 @@ public class RiderPresenter implements IRiderPresenter {
 
     @Override
     public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
+
+    @Override
+    public RealmList<Rider> getAllActiveRidersReturned() { return riderRepository.getAllActiveRidersReturned(); }
 
     @Override
     public Rider getRiderByStartNr(int startNr){ return riderRepository.getRiderByStartNr(startNr); }

@@ -27,7 +27,7 @@ public final class AdapterUtilitis {
 
     public static List<String> listWithAllRidersForSpinner() {
         List<String> list = new ArrayList<>();
-        for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
+        for (Rider r : RiderPresenter.getInstance().getAllActiveRidersReturned()) {
             if (!r.isUnknown()) {
                 list.add("" + Integer.toString(r.getStartNr()) + "-" + r.getCountry() + "-" + r.getName());
             }

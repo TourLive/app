@@ -10,6 +10,5 @@ public interface IStageRepository {
     }
 
     void addStage(Stage stage, OnSaveStageCallback callback);
-
     void clearAllStages();
 }
