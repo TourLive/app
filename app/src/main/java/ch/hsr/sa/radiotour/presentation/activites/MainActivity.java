@@ -2,10 +2,19 @@ package ch.hsr.sa.radiotour.presentation.activites;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -17,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static ViewPageAdapter viewPageAdapter;
     private static ViewPager viewPager;
+    private static FragmentManager fragmentManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.setOffscreenPageLimit(0);
+        viewPager.setOffscreenPageLimit(4);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -53,6 +64,17 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        fragmentManager = getSupportFragmentManager();
+    }
+
+    public static void temp() {
+        for (int i = 0; i < 4; i++) {
+            Fragment fragment = viewPageAdapter.getItem(i);
+            fragmentManager.beginTransaction().detach(fragment).commitAllowingStateLoss();
+            fragmentManager.beginTransaction().attach(fragment).commitAllowingStateLoss();
+            Log.d("TAG", viewPageAdapter.getItem(i).getView().toString());
+        }
     }
 
     public static void notifyAdapter() {

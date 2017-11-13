@@ -22,7 +22,7 @@ public final class Context {
     }
 
     public static void addRider(Rider rider){
-        RiderPresenter.getInstance().addRider(rider);
+        RiderPresenter.getInstance().addRiderNone(rider);
     }
 
     public static void deleteRiders(){
