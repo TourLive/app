@@ -125,6 +125,7 @@
             android:background="@drawable/backgroup_shape"
             android:gravity="center"
             android:text="@string/rank_five"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/jDetailFour"
