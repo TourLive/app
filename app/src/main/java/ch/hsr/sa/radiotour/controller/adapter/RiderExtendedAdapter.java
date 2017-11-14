@@ -36,10 +36,7 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 1:
                 ImageView imageView = new ImageView(context);
                 imageView.setImageResource(UIUtilitis.getCountryFlag(rider.getCountry()));
-                imageView.requestLayout();
-                imageView.getLayoutParams().height = 8;
-                imageView.getLayoutParams().width = 8;
-                imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                imageView.setLayoutParams(new LinearLayout.LayoutParams(4, 4));
                 imageView.setAdjustViewBounds(true);
                 view = imageView;
                 break;
