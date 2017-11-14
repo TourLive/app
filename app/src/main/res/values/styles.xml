@@ -17,5 +17,16 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="ToolbarText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_toolbar</item>
+    </style>
+    <style name="ToolbarValue">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">@dimen/text_size_toolbar</item>
+        <item name="android:background">@color/colorPrimaryLight</item>
+        <item name="android:shape">@drawable/tab_value_shape</item>
+        <item name="android:textAlignment">center</item>
+    </style>
 
 </resources>
