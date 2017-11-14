@@ -8,10 +8,12 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
@@ -36,6 +38,7 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
     public void onBindViewHolder(RiderRaceGroupAdapter.RiderRaceGroupViewHolder holder, int position) {
         holder.racegroupRiderName.setText(String.valueOf(riders.get(position).getName()));
         holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
+        holder.racegroupRiderCountry.setImageResource(UIUtilitis.getCountryFlag(riders.get(position).getCountry()));
     }
 
     @Override
@@ -46,11 +49,13 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
     public class RiderRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnDragListener, View.OnClickListener {
         private TextView racegroupRiderName;
         private TextView racegroupRiderStartNr;
+        private ImageView racegroupRiderCountry;
 
         public RiderRaceGroupViewHolder(View itemView) {
             super(itemView);
             racegroupRiderName = (TextView) itemView.findViewById(R.id.racegroup_rider_name);
             racegroupRiderStartNr = (TextView) itemView.findViewById(R.id.racegroup_rider_startnr);
+            racegroupRiderCountry = (ImageView) itemView.findViewById(R.id.racegroup_rider_country);
             itemView.setOnLongClickListener(this);
             itemView.setOnDragListener(this);
             itemView.setOnClickListener(this);

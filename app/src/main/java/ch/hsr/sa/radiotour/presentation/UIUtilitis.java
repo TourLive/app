@@ -101,6 +101,9 @@ public final class UIUtilitis {
             case "NED":
                 drawable = R.drawable.nl;
                 break;
+            case "U":
+                drawable = R.drawable.u;
+                break;
             default:
                 break;
         }
