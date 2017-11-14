@@ -34,6 +34,7 @@ public final class UIUtilitis {
             case "KAZ":
                 drawable = R.drawable.kz;
                 break;
+            case " ITA":
             case "ITA":
                 drawable = R.drawable.it;
                 break;
