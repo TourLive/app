@@ -36,7 +36,7 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_top_field"
@@ -56,14 +56,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="286dp" />
+                    app:layout_constraintGuide_begin="278dp" />
 
                 <TextView
                     android:id="@+id/txt_TopRadioTour"
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_top_radiotour"
@@ -76,7 +76,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="407dp" />
+                    app:layout_constraintGuide_begin="384dp" />
 
                 <TextView
                     android:id="@+id/txtTopFieldActualGap"
@@ -84,7 +84,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
                     android:text="00:00"
                     app:layout_constraintEnd_toStartOf="@+id/txt_TopFieldVirtualGap"
@@ -110,7 +110,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:text="00:00"
                     app:layout_constraintEnd_toStartOf="@+id/txt_TopRadioTourVirtualGap"
@@ -135,14 +135,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="464dp" />
+                    app:layout_constraintGuide_begin="437dp" />
 
                 <TextView
                     android:id="@+id/txt_Height"
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_height"
@@ -155,7 +155,7 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_stage"
@@ -168,7 +168,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="619dp" />
+                    app:layout_constraintGuide_begin="499dp" />
 
                 <TextView
                     android:id="@+id/txtHeightValue"
@@ -176,9 +176,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
-                    android:text="1500 Meter über Meer"
+                    android:text="1500m"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
                     app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -189,9 +189,9 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
-                    android:text="5te Etappe"
+                    android:text="5"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
                     app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
                     app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
@@ -201,14 +201,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="737dp" />
+                    app:layout_constraintGuide_begin="615dp" />
 
                 <TextView
                     android:id="@+id/txt_Velocity"
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_average_speed"
@@ -221,7 +221,7 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_racekilo"
@@ -234,7 +234,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="854dp" />
+                    app:layout_constraintGuide_begin="740dp" />
 
                 <TextView
                     android:id="@+id/txtVelocityValue"
@@ -242,7 +242,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="12dp"
                     android:text="100 km/h"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
@@ -255,7 +255,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:text="100 km von 224km"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
