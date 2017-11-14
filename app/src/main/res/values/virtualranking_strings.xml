@@ -4,6 +4,7 @@
     <string name="virtrank_position">Position</string>
     <string name="virtrank_startnr">StartNr.</string>
     <string name="virtrank_country">Land</string>
+    <string name="virtrank_img"></string>
     <string name="virtrank_name">Name</string>
     <string name="virtrank_team">Team</string>
     <string name="virtrank_point_bonus">Punktebonus</string>
