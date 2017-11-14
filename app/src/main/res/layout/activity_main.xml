@@ -22,7 +22,6 @@
                     android:id="@+id/imageView2"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:contentDescription="@string/app_name"
@@ -37,11 +36,10 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="@string/header_top_field"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
                     app:layout_constraintStart_toStartOf="@id/guidlineImage"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -67,9 +65,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="2dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/header_top_radiotour"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
                     app:layout_constraintStart_toStartOf="@+id/guidlineImage"
                     app:layout_constraintTop_toBottomOf="@+id/txt_TopField" />
@@ -86,11 +83,10 @@
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
+                    android:layout_marginTop="12dp"
                     android:text="00:00"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/txt_TopFieldVirtualGap"
                     app:layout_constraintStart_toStartOf="@+id/guidelineTop"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -100,11 +96,10 @@
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="4dp"
+                    android:layout_marginTop="12dp"
                     android:text="00:00"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
                     app:layout_constraintStart_toEndOf="@+id/txtTopFieldActualGap"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -114,12 +109,10 @@
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="4dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="00:00"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/txt_TopRadioTourVirtualGap"
                     app:layout_constraintStart_toStartOf="@+id/guidelineTop"
                     app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
@@ -129,15 +122,20 @@
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:text="00:00"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
                     app:layout_constraintStart_toEndOf="@+id/txtTopRadioTourActualGap"
                     app:layout_constraintTop_toBottomOf="@+id/txt_TopFieldVirtualGap" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guideline7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="476dp" />
 
             </android.support.constraint.ConstraintLayout>
 
