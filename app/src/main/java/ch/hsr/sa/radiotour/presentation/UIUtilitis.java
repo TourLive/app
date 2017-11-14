@@ -23,79 +23,79 @@ public final class UIUtilitis {
                 drawable =  R.drawable.de;
                 break;
             case "COL":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.co;
                 break;
             case "ESP":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.es;
                 break;
             case "DEN":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.dk;
                 break;
             case "KAZ":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.kz;
                 break;
             case "ITA":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.it;
                 break;
             case "BEL":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.be;
                 break;
             case "AUS":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.au;
                 break;
             case "LTU":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.lt;
                 break;
             case "FRA":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.fr;
                 break;
             case "NOR":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.no;
                 break;
             case "CAN":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.ca;
                 break;
             case "SVK":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.sk;
                 break;
             case "CZE":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.cz;
                 break;
             case "AUT":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.at;
                 break;
             case "GBR":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.gb;
                 break;
             case "IRL":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.ie;
                 break;
             case "NZL":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.nz;
                 break;
             case "RSA":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.za;
                 break;
             case "ERI":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.er;
                 break;
             case "SLO":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.si;
                 break;
             case "BLR":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.by;
                 break;
             case "EST":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.ee;
                 break;
             case "ETH":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.et;
                 break;
             case "POR":
                 drawable =  R.drawable.pr;
                 break;
             case "RUS":
-                drawable =  R.drawable.de;
+                drawable =  R.drawable.ru;
                 break;
         }
         return drawable;
