@@ -11,4 +11,5 @@
     <string name="header_virtual_class">VIRTUELLES KLASSEMENT</string>
     <string name="header_maillots">MAILLOTS</string>
     <string name="header_import_data">IMPORT</string>
+    <string name="header_startstop">Start / Stop</string>
 </resources>
