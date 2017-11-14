@@ -34,15 +34,15 @@
 
                 <TextView
                     android:id="@+id/txt_TopField"
+                    style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:text="@string/header_top_field"
-                    style="@style/ToolbarText"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineFirstSection"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
                     app:layout_constraintStart_toStartOf="@id/guidlineImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -54,25 +54,90 @@
                     app:layout_constraintGuide_begin="160dp" />
 
                 <android.support.constraint.Guideline
-                    android:id="@+id/guidelineFirstSection"
+                    android:id="@+id/guidelineTop"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="308dp" />
+                    app:layout_constraintGuide_begin="286dp" />
 
                 <TextView
                     android:id="@+id/txt_TopRadioTour"
+                    style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="2dp"
-                    style="@style/ToolbarText"
                     android:text="@string/header_top_radiotour"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineFirstSection"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
                     app:layout_constraintStart_toStartOf="@+id/guidlineImage"
                     app:layout_constraintTop_toBottomOf="@+id/txt_TopField" />
+
+                <android.support.constraint.Guideline
+                    android:id="@+id/guidelineTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintGuide_begin="407dp" />
+
+                <TextView
+                    android:id="@+id/txtTopFieldActualGap"
+                    style="@style/ToolbarValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="8dp"
+                    android:text="00:00"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_TopFieldVirtualGap"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txt_TopFieldVirtualGap"
+                    style="@style/ToolbarValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
+                    android:text="00:00"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintStart_toEndOf="@+id/txtTopFieldActualGap"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/txtTopRadioTourActualGap"
+                    style="@style/ToolbarValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="00:00"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/txt_TopRadioTourVirtualGap"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
+
+                <TextView
+                    android:id="@+id/txt_TopRadioTourVirtualGap"
+                    style="@style/ToolbarValue"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginTop="8dp"
+                    android:text="00:00"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintStart_toEndOf="@+id/txtTopRadioTourActualGap"
+                    app:layout_constraintTop_toBottomOf="@+id/txt_TopFieldVirtualGap" />
 
             </android.support.constraint.ConstraintLayout>
 
@@ -96,9 +161,10 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
+        android:layout_width="875dp"
+        android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        tools:layout_editor_absoluteX="85dp" />
 
 
 </android.support.design.widget.CoordinatorLayout>
