@@ -298,9 +298,10 @@
                 <Button
                     android:id="@+id/btnStartStopRace"
                     style="@style/ToolbarValue"
+                    android:background="@color/colorPrimaryUltraLight"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:layout_marginBottom="12dp"
+                    android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
@@ -332,7 +333,7 @@
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
-        android:layout_width="875dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:layout_editor_absoluteX="85dp" />
