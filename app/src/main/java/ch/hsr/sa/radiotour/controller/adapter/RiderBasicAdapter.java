@@ -16,7 +16,6 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     private RealmList<Rider> riders;
     private Rider selectedRider = null;
     private View selectedView = null;
-    private Context context;
 
     public RiderBasicAdapter(RealmList<Rider> riders) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
@@ -26,7 +25,6 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider_edit, parent, false);
         RiderViewHolder holder = new RiderViewHolder(view);
-        context = parent.getContext();
         return holder;
     }
 
