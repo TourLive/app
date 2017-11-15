@@ -4,9 +4,10 @@ import ch.hsr.sa.radiotour.R;
 
 public final class UIUtilitis {
 
-    public UIUtilitis() {
-
+    private UIUtilitis() {
+        // To Hide public Constructor
     }
+
     public static int getCountryFlag(String countryCode) {
         int drawable = 0;
         switch (countryCode) {
