@@ -25,7 +25,6 @@ import io.realm.RealmList;
 
 public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
     private Judgement judgement;
-    private String id;
     private RecyclerView rvRidersToSelect;
     private RiderBasicAdapter riderBasicAdapter;
     private TextView rankOne;
@@ -46,8 +45,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","JudgmentDetailFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_detail_judgment, container, false);
-        id = getArguments().getString("id");
-        judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(id);
+        judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(getArguments().getString("id"));
 
         title = (TextView) root.findViewById(R.id.titleJudgements2);
         title.setText(judgement.getDistance() + " | " + judgement.getName());

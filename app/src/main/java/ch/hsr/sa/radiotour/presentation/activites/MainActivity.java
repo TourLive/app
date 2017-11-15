@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
-import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
