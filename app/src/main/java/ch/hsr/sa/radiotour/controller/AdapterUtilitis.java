@@ -10,7 +10,7 @@ import io.realm.RealmList;
 
 public final class AdapterUtilitis {
     private AdapterUtilitis() {
-
+        // To Hide public Constructor
     }
 
     public static RealmList<Rider> removeUnknownRiders(RealmList<Rider> riders) {

@@ -2,6 +2,8 @@
 <resources>
     <color name="colorPrimary">#cc2424</color>
     <color name="colorPrimaryDark">#ff0000</color>
+    <color name="colorPrimaryLight">#f65f57</color>
+    <color name="colorPrimaryUltraLight">#fe958f</color>
     <color name="colorAccent">#8bc2bc</color>
     <color name="colorRed">#ff8262</color>
     <color name="colorYellow">#f4dd10</color>
@@ -14,4 +16,8 @@
     <color name="colorBackground">#fffafafa</color>
     <color name="colorHeaderBorder">#AD424242</color>
     <color name="colorGrayLight">#adc8c8c8</color>
+    <color name="yellow">#f4dd10</color>
+    <color name="black">#000000</color>
+    <color name="blue">#111e6c</color>
+    <color name="red">#ff8262</color>
 </resources>
