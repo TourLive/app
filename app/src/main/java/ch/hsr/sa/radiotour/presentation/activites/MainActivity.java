@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 // Has to be implemented, but not needed
+                if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
+                    closeDetailJudgmentFragment();
+                }
             }
 
             @Override
@@ -63,11 +66,22 @@ public class MainActivity extends AppCompatActivity {
                 if(tab.getText().toString().equals(getString(R.string.header_race))){
                     viewPageAdapter.setDetail(false);
                     tabLayout.setupWithViewPager(viewPager);
+                } else if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
+                    closeDetailJudgmentFragment();
+                } else {
+
                 }
             }
         });
 
         fragmentManager = getSupportFragmentManager();
+    }
+
+    private void closeDetailJudgmentFragment() {
+        Fragment fragment = viewPageAdapter.getItem(1).getChildFragmentManager().findFragmentByTag("DETAILJ");
+        if (fragment != null) {
+            getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+        }
     }
 
     private void initCallbacks() {

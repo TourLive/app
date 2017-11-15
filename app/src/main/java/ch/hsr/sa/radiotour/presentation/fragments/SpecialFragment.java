@@ -86,7 +86,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         JudgmentDetailFragment fragment = new JudgmentDetailFragment();
         fragment.setArguments(arguments);
-        transaction.replace(R.id.layoutDetailJudgment, fragment);
+        transaction.replace(R.id.layoutDetailJudgment, fragment, "DETAILJ");
         transaction.commit();
     }
 
