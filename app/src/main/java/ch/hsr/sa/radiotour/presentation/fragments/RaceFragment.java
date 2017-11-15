@@ -79,6 +79,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);
         rvRaceGroup.setAdapter(this.raceGroupAdapter);
+        adapter.notifyDataSetChanged();
     }
 
     public void addRiderToList(){
