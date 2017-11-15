@@ -34,7 +34,7 @@ public final class Context {
     }
 
     public static void addRaceGroup(RaceGroup raceGroup){
-        RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
+        RaceGroupPresenter.getInstance().addRaceGroupWithoutCallback(raceGroup);
     }
 
     public static void deleteRaceGroups(){
