@@ -68,15 +68,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
     }
 
-    public static void temp() {
-        for (int i = 0; i < 4; i++) {
-            Fragment fragment = viewPageAdapter.getItem(i);
-            fragmentManager.beginTransaction().detach(fragment).commitAllowingStateLoss();
-            fragmentManager.beginTransaction().attach(fragment).commitAllowingStateLoss();
-            Log.d("TAG", viewPageAdapter.getItem(i).getView().toString());
-        }
-    }
-
     public static void notifyAdapter() {
         viewPager.getAdapter().notifyDataSetChanged();
     }

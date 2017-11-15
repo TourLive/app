@@ -107,7 +107,6 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             RiderPresenter.getInstance().subscribeCallbacks();
             RewardPresenter.getInstance().subscribeCallbacks();
             JudgmentRiderConnectionPresenter.getInstance().subscribeCallbacks();
-            MainActivity.temp();
         });
     }
 
