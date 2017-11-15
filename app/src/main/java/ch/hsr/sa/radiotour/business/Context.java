@@ -100,6 +100,6 @@ public final class Context {
     }
 
     public static RealmList<Maillot> getAllMaillots(){
-        return MaillotPresenter.getInstance().getAllMaillots();
+        return MaillotPresenter.getInstance().getAllMaillotsReturned();
     }
 }
