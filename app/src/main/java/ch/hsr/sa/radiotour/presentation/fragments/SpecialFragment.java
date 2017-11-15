@@ -24,7 +24,6 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     private RealmList<Judgement> judgements;
     private JudgementAdapter judgementAdapter;
     private RecyclerView rvJudgement;
-    private OnJudgmentClickListener onJudgmentClickListener;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

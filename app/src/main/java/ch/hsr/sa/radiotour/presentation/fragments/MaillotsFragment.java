@@ -12,11 +12,7 @@ import android.view.ViewGroup;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.JudgementAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.MaillotsAdapter;
-import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
-import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
-import io.realm.RealmList;
 
 public class MaillotsFragment extends Fragment {
     private RecyclerView rvMaillots;
