@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +49,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         rvRider.setAdapter(new RiderListAdapter(new RealmList<Rider>()));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
+        rvRaceGroup.setAdapter(new RaceGroupAdapter(new RealmList<RaceGroup>(), this.getContext(), this, RaceFragment.this));
         initRecyclerListener();
     }
 
@@ -74,7 +74,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
 
     public void showRaceGroups(RealmList<RaceGroup> raceGroups) {
         this.raceGroups = raceGroups;
-        this.raceGroupAdapter = new RaceGroupAdapter(this.raceGroups, getContext(), RaceGroupPresenter.getInstance(), this, RaceFragment.this);
+        raceGroupAdapter = new RaceGroupAdapter(raceGroups, this.getContext(), this, RaceFragment.this);
         ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
         itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(rvRaceGroup);

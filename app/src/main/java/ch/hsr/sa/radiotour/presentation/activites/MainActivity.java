@@ -11,10 +11,12 @@ import android.util.Log;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -66,6 +68,23 @@ public class MainActivity extends AppCompatActivity {
         });
 
         fragmentManager = getSupportFragmentManager();
+    }
+
+    private void initCallbacks() {
+        MaillotPresenter.getInstance().subscribeCallbacks();
+        JudgmentRiderConnectionPresenter.getInstance().subscribeCallbacks();
+        JudgmentPresenter.getInstance().subscribeCallbacks();
+        RaceGroupPresenter.getInstance().subscribeCallbacks();
+        RewardPresenter.getInstance().subscribeCallbacks();
+        RiderPresenter.getInstance().subscribeCallbacks();
+        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
+        StagePresenter.getInstance().subscribeCallbacks();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initCallbacks();
     }
 
     public static void notifyAdapter() {
