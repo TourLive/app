@@ -19,7 +19,7 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.beginTransaction();
         RealmResults<JudgmentRiderConnection> res = realm.where(JudgmentRiderConnection.class).equalTo("rank", judgmentRiderConnection.getRank()).equalTo("judgements.id", judgmentRiderConnection.getJudgements().first().getId()).findAll();
 
-        if(res.size() != 0) {
+        if(!res.isEmpty()) {
             for (JudgmentRiderConnection jRc : res) {
                 jRc.deleteFromRealm();
             }

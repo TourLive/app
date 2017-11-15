@@ -5,11 +5,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdapter.JudgmentRiderViewHolder> {
@@ -33,12 +35,13 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
     @Override
     public void onBindViewHolder(JudgmentRiderViewHolder holder, int position) {
         holder.itemRank.setText(String.valueOf(position + 1) + ".");
-        holder.itemRiderName.setText(getRiderNameByRank(position + 1));
+        holder.itemRiderName.setText(getRiderNameByRank(position + 1, holder));
     }
 
-    private String getRiderNameByRank(int rank) {
+    private String getRiderNameByRank(int rank, JudgmentRiderViewHolder viewHolder) {
         for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
             if (jRC.getRank() == rank) {
+                viewHolder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(jRC.getRider().first().getCountry()));
                 return jRC.getRider().first().getName();
             }
         }
@@ -61,11 +64,13 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
     public class JudgmentRiderViewHolder extends RecyclerView.ViewHolder {
         private TextView itemRank;
         private TextView itemRiderName;
+        private ImageView imgCountry;
 
         public JudgmentRiderViewHolder(View itemView) {
             super(itemView);
             itemRank = (TextView) itemView.findViewById(R.id.judgment_rank);
             itemRiderName = (TextView) itemView.findViewById(R.id.judgment_rider_name);
+            imgCountry = (ImageView) itemView.findViewById(R.id.imgCountry);
         }
     }
 
