@@ -1,9 +1,9 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,7 +15,6 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.JudgementAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import io.realm.RealmList;
@@ -24,6 +23,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     private RealmList<Judgement> judgements;
     private JudgementAdapter judgementAdapter;
     private RecyclerView rvJudgement;
+    private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,46 +37,36 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         JudgmentPresenter.getInstance().addView(this);
         RewardPresenter.getInstance().addView(this);
         JudgmentRiderConnectionPresenter.getInstance().addView(this);
+        this.judgements = new RealmList<>();
+        this.judgementAdapter = new JudgementAdapter(judgements, mContext, this);
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
-        rvJudgement.setAdapter(new JudgementAdapter(new RealmList<Judgement>(), getContext(), this));
-        initRecyclerListener();
-    }
-
-    private void initRecyclerListener() {
-        rvJudgement.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvJudgement.setItemAnimator(new DefaultItemAnimator());
+        rvJudgement.setAdapter(judgementAdapter);
+        rvJudgement.setLayoutManager(new LinearLayoutManager(mContext));
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        JudgmentPresenter.getInstance().subscribeCallbacks();
         JudgmentPresenter.getInstance().getAllJudgments();
-        RiderPresenter.getInstance().subscribeCallbacks();
-        RewardPresenter.getInstance().subscribeCallbacks();
-        JudgmentRiderConnectionPresenter.getInstance().subscribeCallbacks();
     }
 
     @Override
-    public void onDestroy(){
-        super.onDestroy();
-        JudgmentPresenter.getInstance().unSubscribeCallbacks();
-        RiderPresenter.getInstance().unSubscribeCallbacks();
-        RewardPresenter.getInstance().unSubscribeCallbacks();
-        JudgmentRiderConnectionPresenter.getInstance().unSubscribeCallbacks();
+    public void onResume() {
+        super.onResume();
+        JudgmentPresenter.getInstance().getAllJudgments();
     }
 
-    public void showJudgments(RealmList<Judgement> judgements) {
-        this.judgements = judgements;
-        judgementAdapter = new JudgementAdapter(judgements, getContext(), this);
-        rvJudgement.setAdapter(judgementAdapter);
+    public void showJudgments(RealmList<Judgement> judgementRealmList) {
+        this.judgements.clear();
+        this.judgements.addAll(judgementRealmList);
+        rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, this), true);
+        rvJudgement.scrollBy(0,0);
+        this.judgementAdapter.notifyDataSetChanged();
     }
 
 
     @Override
     public void onJudgmentClicked(Judgement judgement) {
-        Log.d("DA", "on Judgement clicked");
-        Log.d("DA", "" + judgement.toString());
         openDetailJudgmentFragment(judgement.getId());
     }
 
@@ -92,5 +82,11 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
 
     public void updateList() {
         JudgmentPresenter.getInstance().getAllJudgments();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
     }
 }

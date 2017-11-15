@@ -21,36 +21,39 @@ import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.SpecialFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static ViewPageAdapter viewPageAdapter;
-    private static ViewPager viewPager;
-    private static FragmentManager fragmentManager;
+    public ViewPageAdapter viewPageAdapter;
+    public ViewPager viewPager;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
-        setTabMenu();
         viewPager.setAdapter(viewPageAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.setOffscreenPageLimit(4);
+        viewPager.setOffscreenPageLimit(5);
+
+        setTabMenu();
+        viewPageAdapter.notifyDataSetChanged();
+        tabLayout.setupWithViewPager(viewPager);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // Has to be implemented, but not needed
+                Fragment fragment = viewPageAdapter.getItem(tab.getPosition());
+                if (fragment != null) {
+                    fragment.onResume();
+                }
             }
 
             @Override
@@ -63,22 +66,15 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if(tab.getText().toString().equals(getString(R.string.header_race))){
-                    viewPageAdapter.setDetail(false);
-                    tabLayout.setupWithViewPager(viewPager);
-                } else if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
+                if(tab.getText().toString().equals(getString(R.string.header_special_class))){
                     closeDetailJudgmentFragment();
-                } else {
-
                 }
             }
         });
-
-        fragmentManager = getSupportFragmentManager();
     }
 
     private void closeDetailJudgmentFragment() {
-        Fragment fragment = viewPageAdapter.getItem(1).getChildFragmentManager().findFragmentByTag("DETAILJ");
+        Fragment fragment = viewPageAdapter.getItem(2).getChildFragmentManager().findFragmentByTag("DETAILJ");
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
@@ -101,16 +97,9 @@ public class MainActivity extends AppCompatActivity {
         initCallbacks();
     }
 
-    public static void notifyAdapter() {
-        viewPager.getAdapter().notifyDataSetChanged();
-    }
-
-    public static void changeFirstFragment(boolean bool) {
-        viewPageAdapter.setDetail(bool);
-    }
-
     private void setTabMenu() {
         viewPageAdapter.addFragment(new RaceFragment(), getString(R.string.header_race));
+        viewPageAdapter.addFragment(new RiderRaceGroupFragment(), getString(R.string.header_ridergroup));
         viewPageAdapter.addFragment(new SpecialFragment(), getString(R.string.header_special_class));
         viewPageAdapter.addFragment(new VirtualClassFragment(), getString(R.string.header_virtual_class));
         viewPageAdapter.addFragment(new MaillotsFragment(), getString(R.string.header_maillots));

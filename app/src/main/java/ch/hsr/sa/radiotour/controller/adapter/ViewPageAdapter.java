@@ -13,22 +13,9 @@ import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
     private final List<String> titles = new ArrayList<>();
-    private RiderRaceGroupFragment riderRaceGroupFragment;
-    private RaceFragment raceFragment;
 
     public ViewPageAdapter(FragmentManager fm) {
         super(fm);
-        riderRaceGroupFragment = new RiderRaceGroupFragment();
-        raceFragment = new RaceFragment();
-    }
-
-    public void setDetail(boolean bool) {
-        if(bool){
-            fragments.set(0, riderRaceGroupFragment);
-        } else {
-            fragments.set(0, raceFragment);
-        }
-        notifyDataSetChanged();
     }
 
     @Override
