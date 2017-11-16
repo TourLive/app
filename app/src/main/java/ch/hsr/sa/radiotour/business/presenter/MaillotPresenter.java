@@ -5,9 +5,11 @@ import android.support.v4.app.Fragment;
 import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IMaillotPresenter;
+import ch.hsr.sa.radiotour.controller.adapter.MaillotsAdapter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.repositories.MaillotRepository;
+import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import io.realm.RealmList;
 
 public class MaillotPresenter implements IMaillotPresenter {
@@ -16,6 +18,7 @@ public class MaillotPresenter implements IMaillotPresenter {
     private MaillotRepository maillotRepository = new MaillotRepository();
 
     private IMaillotRepository.OnSaveMaillotCallback onSaveMaillotCallback;
+    private IMaillotRepository.OnGetAllMaillotsCallback onGetAllMaillotsCallback;
 
     public static MaillotPresenter getInstance() {
         if(instance == null){
@@ -44,6 +47,22 @@ public class MaillotPresenter implements IMaillotPresenter {
                 // Not needed and therefore not implemented
             }
         };
+        onGetAllMaillotsCallback = new IMaillotRepository.OnGetAllMaillotsCallback() {
+            @Override
+            public void onSuccess(RealmList<Maillot> maillots) {
+                for(Fragment frag : fragments){
+                    if (frag instanceof MaillotsFragment) {
+                        MaillotsFragment maillotsFragment = (MaillotsFragment) frag;
+                        maillotsFragment.showMaillots(maillots);
+                    }
+                }
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        };
     }
 
     @Override
@@ -63,7 +82,12 @@ public class MaillotPresenter implements IMaillotPresenter {
     }
 
     @Override
-    public RealmList<Maillot> getAllMaillots(){
-        return maillotRepository.getAllMaillots();
+    public void getAllMaillots(){
+        maillotRepository.getAllMaillots(onGetAllMaillotsCallback);
+    }
+
+    @Override
+    public RealmList<Maillot> getAllMaillotsReturned() {
+        return maillotRepository.getAllMaillotsReturned();
     }
 }

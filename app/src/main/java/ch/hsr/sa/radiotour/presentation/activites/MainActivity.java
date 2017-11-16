@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment fragment = viewPageAdapter.getItem(tab.getPosition());
                 if (fragment != null) {
-                    fragment.onResume();
+                    //fragment.onResume();
                 }
             }
 

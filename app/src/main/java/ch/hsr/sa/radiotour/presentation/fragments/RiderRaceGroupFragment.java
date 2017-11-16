@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -48,6 +49,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private Button btnUnknownRiders;
     private TextView txtUnknownRiders;
     private static final Integer SLEEP_TIME = 10000;
+    private Context mContext;
     private Handler stateHandler = new Handler();
 
     @Override
@@ -92,24 +94,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         rvRaceGroup.setHasFixedSize(true);
         rvRaceGroup.setLayoutManager(new LinearLayoutManager(getContext()));
         rvRaceGroup.setItemAnimator(new DefaultItemAnimator());
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        RiderPresenter.getInstance().subscribeCallbacks();
-        RiderPresenter.getInstance().getAllRiders();
-        RaceGroupPresenter.getInstance().subscribeCallbacks();
-        RaceGroupPresenter.getInstance().getAllRaceGroups();
-        RiderStageConnectionPresenter.getInstance().subscribeCallbacks();
-    }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        RiderPresenter.getInstance().unSubscribeCallbacks();
-        RaceGroupPresenter.getInstance().unSubscribeCallbacks();
-        RiderStageConnectionPresenter.getInstance().unSubscribeCallbacks();
     }
 
     public void showRiders(final RealmList<Rider> riders) {
@@ -273,5 +257,18 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         txtUnknownRiders.setBackgroundResource(0);
         txtUnknownRiders.setText("EMPTY");
         unknownRiders.clear();
+    }
+
+    public void onStart() {
+        super.onStart();
+        RiderPresenter.getInstance().getAllRiders();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
+        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
     }
 }

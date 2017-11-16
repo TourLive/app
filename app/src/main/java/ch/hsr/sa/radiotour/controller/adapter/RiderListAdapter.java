@@ -43,10 +43,10 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     @Override
     public void onBindViewHolder(RiderViewHolder holder, int position) {
+        holderHashMap.put(riders.get(position).getStartNr(), holder);
         holder.tvNummer.setText(String.valueOf(riders.get(position).getStartNr()));
         setRiderStateAnimation(holder.tvNummer, getRiderStateType(position));
         animateRiderInGroup(holder.tvNummer, riders.get(position).getStartNr());
-        holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
     public RiderStateType getRiderStateType(int position){
@@ -66,7 +66,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         }
     }
 
-    public void updateAnimateRiderInGroup(RealmList<Rider> riders){
+    public void updateAnimateRiderInGroup(){
         if(!holderHashMap.isEmpty()){
             for(Rider r : riders){
                 TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
@@ -125,8 +125,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
         @Override
         public void onClick(View view) {
-            MainActivity.changeFirstFragment(true);
-            MainActivity.notifyAdapter();
+
         }
     }
 
