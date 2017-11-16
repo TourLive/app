@@ -25,13 +25,26 @@ public final class APIClient {
     private static String RACEID = "";
     private static String STAGEID = "";
     private static int STAGENR = 0;
-    private static Handler uiHandler = new Handler();
+    private static Handler uiHandler;
+    private static boolean DEMO_MODE = false;
 
     private static SyncHttpClient client = new SyncHttpClient();
+
+    public static void setDemoMode(boolean demoMode){
+        DEMO_MODE = demoMode;
+    }
 
     private static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
         client.get(getAbsoluteUrl(url), params, responseHandler);
+    }
+
+    private static void getAsynchron(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.get(url, params, responseHandler);
+    }
+
+    private static void getAsynchronWithoutBaseString(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        client.get(url, params, responseHandler);
     }
 
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -73,11 +86,17 @@ public final class APIClient {
     }
 
     public static void postData(String url, RequestParams params){
-        postToAPI(url, params);
+        if(!DEMO_MODE) {
+            postToAPI(url, params);
+        }
     }
 
     public static<T> T getDataFromAPI(String url, RequestParams params){
-        return getStateFromAPI(url, params);
+        if(!DEMO_MODE){
+            return getStateFromAPI(url, params);
+        } else {
+            return null;
+        }
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
@@ -246,6 +265,7 @@ public final class APIClient {
     }
 
     public static void postToAPI(String url, RequestParams params) {
+        uiHandler =  new Handler();
         APIClient.post(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -271,9 +291,40 @@ public final class APIClient {
         });
     }
 
-    public static<T> T getStateFromAPI(String url, RequestParams params) {
+    public static<T> T getStateFromBaseAPI(String url, RequestParams params) {
+        uiHandler =  new Handler();
         final ArrayList<T> response = new ArrayList<T>();
-        APIClient.get(url, null, new JsonHttpResponseHandler() {
+        APIClient.getAsynchronWithoutBaseString(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    response.add((T)data);
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    response.add((T)data);
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(() -> {throwable.getMessage();});
+            }
+        });
+        return response.get(0);
+    }
+
+    public static<T> T getStateFromAPI(String url, RequestParams params) {
+        uiHandler =  new Handler();
+        final ArrayList<T> response = new ArrayList<T>();
+        APIClient.getAsynchronWithoutBaseString(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
