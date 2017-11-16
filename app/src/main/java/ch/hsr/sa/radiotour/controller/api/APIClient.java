@@ -72,11 +72,12 @@ public final class APIClient {
         Parser.deleteData();
     }
 
-    public static  void postData(String url, RequestParams params){
+    public static void postData(String url, RequestParams params){
         postToAPI(url, params);
     }
-    public static<T> T postDataWithReturnValue(String url, RequestParams params){
-        return postToAPIWithReturnValue(url, params);
+
+    public static<T> T getDataFromAPI(String url, RequestParams params){
+        return getStateFromAPI(url, params);
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
@@ -270,9 +271,9 @@ public final class APIClient {
         });
     }
 
-    public static<T> T postToAPIWithReturnValue(String url, RequestParams params) {
+    public static<T> T getStateFromAPI(String url, RequestParams params) {
         final ArrayList<T> response = new ArrayList<T>();
-        APIClient.post(url, null, new JsonHttpResponseHandler() {
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
