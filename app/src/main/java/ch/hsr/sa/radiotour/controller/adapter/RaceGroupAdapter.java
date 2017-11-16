@@ -67,6 +67,10 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders(), fragment);
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
+        } else {
+            RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(new RealmList<Rider>(), fragment);
+            holder.racegroupRiders.setLayoutManager(layoutManager);
+            holder.racegroupRiders.setAdapter(adapter);
         }
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
         holder.racegroupName.setOnTouchListener((View v, MotionEvent event) -> {
