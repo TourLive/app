@@ -1,12 +1,21 @@
 package ch.hsr.sa.radiotour.presentation.activites;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.TextView;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.net.URI;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
@@ -18,6 +27,8 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
+import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.UrlLink;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
@@ -29,12 +40,21 @@ public class MainActivity extends AppCompatActivity {
 
     public ViewPageAdapter viewPageAdapter;
     public ViewPager viewPager;
+    private Timer timerForUpdate;
+    private TimerTask timerTask;
+    private Handler uiHandler;
+    private TextView heightView;
+    private static int UPDATE_TIME = 1000;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        uiHandler = new Handler();
+        heightView = (TextView) findViewById(R.id.txtHeightValue);
+
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -71,6 +91,19 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        timerForUpdate = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                try {
+                    updateUIInfos();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+        timerForUpdate.schedule(timerTask, 10000, UPDATE_TIME);
     }
 
     private void closeDetailJudgmentFragment() {
@@ -104,5 +137,22 @@ public class MainActivity extends AppCompatActivity {
         viewPageAdapter.addFragment(new VirtualClassFragment(), getString(R.string.header_virtual_class));
         viewPageAdapter.addFragment(new MaillotsFragment(), getString(R.string.header_maillots));
         viewPageAdapter.addFragment(new ImportFragment(), getString(R.string.header_import_data));
+    }
+
+    private void updateUIInfos() throws InterruptedException {
+        Thread update = new Thread(() -> {
+            synchronized (this){
+                int height = getHeight();
+                uiHandler.post(() -> {heightView.setText(height + "m");});
+            }
+        });
+        update.start();
+        update.join();
+        
+    }
+
+    private int getHeight(){
+        JSONObject jsonObject = APIClient.getDataFromAPI(UrlLink.STATES, null);
+        return 1200;
     }
 }
