@@ -1,6 +1,8 @@
 package ch.hsr.sa.radiotour.controller.api;
 
 import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
@@ -10,8 +12,6 @@ import com.loopj.android.http.SyncHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
@@ -37,14 +37,6 @@ public final class APIClient {
     private static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
         client.get(getAbsoluteUrl(url), params, responseHandler);
-    }
-
-    private static void getAsynchron(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.get(url, params, responseHandler);
-    }
-
-    private static void getAsynchronWithoutBaseString(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        client.get(url, params, responseHandler);
     }
 
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -265,6 +257,7 @@ public final class APIClient {
     }
 
     public static void postToAPI(String url, RequestParams params) {
+        Looper.prepare();
         uiHandler =  new Handler();
         APIClient.post(url, null, new JsonHttpResponseHandler() {
             @Override
@@ -291,45 +284,17 @@ public final class APIClient {
         });
     }
 
-    public static<T> T getStateFromBaseAPI(String url, RequestParams params) {
-        uiHandler =  new Handler();
-        final ArrayList<T> response = new ArrayList<T>();
-        APIClient.getAsynchronWithoutBaseString(url, null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                try{
-                    response.add((T)data);
-                } catch (Exception ex){
-                    uiHandler.post(() -> {ex.getMessage();});
-                }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
-                try{
-                    response.add((T)data);
-                } catch (Exception ex){
-                    uiHandler.post(() -> {ex.getMessage();});
-                }
-            }
-
-            @Override
-            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                uiHandler.post(() -> {throwable.getMessage();});
-            }
-        });
-        return response.get(0);
-    }
-
     public static<T> T getStateFromAPI(String url, RequestParams params) {
+        Looper.prepare();
         uiHandler =  new Handler();
-        final ArrayList<T> response = new ArrayList<T>();
-        APIClient.getAsynchronWithoutBaseString(url, null, new JsonHttpResponseHandler() {
+        T[] response = (T[])new Object[1];
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
-                    response.add((T)data);
+                    response[0] = (T)data;
                 } catch (Exception ex){
+                    Log.d("here", "here");
                     uiHandler.post(() -> {ex.getMessage();});
                 }
             }
@@ -337,17 +302,19 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    response.add((T)data);
+                    response[0] = (T)data;
                 } catch (Exception ex){
+                    Log.d("here", "here");
                     uiHandler.post(() -> {ex.getMessage();});
                 }
             }
 
             @Override
-            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
+                Log.d("here", "here");
                 uiHandler.post(() -> {throwable.getMessage();});
             }
         });
-        return response.get(0);
+        return response[0];
     }
 }
