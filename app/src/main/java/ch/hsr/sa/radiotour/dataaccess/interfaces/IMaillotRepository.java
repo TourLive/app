@@ -9,7 +9,13 @@ public interface IMaillotRepository {
         void onError(String message);
     }
 
+    interface OnGetAllMaillotsCallback {
+        void onSuccess(RealmList<Maillot> maillots);
+        void onError(String message);
+    }
+
     void addMaillot(Maillot maillot, OnSaveMaillotCallback callback);
-    RealmList<Maillot> getAllMaillots();
+    void getAllMaillots(OnGetAllMaillotsCallback callback);
+    RealmList<Maillot> getAllMaillotsReturned();
     void clearAllMaillots();
 }

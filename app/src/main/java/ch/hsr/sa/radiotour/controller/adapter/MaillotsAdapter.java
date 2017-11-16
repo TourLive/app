@@ -17,15 +17,15 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     private RealmList<Maillot> maillots;
     private Context context;
 
-    public MaillotsAdapter(RealmList<Maillot> maillots) {
+    public MaillotsAdapter(RealmList<Maillot> maillots, Context context) {
         this.maillots = maillots;
+        this.context = context;
     }
 
     @Override
     public MaillotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_maillot_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_maillot_item, parent, false);
         MaillotViewHolder holder = new MaillotViewHolder(view);
-        this.context = parent.getContext();
         return holder;
     }
 

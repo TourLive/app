@@ -1,8 +1,8 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,14 +13,21 @@ import android.view.ViewGroup;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.MaillotsAdapter;
+import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import io.realm.RealmList;
 
 public class MaillotsFragment extends Fragment {
     private RecyclerView rvMaillots;
+    private RealmList<Maillot> maillots;
+    private MaillotsAdapter adapter;
+    private Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","MaillotsFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_maillots, container, false);
+        this.maillots = new RealmList<>();
+        this.adapter = new MaillotsAdapter(maillots, mContext);
         initComponents(root);
         return root;
     }
@@ -28,12 +35,39 @@ public class MaillotsFragment extends Fragment {
     public void initComponents(View root) {
         MaillotPresenter.getInstance().addView(this);
         rvMaillots = (RecyclerView) root.findViewById(R.id.rvMaillot);
-        rvMaillots.setAdapter(new MaillotsAdapter(MaillotPresenter.getInstance().getAllMaillots()));
+        rvMaillots.setAdapter(adapter);
         initRecyclerListener();
     }
 
     private void initRecyclerListener() {
-        rvMaillots.setLayoutManager(new LinearLayoutManager(getContext()));
-        rvMaillots.setItemAnimator(new DefaultItemAnimator());
+        rvMaillots.setLayoutManager(new LinearLayoutManager(mContext));
+    }
+
+    public void showMaillots(RealmList<Maillot> maillotRealmList) {
+        this.maillots.clear();
+        this.maillots.addAll(maillotRealmList);
+        rvMaillots.swapAdapter(new MaillotsAdapter(maillots, mContext), true);
+        rvMaillots.scrollBy(0, 0);
+        this.adapter.notifyDataSetChanged();
+        Log.d("AFTER", "afternotifyDataSetChanged");
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        MaillotPresenter.getInstance().getAllMaillots();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        rvMaillots.setVisibility(View.VISIBLE);
+        MaillotPresenter.getInstance().getAllMaillots();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        this.mContext = context;
     }
 }

@@ -28,11 +28,24 @@ public class MaillotRepository implements IMaillotRepository {
     }
 
     @Override
-    public RealmList<Maillot> getAllMaillots(){
+    public void getAllMaillots(OnGetAllMaillotsCallback callback){
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
         RealmList<Maillot> res = new RealmList<>();
         res.addAll(results);
+
+        if (callback != null) {
+            callback.onSuccess(res);
+        }
+    }
+
+    @Override
+    public RealmList<Maillot> getAllMaillotsReturned(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
+        RealmList<Maillot> res = new RealmList<>();
+        res.addAll(results);
+
         return res;
     }
 
