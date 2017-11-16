@@ -1,19 +1,23 @@
 package ch.hsr.sa.radiotour.presentation.activites;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private Handler uiHandler;
     private TextView heightView;
     private static int UPDATE_TIME = 1000;
+    private LocationManager locationManager;
 
 
     @Override
@@ -53,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         uiHandler = new Handler();
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
         heightView = (TextView) findViewById(R.id.txtHeightValue);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -86,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                if(tab.getText().toString().equals(getString(R.string.header_special_class))){
+                if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
                     closeDetailJudgmentFragment();
                 }
             }
@@ -141,18 +148,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUIInfos() throws InterruptedException {
         Thread update = new Thread(() -> {
-            synchronized (this){
+            synchronized (this) {
                 int height = getHeight();
-                uiHandler.post(() -> {heightView.setText(height + "m");});
+                uiHandler.post(() -> {
+                    heightView.setText(height + "m");
+                });
             }
         });
         update.start();
         update.join();
-        
+
     }
 
-    private int getHeight(){
+    private int getHeight() {
         JSONObject jsonObject = APIClient.getDataFromAPI(UrlLink.STATES, null);
-        return 1200;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if(location!=null){ return (int)location.getAltitude();}
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        }
+        return 500;
     }
 }
