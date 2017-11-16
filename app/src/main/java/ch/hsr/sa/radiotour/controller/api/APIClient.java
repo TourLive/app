@@ -277,7 +277,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
-                    response.add(null);
+                    response.add((T)data);
                 } catch (Exception ex){
                     uiHandler.post(() -> {ex.getMessage();});
                 }
@@ -286,7 +286,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    response.add(null);
+                    response.add((T)data);
                 } catch (Exception ex){
                     uiHandler.post(() -> {ex.getMessage();});
                 }
