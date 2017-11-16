@@ -47,6 +47,11 @@ public class RiderPresenter implements IRiderPresenter {
     public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }
 
     @Override
+    public void addRiderNone(Rider rider) {
+        riderRepository.addRider(rider, null);
+    }
+
+    @Override
     public void getAllRiders() {
         riderRepository.getAllRiders(onGetAllRidersCallback);
     }

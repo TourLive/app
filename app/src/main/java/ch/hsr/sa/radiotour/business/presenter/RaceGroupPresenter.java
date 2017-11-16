@@ -104,6 +104,11 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
+    public void addRaceGroupWithoutCallback(RaceGroup raceGroup) {
+        raceGroupRepository.addRaceGroup(raceGroup, null);
+    }
+
+    @Override
     public void addInitialRaceGroup(RaceGroup raceGroup) {
         raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
     }

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.util.Collections;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
@@ -29,17 +30,15 @@ import io.realm.RealmList;
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> implements ItemTouchHelperAdapter {
     private RealmList<RaceGroup> raceGroups;
     private Context context;
-    private IRaceGroupPresenter raceGroupPresenter;
     private Fragment fragment;
     private static final int NORMALITEM = 0;
     private static final int LASTITEM = 1;
     private OnStartDragListener onStartDragListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, IRaceGroupPresenter raceGroupPresenter, OnStartDragListener onStartDragListener, Fragment fragment){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, OnStartDragListener onStartDragListener, Fragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
-        this.raceGroupPresenter = raceGroupPresenter;
         this.onStartDragListener = onStartDragListener;
         this.fragment = fragment;
     }
@@ -109,7 +108,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         RaceGroup toRaceGroup = raceGroups.get(to);
         RaceGroup fromRaceGroup = raceGroups.get(from);
         RealmList<Rider> fromGroupRiders = fromRaceGroup.getRiders();
-        raceGroupPresenter.updateRaceGroupRiders(toRaceGroup, fromGroupRiders);
+        RaceGroupPresenter.getInstance().updateRaceGroupRiders(toRaceGroup, fromGroupRiders);
         return true;
     }
 
@@ -145,7 +144,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                     case DragEvent.ACTION_DROP:
                         RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                        raceGroupPresenter.updateRaceGroupRiders(raceGroup, newRiders);
+                        RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;
                     default:
@@ -164,7 +163,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             raceGroup.setPosition(raceGroupPos + 1);
                             raceGroup.setType(RaceGroupType.NORMAL);
                             raceGroup.setRiders(newRiders);
-                            raceGroupPresenter.addRaceGroup(raceGroup);
+                            RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
                             notifyDataSetChanged();
                             return true;
                         default:
@@ -199,7 +198,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             builder.setMessage("Please enter the gap time relative to the leading group");
             builder.setPositiveButton("Change time", (DialogInterface dialogInterface, int i) -> {
                 if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
-                    raceGroupPresenter.updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
+                    RaceGroupPresenter.getInstance().updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
                 }
             });
             builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());

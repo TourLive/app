@@ -22,7 +22,7 @@ public final class Context {
     }
 
     public static void addRider(Rider rider){
-        RiderPresenter.getInstance().addRider(rider);
+        RiderPresenter.getInstance().addRiderNone(rider);
     }
 
     public static void deleteRiders(){
@@ -34,7 +34,7 @@ public final class Context {
     }
 
     public static void addRaceGroup(RaceGroup raceGroup){
-        RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
+        RaceGroupPresenter.getInstance().addRaceGroupWithoutCallback(raceGroup);
     }
 
     public static void deleteRaceGroups(){
@@ -100,6 +100,6 @@ public final class Context {
     }
 
     public static RealmList<Maillot> getAllMaillots(){
-        return MaillotPresenter.getInstance().getAllMaillots();
+        return MaillotPresenter.getInstance().getAllMaillotsReturned();
     }
 }
