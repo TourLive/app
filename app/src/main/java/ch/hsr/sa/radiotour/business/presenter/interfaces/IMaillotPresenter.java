@@ -1,10 +1,12 @@
 package ch.hsr.sa.radiotour.business.presenter.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public interface IMaillotPresenter extends IBasePresenter {
     void addMaillot(Maillot maillot);
     void clearAllMaillots();
-    RealmList<Maillot> getAllMaillots();
+    void getAllMaillots();
+    RealmList<Maillot> getAllMaillotsReturned();
 }

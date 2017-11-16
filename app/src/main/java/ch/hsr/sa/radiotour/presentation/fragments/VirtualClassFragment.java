@@ -44,20 +44,11 @@ public class VirtualClassFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        RiderPresenter.getInstance().subscribeCallbacks();
         RiderPresenter.getInstance().getAllRiders();
     }
-
-    @Override
-    public void onDestroy(){
-        super.onDestroy();
-        RiderPresenter.getInstance().unSubscribeCallbacks();
-    }
-
     @Override
     public void onStop(){
         super.onStop();
-        RiderPresenter.getInstance().unSubscribeCallbacks();
         RiderPresenter.getInstance().removeView(this);
     }
 

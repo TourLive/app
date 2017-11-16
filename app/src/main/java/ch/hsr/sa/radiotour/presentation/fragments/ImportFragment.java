@@ -98,6 +98,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         }
         progressBar.setProgress(0);
         progressBar.dismiss();
+        progressBarHandler.post(() -> {
+           RiderPresenter.getInstance().getAllRiders();
+           RaceGroupPresenter.getInstance().getAllRaceGroups();
+           RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+           JudgmentPresenter.getInstance().getAllJudgments();
+           MaillotPresenter.getInstance().getAllMaillots();
+        });
     }
 
     private int importData() {
