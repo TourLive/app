@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.controller.api;
 
+import android.os.Handler;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -8,6 +10,8 @@ import com.loopj.android.http.SyncHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
@@ -21,6 +25,7 @@ public final class APIClient {
     private static String RACEID = "";
     private static String STAGEID = "";
     private static int STAGENR = 0;
+    private static Handler uiHandler = new Handler();
 
     private static SyncHttpClient client = new SyncHttpClient();
 
@@ -65,6 +70,13 @@ public final class APIClient {
 
     public static void clearDatabase(){
         Parser.deleteData();
+    }
+
+    public static  void postData(String url, RequestParams params){
+        postToAPI(url, params);
+    }
+    public static<T> T postDataWithReturnValue(String url, RequestParams params){
+        return postToAPIWithReturnValue(url, params);
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
@@ -230,5 +242,60 @@ public final class APIClient {
             }
         });
         return messages[0];
+    }
+
+    public static void postToAPI(String url, RequestParams params) {
+        APIClient.post(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    uiHandler.post(() -> {new String("successfully");});
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(() -> {throwable.getMessage();});
+            }
+        });
+    }
+
+    public static<T> T postToAPIWithReturnValue(String url, RequestParams params) {
+        final ArrayList<T> response = new ArrayList<T>();
+        APIClient.post(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    response.add(null);
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    response.add(null);
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(() -> {throwable.getMessage();});
+            }
+        });
+        return response.get(0);
     }
 }
