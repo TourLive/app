@@ -49,7 +49,7 @@ public class StageRepositoryInstrumentedTest {
     private void initCallbacks() {
         onSaveStageCallback = new IStageRepository.OnSaveStageCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(Stage stage) {
                 successFullyAdded();
             }
 
