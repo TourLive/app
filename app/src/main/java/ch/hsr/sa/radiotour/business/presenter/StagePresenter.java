@@ -37,7 +37,7 @@ public class StagePresenter implements IStagePresenter {
                 for(Fragment frag : fragments){
                     // call specifc update function for each fragment type
                 }
-                MainActivity.getInstance().updateStageId(stage.getName());
+                MainActivity.getInstance().updateStageId(stage);
             }
 
             @Override

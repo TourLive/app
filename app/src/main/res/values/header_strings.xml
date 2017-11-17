@@ -13,4 +13,6 @@
     <string name="header_import_data">IMPORT</string>
     <string name="header_startstop">Start / Stop</string>
     <string name="header_ridergroup">Fahrer verwalten</string>
+    <string name="header_prefix_m">%1$.1f m</string>
+    <string name="header_prefix_km">%1$.0f km von %2$.0f km</string>
 </resources>
