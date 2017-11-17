@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private static int UPDATE_TIME = 5000;
     private static int DELAY_TIME = 10000;
-    private static int MIN_DISTANCE_CHANGE = 1;
+    private static int MIN_DISTANCE_CHANGE = 0;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
