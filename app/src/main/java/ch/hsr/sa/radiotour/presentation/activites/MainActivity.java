@@ -135,36 +135,37 @@ public class MainActivity extends AppCompatActivity {
             updateStageId(StagePresenter.getInstance().getStage().getName());
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                uiHandler.post(() -> {
-                    heightView.setText(location.getAltitude() + "m");
-                });
-            }
-
-            @Override
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-                // Has to be implemented, but not needed
-            }
-
-            @Override
-            public void onProviderEnabled(String provider) {
-                // Has to be implemented, but not needed
-            }
-
-            @Override
-            public void onProviderDisabled(String provider) {
-                // Has to be implemented, but not needed
-            }
-        };
-
         if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, MIN_DISTANCE_CHANGE, locationListener);
+            locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    uiHandler.post(() -> {
+                        heightView.setText(location.getAltitude() + "m");
+                    });
+                }
+
+                @Override
+                public void onStatusChanged(String provider, int status, Bundle extras) {
+                    // Has to be implemented, but not needed
+                }
+
+                @Override
+                public void onProviderEnabled(String provider) {
+                   // Has to be implemented, but not needed
+                }
+
+                @Override
+                public void onProviderDisabled(String provider) {
+                    // Has to be implemented, but not needed
+                }
+            };
+
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, MIN_DISTANCE_CHANGE, locationListener);
         }
+
 
         timerForUpdate = new Timer();
         timerTask = new TimerTask() {
