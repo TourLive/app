@@ -1,6 +1,5 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
-import android.app.Activity;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class StagePresenter implements IStagePresenter {
                 for(Fragment frag : fragments){
                     // call specifc update function for each fragment type
                 }
-                MainActivity.getInstance().updateStageId(stage);
+                MainActivity.getInstance().updateStageInfo(stage);
             }
 
             @Override

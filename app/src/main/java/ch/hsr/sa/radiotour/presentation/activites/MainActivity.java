@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity {
         startStopView = (TextView) findViewById(R.id.btnStartStopRace);
 
         if(StagePresenter.getInstance().getStage() != null)
-            updateStageId(StagePresenter.getInstance().getStage());
+            updateStageInfo(StagePresenter.getInstance().getStage());
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
@@ -169,6 +169,9 @@ public class MainActivity extends AppCompatActivity {
                             uiHandler.post(() -> {
                                 heightView.setText(getString(R.string.header_prefix_m, actualLocation.getAltitude()));
                                 raceKilometerView.setText(getString(R.string.header_prefix_km, DISTANCE_IN_METER / 1000f, WHOLE_DISTANCE_IN_KM));
+                                double seconds = TimeUnit.MILLISECONDS.toSeconds(RACE_TIME.getTime());
+                                double averageSpeed = (DISTANCE_IN_METER / seconds) * 3.6;
+                                velocityView.setText(getString(R.string.header_prefix_kmh, averageSpeed));
                             });
                         }
 
@@ -263,8 +266,6 @@ public class MainActivity extends AppCompatActivity {
     private void updateUIInfos() throws InterruptedException {
         Thread update = new Thread(() -> {
             synchronized (this) {
-
-
                 uiHandler.post(() -> {
 
                 });
@@ -273,8 +274,8 @@ public class MainActivity extends AppCompatActivity {
         update.start();
         update.join();
     }
-    
-    public void updateStageId(Stage stage){
+
+    public void updateStageInfo(Stage stage){
         Pattern p = Pattern.compile("(\\d+)");
         Matcher m = p.matcher(stage.getName());
         m.find();
