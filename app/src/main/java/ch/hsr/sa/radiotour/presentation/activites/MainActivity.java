@@ -3,9 +3,8 @@ package ch.hsr.sa.radiotour.presentation.activites;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONObject;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView heightView;
     private static int UPDATE_TIME = 1000;
     private LocationManager locationManager;
+    private LocationListener locationListener;
 
 
     @Override
@@ -57,10 +58,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        uiHandler = new Handler();
-        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
-        heightView = (TextView) findViewById(R.id.txtHeightValue);
+        initViewsAndHandlers();
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
 
@@ -98,6 +96,46 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void initViewsAndHandlers() {
+        uiHandler = new Handler();
+
+        heightView = (TextView) findViewById(R.id.txtHeightValue);
+
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                uiHandler.post(() -> {
+                    heightView.setText(location.getAltitude() + "m");
+                });
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+                // Has to be implemented, but not needed
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+                // Has to be implemented, but not needed
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+                // Has to be implemented, but not needed
+            }
+        };
+
+        if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
+        } else {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 5,
+                locationListener);
+        }
 
         timerForUpdate = new Timer();
         timerTask = new TimerTask() {
