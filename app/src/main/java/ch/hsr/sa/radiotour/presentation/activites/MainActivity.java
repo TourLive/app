@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private static int UPDATE_TIME = 5000;
     private static int DELAY_TIME = 10000;
-    private static int MIN_DISTANCE_CHANGE = 10;
+    private static int MIN_DISTANCE_CHANGE = 1;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
@@ -137,7 +137,8 @@ public class MainActivity extends AppCompatActivity {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        } else {
+        }
+        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
             locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
             locationListener = new LocationListener() {
                 @Override
