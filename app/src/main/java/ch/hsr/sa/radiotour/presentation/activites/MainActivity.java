@@ -209,10 +209,21 @@ public class MainActivity extends AppCompatActivity {
             } else{
                 RACE_IN_PROGRESS = false;
                 locationManager.removeUpdates(locationListener);
-                actualLocation = null;
                 startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
                 timerForRace.cancel();
             }
+        });
+
+        startStopView.setOnLongClickListener((event) -> {
+            RACE_IN_PROGRESS = false;
+            RACE_TIME = new Time(0);
+            DISTANCE_IN_METER = 0;
+            locationManager.removeUpdates(locationListener);
+            actualLocation = null;
+            startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
+            raceTimeView.setText(convertLongToTimeString(RACE_TIME.getTime()));
+            timerForRace.cancel();
+            return true;
         });
 
 
