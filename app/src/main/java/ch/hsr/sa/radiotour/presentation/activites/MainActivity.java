@@ -17,9 +17,13 @@ import android.util.Log;
 import android.widget.TextView;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeoutException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
@@ -42,21 +46,37 @@ import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static MainActivity activity;
     public ViewPageAdapter viewPageAdapter;
     public ViewPager viewPager;
     private Timer timerForUpdate;
     private TimerTask timerTask;
     private Handler uiHandler;
     private TextView heightView;
-    private static int UPDATE_TIME = 1000;
+    private TextView topFieldActualGapView;
+    private TextView topFieldVirtualGapView;
+    private TextView topRadioTourActualGapView;
+    private TextView topRadioTourVirtualGapView;
+    private TextView stageView;
+    private TextView velocityView;
+    private TextView raceKilometerView;
+    private TextView raceTimeView;
+    private static int UPDATE_TIME = 5000;
+    private static int DELAY_TIME = 10000;
+    private static int MIN_DISTANCE_CHANGE = 10;
     private LocationManager locationManager;
     private LocationListener locationListener;
 
+    public static MainActivity getInstance() {
+        return activity;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        activity = this;
 
         initViewsAndHandlers();
 
@@ -102,7 +122,17 @@ public class MainActivity extends AppCompatActivity {
         uiHandler = new Handler();
 
         heightView = (TextView) findViewById(R.id.txtHeightValue);
+        topFieldActualGapView = (TextView) findViewById(R.id.txtTopFieldActualGap);
+        topFieldVirtualGapView = (TextView) findViewById(R.id.txt_TopFieldVirtualGap);
+        topRadioTourActualGapView = (TextView) findViewById(R.id.txtTopRadioTourActualGap);
+        topRadioTourVirtualGapView = (TextView) findViewById(R.id.txt_TopRadioTourVirtualGap);
+        stageView = (TextView) findViewById(R.id.txtStageValue);
+        velocityView = (TextView) findViewById(R.id.txtVelocityValue);
+        raceKilometerView = (TextView) findViewById(R.id.txtRacekilometerValue);
+        raceTimeView = (TextView) findViewById(R.id.txtRacetimeValue);
 
+        if(StagePresenter.getInstance().getStage() != null)
+            updateStageId(StagePresenter.getInstance().getStage().getName());
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
@@ -133,8 +163,7 @@ public class MainActivity extends AppCompatActivity {
         if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         } else {
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 20000, 5,
-                locationListener);
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, MIN_DISTANCE_CHANGE, locationListener);
         }
 
         timerForUpdate = new Timer();
@@ -148,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        timerForUpdate.schedule(timerTask, 10000, UPDATE_TIME);
+        timerForUpdate.schedule(timerTask, DELAY_TIME, UPDATE_TIME);
     }
 
     private void closeDetailJudgmentFragment() {
@@ -187,9 +216,10 @@ public class MainActivity extends AppCompatActivity {
     private void updateUIInfos() throws InterruptedException {
         Thread update = new Thread(() -> {
             synchronized (this) {
-                int height = getHeight();
+
+
                 uiHandler.post(() -> {
-                    heightView.setText(height + "m");
+
                 });
             }
         });
@@ -198,14 +228,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private int getHeight() {
-        JSONObject jsonObject = APIClient.getDataFromAPI(UrlLink.STATES, null);
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if(location!=null){ return (int)location.getAltitude();}
-        } else {
-            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
-        }
-        return 500;
+    /*public void getHeight() {
+
+    }*/
+
+    public void updateStageId(String name){
+        Pattern p = Pattern.compile("(\\d+)");
+        Matcher m = p.matcher(name);
+        m.find();
+        uiHandler.post(() -> {
+            stageView.setText(m.group(0));
+        });
     }
 }

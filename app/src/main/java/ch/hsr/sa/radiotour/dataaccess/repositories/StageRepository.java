@@ -26,8 +26,15 @@ public class StageRepository implements IStageRepository {
             realmStage.setMaillotConnections(stage.getMaillotConnections());
         });
 
+        Stage dbStage = realm.where(Stage.class).findFirst();
+
         if (callback != null)
-            callback.onSuccess();
+            callback.onSuccess(dbStage);
+    }
+
+    public Stage getStage(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        return realm.where(Stage.class).findFirst();
     }
 
     @Override
