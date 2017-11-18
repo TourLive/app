@@ -1,5 +1,9 @@
 package ch.hsr.sa.radiotour.controller.api;
 
+import android.os.Handler;
+import android.os.Looper;
+import android.util.Log;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -21,8 +25,14 @@ public final class APIClient {
     private static String RACEID = "";
     private static String STAGEID = "";
     private static int STAGENR = 0;
+    private static Handler uiHandler;
+    private static boolean DEMO_MODE = false;
 
     private static SyncHttpClient client = new SyncHttpClient();
+
+    public static void setDemoMode(boolean demoMode){
+        DEMO_MODE = demoMode;
+    }
 
     private static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
@@ -65,6 +75,20 @@ public final class APIClient {
 
     public static void clearDatabase(){
         Parser.deleteData();
+    }
+
+    public static void postData(String url, RequestParams params){
+        if(!DEMO_MODE) {
+            postToAPI(url, params);
+        }
+    }
+
+    public static<T> T getDataFromAPI(String url, RequestParams params){
+        if(!DEMO_MODE){
+            return getStateFromAPI(url, params);
+        } else {
+            return null;
+        }
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
@@ -230,5 +254,67 @@ public final class APIClient {
             }
         });
         return messages[0];
+    }
+
+    public static void postToAPI(String url, RequestParams params) {
+        Looper.prepare();
+        uiHandler =  new Handler();
+        APIClient.post(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    uiHandler.post(() -> {new String("successfully");});
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                } catch (Exception ex){
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(() -> {throwable.getMessage();});
+            }
+        });
+    }
+
+    public static<T> T getStateFromAPI(String url, RequestParams params) {
+        Looper.prepare();
+        uiHandler =  new Handler();
+        T[] response = (T[])new Object[1];
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(() -> {ex.getMessage();});
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
+                Log.d("here", "here");
+                uiHandler.post(() -> {throwable.getMessage();});
+            }
+        });
+        return response[0];
     }
 }
