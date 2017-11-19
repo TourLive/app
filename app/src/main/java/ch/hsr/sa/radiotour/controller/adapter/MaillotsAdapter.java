@@ -25,8 +25,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     @Override
     public MaillotViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_maillot_item, parent, false);
-        MaillotViewHolder holder = new MaillotViewHolder(view);
-        return holder;
+        return new MaillotViewHolder(view);
     }
 
     @Override

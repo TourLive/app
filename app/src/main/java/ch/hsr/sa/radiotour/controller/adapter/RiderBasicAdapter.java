@@ -23,8 +23,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider_edit, parent, false);
-        RiderViewHolder holder = new RiderViewHolder(view);
-        return holder;
+        return new RiderViewHolder(view);
     }
 
     @Override

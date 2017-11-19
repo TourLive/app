@@ -95,9 +95,6 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
             case QUIT:
-                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                drawable.setColor(0);
-                break;
             case DNC:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);

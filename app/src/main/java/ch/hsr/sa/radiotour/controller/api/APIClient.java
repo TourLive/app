@@ -22,16 +22,16 @@ public final class APIClient {
     }
 
     private static final String BASE_URL = "https://tlng.cnlab.ch/";
-    private static String RACEID = "";
-    private static String STAGEID = "";
-    private static int STAGENR = 0;
+    private static String raceId = "";
+    private static String stageId = "";
+    private static int stageNr = 0;
     private static Handler uiHandler;
-    private static boolean DEMO_MODE = false;
+    private static boolean demoMode = false;
 
     private static SyncHttpClient client = new SyncHttpClient();
 
     public static void setDemoMode(boolean demoMode){
-        DEMO_MODE = demoMode;
+        APIClient.demoMode = demoMode;
     }
 
     private static void get(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
@@ -54,23 +54,23 @@ public final class APIClient {
     }
 
     public static String getRiders() {
-        return getRiders(UrlLink.RIDERS + STAGEID, null);
+        return getRiders(UrlLink.RIDERS + stageId, null);
     }
 
     public static String getJudgments() {
-        return getJudgments(UrlLink.JUDGEMENTS + RACEID, null);
+        return getJudgments(UrlLink.JUDGEMENTS + raceId, null);
     }
 
     public static String getRewards() {
-        return getRewards(UrlLink.JUDGEMENTS + RACEID, null);
+        return getRewards(UrlLink.JUDGEMENTS + raceId, null);
     }
 
     public static String getStages() {
-        return getStages(UrlLink.STAGES + RACEID, null);
+        return getStages(UrlLink.STAGES + raceId, null);
     }
 
     public static String getMaillots() {
-        return getMaillots(UrlLink.MAILLOTS + RACEID, null);
+        return getMaillots(UrlLink.MAILLOTS + raceId, null);
     }
 
     public static void clearDatabase(){
@@ -78,13 +78,13 @@ public final class APIClient {
     }
 
     public static void postData(String url, RequestParams params){
-        if(!DEMO_MODE) {
+        if(!demoMode) {
             postToAPI(url, params);
         }
     }
 
     public static<T> T getDataFromAPI(String url, RequestParams params){
-        if(!DEMO_MODE){
+        if(!demoMode){
             return getStateFromAPI(url, params);
         } else {
             return null;
@@ -102,8 +102,8 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    STAGEID = settings.getJSONObject(0).getString("parameter");
-                    RACEID = settings.getJSONObject(1).getString("parameter");
+                    stageId = settings.getJSONObject(0).getString("parameter");
+                    raceId = settings.getJSONObject(1).getString("parameter");
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
@@ -150,7 +150,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{
-                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), STAGENR);
+                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), stageNr);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
@@ -209,11 +209,11 @@ public final class APIClient {
                 try{
                     for(int i = 0; i < stages.length(); i++){
                         JSONObject stage = stages.getJSONObject(i);
-                        if(stage.getInt("stageId") ==  Integer.valueOf(STAGEID)){
-                            STAGENR = i; // gets the second last stage, cause of data leak on API
+                        if(stage.getInt("stageId") ==  Integer.valueOf(stageId)){
+                            stageNr = i; // gets the second last stage, cause of data leak on API
                         }
                     }
-                    Parser.parseStagesAndPersist(stages, STAGENR);
+                    Parser.parseStagesAndPersist(stages, stageNr);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
@@ -265,7 +265,7 @@ public final class APIClient {
                 try{
                     uiHandler.post(() -> {new String("successfully");});
                 } catch (Exception ex){
-                    uiHandler.post(() -> {ex.getMessage();});
+                    uiHandler.post(() -> ex.getMessage());
                 }
             }
 
@@ -273,13 +273,13 @@ public final class APIClient {
             public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
                 } catch (Exception ex){
-                    uiHandler.post(() -> {ex.getMessage();});
+                    uiHandler.post(() -> ex.getMessage());
                 }
             }
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                uiHandler.post(() -> {throwable.getMessage();});
+                uiHandler.post(() -> throwable.getMessage());
             }
         });
     }
@@ -295,7 +295,7 @@ public final class APIClient {
                     response[0] = (T)data;
                 } catch (Exception ex){
                     Log.d("here", "here");
-                    uiHandler.post(() -> {ex.getMessage();});
+                    uiHandler.post(() -> ex.getMessage());
                 }
             }
 
@@ -305,14 +305,14 @@ public final class APIClient {
                     response[0] = (T)data;
                 } catch (Exception ex){
                     Log.d("here", "here");
-                    uiHandler.post(() -> {ex.getMessage();});
+                    uiHandler.post(() -> ex.getMessage());
                 }
             }
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
                 Log.d("here", "here");
-                uiHandler.post(() -> {throwable.getMessage();});
+                uiHandler.post(() -> throwable.getMessage());
             }
         });
         return response[0];
