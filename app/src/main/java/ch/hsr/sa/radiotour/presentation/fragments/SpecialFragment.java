@@ -50,12 +50,6 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         JudgmentPresenter.getInstance().getAllJudgments();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        JudgmentPresenter.getInstance().getAllJudgments();
-    }
-
     public void showJudgments(RealmList<Judgement> judgementRealmList) {
         this.judgements.clear();
         this.judgements.addAll(judgementRealmList);

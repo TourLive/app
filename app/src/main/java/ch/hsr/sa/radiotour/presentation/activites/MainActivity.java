@@ -45,8 +45,8 @@ import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static MainActivity activity;
-    public ViewPageAdapter viewPageAdapter;
-    public ViewPager viewPager;
+    private ViewPageAdapter viewPageAdapter;
+    private ViewPager viewPager;
 
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
@@ -109,15 +109,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment fragment = viewPageAdapter.getItem(tab.getPosition());
-                if (fragment != null) {
-                    //fragment.onResume();
-                }
+                // Has to be implemented, but not needed
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // Has to be implemented, but not needed
                 if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
                     closeDetailJudgmentFragment();
                 }
