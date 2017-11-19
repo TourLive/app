@@ -17,15 +17,11 @@ import android.widget.Button;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
-import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
-import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRiderConnectionRepository;
-import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btnImport;
