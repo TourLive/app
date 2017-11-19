@@ -90,9 +90,6 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
             case QUIT:
-                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-                drawable.setColor(0);
-                break;
             case DNC:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);
@@ -125,7 +122,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
         @Override
         public void onClick(View view) {
-
+            MainActivity.getInstance().setTab(1);
         }
     }
 
