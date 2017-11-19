@@ -293,6 +293,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void setTab(int tab) {
+        viewPager.setCurrentItem(tab);
+    }
+
     private String convertLongToTimeString(long time) {
         Date date = new Date(time);
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
