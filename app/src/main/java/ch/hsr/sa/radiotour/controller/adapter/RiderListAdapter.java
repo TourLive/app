@@ -19,7 +19,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
-import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
 public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.RiderViewHolder>{

@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IMaillotPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.MaillotsAdapter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.repositories.MaillotRepository;

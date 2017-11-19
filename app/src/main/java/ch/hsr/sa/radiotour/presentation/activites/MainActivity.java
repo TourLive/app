@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -231,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
                     updateUIInfos();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
             }
         };
