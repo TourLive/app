@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -45,8 +46,8 @@ import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static MainActivity activity;
-    public ViewPageAdapter viewPageAdapter;
-    public ViewPager viewPager;
+    private ViewPageAdapter viewPageAdapter;
+    private ViewPager viewPager;
 
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
@@ -66,10 +67,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private TextView startStopView;
 
-    private Boolean RACE_IN_PROGRESS = false;
-    private Time RACE_TIME = new Time(0);
-    private float DISTANCE_IN_METER = 0;
-    private float WHOLE_DISTANCE_IN_KM = 0;
+    private Boolean raceInProgress = false;
+    private Time raceTime = new Time(0);
+    private float distanceInMeter = 0;
+    private float wholeDistanceInKm = 0;
 
     private Location actualLocation;
     private LocationManager locationManager;
@@ -109,15 +110,11 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Fragment fragment = viewPageAdapter.getItem(tab.getPosition());
-                if (fragment != null) {
-                    //fragment.onResume();
-                }
+                // Has to be implemented, but not needed
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                // Has to be implemented, but not needed
                 if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
                     closeDetailJudgmentFragment();
                 }
@@ -151,26 +148,26 @@ public class MainActivity extends AppCompatActivity {
             updateStageInfo(StagePresenter.getInstance().getStage());
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (!(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED)) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
 
-        startStopView.setOnClickListener((click) -> {
-            if(!RACE_IN_PROGRESS){
-                RACE_IN_PROGRESS = true;
+        startStopView.setOnClickListener(click -> {
+            if(!raceInProgress){
+                raceInProgress = true;
                 startStopView.setBackgroundColor(getColor(R.color.colorOlive));
                 if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
                     locationListener = new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
-                            if(actualLocation != null) { DISTANCE_IN_METER += actualLocation.distanceTo(location); }
+                            if(actualLocation != null) { distanceInMeter += actualLocation.distanceTo(location); }
                             actualLocation = location;
                             uiHandler.post(() -> {
                                 heightView.setText(getString(R.string.header_prefix_m, actualLocation.getAltitude()));
-                                raceKilometerView.setText(getString(R.string.header_prefix_km, DISTANCE_IN_METER / 1000f, WHOLE_DISTANCE_IN_KM));
-                                double seconds = TimeUnit.MILLISECONDS.toSeconds(RACE_TIME.getTime());
-                                double averageSpeed = (DISTANCE_IN_METER / seconds) * 3.6;
+                                raceKilometerView.setText(getString(R.string.header_prefix_km, distanceInMeter / 1000f, wholeDistanceInKm));
+                                double seconds = TimeUnit.MILLISECONDS.toSeconds(raceTime.getTime());
+                                double averageSpeed = (distanceInMeter / seconds) * 3.6;
                                 velocityView.setText(getString(R.string.header_prefix_kmh, averageSpeed));
                             });
                         }
@@ -197,31 +194,29 @@ public class MainActivity extends AppCompatActivity {
                     timerTaskForRace = new TimerTask() {
                         @Override
                         public void run() {
-                            RACE_TIME.setTime(RACE_TIME.getTime() + UPDATE_TIME_FOR_RACE);
-                            uiHandler.post(() -> {
-                                raceTimeView.setText(convertLongToTimeString(RACE_TIME.getTime()));
-                            });
+                            raceTime.setTime(raceTime.getTime() + UPDATE_TIME_FOR_RACE);
+                            uiHandler.post(() -> raceTimeView.setText(convertLongToTimeString(raceTime.getTime())));
                         }
                     };
                     timerForRace.schedule(timerTaskForRace, DELAY_ZERO, UPDATE_TIME_FOR_RACE);
 
                 }
             } else{
-                RACE_IN_PROGRESS = false;
+                raceInProgress = false;
                 locationManager.removeUpdates(locationListener);
                 startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
                 timerForRace.cancel();
             }
         });
 
-        startStopView.setOnLongClickListener((event) -> {
-            RACE_IN_PROGRESS = false;
-            RACE_TIME = new Time(0);
-            DISTANCE_IN_METER = 0;
+        startStopView.setOnLongClickListener(event -> {
+            raceInProgress = false;
+            raceTime = new Time(0);
+            distanceInMeter = 0;
             locationManager.removeUpdates(locationListener);
             actualLocation = null;
             startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
-            raceTimeView.setText(convertLongToTimeString(RACE_TIME.getTime()));
+            raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
             timerForRace.cancel();
             return true;
         });
@@ -235,6 +230,7 @@ public class MainActivity extends AppCompatActivity {
                     updateUIInfos();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
             }
         };
@@ -290,11 +286,15 @@ public class MainActivity extends AppCompatActivity {
         Pattern p = Pattern.compile("(\\d+)");
         Matcher m = p.matcher(stage.getName());
         m.find();
-        WHOLE_DISTANCE_IN_KM = stage.getDistance();
+        wholeDistanceInKm = stage.getDistance();
         uiHandler.post(() -> {
             stageView.setText(m.group(0));
-            raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, WHOLE_DISTANCE_IN_KM));
+            raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
         });
+    }
+
+    public void setTab(int tab) {
+        viewPager.setCurrentItem(tab);
     }
 
     private String convertLongToTimeString(long time) {

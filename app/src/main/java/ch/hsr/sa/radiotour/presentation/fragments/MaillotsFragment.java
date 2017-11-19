@@ -59,13 +59,6 @@ public class MaillotsFragment extends Fragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        rvMaillots.setVisibility(View.VISIBLE);
-        MaillotPresenter.getInstance().getAllMaillots();
-    }
-
-    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;

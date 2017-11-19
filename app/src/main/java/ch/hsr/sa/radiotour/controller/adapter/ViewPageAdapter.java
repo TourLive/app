@@ -7,9 +7,6 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
-import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
-
 public class ViewPageAdapter extends FragmentStatePagerAdapter {
     private final List<Fragment> fragments = new ArrayList<>();
     private final List<String> titles = new ArrayList<>();

@@ -112,12 +112,4 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
         RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        RiderPresenter.getInstance().getAllRiders();
-        RaceGroupPresenter.getInstance().getAllRaceGroups();
-        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
-    }
 }
