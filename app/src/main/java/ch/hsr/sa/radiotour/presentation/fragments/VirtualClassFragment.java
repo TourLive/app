@@ -16,7 +16,6 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderExtendedAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView;
 import de.codecrafters.tableview.listeners.SwipeToRefreshListener;
 

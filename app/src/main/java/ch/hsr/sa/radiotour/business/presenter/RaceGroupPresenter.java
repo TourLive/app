@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
