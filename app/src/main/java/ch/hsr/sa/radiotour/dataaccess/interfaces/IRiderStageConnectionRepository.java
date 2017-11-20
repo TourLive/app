@@ -30,6 +30,7 @@ public interface IRiderStageConnectionRepository {
     void getRiderStageConnections(OnGetAllRiderStageConnectionsCallback callback);
     void clearAllRiderStageConnection();
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, final RiderStageConnection oldRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
+    void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
     void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
     void deleteRiderStageConnection();
     RiderStageConnection getRiderByRank(final int rank);
