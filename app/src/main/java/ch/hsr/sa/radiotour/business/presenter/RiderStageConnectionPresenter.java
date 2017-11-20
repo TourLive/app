@@ -12,6 +12,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
+import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 import io.realm.RealmList;
 
 
@@ -71,7 +72,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
             @Override
             public void onSuccess() {
                 for(Fragment frag : fragments){
-                    // call specifc update function for each fragment type
+                    if (frag instanceof VirtualClassFragment) {
+                        ((VirtualClassFragment) frag).updateRiderStageConnection();
+                    }
                 }
             }
 
@@ -122,6 +125,11 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, oldRiderStageConnection, onUpdateRiderStageConnectionCallBack);
+    }
+
+    @Override
+    public void updateRiderStageConnectionReward(RiderStageConnection riderStageConnection) {
+        riderStageConnectionRepository.updateRiderStageConnectionReward(riderStageConnection, onUpdateRiderStageConnectionCallBack);
     }
 
     @Override

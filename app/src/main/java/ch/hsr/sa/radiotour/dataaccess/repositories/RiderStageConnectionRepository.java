@@ -26,6 +26,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             realmRiderStageConnection.setRank(transferRiderStateConnection.getRank());
             realmRiderStageConnection.setVirtualGap(transferRiderStateConnection.getVirtualGap());
             realmRiderStageConnection.setType(transferRiderStateConnection.getType());
+            realmRiderStageConnection.setMoney(transferRiderStateConnection.getMoney());
         });
 
         if (callback != null) {
@@ -63,7 +64,23 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.setOfficialTime(newRiderStageConnection.getOfficialTime());
             res.setRank(newRiderStageConnection.getRank());
             res.setType(newRiderStageConnection.getType());
+            res.setMoney(newRiderStageConnection.getMoney());
         });
+    }
+
+    @Override
+    public void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection, OnUpdateRiderStageConnectionCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.executeTransaction((Realm db) -> {
+            RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", riderStageConnection.getId()).findFirst();
+            res.appendBonusPoint(riderStageConnection.getBonusPoint());
+            res.appendBonusTime(riderStageConnection.getBonusTime());
+            res.appendMoney(riderStageConnection.getMoney());
+        });
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
     }
 
     @Override

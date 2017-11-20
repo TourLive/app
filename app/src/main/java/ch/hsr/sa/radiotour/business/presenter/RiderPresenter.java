@@ -147,15 +147,17 @@ public class RiderPresenter implements IRiderPresenter {
     private List<RiderExtended> riderToExtendedRider (RealmList<Rider> riders) {
         List<RiderExtended> newRiders = new ArrayList<>();
         for (Rider r : riders) {
+            RiderStageConnection riderStageConnection = r.getRiderStages().first();
             RiderExtended riderExtended = new RiderExtended();
-            riderExtended.setVirtualGap(r.getRiderStages().first().getVirtualGap());
+            riderExtended.setVirtualGap(riderStageConnection.getVirtualGap());
             riderExtended.setTeamShortName(r.getTeamShortName());
             riderExtended.setStartNr(r.getStartNr());
-            riderExtended.setRank(r.getRiderStages().first().getRank());
-            riderExtended.setOfficialTime(r.getRiderStages().first().getOfficialTime());
-            riderExtended.setOfficialGap(r.getRiderStages().first().getOfficialGap());
+            riderExtended.setRank(riderStageConnection.getRank());
+            riderExtended.setOfficialTime(riderStageConnection.getOfficialTime());
+            riderExtended.setOfficialGap(riderStageConnection.getOfficialGap());
             riderExtended.setName(r.getName());
-            riderExtended.setMoney(0);
+            riderExtended.setMoney(riderStageConnection.getMoney());
+            riderExtended.setBonusPoint(riderStageConnection.getBonusPoint());
             riderExtended.setCountry(r.getCountry());
             riderExtended.setTeamName(r.getTeamName());
             newRiders.add(riderExtended);
