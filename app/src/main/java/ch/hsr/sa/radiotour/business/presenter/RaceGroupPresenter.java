@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
@@ -72,7 +74,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         };
         onUpdateRaceGroupCallBack = new IRaceGroupRepository.OnUpdateRaceGroupCallBack() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(RaceGroup raceGroup) {
 
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
@@ -82,6 +84,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
                         ((RiderRaceGroupFragment) frag).addRaceGroupToList();
                     }
                 }
+                MainActivity.getInstance().updateVirtualGap(raceGroup);
             }
 
             @Override
