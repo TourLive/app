@@ -22,7 +22,6 @@ import ch.hsr.sa.radiotour.dataaccess.repositories.JudgmentRiderConnectionReposi
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 
 @RunWith(AndroidJUnit4.class)
 public class JudgmentRiderConnectionInstrumentedTest {
