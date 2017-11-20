@@ -9,6 +9,7 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void addRiderStageConnection(RiderStageConnection riderStageConnection);
     void getRiderStageConnections();
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
+    void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection);
     void deleteRiderStageConnection();
     void updateRiderState(final RiderStateType type, final Rider rider);
     void clearAllRiderStageConnection();
