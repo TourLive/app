@@ -16,7 +16,6 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.EditItemTouchHelperCallback;
 import ch.hsr.sa.radiotour.controller.adapter.OnStartDragListener;
 import ch.hsr.sa.radiotour.controller.adapter.RaceGroupAdapter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
@@ -25,12 +24,11 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment implements OnStartDragListener {
+public class RaceFragment extends Fragment {
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
     private RiderListAdapter riderAdapter;
     private RaceGroupAdapter raceGroupAdapter;
-    private ItemTouchHelper itemTouchHelper;
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
     private Context mContext;
@@ -51,7 +49,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
         this.riders = new RealmList<>();
         this.raceGroups = new RealmList<>();
         this.riderAdapter = new RiderListAdapter(riders);
-        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext, this, RaceFragment.this);
+        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext,  RaceFragment.this);
         rvRider.setAdapter(riderAdapter);
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         rvRaceGroup.setAdapter(raceGroupAdapter);
@@ -77,10 +75,7 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
     public void showRaceGroups(RealmList<RaceGroup> raceGroupRealmList) {
         this.raceGroups.clear();
         this.raceGroups.addAll(raceGroupRealmList);
-        ItemTouchHelper.Callback callback = new EditItemTouchHelperCallback(raceGroupAdapter);
-        itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(rvRaceGroup);
-        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, this, RaceFragment.this),true);
+        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this),true);
         rvRaceGroup.scrollBy(0,0);
         this.raceGroupAdapter.notifyDataSetChanged();
     }
@@ -92,11 +87,6 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
     public void addRaceGroupToList() {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
         riderAdapter.updateAnimateRiderInGroup();
-    }
-
-    @Override
-    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
-        itemTouchHelper.startDrag(viewHolder);
     }
 
     @Override

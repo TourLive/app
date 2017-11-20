@@ -1,17 +1,14 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MotionEventCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -26,19 +23,17 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
-public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> implements ItemTouchHelperAdapter {
+public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private Fragment fragment;
     private static final int NORMALITEM = 0;
     private static final int LASTITEM = 1;
-    private OnStartDragListener onStartDragListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, OnStartDragListener onStartDragListener, Fragment fragment){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment){
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
-        this.onStartDragListener = onStartDragListener;
         this.fragment = fragment;
     }
 
@@ -72,12 +67,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.racegroupRiders.setAdapter(adapter);
         }
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
-        holder.racegroupName.setOnTouchListener((View v, MotionEvent event) -> {
-            if (MotionEventCompat.getActionMasked(event) == MotionEvent.ACTION_DOWN) {
-                onStartDragListener.onStartDrag(temp);
-            }
-            return false;
-        });
     }
 
     public String convertLongToTimeString(long time) {
@@ -105,23 +94,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         return raceGroups.size();
     }
 
-    @Override
-    public boolean onItemMove(int from, int to) {
-        Log.v("", "FROM" + from + "TO" + to);
-        RaceGroup toRaceGroup = raceGroups.get(to);
-        RaceGroup fromRaceGroup = raceGroups.get(from);
-        RealmList<Rider> fromGroupRiders = fromRaceGroup.getRiders();
-        RaceGroupPresenter.getInstance().updateRaceGroupRiders(toRaceGroup, fromGroupRiders);
-        return true;
-    }
 
-    @Override
-    public void onItemDismiss(int position) {
-        raceGroups.remove(position);
-        notifyItemRemoved(position);
-    }
-
-    public class RaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, ItemTouchHelperViewHolder {
+    public class RaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView racegroupName;
         private TextView racegroupCount;
         private TextView gaptimeActual;
@@ -135,6 +109,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
             layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
+            racegroupName.setOnLongClickListener(this);
             racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
             gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
@@ -147,11 +122,13 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                     case DragEvent.ACTION_DROP:
                         RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                        if (newRiders.equals(raceGroup.getRiders()))
+                            return true;
                         RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;
                     default:
-                        return false;
+                        return true;
                 }
             });
             if (layoutAddButton != null) {
@@ -170,10 +147,21 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             notifyDataSetChanged();
                             return true;
                         default:
-                            return false;
+                            return true;
                     }
                 });
             }
+        }
+
+        @Override
+        public boolean onLongClick(View view) {
+            RaceGroup raceGroup = raceGroups.get(getLayoutPosition());
+            if (raceGroup.getType() == RaceGroupType.FELD)
+                return true;
+            ClipData data = ClipData.newPlainText(" ", " ");
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            view.startDragAndDrop(data, shadowBuilder, raceGroup.getRiders(), 0);
+            return true;
         }
 
 
@@ -208,16 +196,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
-        }
-
-        @Override
-        public void onItemSelected() {
-            itemView.setBackgroundColor(Color.BLUE);
-        }
-
-        @Override
-        public void onItemClear() {
-            itemView.setBackgroundColor(Color.GREEN);
         }
     }
 }
