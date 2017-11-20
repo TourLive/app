@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import de.codecrafters.tableview.listeners.SwipeToRefreshListener;
 
 public class VirtualClassFragment extends Fragment implements SwipeToRefreshListener {
     private SortableVirtualClassementView sortableVirtualClassementView;
+    private Handler handler;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class VirtualClassFragment extends Fragment implements SwipeToRefreshList
     public void initComponents(){
         RiderPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
+        handler = new Handler();
     }
 
     private void intiTable(View root) {
@@ -65,7 +68,7 @@ public class VirtualClassFragment extends Fragment implements SwipeToRefreshList
     }
 
     public void updateRiderStageConnection() {
-        RiderPresenter.getInstance().getAllRiders();
+        handler.post(() -> RiderPresenter.getInstance().getAllRiders());
     }
 
     @Override

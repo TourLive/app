@@ -62,10 +62,10 @@ public class RaceFragment extends Fragment implements OnStartDragListener {
     public void showRiders(RealmList<Rider> riderRealmList) {
         this.riders.clear();
         this.riders.addAll(riderRealmList);
-        this.riderAdapter = new RiderListAdapter(riders);
+        this.riderAdapter = new RiderListAdapter(this.riders);
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 8);
         rvRider.setLayoutManager(mLayoutManager);
-        rvRider.swapAdapter(new RiderListAdapter(this.riders),true);
+        rvRider.swapAdapter(riderAdapter,true);
         rvRider.scrollBy(0,0);
         this.riderAdapter.notifyDataSetChanged();
     }
