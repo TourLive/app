@@ -312,8 +312,8 @@ public class MainActivity extends AppCompatActivity {
                 if(officialSpeedField != 0){ officalGapTopField = (raceKilometerTop - raceKilometerField) / officialSpeedField; }
 
                 uiHandler.post(() -> {
-                    topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.HOURS.toMillis((long)officalGapTopRadioTour)));
-                    topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.HOURS.toMillis((long)officalGapTopField)));
+                    topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopRadioTour)));
+                    topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
                 });
             }
         });
