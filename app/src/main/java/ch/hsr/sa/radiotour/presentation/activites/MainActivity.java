@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
@@ -107,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -230,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
 
         startStopView.setOnLongClickListener(event -> {
             raceInProgress = false;
-            raceTime = new Time(0);
+            raceTime.setTime(0);
             distanceInMeter = 0;
             locationManager.removeUpdates(locationListener);
             actualLocation = null;

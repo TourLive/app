@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
-import java.security.acl.Group;
-
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
@@ -28,7 +26,7 @@ public interface IRaceGroupRepository {
     void clearAllRaceGroups();
     void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback);
     void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback);
-    void deleteRaceGroup();
+    void deleteRaceGroup(RaceGroup raceGroup);
     void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider, OnUpdateRaceGroupCallBack callback);
     void updateRaceGroupPosition(RaceGroup raceGroup, final int position);
 }

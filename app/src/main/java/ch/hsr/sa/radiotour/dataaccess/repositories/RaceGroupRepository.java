@@ -99,11 +99,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         for (Rider r : riders) {
             realmRemoveGroup.removeRider(r);
         }
-        if(realmRemoveGroup.getRiders().isEmpty()){
-            realmRemoveGroup.deleteFromRealm();
-        }
-
         realm.commitTransaction();
+
+        if(realmRemoveGroup.getRiders().isEmpty()){
+            deleteRaceGroup(realmRemoveGroup);
+        }
 
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
@@ -140,8 +140,21 @@ public class RaceGroupRepository implements IRaceGroupRepository {
     }
 
     @Override
-    public void deleteRaceGroup() {
-        // Not implemented yet
+    public void deleteRaceGroup(RaceGroup raceGroup) {
+        int pos;
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        RaceGroup realmRemoveGroup = realm.where(RaceGroup.class).equalTo("id", raceGroup.getId()).findFirst();
+        pos = realmRemoveGroup.getPosition();
+        realmRemoveGroup.deleteFromRealm();
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", pos).findAllSorted("position");
+        for (RaceGroup rG : rGtoUpdate) {
+            rG.setPosition(rG.getPosition() - 1);
+        }
+        realm.commitTransaction();
     }
 
     @Override
