@@ -16,11 +16,16 @@ import java.util.List;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderBasicAdapter;
+import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
 public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
@@ -40,6 +45,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView title;
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
+    private Reward rewardM;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -187,6 +193,24 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             judgementToAdd.add(judgement);
             judgmentRiderConnection.setJudgements(judgementToAdd);
             JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
+            updateRiderStateConnectionWithPerformance(rider, rank);
         }
+        rewardM = null;
+    }
+
+    private void updateRiderStateConnectionWithPerformance(Rider rider, int rank) {
+        rewardM = RewardPresenter.getInstance().getRewardReturnedByJudgment(judgement);
+        RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(RiderStageConnectionPresenter.getInstance().getRiderByRank(rider.getRiderStages().first().getRank()).getId());
+        switch(rewardM.getType()) {
+            case TIME:
+                riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+                break;
+            case POINTS:
+                riderStageConnection.setBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+                break;
+        }
+        riderStageConnection.setMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, rewardM));
+        RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionReward(riderStageConnection);
     }
 }
