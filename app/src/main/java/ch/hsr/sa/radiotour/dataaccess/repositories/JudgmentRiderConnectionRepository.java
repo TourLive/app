@@ -22,14 +22,7 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         RealmResults<JudgmentRiderConnection> res = realm.where(JudgmentRiderConnection.class).equalTo("rank", judgmentRiderConnection.getRank()).equalTo("judgements.id", judgmentRiderConnection.getJudgements().first().getId()).findAll();
 
         if(!res.isEmpty()) {
-            for (JudgmentRiderConnection jRc : res) {
-                int rank = jRc.getRank();
-                Reward reward = jRc.getJudgements().first().getRewards();
-                jRc.getRider().first().getRiderStages().first().removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank,reward));
-                jRc.getRider().first().getRiderStages().first().removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
-                jRc.getRider().first().getRiderStages().first().removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
-                jRc.deleteFromRealm();
-            }
+            removeOldJudgmentRiderConnections(res);
         }
         realm.commitTransaction();
 
@@ -42,6 +35,17 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
 
         if (callback != null)
             callback.onSuccess();
+    }
+
+    private void removeOldJudgmentRiderConnections(RealmResults<JudgmentRiderConnection> res) {
+        for (JudgmentRiderConnection jRc : res) {
+            int rank = jRc.getRank();
+            Reward reward = jRc.getJudgements().first().getRewards();
+            jRc.getRider().first().getRiderStages().first().removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank,reward));
+            jRc.getRider().first().getRiderStages().first().removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
+            jRc.getRider().first().getRiderStages().first().removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
+            jRc.deleteFromRealm();
+        }
     }
 
     @Override
