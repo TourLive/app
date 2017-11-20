@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
+import java.security.acl.Group;
+
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
@@ -16,7 +18,7 @@ public interface IRaceGroupRepository {
     }
 
     interface OnUpdateRaceGroupCallBack {
-        void onSuccess();
+        void onSuccess(RaceGroup raceGroup);
         void onError(String message);
     }
 

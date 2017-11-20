@@ -14,14 +14,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.util.TimeUtils;
 import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URI;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +41,8 @@ import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -330,6 +330,12 @@ public class MainActivity extends AppCompatActivity {
             stageView.setText(m.group(0));
             raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
         });
+    }
+
+    public void updateVirtualGap(RaceGroup group){
+        if(group.getType() == RaceGroupType.FELD){
+            topFieldVirtualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis(group.getActualGapTime())));
+        }
     }
 
     public void setTab(int tab) {
