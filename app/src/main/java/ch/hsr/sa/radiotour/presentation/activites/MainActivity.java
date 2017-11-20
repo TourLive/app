@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
 
-    private static int UPDATE_TIME = 5000;
-    private static int DELAY_TIME = 10000;
-    private static int UPDATE_TIME_FOR_RACE = 1000;
-    private static int DELAY_ZERO = 0;
-    private static int MIN_DISTANCE_CHANGE = 0;
+    private static int updateTime = 5000;
+    private static int delayTime = 10000;
+    private static int updateTimeForRace = 1000;
+    private static int delayZero = 0;
+    private static int minDistanceChange = 0;
 
     private static String SOURCES = "sources";
     private static String RACEKILOMETER = "rennkilometer";
@@ -207,17 +207,17 @@ public class MainActivity extends AppCompatActivity {
                         }
                     };
 
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, UPDATE_TIME, MIN_DISTANCE_CHANGE, locationListener);
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, updateTime, minDistanceChange, locationListener);
 
                     timerForRace = new Timer();
                     timerTaskForRace = new TimerTask() {
                         @Override
                         public void run() {
-                            raceTime.setTime(raceTime.getTime() + UPDATE_TIME_FOR_RACE);
+                            raceTime.setTime(raceTime.getTime() + updateTimeForRace);
                             uiHandler.post(() -> raceTimeView.setText(convertLongToTimeString(raceTime.getTime())));
                         }
                     };
-                    timerForRace.schedule(timerTaskForRace, DELAY_ZERO, UPDATE_TIME_FOR_RACE);
+                    timerForRace.schedule(timerTaskForRace, delayZero, updateTimeForRace);
 
                 }
             } else{
@@ -253,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-        timerForUpdate.schedule(timerTaskForUpdate, DELAY_TIME, UPDATE_TIME);
+        timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
     }
 
     private void closeDetailJudgmentFragment() {

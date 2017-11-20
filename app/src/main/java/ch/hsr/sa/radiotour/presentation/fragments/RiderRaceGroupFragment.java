@@ -259,6 +259,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         unknownRiders.clear();
     }
 
+    @Override
     public void onStart() {
         super.onStart();
         RiderPresenter.getInstance().getAllRiders();

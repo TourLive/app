@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour;
 
 import android.support.test.runner.AndroidJUnit4;
 
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
