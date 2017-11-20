@@ -20,6 +20,7 @@ import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.adapter.RiderBasicAdapter;
+import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
@@ -203,29 +204,13 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         riderStageConnection.setId(RiderStageConnectionPresenter.getInstance().getRiderByRank(rider.getRiderStages().first().getRank()).getId());
         switch(rewardM.getType()) {
             case TIME:
-                riderStageConnection.setBonusTime(getPointsAtPosition(rank));
+                riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
                 break;
             case POINTS:
-                riderStageConnection.setBonusPoint(getPointsAtPosition(rank));
+                riderStageConnection.setBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
                 break;
         }
-        riderStageConnection.setMoney(getMoneyAtPosition(rank));
+        riderStageConnection.setMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, rewardM));
         RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionReward(riderStageConnection);
-    }
-
-    private int getPointsAtPosition(int pos) {
-        if (rewardM.getPoints().size() >= pos) {
-            return rewardM.getPoints().get(pos - 1);
-        } else {
-            return 0;
-        }
-    }
-
-    private int getMoneyAtPosition(int pos) {
-        if (rewardM.getMoney().size() >= pos) {
-            return rewardM.getMoney().get(pos -1);
-        } else {
-            return 0;
-        }
     }
 }

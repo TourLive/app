@@ -3,9 +3,11 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
+import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -21,6 +23,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
 
         if(!res.isEmpty()) {
             for (JudgmentRiderConnection jRc : res) {
+                int rank = jRc.getRank();
+                Reward reward = jRc.getJudgements().first().getRewards();
+                jRc.getRider().first().getRiderStages().first().removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank,reward));
+                jRc.getRider().first().getRiderStages().first().removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
+                jRc.getRider().first().getRiderStages().first().removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank,reward));
                 jRc.deleteFromRealm();
             }
         }

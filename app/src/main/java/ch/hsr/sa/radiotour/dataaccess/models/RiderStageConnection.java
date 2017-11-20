@@ -63,6 +63,8 @@ public class RiderStageConnection extends RealmObject {
 
     public void appendBonusPoint(int add) { this.bonusPoint += add; }
 
+    public void removeBonusPoint(int sub) { this.bonusPoint -= sub; }
+
     public int getBonusTime() {
         return bonusTime;
     }
@@ -77,11 +79,15 @@ public class RiderStageConnection extends RealmObject {
 
     public void appendMoney(int add) { this.money += add; }
 
+    public void removeMoney(int sub) { this.money -= sub; }
+
     public void setBonusTime(int bonusTime) {
         this.bonusTime = bonusTime;
     }
 
     public void appendBonusTime(int add) { this.bonusTime += add; }
+
+    public void removeBonusTime(int sub) { this.bonusTime -= sub; }
 
     public Date getOfficialTime() {
         return officialTime;
