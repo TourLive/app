@@ -16,6 +16,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -35,6 +39,10 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
+import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -71,6 +79,13 @@ public class MainActivity extends AppCompatActivity {
     private Time raceTime = new Time(0);
     private float distanceInMeter = 0;
     private float wholeDistanceInKm = 0;
+    private float raceKilometerTop = 0;
+    private float raceKilometerRadioTour = 0;
+    private float raceKilometerField = 0;
+    private float officialSpeedRadioTour = 0;
+    private float officialSpeedField = 0;
+    private float officalGapTopRadioTour = 0;
+    private float officalGapTopField = 0;
 
     private Location actualLocation;
     private LocationManager locationManager;
@@ -81,6 +96,10 @@ public class MainActivity extends AppCompatActivity {
     private static int updateTimeForRace = 1000;
     private static int delayZero = 0;
     private static int minDistanceChange = 0;
+
+    private static String SOURCES = "sources";
+    private static String RACEKILOMETER = "rennkilometer";
+    private static String SPEED = "speed";
 
     public static MainActivity getInstance() {
         return activity;
@@ -273,8 +292,28 @@ public class MainActivity extends AppCompatActivity {
     private void updateUIInfos() throws InterruptedException {
         Thread update = new Thread(() -> {
             synchronized (this) {
-                uiHandler.post(() -> {
+                JSONObject temp = new JSONObject();
+                JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+                try {
+                    JSONArray gpsInfoArray = gpsData.getJSONArray(SOURCES);
+                    temp = gpsInfoArray.getJSONObject(2);
+                    raceKilometerTop = (float)temp.getDouble(RACEKILOMETER);
+                    temp = gpsInfoArray.getJSONObject(3);
+                    raceKilometerRadioTour = (float)temp.getDouble(RACEKILOMETER);
+                    officialSpeedRadioTour = (float)temp.getDouble(SPEED);
+                    temp = gpsInfoArray.getJSONObject(4);
+                    raceKilometerField = (float)temp.getDouble(RACEKILOMETER);
+                    officialSpeedField = (float)temp.getDouble(SPEED);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
+                if(officialSpeedRadioTour != 0) { officalGapTopRadioTour = (raceKilometerTop - raceKilometerRadioTour) / officialSpeedRadioTour; }
+                if(officialSpeedField != 0){ officalGapTopField = (raceKilometerTop - raceKilometerField) / officialSpeedField; }
+
+                uiHandler.post(() -> {
+                    topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopRadioTour)));
+                    topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
                 });
             }
         });
@@ -293,6 +332,12 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public void updateVirtualGap(RaceGroup group){
+        if(group.getType() == RaceGroupType.FELD){
+            topFieldVirtualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis(group.getActualGapTime())));
+        }
+    }
+
     public void setTab(int tab) {
         viewPager.setCurrentItem(tab);
     }
@@ -300,6 +345,12 @@ public class MainActivity extends AppCompatActivity {
     private String convertLongToTimeString(long time) {
         Date date = new Date(time);
         SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        return formatter.format(date);
+    }
+
+    private String convertLongToTimeShortString(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
         return formatter.format(date);
     }
 }

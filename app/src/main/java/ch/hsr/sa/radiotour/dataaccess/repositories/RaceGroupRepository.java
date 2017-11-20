@@ -111,7 +111,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.commitTransaction();
 
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(realmRaceGroup);
         }
 
     }
@@ -127,7 +127,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.commitTransaction();
 
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(res);
         }
     }
 
@@ -152,7 +152,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.commitTransaction();
 
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(raceGroup);
         }
     }
 
