@@ -217,7 +217,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             raceGroup.setRiders(adapter.getSelectedRiders());
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
-            adapter.updateAnimateRiderInGroup(adapter.getSelectedRiders());
             adapter.resetSelectRiders();
         } else if (!unknownRiders.isEmpty()) {
             raceGroup.setRiders(unknownRiders);
