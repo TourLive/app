@@ -22,7 +22,7 @@ import org.json.JSONObject;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
+import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
 import java.util.TimerTask;
