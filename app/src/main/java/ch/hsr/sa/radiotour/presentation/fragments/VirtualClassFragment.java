@@ -17,8 +17,9 @@ import ch.hsr.sa.radiotour.controller.adapter.RiderExtendedAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView;
+import de.codecrafters.tableview.listeners.SwipeToRefreshListener;
 
-public class VirtualClassFragment extends Fragment {
+public class VirtualClassFragment extends Fragment implements SwipeToRefreshListener {
     private SortableVirtualClassementView sortableVirtualClassementView;
 
     @Override
@@ -41,6 +42,8 @@ public class VirtualClassFragment extends Fragment {
         if (sortableVirtualClassementView != null) {
             final RiderExtendedAdapter riderExtendedAdapter = new RiderExtendedAdapter(getContext(), list);
             sortableVirtualClassementView.setDataAdapter(riderExtendedAdapter);
+            sortableVirtualClassementView.setSwipeToRefreshEnabled(true);
+            sortableVirtualClassementView.setSwipeToRefreshListener(this);
         }
     }
 
@@ -63,5 +66,11 @@ public class VirtualClassFragment extends Fragment {
 
     public void updateRiderStageConnection() {
         RiderPresenter.getInstance().getAllRiders();
+    }
+
+    @Override
+    public void onRefresh(RefreshIndicator refreshIndicator) {
+        RiderPresenter.getInstance().getAllRiders();
+        refreshIndicator.hide();
     }
 }
