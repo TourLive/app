@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.OnNmeaMessageListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -14,6 +15,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -42,8 +44,6 @@ import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -67,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView heightView;
     private TextView topFieldActualGapView;
-    private TextView topFieldVirtualGapView;
     private TextView topRadioTourActualGapView;
-    private TextView topRadioTourVirtualGapView;
     private TextView stageView;
     private TextView velocityView;
     private TextView raceKilometerView;
@@ -91,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     private Location actualLocation;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private double correctionHeight = 0;
 
     private static int updateTime = 5000;
     private static int delayTime = 10000;
@@ -157,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         heightView = (TextView) findViewById(R.id.txtHeightValue);
         topFieldActualGapView = (TextView) findViewById(R.id.txtTopFieldActualGap);
-        topFieldVirtualGapView = (TextView) findViewById(R.id.txt_TopFieldVirtualGap);
         topRadioTourActualGapView = (TextView) findViewById(R.id.txtTopRadioTourActualGap);
-        topRadioTourVirtualGapView = (TextView) findViewById(R.id.txt_TopRadioTourVirtualGap);
         stageView = (TextView) findViewById(R.id.txtStageValue);
         velocityView = (TextView) findViewById(R.id.txtVelocityValue);
         raceKilometerView = (TextView) findViewById(R.id.txtRacekilometerValue);
@@ -174,19 +171,33 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
 
-        startStopView.setOnClickListener(click -> {
+        startStopView.setOnClickListener((View click) -> {
             if(!raceInProgress){
                 raceInProgress = true;
                 startStopView.setBackgroundColor(getColor(R.color.colorOlive));
                 if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
+                    locationManager.addNmeaListener(new OnNmeaMessageListener() {
+                        @Override
+                        public void onNmeaMessage(String message, long timestamp) {
+                            if (message.startsWith("$")) {
+                                String[] tokens = message.split(",");
+                                String type = tokens[0];
+                                if (type.startsWith("$GPGGA")) {
+                                    if (!tokens[11].isEmpty()) {
+                                        correctionHeight = Double.parseDouble(tokens[11]);
+                                    }
+                                }
+                            }
+                        }
+                    });
                     locationListener = new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
                             if(actualLocation != null) { distanceInMeter += actualLocation.distanceTo(location); }
                             actualLocation = location;
                             uiHandler.post(() -> {
-                                heightView.setText(getString(R.string.header_prefix_m, actualLocation.getAltitude()));
+                                heightView.setText(getString(R.string.header_prefix_m, (actualLocation.getAltitude() - correctionHeight)));
                                 raceKilometerView.setText(getString(R.string.header_prefix_km, distanceInMeter / 1000f, wholeDistanceInKm));
                                 double seconds = TimeUnit.MILLISECONDS.toSeconds(raceTime.getTime());
                                 double averageSpeed = (distanceInMeter / seconds) * 3.6;
@@ -293,10 +304,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUIInfos() throws InterruptedException {
-        Thread update = new Thread(() -> {
+        new Thread(() -> {
             synchronized (this) {
                 JSONObject temp = new JSONObject();
                 JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+                if(gpsData == null) return;
                 try {
                     JSONArray gpsInfoArray = gpsData.getJSONArray(SOURCES);
                     temp = gpsInfoArray.getJSONObject(2);
@@ -319,9 +331,7 @@ public class MainActivity extends AppCompatActivity {
                     topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
                 });
             }
-        });
-        update.start();
-        update.join();
+        }).start();
     }
 
     public void updateStageInfo(Stage stage){
@@ -333,12 +343,6 @@ public class MainActivity extends AppCompatActivity {
             stageView.setText(m.group(0));
             raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
         });
-    }
-
-    public void updateVirtualGap(RaceGroup group){
-        if(group.getType() == RaceGroupType.FELD){
-            topFieldVirtualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis(group.getActualGapTime())));
-        }
     }
 
     public void setTab(int tab) {

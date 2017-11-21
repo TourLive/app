@@ -76,23 +76,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="384dp" />
+                    app:layout_constraintGuide_begin="350dp" />
 
                 <TextView
                     android:id="@+id/txtTopFieldActualGap"
-                    style="@style/ToolbarValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="12dp"
-                    android:text="00:00"
-                    app:layout_constraintEnd_toStartOf="@+id/txt_TopFieldVirtualGap"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/txt_TopFieldVirtualGap"
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -101,7 +88,7 @@
                     android:layout_marginTop="12dp"
                     android:text="00:00"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
-                    app:layout_constraintStart_toEndOf="@+id/txtTopFieldActualGap"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -109,33 +96,20 @@
                     style="@style/ToolbarValue"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="8dp"
-                    android:text="00:00"
-                    app:layout_constraintEnd_toStartOf="@+id/txt_TopRadioTourVirtualGap"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
-                    app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
-
-                <TextView
-                    android:id="@+id/txt_TopRadioTourVirtualGap"
-                    style="@style/ToolbarValue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="8dp"
                     android:text="00:00"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
-                    app:layout_constraintStart_toEndOf="@+id/txtTopRadioTourActualGap"
-                    app:layout_constraintTop_toBottomOf="@+id/txt_TopFieldVirtualGap" />
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
 
                 <android.support.constraint.Guideline
                     android:id="@+id/guidelineInfo1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="437dp" />
+                    app:layout_constraintGuide_begin="409dp" />
 
                 <TextView
                     android:id="@+id/txt_Height"
@@ -168,7 +142,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="499dp" />
+                    app:layout_constraintGuide_begin="480dp" />
 
                 <TextView
                     android:id="@+id/txtHeightValue"
@@ -201,7 +175,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="615dp" />
+                    app:layout_constraintGuide_begin="599dp" />
 
                 <TextView
                     android:id="@+id/txt_Velocity"
@@ -234,7 +208,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="740dp" />
+                    app:layout_constraintGuide_begin="723dp" />
 
                 <TextView
                     android:id="@+id/txtVelocityValue"

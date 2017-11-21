@@ -55,6 +55,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
             RealmList<Rider> rider = new RealmList<>();
             rider.add(getRider(startNr));
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
+            RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(raceGroup, selectedUnknownRider);
             RiderPresenter.getInstance().removeRider(selectedUnknownRider);
         });
         alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
