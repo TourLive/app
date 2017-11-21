@@ -200,7 +200,12 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
         if (!adapter.getSelectedRiders().isEmpty()) {
-            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, adapter.getSelectedRiders());
+            RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
+            if(activeRider.isEmpty()){
+                adapter.resetSelectRiders();
+                return;
+            }
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, activeRider);
             adapter.resetSelectRiders();
         } else if (!unknownRiders.isEmpty()) {
             RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders);
@@ -214,7 +219,12 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         raceGroup.setPosition(position);
         raceGroup.setType(raceGroupType);
         if (!adapter.getSelectedRiders().isEmpty()) {
-            raceGroup.setRiders(adapter.getSelectedRiders());
+            RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
+            if(activeRider.isEmpty()) {
+                adapter.resetSelectRiders();
+                return;
+            }
+            raceGroup.setRiders(activeRider);
             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
             raceGroupAdapter.notifyDataSetChanged();
             adapter.resetSelectRiders();
@@ -270,5 +280,16 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
+    }
+
+    private RealmList<Rider> filterNonActiveRiders(RealmList<Rider> riders){
+            RealmList<Rider> activeRiders = new RealmList<>();
+            for(Rider r : riders){
+                if(!(r.getRiderStages().first().getType() == RiderStateType.DNC ||
+                        r.getRiderStages().first().getType() == RiderStateType.QUIT)){
+                    activeRiders.add(r);
+                }
+            }
+            return activeRiders;
     }
 }
