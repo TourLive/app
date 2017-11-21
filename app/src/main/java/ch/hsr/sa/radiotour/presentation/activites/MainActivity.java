@@ -293,10 +293,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updateUIInfos() throws InterruptedException {
-        Thread update = new Thread(() -> {
+        new Thread(() -> {
             synchronized (this) {
                 JSONObject temp = new JSONObject();
                 JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+                if(gpsData == null) return;
                 try {
                     JSONArray gpsInfoArray = gpsData.getJSONArray(SOURCES);
                     temp = gpsInfoArray.getJSONObject(2);
@@ -319,9 +320,7 @@ public class MainActivity extends AppCompatActivity {
                     topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
                 });
             }
-        });
-        update.start();
-        update.join();
+        }).start();
     }
 
     public void updateStageInfo(Stage stage){
