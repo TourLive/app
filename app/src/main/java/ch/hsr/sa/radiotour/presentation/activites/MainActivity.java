@@ -3,9 +3,11 @@ package ch.hsr.sa.radiotour.presentation.activites;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.location.OnNmeaMessageListener;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
@@ -14,6 +16,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -91,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     private Location actualLocation;
     private LocationManager locationManager;
     private LocationListener locationListener;
+    private double correctionHeight = 0;
 
     private static int updateTime = 5000;
     private static int delayTime = 10000;
@@ -174,19 +178,33 @@ public class MainActivity extends AppCompatActivity {
             requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 0);
         }
 
-        startStopView.setOnClickListener(click -> {
+        startStopView.setOnClickListener((View click) -> {
             if(!raceInProgress){
                 raceInProgress = true;
                 startStopView.setBackgroundColor(getColor(R.color.colorOlive));
                 if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
+                    locationManager.addNmeaListener(new OnNmeaMessageListener() {
+                        @Override
+                        public void onNmeaMessage(String message, long timestamp) {
+                            if (message.startsWith("$")) {
+                                String[] tokens = message.split(",");
+                                String type = tokens[0];
+                                if (type.startsWith("$GPGGA")) {
+                                    if (!tokens[10].isEmpty()) {
+                                        correctionHeight = Double.parseDouble(tokens[9]);
+                                    }
+                                }
+                            }
+                        }
+                    });
                     locationListener = new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
                             if(actualLocation != null) { distanceInMeter += actualLocation.distanceTo(location); }
                             actualLocation = location;
                             uiHandler.post(() -> {
-                                heightView.setText(getString(R.string.header_prefix_m, actualLocation.getAltitude()));
+                                heightView.setText(getString(R.string.header_prefix_m, (actualLocation.getAltitude() - correctionHeight)));
                                 raceKilometerView.setText(getString(R.string.header_prefix_km, distanceInMeter / 1000f, wholeDistanceInKm));
                                 double seconds = TimeUnit.MILLISECONDS.toSeconds(raceTime.getTime());
                                 double averageSpeed = (distanceInMeter / seconds) * 3.6;
