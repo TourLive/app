@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity {
                                 String[] tokens = message.split(",");
                                 String type = tokens[0];
                                 if (type.startsWith("$GPGGA")) {
-                                    if (!tokens[10].isEmpty()) {
-                                        correctionHeight = Double.parseDouble(tokens[10]);
+                                    if (!tokens[11].isEmpty()) {
+                                        correctionHeight = Double.parseDouble(tokens[11]);
                                     }
                                 }
                             }
