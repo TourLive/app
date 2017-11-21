@@ -7,88 +7,12 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/racefragment_guideline_one"
-        tools:layout_constraintTop_creator="1"
-        tools:layout_constraintRight_creator="1"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        tools:layout_constraintLeft_creator="1"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/rider_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="STATUS"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/rider_arzt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Arzt"
-            android:textAllCaps="true"
-            android:textSize="10sp"
-            android:background="@color/colorBlue"/>
-
-        <TextView
-            android:id="@+id/rider_drop"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Sturz"
-            android:textAllCaps="true"
-            android:textSize="10sp"
-            android:background="@color/colorOlive" />
-
-        <TextView
-            android:id="@+id/rider_defect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Defekt"
-            android:textAllCaps="true"
-            android:textSize="10sp"
-            android:background="@color/colorRed"/>
-
-        <TextView
-            android:id="@+id/rider_dnc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/race_dnc"
-            android:textAllCaps="true"
-            android:textSize="10sp"
-            android:background="@drawable/strike_through"/>
-
-        <TextView
-            android:id="@+id/rider_quit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Aufgabe"
-            android:textAllCaps="true"
-            android:textSize="10sp"
-            android:background="@drawable/strike_through"/>
-
-    </LinearLayout>
-
     <android.support.constraint.Guideline
+        android:id="@+id/racefragment_guideline_one"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/racefragment_guideline_one"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.07" />
+        app:layout_constraintGuide_percent="0.0" />
 
     <android.support.constraint.Guideline
         android:layout_width="wrap_content"
