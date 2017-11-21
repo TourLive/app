@@ -139,6 +139,9 @@ public class MainActivity extends AppCompatActivity {
                 if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
                     closeDetailJudgmentFragment();
                 }
+                if (tab.getText().toString().equals(getString(R.string.header_ridergroup))){
+                    resetStateRiders(viewPageAdapter.getItem(tab.getPosition()));
+                }
             }
 
             @Override
@@ -275,6 +278,11 @@ public class MainActivity extends AppCompatActivity {
         if (fragment != null) {
             getSupportFragmentManager().beginTransaction().remove(fragment).commit();
         }
+    }
+
+    private void resetStateRiders(Fragment fragment){
+        RiderRaceGroupFragment frag = (RiderRaceGroupFragment) fragment;
+        frag.resetStates();
     }
 
     private void initCallbacks() {
