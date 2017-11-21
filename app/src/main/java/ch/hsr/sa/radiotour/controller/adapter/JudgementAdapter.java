@@ -64,7 +64,7 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
             itemTitleJudgement = (TextView) itemView.findViewById(R.id.itemTitleJudgement);
             itemJudgementKM = (TextView) itemView.findViewById(R.id.itemJudgementKM);
             rvJudgmentRiders = (RecyclerView) itemView.findViewById(R.id.rvRiderJudgement);
-            itemView.setOnClickListener(this);
+            itemJudgementKM.setOnClickListener(this);
         }
 
         @Override
