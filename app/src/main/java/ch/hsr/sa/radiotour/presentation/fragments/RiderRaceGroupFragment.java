@@ -37,6 +37,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private RealmList<RaceGroup> raceGroups = new RealmList<>();
     private RealmList<Rider> riders = new RealmList<>();
     private RealmList<Rider> unknownRiders = new RealmList<>();
+    private ArrayList<Integer> resetRiderAnimation = new ArrayList<>();
     private RiderEditAdapter adapter;
     private LittleRaceGroupAdapter raceGroupAdapter;
     private RecyclerView rvRider;
@@ -140,18 +141,18 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RealmList<Rider> selectedRiders = adapter.getSelectedRiders();
         switch(view.getId()) {
             case R.id.btn_Defect:
-                resetStateAfterXSeconds(selectedRiders);
+                addRiderToResetAfterTabChange(selectedRiders);
                 updateRiderStates(RiderStateType.DEFECT);
                 break;
             case R.id.btn_DNC:
                 updateRiderStates(RiderStateType.DNC);
                 break;
             case R.id.btn_Doctor:
-                resetStateAfterXSeconds(selectedRiders);
+                addRiderToResetAfterTabChange(selectedRiders);
                 updateRiderStates(RiderStateType.DOCTOR);
                 break;
             case R.id.btn_Drop:
-                resetStateAfterXSeconds(selectedRiders);
+                addRiderToResetAfterTabChange(selectedRiders);
                 updateRiderStates(RiderStateType.DROP);
                 break;
             case R.id.btn_Quit:
@@ -175,27 +176,10 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void resetStateAfterXSeconds(RealmList<Rider> selectedRiders) {
-        ArrayList<Integer> ridersStartNr = new ArrayList<>();
-        for(Rider r : selectedRiders){
-            ridersStartNr.add(r.getStartNr());
+    private void addRiderToResetAfterTabChange(RealmList<Rider> riders){
+        for(Rider r : riders){
+            resetRiderAnimation.add(r.getStartNr());
         }
-        Runnable runnable = (() -> {
-            try {
-                Thread.sleep(SLEEP_TIME);
-                for(Integer startNr : ridersStartNr){
-                    stateHandler.post(() -> {
-                        Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
-                        RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
-                    });
-                }
-            } catch (InterruptedException e) {
-                Log.d(RiderRaceGroupFragment.class.getSimpleName(), "APP - OUTPUT - " + e.getMessage());
-                Thread.currentThread().interrupt();
-            }
-        });
-        Thread thread = new Thread(runnable);
-        thread.start();
     }
 
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
@@ -280,6 +264,16 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void onAttach(Context context) {
         super.onAttach(context);
         this.mContext = context;
+    }
+
+    public void resetStates(){
+        stateHandler.post(() -> {
+            for(int startNr : resetRiderAnimation){
+                Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
+                RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
+            }
+            resetRiderAnimation.clear();
+        });
     }
 
     private RealmList<Rider> filterNonActiveRiders(RealmList<Rider> riders){
