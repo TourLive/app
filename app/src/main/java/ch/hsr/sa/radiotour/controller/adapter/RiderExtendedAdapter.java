@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
+import android.util.TimeUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
@@ -56,13 +58,13 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 7:
-                view = setTextToView(df.format(rider.getVirtualGap()));
+                view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getVirtualGap().getTime())));
                 break;
             case 8:
-                view = setTextToView(df.format(rider.getOfficialGap()));
+                view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialGap().getTime())));
                 break;
             case 9:
-                view = setTextToView(df.format(rider.getOfficialTime()));
+                view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialTime().getTime())));
                 break;
             default:
                 break;
