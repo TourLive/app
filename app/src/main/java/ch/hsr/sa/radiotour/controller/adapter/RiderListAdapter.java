@@ -62,7 +62,8 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
         if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
             GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-            drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+            if(context != null)
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
         }
     }
 
