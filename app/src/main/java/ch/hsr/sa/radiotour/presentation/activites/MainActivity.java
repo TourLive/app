@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.presentation.activites;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.GpsStatus;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -45,8 +44,6 @@ import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -70,9 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView heightView;
     private TextView topFieldActualGapView;
-    private TextView topFieldVirtualGapView;
     private TextView topRadioTourActualGapView;
-    private TextView topRadioTourVirtualGapView;
     private TextView stageView;
     private TextView velocityView;
     private TextView raceKilometerView;
@@ -161,9 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         heightView = (TextView) findViewById(R.id.txtHeightValue);
         topFieldActualGapView = (TextView) findViewById(R.id.txtTopFieldActualGap);
-        topFieldVirtualGapView = (TextView) findViewById(R.id.txt_TopFieldVirtualGap);
         topRadioTourActualGapView = (TextView) findViewById(R.id.txtTopRadioTourActualGap);
-        topRadioTourVirtualGapView = (TextView) findViewById(R.id.txt_TopRadioTourVirtualGap);
         stageView = (TextView) findViewById(R.id.txtStageValue);
         velocityView = (TextView) findViewById(R.id.txtVelocityValue);
         raceKilometerView = (TextView) findViewById(R.id.txtRacekilometerValue);
@@ -192,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
                                 String type = tokens[0];
                                 if (type.startsWith("$GPGGA")) {
                                     if (!tokens[10].isEmpty()) {
-                                        correctionHeight = Double.parseDouble(tokens[9]);
+                                        correctionHeight = Double.parseDouble(tokens[10]);
                                     }
                                 }
                             }
@@ -350,12 +343,6 @@ public class MainActivity extends AppCompatActivity {
             stageView.setText(m.group(0));
             raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
         });
-    }
-
-    public void updateVirtualGap(RaceGroup group){
-        if(group.getType() == RaceGroupType.FELD){
-            topFieldVirtualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis(group.getActualGapTime())));
-        }
     }
 
     public void setTab(int tab) {

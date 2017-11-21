@@ -83,7 +83,6 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
                         ((RiderRaceGroupFragment) frag).addRaceGroupToList();
                     }
                 }
-                MainActivity.getInstance().updateVirtualGap(raceGroup);
             }
 
             @Override
