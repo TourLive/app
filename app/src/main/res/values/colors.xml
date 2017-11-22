@@ -16,6 +16,7 @@
     <color name="colorBackground">#fffafafa</color>
     <color name="colorHeaderBorder">#AD424242</color>
     <color name="colorGrayLight">#adc8c8c8</color>
+    <color name="colorGrayMiddle">#bebdbd</color>
     <color name="yellow">#f4dd10</color>
     <color name="black">#000000</color>
     <color name="blue">#111e6c</color>
