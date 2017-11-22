@@ -46,7 +46,7 @@ public class RaceFragment extends Fragment {
         rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
         this.riders = new RealmList<>();
         this.raceGroups = new RealmList<>();
-        this.riderAdapter = new RiderListAdapter(riders);
+        this.riderAdapter = new RiderListAdapter(riders, mContext);
         this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext,  RaceFragment.this);
         rvRider.setAdapter(riderAdapter);
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
@@ -58,7 +58,7 @@ public class RaceFragment extends Fragment {
     public void showRiders(RealmList<Rider> riderRealmList) {
         this.riders.clear();
         this.riders.addAll(riderRealmList);
-        this.riderAdapter = new RiderListAdapter(this.riders);
+        this.riderAdapter = new RiderListAdapter(this.riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 8);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.swapAdapter(riderAdapter,true);

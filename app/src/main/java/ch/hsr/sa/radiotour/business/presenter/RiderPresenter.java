@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
@@ -25,12 +27,15 @@ public class RiderPresenter implements IRiderPresenter {
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
 
+    private static Handler handler;
 
     private RiderRepository riderRepository = new RiderRepository();
 
     public static RiderPresenter getInstance() {
         if(instance == null){
             instance = new RiderPresenter();
+            Looper.prepare();
+            handler = new Handler();
         }
         return instance;
     }
@@ -74,6 +79,11 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
+    public void removeRiderWithoutCallback(Rider rider){
+        riderRepository.removeRider(rider, null);
+    }
+
+    @Override
     public void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections) {
         riderRepository.updateRiderStageConnection(rider, connections, onUpdateRiderStateCallback);
     }
@@ -89,11 +99,15 @@ public class RiderPresenter implements IRiderPresenter {
             public void onSuccess() {
                 for(Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        RaceFragment rF = (RaceFragment) frag;
-                        rF.addRiderToList();
+                        handler.post(() -> {
+                            RaceFragment rF = (RaceFragment) frag;
+                            rF.addRiderToList();
+                        });
                     } else if (frag instanceof RiderRaceGroupFragment) {
-                        RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
-                        riderRaceGroupFragment.addRiderToList();
+                        handler.post(() -> {
+                            RiderRaceGroupFragment riderRaceGroupFragment = (RiderRaceGroupFragment) frag;
+                            riderRaceGroupFragment.addRiderToList();
+                        });
                     } else {
                         // Do nothing because a not supported fragment
                     }

@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -28,16 +29,16 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
     private android.content.Context context;
     private HashMap<Integer, RiderViewHolder> holderHashMap;
 
-    public RiderListAdapter(RealmList<Rider> riders) {
+    public RiderListAdapter(RealmList<Rider> riders, Context context) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.holderHashMap = new HashMap<>();
+        this.context = context;
     }
 
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider, parent, false);
         RiderViewHolder holder = new RiderViewHolder(view);
-        context = parent.getContext();
         return holder;
     }
 
@@ -91,8 +92,11 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
         switch (stateType){
             case QUIT:
+                tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                drawable.setColor(0);
             case DNC:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+                tvNumber.setTextColor(ContextCompat.getColor(context, R.color.colorGrayMiddle));
                 drawable.setColor(0);
                 break;
             case DOCTOR:
