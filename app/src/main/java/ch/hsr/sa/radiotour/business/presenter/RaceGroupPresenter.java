@@ -1,5 +1,8 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
@@ -7,7 +10,6 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RaceGroupRepository;
-import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import ch.hsr.sa.radiotour.presentation.fragments.RaceFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
@@ -21,9 +23,13 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     private IRaceGroupRepository.OnGetAllRaceGroupsCallback onGetAllRaceGroupsCallback;
     private IRaceGroupRepository.OnUpdateRaceGroupCallBack onUpdateRaceGroupCallBack;
 
+    private static Handler handler;
+
     public static RaceGroupPresenter getInstance() {
         if(instance == null){
             instance = new RaceGroupPresenter();
+            Looper.prepare();
+            handler = new Handler();
         }
         return instance;
     }
@@ -58,10 +64,14 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
             public void onSuccess(RealmList<RaceGroup> raceGroups) {
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        ((RaceFragment) frag).showRaceGroups(raceGroups);
+                        handler.post(() -> {
+                            ((RaceFragment) frag).showRaceGroups(raceGroups);
+                        });
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        ((RiderRaceGroupFragment) frag).showRaceGroups(raceGroups);
+                        handler.post(() -> {
+                            ((RiderRaceGroupFragment) frag).showRaceGroups(raceGroups);
+                        });
                     }
                 }
             }
@@ -77,10 +87,14 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        ((RaceFragment) frag).addRaceGroupToList();
+                        handler.post(() -> {
+                            ((RaceFragment) frag).addRaceGroupToList();
+                        });
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                        handler.post(() -> {
+                            ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                        });
                     }
                 }
             }
