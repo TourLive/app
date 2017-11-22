@@ -47,16 +47,20 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
 
         alertDialogBuilder.setTitle("Change unknown rider to an known rider");
         alertDialogBuilder.setMessage("Please select the rider to which you want transfer the unknown rider to.");
-        alertDialogBuilder.setPositiveButton("Chnane the unknown rider", (DialogInterface dialog, int which) -> {
+        alertDialogBuilder.setPositiveButton("Change the unknown rider", (DialogInterface dialog, int which) -> {
             String[] parts = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().split("\\-");
             String startNr = parts[0];
             Log.d("", "" + selectedUnknownRider.toString());
-            RaceGroup raceGroup = selectedUnknownRider.getRaceGroups();
-            RealmList<Rider> rider = new RealmList<>();
-            rider.add(getRider(startNr));
-            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
-            RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(raceGroup, selectedUnknownRider);
-            RiderPresenter.getInstance().removeRider(selectedUnknownRider);
+            final int unknownRiderStartNr = selectedUnknownRider.getStartNr();
+            new Thread(() -> {
+                Rider unknownRider = RiderPresenter.getInstance().getRiderByStartNr(unknownRiderStartNr);
+                RaceGroup raceGroup = unknownRider.getRaceGroups();
+                RealmList<Rider> rider = new RealmList<>();
+                rider.add(getRider(startNr));
+                RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, rider);
+                RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(raceGroup, unknownRider);
+                RiderPresenter.getInstance().removeRiderWithoutCallback(unknownRider);
+            }).start();
         });
         alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
 
