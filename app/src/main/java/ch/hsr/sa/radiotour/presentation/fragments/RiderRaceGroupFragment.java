@@ -239,7 +239,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             rider.setTeamShortName("U");
             rider.setTeamName("UNKNOWN");
             rider.setStartNr(i + 900);
-            RiderPresenter.getInstance().addRider(rider);
+            RiderPresenter.getInstance().addRiderNone(rider);
             unknownRiders.add(rider);
         }
         txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");

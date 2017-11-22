@@ -313,7 +313,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUIInfos() throws InterruptedException {
         new Thread(() -> {
-            synchronized (this) {
                 JSONObject temp = new JSONObject();
                 JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
                 if(gpsData == null) return;
@@ -338,7 +337,6 @@ public class MainActivity extends AppCompatActivity {
                     topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopRadioTour)));
                     topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
                 });
-            }
         }).start();
     }
 

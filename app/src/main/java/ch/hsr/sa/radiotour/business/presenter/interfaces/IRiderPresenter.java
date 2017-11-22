@@ -15,4 +15,5 @@ public interface IRiderPresenter extends IBasePresenter {
     void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections);
     void clearAllRiders();
     void removeRider(Rider rider);
+    void removeRiderWithoutCallback(Rider rider);
 }
