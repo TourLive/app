@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.NumberPicker;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -32,31 +33,17 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_unknownrider, null);
         alertDialogBuilder.setView(dialogView);
 
-        final SeekBar seekBar = (SeekBar) dialogView.findViewById(R.id.countUnknownRiders);
-        final TextView textView = (TextView) dialogView.findViewById(R.id.txtDialogUnknownRiders);
+        final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.nPicker);
 
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                textView.setText("" + Integer.toString(i));
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // Do nothing because method has to be implemented, but not needed.
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                // Do nothing because method has to be implemented, but not needed.
-            }
-        });
+        numberPicker.setMinValue(1);
+        numberPicker.setMaxValue(100);
+        numberPicker.setWrapSelectorWheel(true);
 
         alertDialogBuilder.setTitle("Adding Unknown Riders");
         alertDialogBuilder.setMessage("Please select how many unknown riders you would add and select the racegroup.");
         alertDialogBuilder.setPositiveButton("Add unknown riders", (DialogInterface dialog, int which) ->  {
            UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
-           int count = seekBar.getProgress();
+           int count = numberPicker.getValue();
            unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
 
