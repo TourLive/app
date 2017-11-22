@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
@@ -26,13 +27,15 @@ public class RiderPresenter implements IRiderPresenter {
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
 
-    private Handler handler = new Handler();
+    private static Handler handler;
 
     private RiderRepository riderRepository = new RiderRepository();
 
     public static RiderPresenter getInstance() {
         if(instance == null){
             instance = new RiderPresenter();
+            Looper.prepare();
+            handler = new Handler();
         }
         return instance;
     }

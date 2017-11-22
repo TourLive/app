@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
 import android.os.Handler;
+import android.os.Looper;
 
 import java.util.ArrayList;
 
@@ -22,11 +23,13 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     private IRaceGroupRepository.OnGetAllRaceGroupsCallback onGetAllRaceGroupsCallback;
     private IRaceGroupRepository.OnUpdateRaceGroupCallBack onUpdateRaceGroupCallBack;
 
-    private Handler handler = new Handler();
+    private static Handler handler;
 
     public static RaceGroupPresenter getInstance() {
         if(instance == null){
             instance = new RaceGroupPresenter();
+            Looper.prepare();
+            handler = new Handler();
         }
         return instance;
     }
