@@ -34,7 +34,7 @@ public class RiderPresenter implements IRiderPresenter {
     public static RiderPresenter getInstance() {
         if(instance == null){
             instance = new RiderPresenter();
-            Looper.prepare();
+            Looper.getMainLooper().prepare();
             handler = new Handler();
         }
         return instance;
