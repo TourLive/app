@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.MainThread;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     public static RaceGroupPresenter getInstance() {
         if(instance == null){
             instance = new RaceGroupPresenter();
-            Looper.getMainLooper().prepare();
+            if((Looper.getMainLooper().getThread() != Thread.currentThread()))
+                Looper.prepare();
             handler = new Handler();
         }
         return instance;
