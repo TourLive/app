@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.MainThread;
 
 import java.util.ArrayList;
 
