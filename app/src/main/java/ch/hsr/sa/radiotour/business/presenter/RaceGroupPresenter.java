@@ -28,7 +28,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     public static RaceGroupPresenter getInstance() {
         if(instance == null){
             instance = new RaceGroupPresenter();
-            Looper.prepare();
+            if((Looper.getMainLooper().getThread() != Thread.currentThread()))
+                Looper.prepare();
             handler = new Handler();
         }
         return instance;
