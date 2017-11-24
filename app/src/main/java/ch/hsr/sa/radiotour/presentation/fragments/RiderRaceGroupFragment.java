@@ -42,14 +42,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private LittleRaceGroupAdapter raceGroupAdapter;
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
-    private Button btnDoctor;
-    private Button btnDNC;
-    private Button btnDefect;
-    private Button btnQuit;
-    private Button btnDrop;
-    private Button btnUnknownRiders;
     private TextView txtUnknownRiders;
-    private static final Integer SLEEP_TIME = 10000;
     private Context mContext;
     private Handler stateHandler = new Handler();
 
@@ -73,12 +66,12 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     }
 
     private void initButtons(View root) {
-        btnDefect = (Button) root.findViewById(R.id.btn_Defect);
-        btnDNC = (Button) root.findViewById(R.id.btn_DNC);
-        btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
-        btnQuit = (Button) root.findViewById(R.id.btn_Quit);
-        btnDrop = (Button) root.findViewById(R.id.btn_Drop);
-        btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
+        Button btnDefect = (Button) root.findViewById(R.id.btn_Defect);
+        Button btnDNC = (Button) root.findViewById(R.id.btn_DNC);
+        Button btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
+        Button btnQuit = (Button) root.findViewById(R.id.btn_Quit);
+        Button btnDrop = (Button) root.findViewById(R.id.btn_Drop);
+        Button btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
         txtUnknownRiders = (TextView) root.findViewById(R.id.txtUnknownRiders);
         btnDefect.setOnClickListener(this);
         btnDNC.setOnClickListener(this);
