@@ -257,7 +257,8 @@ public final class APIClient {
     }
 
     public static void postToAPI(String url, RequestParams params) {
-        Looper.prepare();
+        if(Looper.myLooper() == null)
+            Looper.prepare();
         uiHandler =  new Handler();
         APIClient.post(url, null, new JsonHttpResponseHandler() {
             @Override
@@ -285,7 +286,8 @@ public final class APIClient {
     }
 
     public static<T> T getStateFromAPI(String url, RequestParams params) {
-        Looper.prepare();
+        if(Looper.myLooper() == null)
+            Looper.prepare();
         uiHandler =  new Handler();
         T[] response = (T[])new Object[1];
         APIClient.get(url, null, new JsonHttpResponseHandler() {
