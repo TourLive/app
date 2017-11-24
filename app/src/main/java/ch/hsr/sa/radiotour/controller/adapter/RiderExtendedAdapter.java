@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
-import android.util.TimeUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
