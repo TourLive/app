@@ -25,6 +25,7 @@ import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
+import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
@@ -32,7 +33,6 @@ import io.realm.RealmList;
 public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
     private String judgementID;
     private Judgement judgement;
-    private RecyclerView rvRidersToSelect;
     private RiderBasicAdapter riderBasicAdapter;
     private TextView rankOne;
     private TextView rankTwo;
@@ -44,7 +44,6 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView rankThreeTxt;
     private TextView rankFourTxt;
     private TextView rankFiveTxt;
-    private TextView title;
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
     private Reward rewardM;
@@ -56,10 +55,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         judgementID = getArguments().getString("id");
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
 
-        title = (TextView) root.findViewById(R.id.titleJudgements2);
+        TextView title = (TextView) root.findViewById(R.id.titleJudgements2);
         title.setText(judgement.getDistance() + " | " + judgement.getName());
 
-        rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
+
+        RecyclerView rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
         riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned());
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
@@ -204,13 +204,12 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             rewardM = RewardPresenter.getInstance().getRewardReturnedByJudgment(JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID));
             RiderStageConnection riderStageConnection = new RiderStageConnection();
             riderStageConnection.setId(RiderStageConnectionPresenter.getInstance().getRiderByRank(RiderPresenter.getInstance().getRiderByStartNr(r).getRiderStages().first().getRank()).getId());
-            switch(rewardM.getType()) {
-                case TIME:
-                    riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
-                    break;
-                case POINTS:
-                    riderStageConnection.setBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
-                    break;
+            if (rewardM.getType() == RewardType.TIME) {
+                riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+            } else if (rewardM.getType() == RewardType.POINTS) {
+                riderStageConnection.setBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+            } else {
+                Log.d(JudgmentDetailFragment.class.getSimpleName(), "APP - CALCULATE - UNSUPPORTED TYPE");
             }
             riderStageConnection.setMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, rewardM));
             RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionReward(riderStageConnection);
