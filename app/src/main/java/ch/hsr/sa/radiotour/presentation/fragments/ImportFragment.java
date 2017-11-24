@@ -22,8 +22,11 @@ import android.widget.TextView;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,9 +38,14 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
+import ch.hsr.sa.radiotour.dataaccess.RealmModul;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btnImport;
+    private Button btnDemo;
     private TextView gpsView;
     private TextView serverView;
     private TextView raceIdView;
@@ -54,6 +62,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private static int updateTime = 5000;
     private static int delayTime = 10000;
 
+    private final static String DEMOREALM = "demorealm.realm";
+    private final static String DEMODATA = "DemoRealm.realm";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","ImportFragment onCreateView");
@@ -61,6 +72,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
         btnImport = (Button) root.findViewById(R.id.btn_Import);
         btnImport.setOnClickListener(this);
+
+        btnDemo = (Button) root.findViewById(R.id.btn_ImportDemodata);
+        btnDemo.setOnClickListener(this);
 
         gpsView = (TextView) root.findViewById(R.id.circleGPS);
         serverView = (TextView) root.findViewById(R.id.circleServer);
@@ -131,6 +145,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     .setPositiveButton(android.R.string.ok,null)
                     .create()
                     .show();
+            }
+        }
+        if(v == btnDemo){
+            try {
+                restore();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -244,5 +265,47 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void restore() throws IOException {
+        copyBundledRealmFile();
+        RealmConfiguration config = new RealmConfiguration.Builder().
+                name(DEMOREALM).
+                deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
+                build();
+
+        RadioTourApplication.setInstance(config);
+
+        RiderPresenter.getInstance().getAllRiders();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
+        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+        JudgmentPresenter.getInstance().getAllJudgments();
+        MaillotPresenter.getInstance().getAllMaillots();
+    }
+
+    private String copyBundledRealmFile() {
+        try {
+            Realm realm = Realm.getDefaultInstance();
+            realm.removeAllChangeListeners();
+            realm.close();
+
+            File file = new File(getContext().getFilesDir(), DEMOREALM);
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            InputStream is = getContext().getAssets().open(DEMODATA);
+
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
