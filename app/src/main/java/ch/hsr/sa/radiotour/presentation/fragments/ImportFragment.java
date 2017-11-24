@@ -51,7 +51,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
-    private static int updateTime = 30000;
+    private static int updateTime = 5000;
     private static int delayTime = 10000;
 
     @Override
@@ -86,15 +86,15 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         JSONArray settings = APIClient.getDataFromAPI(UrlLink.GLOBALSETTINGS, null);
         if(settings == null) {
             updateDrawable(serverView, false);
-            stageIdView.setText(R.string.import_actual_not_available);
-            raceIdView.setText(R.string.import_actual_not_available);
+            setText(stageIdView, getResources().getString(R.string.import_actual_not_available));
+            setText(raceIdView, getResources().getString(R.string.import_actual_not_available));
         } else {
             try {
                 updateDrawable(serverView, true);
                 JSONObject settingsJSONObject= settings.getJSONObject(0);
-                stageIdView.setText(settingsJSONObject.getInt(PARAMETER));
+                setText(stageIdView, settingsJSONObject.getString(PARAMETER));
                 settingsJSONObject = settings.getJSONObject(1);
-                raceIdView.setText(settingsJSONObject.getInt(PARAMETER));
+                setText(raceIdView, settingsJSONObject.getString(PARAMETER));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -104,11 +104,15 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private void updateDrawable(View view, Boolean active){
         GradientDrawable drawable = (GradientDrawable) view.getBackground();
         if(active) {
-            drawable.setColor(ContextCompat.getColor(getContext(), R.color.green));
+            uiHandler.post(() -> drawable.setColor(ContextCompat.getColor(getContext(), R.color.green)));
         }
         else {
-            drawable.setColor(ContextCompat.getColor(getContext(), R.color.colorRed));
+            uiHandler.post(() -> drawable.setColor(ContextCompat.getColor(getContext(), R.color.colorRed)));
         }
+    }
+
+    private void setText(TextView view, String text){
+        uiHandler.post(() -> view.setText(text));
     }
 
     @Override
