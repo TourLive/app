@@ -31,6 +31,18 @@
         app:layout_constraintTop_toBottomOf="@+id/txt_GlobalSettings" />
 
     <View
+        android:id="@+id/spacerTitle5"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/border_bottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/txt_Copryright" />
+
+    <View
         android:id="@+id/spacerLeftRight"
         android:layout_width="1dp"
         android:layout_height="0dp"
@@ -368,5 +380,37 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_begin="683dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="326dp" />
+
+    <TextView
+        android:id="@+id/txt_Copryright"
+        style="@style/HeaderTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_hint_copyright"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+
+    <TextView
+        android:id="@+id/txtCopyrightValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/import_copyright"
+        android:textSize="@dimen/text_size_undertitle"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitle5" />
 
 </android.support.constraint.ConstraintLayout>
