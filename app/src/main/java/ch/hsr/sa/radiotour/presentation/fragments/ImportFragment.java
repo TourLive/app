@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -64,6 +65,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
     private final static String DEMOREALM = "demorealm.realm";
     private final static String DEMODATA = "DemoRealm.realm";
+    private final static String REALREAM = "radiotour.realm";
+    private boolean demoMode = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -148,10 +151,30 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             }
         }
         if(v == btnDemo){
-            try {
-                restore();
-            } catch (IOException e) {
-                e.printStackTrace();
+            if(demoMode){
+                RealmConfiguration config = new RealmConfiguration.Builder().
+                        name(REALREAM).
+                        deleteRealmIfMigrationNeeded().
+                        modules(new RealmModul()).
+                        build();
+
+                RadioTourApplication.setInstance(config);
+
+                RiderPresenter.getInstance().getAllRiders();
+                RaceGroupPresenter.getInstance().getAllRaceGroups();
+                RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+                JudgmentPresenter.getInstance().getAllJudgments();
+                MaillotPresenter.getInstance().getAllMaillots();
+                demoMode = false;
+            } else {
+                try {
+                    loadDataForDemoMode();
+                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+                    btnDemo.setText("Demo Mode aktiviert");
+                    demoMode = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -267,7 +290,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void restore() throws IOException {
+    public void loadDataForDemoMode() throws IOException {
         copyBundledRealmFile();
         RealmConfiguration config = new RealmConfiguration.Builder().
                 name(DEMOREALM).
