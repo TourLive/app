@@ -257,7 +257,7 @@ public final class APIClient {
     }
 
     public static void postToAPI(String url, RequestParams params) {
-        if((Looper.getMainLooper().getThread() != Thread.currentThread()))
+        if(Looper.myLooper() == null)
             Looper.prepare();
         uiHandler =  new Handler();
         APIClient.post(url, null, new JsonHttpResponseHandler() {
@@ -286,7 +286,7 @@ public final class APIClient {
     }
 
     public static<T> T getStateFromAPI(String url, RequestParams params) {
-        if((Looper.getMainLooper().getThread() != Thread.currentThread()))
+        if(Looper.myLooper() == null)
             Looper.prepare();
         uiHandler =  new Handler();
         T[] response = (T[])new Object[1];
