@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
@@ -25,25 +26,24 @@ import io.realm.RealmList;
 public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.RiderViewHolder> {
 
     private RealmList<Rider> riders;
-    private android.content.Context context;
+    private Context context;
     private RealmList<Rider> selectedRiders;
     private ArrayList<View> selectedViews;
     private HashMap<Integer, RiderViewHolder> holderHashMap;
 
 
-    public RiderEditAdapter(RealmList<Rider> riders) {
+    public RiderEditAdapter(RealmList<Rider> riders, Context context) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.selectedRiders = new RealmList<>();
         this.selectedViews = new ArrayList<>();
         this.holderHashMap = new HashMap<>();
+        this.context = context;
     }
 
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider_edit, parent, false);
-        RiderViewHolder holder = new RiderViewHolder(view);
-        context = parent.getContext();
-        return holder;
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_item_rider_edit, parent, false);
+        return new RiderViewHolder(view);
     }
 
     @Override

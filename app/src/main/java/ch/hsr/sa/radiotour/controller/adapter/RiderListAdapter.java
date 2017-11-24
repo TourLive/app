@@ -37,9 +37,8 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     @Override
     public RiderViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider, parent, false);
-        RiderViewHolder holder = new RiderViewHolder(view);
-        return holder;
+        View view = LayoutInflater.from(context).inflate(R.layout.layout_item_rider, parent, false);
+        return new RiderViewHolder(view);
     }
 
     @Override
@@ -94,6 +93,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
             case QUIT:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);
+                break;
             case DNC:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 tvNumber.setTextColor(ContextCompat.getColor(context, R.color.colorGrayMiddle));
