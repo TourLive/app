@@ -58,13 +58,17 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","ImportFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_import, container, false);
+
         btnImport = (Button) root.findViewById(R.id.btn_Import);
         btnImport.setOnClickListener(this);
+
         gpsView = (TextView) root.findViewById(R.id.circleGPS);
         serverView = (TextView) root.findViewById(R.id.circleServer);
         raceIdView = (TextView) root.findViewById(R.id.txtActualRaceIdValue);
         stageIdView = (TextView) root.findViewById(R.id.txtActualStageIdValue);
+
         progressBar = new ProgressDialog(getActivity());
+
         timerForUpdate = new Timer();
         timerTaskForUpdate = new TimerTask() {
             @Override
@@ -78,11 +82,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
     private void updateViews(){
         LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-            updateDrawable(gpsView, true);
-        } else {
-            updateDrawable(gpsView, false);
-        }
+        Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
+        updateDrawable(gpsView, active);
+
         JSONArray settings = APIClient.getDataFromAPI(UrlLink.GLOBALSETTINGS, null);
         if(settings == null) {
             updateDrawable(serverView, false);
@@ -103,12 +105,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
     private void updateDrawable(View view, Boolean active){
         GradientDrawable drawable = (GradientDrawable) view.getBackground();
-        if(active) {
-            uiHandler.post(() -> drawable.setColor(ContextCompat.getColor(getContext(), R.color.green)));
-        }
-        else {
-            uiHandler.post(() -> drawable.setColor(ContextCompat.getColor(getContext(), R.color.colorRed)));
-        }
+        int color = active ? ContextCompat.getColor(getContext(), R.color.green) : ContextCompat.getColor(getContext(), R.color.colorRed);
+        uiHandler.post(() -> drawable.setColor(color));
     }
 
     private void setText(TextView view, String text){
