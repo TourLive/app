@@ -66,7 +66,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
-        rvRider.setAdapter(new RiderEditAdapter(riders));
+        rvRider.setAdapter(new RiderEditAdapter(riders, mContext));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
         initButtons(root);
@@ -99,7 +99,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
 
     public void showRiders(final RealmList<Rider> riders) {
         this.riders = riders;
-        adapter = new RiderEditAdapter(riders);
+        adapter = new RiderEditAdapter(riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
