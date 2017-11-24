@@ -165,6 +165,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
                 JudgmentPresenter.getInstance().getAllJudgments();
                 MaillotPresenter.getInstance().getAllMaillots();
+                btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
+                btnDemo.setText("Demodaten laden");
                 demoMode = false;
             } else {
                 try {
