@@ -265,7 +265,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     updateUIInfos();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                     Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
             }
@@ -327,7 +326,7 @@ public class MainActivity extends AppCompatActivity {
                     raceKilometerField = (float)temp.getDouble(RACEKILOMETER);
                     officialSpeedField = (float)temp.getDouble(SPEED);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
 
                 if(officialSpeedRadioTour != 0) { officalGapTopRadioTour = (raceKilometerTop - raceKilometerRadioTour) / officialSpeedRadioTour; }
