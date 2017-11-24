@@ -53,6 +53,10 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         return riders.get(position).getRiderStages().first().getType();
     }
 
+    public int getItemStartNr (int pos) {
+        return riders.get(pos).getStartNr();
+    }
+
     @Override
     public int getItemCount() {
         return riders.size();
