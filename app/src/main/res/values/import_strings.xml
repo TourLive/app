@@ -20,7 +20,7 @@
     <string name="import_status_error">Das Tablet kann aktuell keine Verbindung zum Server aufbauen</string>
     <string name="import_connection_to_server">Verbindung zum Server</string>
     <string name="import_gps_connection">GPS Empfang</string>
-    <string name="import_global_config">Gloable Einstellungen</string>
+    <string name="import_global_config">Globale Einstellungen</string>
     <string name="import_actual_raceid">Aktuelle RaceID</string>
     <string name="import_actual_stageid">Aktuelle EtappenID</string>
     <string name="import_hint_copyright">Copyright Hinweise</string>
