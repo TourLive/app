@@ -100,6 +100,28 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         adapter = new RiderEditAdapter(riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
         rvRider.setLayoutManager(mLayoutManager);
+        number = UIUtilitis.getCountsPerLine(riders);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int startNumber = adapter.getItemStartNr(position);
+                int nextStartNumber;
+                if (adapter.getItemCount() > position + 1) {
+                    nextStartNumber = adapter.getItemStartNr(position + 1);
+                } else {
+                    nextStartNumber = LASTNUMBER;
+                }
+
+                int firstStartNumber = UIUtilitis.getFirstDigit(startNumber);
+                int firstNextStartNumber = UIUtilitis.getFirstDigit(nextStartNumber);
+                int divFirst = firstNextStartNumber - firstStartNumber;
+                int sizeSpan = number.get(firstStartNumber);
+                if (sizeSpan < SPAN && divFirst > 0) {
+                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
+                }
+                return 1;
+            }
+        });
         rvRider.setAdapter(adapter);
     }
 
