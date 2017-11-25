@@ -36,4 +36,6 @@ public class RadioTourApplication extends Application {
     public static RealmConfiguration getInstance() {
         return realmConfig;
     }
+
+    public static void setInstance(RealmConfiguration realmConfigNew) { realmConfig = realmConfigNew;}
 }
