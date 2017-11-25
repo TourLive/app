@@ -10,10 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
