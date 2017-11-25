@@ -96,8 +96,10 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
         RaceGroup realmRemoveGroup = realm.where(RaceGroup.class).equalTo("riders.id", newRiders.get(0).getId()).findFirst();
-        for (Rider r : riders) {
-            realmRemoveGroup.removeRider(r);
+        if(realmRemoveGroup != null){
+            for (Rider r : riders) {
+                realmRemoveGroup.removeRider(r);
+            }
         }
         realm.commitTransaction();
 
@@ -106,7 +108,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realmRaceGroup.appendRiders(riders);
         realm.commitTransaction();
 
-        if(realmRemoveGroup.getRiders().isEmpty()){
+        if(realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()){
             deleteRaceGroup(realmRemoveGroup);
         }
 
