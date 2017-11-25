@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import de.codecrafters.tableview.TableDataAdapter;
@@ -35,11 +36,10 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 view = setTextToView(String.valueOf(rider.getStartNr()));
                 break;
             case 3:
-                ImageView imageView = new ImageView(context);
-                imageView.setImageResource(UIUtilitis.getCountryFlag(rider.getCountry()));
-                imageView.setLayoutParams(new LinearLayout.LayoutParams(4, 4));
-                imageView.setAdjustViewBounds(false);
-                view = imageView;
+                view = getLayoutInflater().inflate(R.layout.table_cell_image, parentView, false);
+                final ImageView imageView = (ImageView) view.findViewById(R.id.imageViewCountry);
+                imageView.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
+                imageView.setAdjustViewBounds(true);
                 break;
             case 4:
                 view = setTextToView(String.valueOf(rider.getCountry()));
