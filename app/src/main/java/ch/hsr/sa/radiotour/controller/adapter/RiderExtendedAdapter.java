@@ -34,35 +34,35 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 0:
                 view = setTextToView(String.valueOf(rider.getStartNr()));
                 break;
-            case 1:
+            case 3:
                 ImageView imageView = new ImageView(context);
                 imageView.setImageResource(UIUtilitis.getCountryFlag(rider.getCountry()));
                 imageView.setLayoutParams(new LinearLayout.LayoutParams(4, 4));
-                imageView.setAdjustViewBounds(true);
+                imageView.setAdjustViewBounds(false);
                 view = imageView;
                 break;
-            case 2:
+            case 4:
                 view = setTextToView(String.valueOf(rider.getCountry()));
                 break;
-            case 3:
+            case 1:
                 view = setTextToView(String.valueOf(rider.getName()));
                 break;
-            case 4:
+            case 2:
                 view = setTextToView(String.valueOf(rider.getTeamShortName()));
                 break;
-            case 5:
+            case 8:
                 view = setTextToView(String.valueOf(rider.getBonusPoint()));
                 break;
-            case 6:
+            case 9:
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 7:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getVirtualGap().getTime())));
                 break;
-            case 8:
+            case 6:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialGap().getTime())));
                 break;
-            case 9:
+            case 5:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialTime().getTime())));
                 break;
             default:
