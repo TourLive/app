@@ -3,6 +3,9 @@
     <string name="import_data">DATEN IMPORTIEREN</string>
     <string name="import_demomode">Demomode</string>
     <string name="import_demodata">Demodaten laden</string>
+    <string name="import_demomode_active">Demomodus aktiv, um zu verlassen nochmals drücken</string>
+    <string name="import_demomode_leave">Demomodus verlassen</string>
+    <string name="import_demomode_activated">Demomodus aktiviert</string>
     <string name="import_config">Konfiguration</string>
     <string name="import_secret">Shared Secret</string>
     <string name="import_delete_data">AKTUELLE DATEN LÖSCHEN</string>
