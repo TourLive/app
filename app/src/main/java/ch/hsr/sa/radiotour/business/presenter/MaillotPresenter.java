@@ -59,7 +59,7 @@ public class MaillotPresenter implements IMaillotPresenter {
 
             @Override
             public void onError(String message) {
-
+                // Not needed and therefore not implemented
             }
         };
     }
