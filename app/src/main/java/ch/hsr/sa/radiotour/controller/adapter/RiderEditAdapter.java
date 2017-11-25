@@ -58,6 +58,10 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         return riders.get(position).getRiderStages().first().getType();
     }
 
+    public int getItemStartNr (int pos) {
+        return riders.get(pos).getStartNr();
+    }
+
     public void animateRiderInGroup(TextView tvNumber, Integer startNr){
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
         if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
