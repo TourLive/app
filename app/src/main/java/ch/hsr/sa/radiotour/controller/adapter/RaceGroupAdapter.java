@@ -131,6 +131,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
                         if(raceGroup.getType() == RaceGroupType.FELD){
+                            if(newRiders.size() == 1 && newRiders.first().getTeamName().equals("UNKNOWN")){
+                                RiderPresenter.getInstance().removeRider(newRiders.first());
+                                RaceGroupPresenter.getInstance().getAllRaceGroups();
+                                return true;
+                            }
                             List<Rider> iteratorCopy = Realm.getInstance(RadioTourApplication.getInstance()).copyFromRealm(newRiders);
                             for(Rider r : iteratorCopy){
                                 if(r.getTeamName().equals("UNKNOWN")){
