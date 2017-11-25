@@ -14,13 +14,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
@@ -123,6 +127,19 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
+                        if(raceGroup.getType() == RaceGroupType.FELD){
+                            if(newRiders.size() == 1 && newRiders.first().getTeamName().equals("UNKNOWN")){
+                                RiderPresenter.getInstance().removeRider(newRiders.first());
+                                RaceGroupPresenter.getInstance().getAllRaceGroups();
+                                return true;
+                            }
+                            List<Rider> iteratorCopy = Realm.getInstance(RadioTourApplication.getInstance()).copyFromRealm(newRiders);
+                            for(Rider r : iteratorCopy){
+                                if(r.getTeamName().equals("UNKNOWN")){
+                                    RiderPresenter.getInstance().removeRider(r);
+                                }
+                            }
+                        }
                         RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;
