@@ -97,8 +97,8 @@ public class MainActivity extends AppCompatActivity {
     private static int delayZero = 0;
     private static int minDistanceChange = 0;
 
-    private static String SOURCES = "sources";
-    private static String RACEKILOMETER = "rennkilometer";
+    private static String sources = "sources";
+    private static String raceKilometer = "rennkilometer";
     private static String SPEED = "speed";
 
     public static MainActivity getInstance() {
@@ -180,17 +180,12 @@ public class MainActivity extends AppCompatActivity {
                 startStopView.setBackgroundColor(getColor(R.color.colorOlive));
                 if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
                     locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
-                    locationManager.addNmeaListener(new OnNmeaMessageListener() {
-                        @Override
-                        public void onNmeaMessage(String message, long timestamp) {
-                            if (message.startsWith("$")) {
-                                String[] tokens = message.split(",");
-                                String type = tokens[0];
-                                if (type.startsWith("$GPGGA")) {
-                                    if (!tokens[11].isEmpty()) {
-                                        correctionHeight = Double.parseDouble(tokens[11]);
-                                    }
-                                }
+                    locationManager.addNmeaListener((OnNmeaMessageListener) (message, timestamp) -> {
+                        if (message.startsWith("$")) {
+                            String[] tokens = message.split(",");
+                            String type = tokens[0];
+                            if (type.startsWith("$GPGGA") && !tokens[11].isEmpty()) {
+                                correctionHeight = Double.parseDouble(tokens[11]);
                             }
                         }
                     });
@@ -265,7 +260,6 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     updateUIInfos();
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
                     Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
             }
@@ -317,17 +311,17 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
                 if(gpsData == null) return;
                 try {
-                    JSONArray gpsInfoArray = gpsData.getJSONArray(SOURCES);
+                    JSONArray gpsInfoArray = gpsData.getJSONArray(sources);
                     temp = gpsInfoArray.getJSONObject(2);
-                    raceKilometerTop = (float)temp.getDouble(RACEKILOMETER);
+                    raceKilometerTop = (float)temp.getDouble(raceKilometer);
                     temp = gpsInfoArray.getJSONObject(3);
-                    raceKilometerRadioTour = (float)temp.getDouble(RACEKILOMETER);
+                    raceKilometerRadioTour = (float)temp.getDouble(raceKilometer);
                     officialSpeedRadioTour = (float)temp.getDouble(SPEED);
                     temp = gpsInfoArray.getJSONObject(4);
-                    raceKilometerField = (float)temp.getDouble(RACEKILOMETER);
+                    raceKilometerField = (float)temp.getDouble(raceKilometer);
                     officialSpeedField = (float)temp.getDouble(SPEED);
                 } catch (JSONException e) {
-                    e.printStackTrace();
+                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
 
                 if(officialSpeedRadioTour != 0) { officalGapTopRadioTour = (raceKilometerTop - raceKilometerRadioTour) / officialSpeedRadioTour; }

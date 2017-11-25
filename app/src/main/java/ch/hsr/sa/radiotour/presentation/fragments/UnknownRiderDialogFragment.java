@@ -8,8 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
-import android.widget.SeekBar;
-import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 

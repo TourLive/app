@@ -11,6 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
@@ -20,6 +24,7 @@ import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment {
@@ -30,6 +35,9 @@ public class RaceFragment extends Fragment {
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
     private Context mContext;
+    private HashMap<Integer, Integer> number = new HashMap<>();
+    private static final int SPAN = 8;
+    private static final int LASTNUMBER = 300;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +68,28 @@ public class RaceFragment extends Fragment {
         this.riders.addAll(riderRealmList);
         this.riderAdapter = new RiderListAdapter(this.riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 8);
+        number = UIUtilitis.getCountsPerLine(riders);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int startNumber = riderAdapter.getItemStartNr(position);
+                int nextStartNumber;
+                if (riderAdapter.getItemCount() > position + 1) {
+                    nextStartNumber = riderAdapter.getItemStartNr(position + 1);
+                } else {
+                    nextStartNumber = LASTNUMBER;
+                }
+
+                int firstStartNumber = UIUtilitis.getFirstDigit(startNumber);
+                int firstNextStartNumber = UIUtilitis.getFirstDigit(nextStartNumber);
+                int divFirst = firstNextStartNumber - firstStartNumber;
+                int sizeSpan = number.get(firstStartNumber);
+                if (sizeSpan < SPAN && divFirst > 0) {
+                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
+                }
+                return 1;
+            }
+        });
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.swapAdapter(riderAdapter,true);
         rvRider.scrollBy(0,0);

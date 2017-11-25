@@ -117,7 +117,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 settingsJSONObject = settings.getJSONObject(1);
                 setText(raceIdView, settingsJSONObject.getString(PARAMETER));
             } catch (JSONException e) {
-                e.printStackTrace();
+                Log.d(ImportFragment.class.getSimpleName(), "APP - UI - " + e.getMessage());
             }
         }
     }

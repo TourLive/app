@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
@@ -30,6 +31,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
@@ -42,16 +44,12 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private LittleRaceGroupAdapter raceGroupAdapter;
     private RecyclerView rvRider;
     private RecyclerView rvRaceGroup;
-    private Button btnDoctor;
-    private Button btnDNC;
-    private Button btnDefect;
-    private Button btnQuit;
-    private Button btnDrop;
-    private Button btnUnknownRiders;
     private TextView txtUnknownRiders;
-    private static final Integer SLEEP_TIME = 10000;
     private Context mContext;
     private Handler stateHandler = new Handler();
+    private HashMap<Integer, Integer> number = new HashMap<>();
+    private static final int SPAN = 8;
+    private static final int LASTNUMBER = 300;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -66,19 +64,19 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
-        rvRider.setAdapter(new RiderEditAdapter(riders));
+        rvRider.setAdapter(new RiderEditAdapter(riders, mContext));
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
         initButtons(root);
     }
 
     private void initButtons(View root) {
-        btnDefect = (Button) root.findViewById(R.id.btn_Defect);
-        btnDNC = (Button) root.findViewById(R.id.btn_DNC);
-        btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
-        btnQuit = (Button) root.findViewById(R.id.btn_Quit);
-        btnDrop = (Button) root.findViewById(R.id.btn_Drop);
-        btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
+        Button btnDefect = (Button) root.findViewById(R.id.btn_Defect);
+        Button btnDNC = (Button) root.findViewById(R.id.btn_DNC);
+        Button btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
+        Button btnQuit = (Button) root.findViewById(R.id.btn_Quit);
+        Button btnDrop = (Button) root.findViewById(R.id.btn_Drop);
+        Button btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
         txtUnknownRiders = (TextView) root.findViewById(R.id.txtUnknownRiders);
         btnDefect.setOnClickListener(this);
         btnDNC.setOnClickListener(this);
@@ -99,8 +97,30 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
 
     public void showRiders(final RealmList<Rider> riders) {
         this.riders = riders;
-        adapter = new RiderEditAdapter(riders);
+        adapter = new RiderEditAdapter(riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
+        number = UIUtilitis.getCountsPerLine(riders);
+        mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+            @Override
+            public int getSpanSize(int position) {
+                int startNumber = adapter.getItemStartNr(position);
+                int nextStartNumber;
+                if (adapter.getItemCount() > position + 1) {
+                    nextStartNumber = adapter.getItemStartNr(position + 1);
+                } else {
+                    nextStartNumber = LASTNUMBER;
+                }
+
+                int firstStartNumber = UIUtilitis.getFirstDigit(startNumber);
+                int firstNextStartNumber = UIUtilitis.getFirstDigit(nextStartNumber);
+                int divFirst = firstNextStartNumber - firstStartNumber;
+                int sizeSpan = number.get(firstStartNumber);
+                if (sizeSpan < SPAN && divFirst > 0) {
+                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
+                }
+                return 1;
+            }
+        });
         rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
     }

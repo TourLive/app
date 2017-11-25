@@ -65,14 +65,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
             public void onSuccess(RealmList<RaceGroup> raceGroups) {
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        handler.post(() -> {
-                            ((RaceFragment) frag).showRaceGroups(raceGroups);
-                        });
+                        handler.post(() -> ((RaceFragment) frag).showRaceGroups(raceGroups));
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        handler.post(() -> {
-                            ((RiderRaceGroupFragment) frag).showRaceGroups(raceGroups);
-                        });
+                        handler.post(() -> ((RiderRaceGroupFragment) frag).showRaceGroups(raceGroups));
                     }
                 }
             }
@@ -88,14 +84,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        handler.post(() -> {
-                            ((RaceFragment) frag).addRaceGroupToList();
-                        });
+                        handler.post(() -> ((RaceFragment) frag).addRaceGroupToList());
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        handler.post(() -> {
-                            ((RiderRaceGroupFragment) frag).addRaceGroupToList();
-                        });
+                        handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList());
                     }
                 }
             }
