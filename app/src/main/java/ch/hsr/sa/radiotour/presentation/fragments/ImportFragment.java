@@ -64,9 +64,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private static int updateTime = 5000;
     private static int delayTime = 10000;
 
-    private final static String DEMOREALM = "demorealm.realm";
-    private final static String DEMODATA = "DemoRealm.realm";
-    private final static String REALREAM = "radiotour.realm";
+    private static final String DEMOREALM = "demorealm.realm";
+    private static final String DEMODATA = "DemoRealm.realm";
+    private static final String REALREAM = "radiotour.realm";
     private boolean demoMode;
 
     @Override
@@ -165,7 +165,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     demoMode = false;
                     APIClient.setDemoMode(demoMode);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE - " + e.getMessage());
                 }
             } else {
                 try {
@@ -179,7 +179,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     demoMode = true;
                     APIClient.setDemoMode(demoMode);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Log.d(ImportFragment.class.getSimpleName(), "APP - MAINMODE - " + e.getMessage());
                 }
             }
         }
@@ -319,7 +319,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         updateUI();
     }
 
-    private String copyBundledRealmFile() {
+    private String copyBundledRealmFile() throws IOException {
+        FileOutputStream outputStream = null;
+        InputStream is = null;
         try {
             Realm realm = Realm.getDefaultInstance();
             realm.removeAllChangeListeners();
@@ -327,19 +329,21 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
             File file = new File(getContext().getFilesDir(), DEMOREALM);
 
-            FileOutputStream outputStream = new FileOutputStream(file);
+            outputStream = new FileOutputStream(file);
 
-            InputStream is = getContext().getAssets().open(DEMODATA);
+            is = getContext().getAssets().open(DEMODATA);
 
             byte[] buf = new byte[1024];
             int bytesRead;
             while ((bytesRead = is.read(buf)) > 0) {
                 outputStream.write(buf, 0, bytesRead);
             }
-            outputStream.close();
             return file.getAbsolutePath();
         } catch (IOException e) {
-            e.printStackTrace();
+            Log.d(ImportFragment.class.getSimpleName(), "APP - FILECOPY - " + e.getMessage());
+        } finally {
+            outputStream.close();
+            is.close();
         }
         return null;
     }

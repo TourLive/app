@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import de.codecrafters.tableview.TableDataAdapter;
@@ -34,35 +35,34 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 0:
                 view = setTextToView(String.valueOf(rider.getStartNr()));
                 break;
-            case 1:
-                ImageView imageView = new ImageView(context);
-                imageView.setImageResource(UIUtilitis.getCountryFlag(rider.getCountry()));
-                imageView.setLayoutParams(new LinearLayout.LayoutParams(4, 4));
-                imageView.setAdjustViewBounds(true);
-                view = imageView;
-                break;
-            case 2:
-                view = setTextToView(String.valueOf(rider.getCountry()));
-                break;
             case 3:
-                view = setTextToView(String.valueOf(rider.getName()));
+                view = getLayoutInflater().inflate(R.layout.table_cell_image, parentView, false);
+                final ImageView imageView = (ImageView) view.findViewById(R.id.imageViewCountry);
+                imageView.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
+                imageView.setAdjustViewBounds(true);
                 break;
             case 4:
+                view = setTextToView(String.valueOf(rider.getCountry()));
+                break;
+            case 1:
+                view = setTextToView(String.valueOf(rider.getName()));
+                break;
+            case 2:
                 view = setTextToView(String.valueOf(rider.getTeamShortName()));
                 break;
-            case 5:
+            case 8:
                 view = setTextToView(String.valueOf(rider.getBonusPoint()));
                 break;
-            case 6:
+            case 9:
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 7:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getVirtualGap().getTime())));
                 break;
-            case 8:
+            case 6:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialGap().getTime())));
                 break;
-            case 9:
+            case 5:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialTime().getTime())));
                 break;
             default:
