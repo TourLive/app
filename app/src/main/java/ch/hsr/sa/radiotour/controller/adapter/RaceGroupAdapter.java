@@ -3,10 +3,12 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +16,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.Collections;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
     private RealmList<RaceGroup> raceGroups;
@@ -123,6 +130,15 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
+                        if(raceGroup.getType() == RaceGroupType.FELD){
+                            List<Rider> iteratorCopy = Realm.getInstance(RadioTourApplication.getInstance()).copyFromRealm(newRiders);
+                            for(Rider r : iteratorCopy){
+                                if(r.getTeamName().equals("UNKNOWN")){
+                                    RiderPresenter.getInstance().removeRider(r);
+                                    Log.d("removed", "rider");
+                                }
+                            }
+                        }
                         RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;
