@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
@@ -30,6 +31,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
@@ -45,6 +47,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private TextView txtUnknownRiders;
     private Context mContext;
     private Handler stateHandler = new Handler();
+    private HashMap<Integer, Integer> number = new HashMap<>();
+    private static final int SPAN = 8;
+    private static final int LASTNUMBER = 300;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
