@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static String sources = "sources";
     private static String raceKilometer = "rennkilometer";
-    private static String SPEED = "speed";
+    private static String speed = "speed";
 
     public static MainActivity getInstance() {
         return activity;
@@ -257,11 +257,7 @@ public class MainActivity extends AppCompatActivity {
         timerTaskForUpdate = new TimerTask() {
             @Override
             public void run() {
-                try {
-                    updateUIInfos();
-                } catch (InterruptedException e) {
-                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
-                }
+                updateUIInfos();
             }
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
@@ -305,7 +301,7 @@ public class MainActivity extends AppCompatActivity {
         viewPageAdapter.addFragment(new ImportFragment(), getString(R.string.header_import_data));
     }
 
-    private void updateUIInfos() throws InterruptedException {
+    private void updateUIInfos() {
         new Thread(() -> {
                 JSONObject temp = new JSONObject();
                 JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
@@ -316,10 +312,10 @@ public class MainActivity extends AppCompatActivity {
                     raceKilometerTop = (float)temp.getDouble(raceKilometer);
                     temp = gpsInfoArray.getJSONObject(3);
                     raceKilometerRadioTour = (float)temp.getDouble(raceKilometer);
-                    officialSpeedRadioTour = (float)temp.getDouble(SPEED);
+                    officialSpeedRadioTour = (float)temp.getDouble(speed);
                     temp = gpsInfoArray.getJSONObject(4);
                     raceKilometerField = (float)temp.getDouble(raceKilometer);
-                    officialSpeedField = (float)temp.getDouble(SPEED);
+                    officialSpeedField = (float)temp.getDouble(speed);
                 } catch (JSONException e) {
                     Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
                 }
