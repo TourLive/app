@@ -24,6 +24,7 @@ import ch.hsr.sa.radiotour.controller.adapter.RiderListAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment {
@@ -67,7 +68,7 @@ public class RaceFragment extends Fragment {
         this.riders.addAll(riderRealmList);
         this.riderAdapter = new RiderListAdapter(this.riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(mContext, 8);
-        getCountsPerLine();
+        number = UIUtilitis.getCountsPerLine(riders);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
@@ -79,12 +80,12 @@ public class RaceFragment extends Fragment {
                     nextStartNumber = LASTNUMBER;
                 }
 
-                int firstStartNumber = getFirstDigit(startNumber);
-                int firstNextStartNumber = getFirstDigit(nextStartNumber);
+                int firstStartNumber = UIUtilitis.getFirstDigit(startNumber);
+                int firstNextStartNumber = UIUtilitis.getFirstDigit(nextStartNumber);
                 int divFirst = firstNextStartNumber - firstStartNumber;
                 int sizeSpan = number.get(firstStartNumber);
                 if (sizeSpan < SPAN && divFirst > 0) {
-                    return SPAN - getLastDigit(startNumber) + 1;
+                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
                 }
                 return 1;
             }
@@ -93,43 +94,6 @@ public class RaceFragment extends Fragment {
         rvRider.swapAdapter(riderAdapter,true);
         rvRider.scrollBy(0,0);
         this.riderAdapter.notifyDataSetChanged();
-    }
-
-    public void getCountsPerLine() {
-        number = new HashMap<>();
-        int size = this.riders.size();
-        if (size != 0) {
-            for (Rider r : this.riders) {
-                int startnr = r.getStartNr();
-                int firstNumber = getFirstDigit(startnr);
-                int temp = 1;
-                if (number.containsKey(firstNumber)) {
-                    temp = number.get(firstNumber) + 1;
-                }
-                number.put(firstNumber, temp);
-            }
-        }
-        number.put(30,1);
-        size = 0;
-    }
-
-    private int getLastDigit(int startNr) {
-        return startNr % 10;
-    }
-
-    private int getFirstDigit(int startNr) {
-        int firstNumber;
-        if (startNr < 10) {
-            firstNumber = 0;
-        } else {
-            String numberString = Integer.toString(startNr);
-            if (startNr < 100) {
-                firstNumber = Integer.parseInt(numberString.substring(0,1));
-            } else {
-                firstNumber = Integer.parseInt(numberString.substring(0, 2));
-            }
-        }
-        return firstNumber;
     }
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
