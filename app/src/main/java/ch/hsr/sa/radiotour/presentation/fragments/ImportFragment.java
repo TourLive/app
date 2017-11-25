@@ -13,16 +13,22 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,9 +40,14 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
+import ch.hsr.sa.radiotour.dataaccess.RealmModul;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btnImport;
+    private Button btnDemo;
     private TextView gpsView;
     private TextView serverView;
     private TextView raceIdView;
@@ -53,13 +64,22 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private static int updateTime = 5000;
     private static int delayTime = 10000;
 
+    private final static String DEMOREALM = "demorealm.realm";
+    private final static String DEMODATA = "DemoRealm.realm";
+    private final static String REALREAM = "radiotour.realm";
+    private boolean demoMode;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","ImportFragment onCreateView");
+        demoMode = false;
         View root = inflater.inflate(R.layout.fragment_import, container, false);
 
         btnImport = (Button) root.findViewById(R.id.btn_Import);
         btnImport.setOnClickListener(this);
+
+        btnDemo = (Button) root.findViewById(R.id.btn_ImportDemodata);
+        btnDemo.setOnClickListener(this);
 
         gpsView = (TextView) root.findViewById(R.id.circleGPS);
         serverView = (TextView) root.findViewById(R.id.circleServer);
@@ -130,6 +150,37 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     .setPositiveButton(android.R.string.ok,null)
                     .create()
                     .show();
+            }
+        }
+        if(v == btnDemo){
+            if(demoMode){
+                try {
+                    resetDataToImport();
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_leave), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
+                    btnDemo.setText(getResources().getText(R.string.import_demodata));
+                    btnImport.setEnabled(true);
+                    demoMode = false;
+                    APIClient.setDemoMode(demoMode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    loadDataForDemoMode();
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_activated), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+                    btnDemo.setText(getResources().getString(R.string.import_demomode_active));
+                    btnImport.setEnabled(false);
+                    demoMode = true;
+                    APIClient.setDemoMode(demoMode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -243,5 +294,61 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public void loadDataForDemoMode() throws IOException {
+        File file = new File(getContext().getFilesDir(), DEMOREALM);
+        if(!file.exists())
+            copyBundledRealmFile();
+        RealmConfiguration config = new RealmConfiguration.Builder().
+                name(DEMOREALM).
+                deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
+                build();
+        RadioTourApplication.setInstance(config);
+        updateUI();
+    }
+
+    private void resetDataToImport() throws IOException {
+        RealmConfiguration config = new RealmConfiguration.Builder().
+                name(REALREAM).
+                deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
+                build();
+        RadioTourApplication.setInstance(config);
+        updateUI();
+    }
+
+    private String copyBundledRealmFile() {
+        try {
+            Realm realm = Realm.getDefaultInstance();
+            realm.removeAllChangeListeners();
+            realm.close();
+
+            File file = new File(getContext().getFilesDir(), DEMOREALM);
+
+            FileOutputStream outputStream = new FileOutputStream(file);
+
+            InputStream is = getContext().getAssets().open(DEMODATA);
+
+            byte[] buf = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = is.read(buf)) > 0) {
+                outputStream.write(buf, 0, bytesRead);
+            }
+            outputStream.close();
+            return file.getAbsolutePath();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private void updateUI(){
+        RiderPresenter.getInstance().getAllRiders();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
+        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+        JudgmentPresenter.getInstance().getAllJudgments();
+        MaillotPresenter.getInstance().getAllMaillots();
     }
 }
