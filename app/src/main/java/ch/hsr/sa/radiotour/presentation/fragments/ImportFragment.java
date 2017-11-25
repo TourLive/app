@@ -14,11 +14,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -152,28 +154,26 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         }
         if(v == btnDemo){
             if(demoMode){
-                RealmConfiguration config = new RealmConfiguration.Builder().
-                        name(REALREAM).
-                        deleteRealmIfMigrationNeeded().
-                        modules(new RealmModul()).
-                        build();
-
-                RadioTourApplication.setInstance(config);
-
-                RiderPresenter.getInstance().getAllRiders();
-                RaceGroupPresenter.getInstance().getAllRaceGroups();
-                RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
-                JudgmentPresenter.getInstance().getAllJudgments();
-                MaillotPresenter.getInstance().getAllMaillots();
+                resetDataToImport();
+                Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_leave), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                toast.show();
                 btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
-                btnDemo.setText("Demodaten laden");
+                btnDemo.setText(getResources().getText(R.string.import_demodata));
+                btnImport.setEnabled(true);
                 demoMode = false;
+                APIClient.setDemoMode(demoMode);
             } else {
                 try {
                     loadDataForDemoMode();
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_activated), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
                     btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
-                    btnDemo.setText("Demo Mode aktiviert");
+                    btnDemo.setText(getResources().getString(R.string.import_demomode_active));
+                    btnImport.setEnabled(false);
                     demoMode = true;
+                    APIClient.setDemoMode(demoMode);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -332,5 +332,21 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private void resetDataToImport(){
+        RealmConfiguration config = new RealmConfiguration.Builder().
+                name(REALREAM).
+                deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
+                build();
+
+        RadioTourApplication.setInstance(config);
+
+        RiderPresenter.getInstance().getAllRiders();
+        RaceGroupPresenter.getInstance().getAllRaceGroups();
+        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+        JudgmentPresenter.getInstance().getAllJudgments();
+        MaillotPresenter.getInstance().getAllMaillots();
     }
 }
