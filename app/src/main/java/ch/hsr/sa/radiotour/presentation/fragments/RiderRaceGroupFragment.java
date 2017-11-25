@@ -99,7 +99,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         this.riders = riders;
         adapter = new RiderEditAdapter(riders, mContext);
         GridLayoutManager mLayoutManager = new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false);
-        rvRider.setLayoutManager(mLayoutManager);
         number = UIUtilitis.getCountsPerLine(riders);
         mLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -122,6 +121,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                 return 1;
             }
         });
+        rvRider.setLayoutManager(mLayoutManager);
         rvRider.setAdapter(adapter);
     }
 
