@@ -9,7 +9,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -68,11 +67,12 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     private final static String DEMOREALM = "demorealm.realm";
     private final static String DEMODATA = "DemoRealm.realm";
     private final static String REALREAM = "radiotour.realm";
-    private boolean demoMode = false;
+    private boolean demoMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG","ImportFragment onCreateView");
+        demoMode = false;
         View root = inflater.inflate(R.layout.fragment_import, container, false);
 
         btnImport = (Button) root.findViewById(R.id.btn_Import);
@@ -154,15 +154,19 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         }
         if(v == btnDemo){
             if(demoMode){
-                resetDataToImport();
-                Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_leave), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                toast.show();
-                btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
-                btnDemo.setText(getResources().getText(R.string.import_demodata));
-                btnImport.setEnabled(true);
-                demoMode = false;
-                APIClient.setDemoMode(demoMode);
+                try {
+                    resetDataToImport();
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_leave), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                    toast.show();
+                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
+                    btnDemo.setText(getResources().getText(R.string.import_demodata));
+                    btnImport.setEnabled(true);
+                    demoMode = false;
+                    APIClient.setDemoMode(demoMode);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             } else {
                 try {
                     loadDataForDemoMode();
@@ -293,20 +297,26 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     }
 
     public void loadDataForDemoMode() throws IOException {
-        copyBundledRealmFile();
+        File file = new File(getContext().getFilesDir(), DEMOREALM);
+        if(!file.exists())
+            copyBundledRealmFile();
         RealmConfiguration config = new RealmConfiguration.Builder().
                 name(DEMOREALM).
                 deleteRealmIfMigrationNeeded().
                 modules(new RealmModul()).
                 build();
-
         RadioTourApplication.setInstance(config);
+        updateUI();
+    }
 
-        RiderPresenter.getInstance().getAllRiders();
-        RaceGroupPresenter.getInstance().getAllRaceGroups();
-        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
-        JudgmentPresenter.getInstance().getAllJudgments();
-        MaillotPresenter.getInstance().getAllMaillots();
+    private void resetDataToImport() throws IOException {
+        RealmConfiguration config = new RealmConfiguration.Builder().
+                name(REALREAM).
+                deleteRealmIfMigrationNeeded().
+                modules(new RealmModul()).
+                build();
+        RadioTourApplication.setInstance(config);
+        updateUI();
     }
 
     private String copyBundledRealmFile() {
@@ -334,15 +344,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return null;
     }
 
-    private void resetDataToImport(){
-        RealmConfiguration config = new RealmConfiguration.Builder().
-                name(REALREAM).
-                deleteRealmIfMigrationNeeded().
-                modules(new RealmModul()).
-                build();
-
-        RadioTourApplication.setInstance(config);
-
+    private void updateUI(){
         RiderPresenter.getInstance().getAllRiders();
         RaceGroupPresenter.getInstance().getAllRaceGroups();
         RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
