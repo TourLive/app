@@ -173,6 +173,8 @@ public class RiderPresenter implements IRiderPresenter {
             riderExtended.setName(r.getName());
             riderExtended.setMoney(riderStageConnection.getMoney());
             riderExtended.setBonusPoint(riderStageConnection.getBonusPoint());
+            riderExtended.setMountainBonusPoints(riderStageConnection.getMountainBonusPoints());
+            riderExtended.setSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
             riderExtended.setCountry(r.getCountry());
             riderExtended.setTeamName(r.getTeamName());
             newRiders.add(riderExtended);

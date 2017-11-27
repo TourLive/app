@@ -21,6 +21,8 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             RiderStageConnection realmRiderStageConnection = db.createObject(RiderStageConnection.class, UUID.randomUUID().toString());
             realmRiderStageConnection.setBonusPoint(transferRiderStateConnection.getBonusPoint());
             realmRiderStageConnection.setBonusTime(transferRiderStateConnection.getBonusTime());
+            realmRiderStageConnection.setMountainBonusPoints(transferRiderStateConnection.getMountainBonusPoints());
+            realmRiderStageConnection.setSprintBonusPoints(transferRiderStateConnection.getSprintBonusPoints());
             realmRiderStageConnection.setOfficialGap(transferRiderStateConnection.getOfficialGap());
             realmRiderStageConnection.setOfficialTime(transferRiderStateConnection.getOfficialTime());
             realmRiderStageConnection.setRank(transferRiderStateConnection.getRank());
@@ -58,6 +60,8 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         realm.executeTransaction((Realm db) -> {
             RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", oldRiderStageConnection.getId()).findFirst();
             res.setBonusPoint(newRiderStageConnection.getBonusPoint());
+            res.setSprintBonusPoints(newRiderStageConnection.getSprintBonusPoints());
+            res.setMountainBonusPoints(newRiderStageConnection.getMountainBonusPoints());
             res.setBonusTime(newRiderStageConnection.getBonusTime());
             res.setVirtualGap(newRiderStageConnection.getVirtualGap());
             res.setOfficialGap(newRiderStageConnection.getOfficialGap());
@@ -76,6 +80,9 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.appendBonusPoint(riderStageConnection.getBonusPoint());
             res.appendBonusTime(riderStageConnection.getBonusTime());
             res.appendMoney(riderStageConnection.getMoney());
+            res.appendMountainBonusPoints(riderStageConnection.getMountainBonusPoints());
+            res.appendSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
+
         });
 
         if (callback != null) {

@@ -13,6 +13,9 @@ public class RiderExtended {
     private int money;
     private String id;
 
+    private int mountainBonusPoints;
+    private int sprintBonusPoints;
+
     private int startNr;
     private String name;
     private String country;
@@ -134,4 +137,28 @@ public class RiderExtended {
     public void setType(RiderStateType type) {
         this.typeState = type.toString();
     }
+
+    public int getMountainBonusPoints() {
+        return mountainBonusPoints;
+    }
+
+    public void setMountainBonusPoints(int mountainBonusPoints) {
+        this.mountainBonusPoints = mountainBonusPoints;
+    }
+
+    public void appendMountainBonusPoints(int add) { this.mountainBonusPoints += add; }
+
+    public void removeMountainBonusPoints(int sub) { this.mountainBonusPoints -= sub; }
+
+    public int getSprintBonusPoints() {
+        return sprintBonusPoints;
+    }
+
+    public void setSprintBonusPoints(int sprintBonusPoints) {
+        this.sprintBonusPoints = sprintBonusPoints;
+    }
+
+    public void appendSprintBonusPoints(int add) { this.sprintBonusPoints += add; }
+
+    public void removeSprintBonusPoints(int sub) { this.sprintBonusPoints -= sub; }
 }
