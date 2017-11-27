@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -52,8 +54,10 @@ public class Judgement extends RealmObject {
         return id;
     }
 
-    public JudgmentRiderConnection getJudgmentRiderConnection() {
-        return judgmentRiderConnections.first();
+    public RealmList<JudgmentRiderConnection> getJudgmentRiderConnection() {
+        RealmList<JudgmentRiderConnection> list = new RealmList<>();
+        list.addAll(judgmentRiderConnections);
+        return list;
     }
 
 }
