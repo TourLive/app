@@ -10,4 +10,5 @@
     <string name="rank_three">Platz 3</string>
     <string name="rank_four">Platz 4</string>
     <string name="rank_five">Platz 5</string>
+    <string name="judgment_text">Ein Fahrer kann nur einen Wertung gleichzeitig zugewiesen werden.</string>
 </resources>
