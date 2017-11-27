@@ -175,9 +175,9 @@ public class RiderRepositoryInstrumentedTest {
 
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setRank(1);
-        riderStageConnection.setOfficialTime(new Date(100));
-        riderStageConnection.setOfficialGap(new Date(100));
-        riderStageConnection.setVirtualGap(new Date(100));
+        riderStageConnection.setOfficialTime(100);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setVirtualGap(100);
         riderStageConnection.setBonusPoint(100);
         riderStageConnection.setBonusTime(200);
         riderStageConnection.setType(RiderStateType.AKTIVE);

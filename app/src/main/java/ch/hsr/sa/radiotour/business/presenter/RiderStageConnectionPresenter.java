@@ -153,6 +153,11 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
+    public void calculateRanks() {
+        riderStageConnectionRepository.calculateRanks(onGetAllRiderStageConnectionsCallback);
+    }
+
+    @Override
     public RealmList<RiderStageConnection> getAllRiderStateConnections(){
         return riderStageConnectionRepository.getAllRiderStateConnections();
     }

@@ -132,17 +132,16 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
     @Test
     public void addRiderStageConnection(){
-        Date date = new Date();
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setSprintBonusPoints(100);
         riderStageConnection.setMountainBonusPoints(200);
-        riderStageConnection.setOfficialGap(date);
-        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setOfficialTime(100);
         riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
-        riderStageConnection.setVirtualGap(date);
+        riderStageConnection.setVirtualGap(100);
 
         synchronized (this) {
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
@@ -151,9 +150,9 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         RealmResults<RiderStageConnection> res = realm.where(RiderStageConnection.class).findAll();
 
         assertEquals(1, res.size());
-        assertEquals(date, res.get(0).getOfficialGap());
-        assertEquals(date, res.get(0).getVirtualGap());
-        assertEquals(date, res.get(0).getOfficialTime());
+        assertEquals(100, res.get(0).getOfficialGap());
+        assertEquals(100, res.get(0).getVirtualGap());
+        assertEquals(100, res.get(0).getOfficialTime());
         assertEquals(10, res.get(0).getBonusPoint());
         assertEquals(20, res.get(0).getBonusTime());
         assertEquals(100, res.get(0).getSprintBonusPoints());
@@ -162,41 +161,39 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(RiderStateType.DNC, res.get(0).getType());
 
     }
-    private Date initalData() {
-        Date date = new Date();
+    private void initalData() {
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setSprintBonusPoints(100);
         riderStageConnection.setMountainBonusPoints(200);
-        riderStageConnection.setOfficialGap(date);
-        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setOfficialTime(100);
         riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
-        riderStageConnection.setVirtualGap(date);
+        riderStageConnection.setVirtualGap(100);
 
         RiderStageConnection riderStageConnectionTwo = new RiderStageConnection();
         riderStageConnectionTwo.setBonusPoint(20);
         riderStageConnectionTwo.setSprintBonusPoints(300);
         riderStageConnectionTwo.setMountainBonusPoints(400);
         riderStageConnectionTwo.setBonusTime(40);
-        riderStageConnectionTwo.setOfficialGap(date);
-        riderStageConnectionTwo.setOfficialTime(date);
+        riderStageConnectionTwo.setOfficialGap(100);
+        riderStageConnectionTwo.setOfficialTime(100);
         riderStageConnectionTwo.setRank(2);
         riderStageConnectionTwo.setType(RiderStateType.DOCTOR);
-        riderStageConnectionTwo.setVirtualGap(date);
+        riderStageConnectionTwo.setVirtualGap(100);
 
 
         synchronized (this) {
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnectionTwo, onSaveRiderStageConnectionCallback);
         }
-        return date;
     }
 
     @Test
     public void getAllRiderStageConnections(){
-        Date date = initalData();
+        initalData();
 
         synchronized (this) {
             riderStageConnectionRepository.getRiderStageConnections(onGetAllRiderStageConnectionsCallback);
@@ -209,7 +206,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
     @Test
     public void updateRiderStageConnection() {
-        Date date = initalData();
+        initalData();
         String id;
 
         RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
@@ -231,9 +228,9 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
         RiderStageConnection endRes = realm.where(RiderStageConnection.class).equalTo("id", id).findAll().first();
 
-        assertEquals(date, endRes.getOfficialGap());
-        assertEquals(date, endRes.getVirtualGap());
-        assertEquals(date, endRes.getOfficialTime());
+        assertEquals(100, endRes.getOfficialGap());
+        assertEquals(100, endRes.getVirtualGap());
+        assertEquals(100, endRes.getOfficialTime());
         assertEquals(100, endRes.getBonusPoint());
         assertEquals(2020, endRes.getBonusTime());
         assertEquals(4000, endRes.getMountainBonusPoints());
@@ -244,16 +241,15 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
     @Test
     public void updateRiderState() {
-        Date date = new Date();
         RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
-        riderStageConnection.setOfficialGap(date);
-        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setOfficialTime(100);
         riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
-        riderStageConnection.setVirtualGap(date);
+        riderStageConnection.setVirtualGap(100);
 
         synchronized (this) {
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
@@ -292,12 +288,12 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
     @Test
     public void getRiderByRank() {
-        Date date = initalData();
+        initalData();
 
         RiderStageConnection rider = riderStageConnectionRepository.getRiderByRank(2);
-        assertEquals(date, rider.getOfficialGap());
-        assertEquals(date, rider.getVirtualGap());
-        assertEquals(date, rider.getOfficialTime());
+        assertEquals(100, rider.getOfficialGap());
+        assertEquals(100, rider.getVirtualGap());
+        assertEquals(100, rider.getOfficialTime());
         assertEquals(20, rider.getBonusPoint());
         assertEquals(400, rider.getMountainBonusPoints());
         assertEquals(300, rider.getSprintBonusPoints());
@@ -312,11 +308,11 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
-        riderStageConnection.setOfficialGap(date);
-        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setOfficialTime(100);
         riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
-        riderStageConnection.setVirtualGap(date);
+        riderStageConnection.setVirtualGap(100);
 
         synchronized (this) {
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
