@@ -32,7 +32,6 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     public void onBindViewHolder(MaillotViewHolder holder, int position) {
         holder.name.setText(maillots.get(position).getDbIDd() + " | " + maillots.get(position).getName());
         holder.partner.setText(maillots.get(position).getPartner());
-        holder.type.setText(maillots.get(position).getType());
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
     }
 
@@ -66,14 +65,12 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
 
         private TextView partner;
         private TextView name;
-        private TextView type;
         private ImageView trikot;
 
         public MaillotViewHolder(View itemView) {
             super(itemView);
             partner = (TextView) itemView.findViewById(R.id.MaillotPartner);
             name = (TextView) itemView.findViewById(R.id.MaillotName);
-            type = (TextView) itemView.findViewById(R.id.MaillotType);
             trikot = (ImageView) itemView.findViewById(R.id.imgTrikot);
         }
     }
