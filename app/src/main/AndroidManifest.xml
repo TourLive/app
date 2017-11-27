@@ -10,14 +10,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".presentation.activites.MainActivity"
-            android:screenOrientation="landscape">
+            android:name=".presentation.activites.SplashActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".presentation.activites.MainActivity"
+            android:screenOrientation="landscape" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
