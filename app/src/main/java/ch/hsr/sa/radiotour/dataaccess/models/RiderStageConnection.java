@@ -13,6 +13,8 @@ public class RiderStageConnection extends RealmObject {
     private String id;
     private int rank;
     private int bonusPoint;
+    private int mountainBonusPoints;
+    private int sprintBonusPoints;
     private int bonusTime;
     private int money;
     @Required
@@ -64,6 +66,30 @@ public class RiderStageConnection extends RealmObject {
     public void appendBonusPoint(int add) { this.bonusPoint += add; }
 
     public void removeBonusPoint(int sub) { this.bonusPoint -= sub; }
+
+    public int getMountainBonusPoints() {
+        return mountainBonusPoints;
+    }
+
+    public void setMountainBonusPoints(int mountainBonusPoints) {
+        this.mountainBonusPoints = mountainBonusPoints;
+    }
+
+    public void appendMountainBonusPoints(int add) { this.mountainBonusPoints += add; }
+
+    public void removeMountainBonusPoints(int sub) { this.mountainBonusPoints -= sub; }
+
+    public int getSprintBonusPoints() {
+        return sprintBonusPoints;
+    }
+
+    public void setSprintBonusPoints(int sprintBonusPoints) {
+        this.sprintBonusPoints = sprintBonusPoints;
+    }
+
+    public void appendSprintBonusPoints(int add) { this.sprintBonusPoints += add; }
+
+    public void removeSprintBonusPoints(int sub) { this.sprintBonusPoints -= sub; }
 
     public int getBonusTime() {
         return bonusTime;

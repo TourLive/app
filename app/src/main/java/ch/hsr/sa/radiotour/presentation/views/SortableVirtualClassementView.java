@@ -26,7 +26,7 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
     public SortableVirtualClassementView(final Context context, final AttributeSet attributeSet, final int styleAttributes) {
         super(context, attributeSet, styleAttributes);
 
-        final SimpleTableHeaderAdapter simpleTableHeaderAdapter = new SimpleTableHeaderAdapter(context, R.string.virtrank_startnr, R.string.virtrank_name, R.string.virtrank_team, R.string.virtrank_img, R.string.virtrank_country, R.string.virtrank_offical_time, R.string.virtrank_offical_deficit, R.string.virtrank_virt_deficit, R.string.virtrank_point_bonus, R.string.virtrank_price_money);
+        final SimpleTableHeaderAdapter simpleTableHeaderAdapter = new SimpleTableHeaderAdapter(context, R.string.virtrank_startnr, R.string.virtrank_name, R.string.virtrank_team, R.string.virtrank_img, R.string.virtrank_country, R.string.virtrank_offical_time, R.string.virtrank_offical_deficit, R.string.virtrank_virt_deficit, R.string.virtrank_point_bonus, R.string.virtrank_point_mountain, R.string.virtrank_point_sprint, R.string.virtrank_price_money);
         simpleTableHeaderAdapter.setTextColor(ContextCompat.getColor(context, R.color.colorBackground));
         simpleTableHeaderAdapter.setTextSize(10);
         simpleTableHeaderAdapter.setPaddingTop(8);
@@ -40,7 +40,7 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
         setDataRowBackgroundProvider(TableDataRowBackgroundProviders.alternatingRowColors(rowColorEven, rowColorOdd));
         setHeaderSortStateViewProvider(SortStateViewProviders.brightArrows());
 
-        final TableColumnWeightModel tableColumnWeightModel = new TableColumnWeightModel(10);
+        final TableColumnWeightModel tableColumnWeightModel = new TableColumnWeightModel(12);
         tableColumnWeightModel.setColumnWeight(0, 3);
         tableColumnWeightModel.setColumnWeight(1, 8);
         tableColumnWeightModel.setColumnWeight(2, 2);
@@ -51,6 +51,8 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
         tableColumnWeightModel.setColumnWeight(7, 5);
         tableColumnWeightModel.setColumnWeight(8, 5);
         tableColumnWeightModel.setColumnWeight(9, 4);
+        tableColumnWeightModel.setColumnWeight(10, 4);
+        tableColumnWeightModel.setColumnWeight(11, 4);
         setColumnModel(tableColumnWeightModel);
 
         setColumnComparator(0, VirtualClassementComparators.getStartNrComparator());
@@ -62,6 +64,8 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
         setColumnComparator(6, VirtualClassementComparators.getOffizialDeficitComparator());
         setColumnComparator(7, VirtualClassementComparators.getVirtualDeficitComparator());
         setColumnComparator(8, VirtualClassementComparators.getPointComparator());
-        setColumnComparator(9, VirtualClassementComparators.getMoneyComparator());
+        setColumnComparator(9, VirtualClassementComparators.getMountainPointComparator());
+        setColumnComparator(10, VirtualClassementComparators.getSprintPointComparator());
+        setColumnComparator(11, VirtualClassementComparators.getMoneyComparator());
     }
 }
