@@ -30,6 +30,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
         if (position == 0) {
             selectedNumber = Integer.toString(position);
             holder.itemView.setBackgroundResource(R.color.colorAccent);
+            selectedView = holder.itemView;
         }
     }
 
@@ -50,9 +51,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
 
         @Override
         public void onClick(View view) {
-            if (selectedView != null) {
-                selectedView.setBackgroundResource(R.color.cardview_light_background);
-            }
+            selectedView.setBackgroundResource(R.color.cardview_light_background);
             selectedNumber = numbers[getLayoutPosition()];
             selectedView = view;
             view.setBackgroundResource(R.color.colorAccent);
