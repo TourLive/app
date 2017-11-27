@@ -158,6 +158,12 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         if (rider == null) {
             return;
         }
+        for (TextView textView : textViews) {
+            if (textView.getText() == String.valueOf(rider.getStartNr())) {
+                riderBasicAdapter.resetSelectedRider();
+                return;
+            }
+        }
         switch(view.getId()) {
             case R.id.RankOne:
                 rankOne.setText(String.valueOf(rider.getStartNr()));
