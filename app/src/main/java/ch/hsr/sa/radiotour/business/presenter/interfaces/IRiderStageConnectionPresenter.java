@@ -8,6 +8,7 @@ import io.realm.RealmList;
 public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void addRiderStageConnection(RiderStageConnection riderStageConnection);
     void getRiderStageConnections();
+    void calculateRanks();
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection);
     void deleteRiderStageConnection();

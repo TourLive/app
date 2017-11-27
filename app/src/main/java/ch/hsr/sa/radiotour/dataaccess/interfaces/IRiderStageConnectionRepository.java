@@ -33,6 +33,7 @@ public interface IRiderStageConnectionRepository {
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
     void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
     void deleteRiderStageConnection();
+    void calculateRanks(OnGetAllRiderStageConnectionsCallback callback);
     RiderStageConnection getRiderByRank(final int rank);
     RealmList<RiderStageConnection> getAllRiderStateConnections();
     void updateRiderStageConnectionRank(final int rank, RiderStageConnection connection);

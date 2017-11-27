@@ -68,10 +68,10 @@ public final class Parser {
                         RiderStageConnection riderStageConnection = new RiderStageConnection();
                         riderStageConnection.setBonusPoint(0);
                         riderStageConnection.setBonusTime(0);
-                        riderStageConnection.setOfficialGap(new Date(jsonRider.getLong("timeRueckLong")));
-                        riderStageConnection.setOfficialTime(new Date(jsonRider.getLong("timeOffLong")));
-                        riderStageConnection.setVirtualGap(new Date(jsonRider.getLong("timeVirtLong")));
-                        riderStageConnection.setRank(i+1);
+                        riderStageConnection.setOfficialGap(jsonRider.getLong("timeRueckLong"));
+                        riderStageConnection.setOfficialTime(jsonRider.getLong("timeOffLong"));
+                        riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
+                        riderStageConnection.setRank(jsonRider.getInt(startNr));
                         String state = jsonRider.getString("active");
                         if(state.equals("true")){
                             riderStageConnection.setType(RiderStateType.AKTIVE);
@@ -82,7 +82,7 @@ public final class Parser {
                             Context.addRiderStageConnection(riderStageConnection);
                         }
                         RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
-                        riderStageConnections.add(Context.getRiderStageConnectionByRank(i+1));
+                        riderStageConnections.add(Context.getRiderStageConnectionByRank(jsonRider.getInt(startNr)));
 
                         Context.updateRiderStageConnection(rider, riderStageConnections);
 
@@ -133,8 +133,8 @@ public final class Parser {
                 HashMap<Long, RiderStageConnection> gapConnectionMap = new HashMap<>();
                 ArrayList<Long> gaps = new ArrayList<>();
                 for(RiderStageConnection con : connections){
-                    gapConnectionMap.put(con.getOfficialGap().getTime(), con);
-                    gaps.add(con.getOfficialGap().getTime());
+                    gapConnectionMap.put(con.getOfficialGap(), con);
+                    gaps.add(con.getOfficialGap());
                 }
                 gaps.sort(Comparator.naturalOrder());
                 for(int i = 0; i < gaps.size(); i++){

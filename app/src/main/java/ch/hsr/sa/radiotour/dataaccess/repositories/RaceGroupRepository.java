@@ -121,11 +121,30 @@ public class RaceGroupRepository implements IRaceGroupRepository {
     @Override
     public void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        long timeBefore = realm.where(RaceGroup.class).equalTo("id", raceGroup.getId()).findFirst().getActualGapTime();
 
         realm.beginTransaction();
         RaceGroup res = realm.where(RaceGroup.class).equalTo("id", raceGroup.getId()).findFirst();
         res.setHistoryGapTime(res.getActualGapTime());
         res.setActualGapTime(timeStamp);
+        realm.commitTransaction();
+
+        realm.beginTransaction();
+        if (timeBefore > 0 && !res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
+                }
+            }
+        }
+        if (!res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
+                }
+            }
+        }
+
         realm.commitTransaction();
 
         if (callback != null) {
