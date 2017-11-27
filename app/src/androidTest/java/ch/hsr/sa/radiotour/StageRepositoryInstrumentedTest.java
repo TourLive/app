@@ -76,15 +76,14 @@ public class StageRepositoryInstrumentedTest {
 
     @Test
     public void addStage(){
-        Date date = new Date();
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
-        riderStageConnection.setOfficialGap(date);
-        riderStageConnection.setOfficialTime(date);
+        riderStageConnection.setOfficialGap(100);
+        riderStageConnection.setOfficialTime(100);
         riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
-        riderStageConnection.setVirtualGap(date);
+        riderStageConnection.setVirtualGap(100);
 
         synchronized (this){
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
