@@ -132,6 +132,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
         long convertedSeconds = Long.parseLong(seconds);
         long timeStamp = (60 * convertedMinutes) + convertedSeconds;
         raceGroupRepository.updateRaceGroupGapTime(raceGroup, timeStamp, onUpdateRaceGroupCallBack);
+        RiderStageConnectionPresenter.getInstance().calculateRanks();
     }
 
     @Override

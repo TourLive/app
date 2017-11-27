@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
-import java.util.Date;
-
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -17,12 +15,9 @@ public class RiderStageConnection extends RealmObject {
     private int sprintBonusPoints;
     private int bonusTime;
     private int money;
-    @Required
-    private Date officialTime;
-    @Required
-    private Date officialGap;
-    @Required
-    private Date virtualGap;
+    private long officialTime;
+    private long officialGap;
+    private long virtualGap;
     @Required
     private String typeState;
 
@@ -115,27 +110,27 @@ public class RiderStageConnection extends RealmObject {
 
     public void removeBonusTime(int sub) { this.bonusTime -= sub; }
 
-    public Date getOfficialTime() {
+    public long getOfficialTime() {
         return officialTime;
     }
 
-    public void setOfficialTime(Date officialTime) {
+    public void setOfficialTime(long officialTime) {
         this.officialTime = officialTime;
     }
 
-    public Date getOfficialGap() {
+    public long getOfficialGap() {
         return officialGap;
     }
 
-    public void setOfficialGap(Date officialGap) {
+    public void setOfficialGap(long officialGap) {
         this.officialGap = officialGap;
     }
 
-    public Date getVirtualGap() {
+    public long getVirtualGap() {
         return virtualGap;
     }
 
-    public void setVirtualGap(Date virtualGap) {
+    public void setVirtualGap(long virtualGap) {
         this.virtualGap = virtualGap;
     }
 

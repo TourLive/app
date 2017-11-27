@@ -44,11 +44,21 @@ public final class VirtualClassementComparators {
     public static Comparator<RiderExtended> getOfficialTimeComparator() {
         return new RiderExtendedOfficialTimeComparator();
     }
+    public static Comparator<RiderExtended> getRankComparator() {
+        return new RiderExtendedRankComparator();
+    }
 
     private static class RiderExtendedStartNrComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
             return riderOne.getStartNr() - riderTwo.getStartNr();
+        }
+    }
+
+    private static class RiderExtendedRankComparator implements Comparator<RiderExtended> {
+        @Override
+        public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
+            return riderOne.getRank() - riderTwo.getRank();
         }
     }
 
@@ -103,21 +113,21 @@ public final class VirtualClassementComparators {
     private static class RiderExtendedVirtualDeficitComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
-            return riderOne.getVirtualGap().compareTo(riderTwo.getVirtualGap());
+            return Long.compare(riderOne.getVirtualGap(), riderTwo.getVirtualGap());
         }
     }
 
     private static class RiderExtendedOffizialDeficitComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
-            return riderOne.getOfficialGap().compareTo(riderTwo.getOfficialGap());
+            return Long.compare(riderOne.getOfficialGap(), riderTwo.getOfficialGap());
         }
     }
 
     private static class RiderExtendedOfficialTimeComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
-            return riderOne.getOfficialTime().compareTo(riderTwo.getOfficialTime());
+            return Long.compare(riderOne.getOfficialTime(), riderTwo.getOfficialTime());
         }
     }
 
