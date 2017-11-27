@@ -6,10 +6,12 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +62,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
 
         RecyclerView rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
-        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned());
+        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement);
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
         rvRidersToSelect.setHasFixedSize(true);
@@ -90,7 +92,6 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 headers.get(o).setVisibility(View.GONE);
             }
         }
-
         initTextViewsWithData();
     }
 
@@ -118,21 +119,22 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private void initTextViewsWithData() {
 
         for (JudgmentRiderConnection jRc : JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement)){
+            int startNr = jRc.getRider().first().getStartNr();
             switch (jRc.getRank()) {
                 case 1:
-                    rankOne.setText(String.valueOf(jRc.getRider().first().getStartNr()));
+                    rankOne.setText(String.valueOf(startNr));
                     break;
                 case 2:
-                    rankTwo.setText(String.valueOf(jRc.getRider().first().getStartNr()));
+                    rankTwo.setText(String.valueOf(startNr));
                     break;
                 case 3:
-                    rankThree.setText(String.valueOf(jRc.getRider().first().getStartNr()));
+                    rankThree.setText(String.valueOf(startNr));
                     break;
                 case 4:
-                    rankFour.setText(String.valueOf(jRc.getRider().first().getStartNr()));
+                    rankFour.setText(String.valueOf(startNr));
                     break;
                 case 5:
-                    rankFive.setText(String.valueOf(jRc.getRider().first().getStartNr()));
+                    rankFive.setText(String.valueOf(startNr));
                     break;
                 default:
                     break;
@@ -157,6 +159,15 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         Rider rider = riderBasicAdapter.getSelectedRider();
         if (rider == null) {
             return;
+        }
+        for (TextView textView : textViews) {
+            if (textView.getText() == String.valueOf(rider.getStartNr())) {
+                Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                toast.show();
+                riderBasicAdapter.resetSelectedRider();
+                return;
+            }
         }
         switch(view.getId()) {
             case R.id.RankOne:
@@ -183,6 +194,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 break;
         }
         riderBasicAdapter.resetSelectedRider();
+        riderBasicAdapter.setColorOnRider(rider.getStartNr());
     }
 
     private void saveJudgmnet(int rank, Rider rider) {
