@@ -13,4 +13,5 @@
     <string name="race_lead">SPITZENGRUPPE</string>
     <string name="race_field">FELD</string>
     <string name="race_group">GRUPPE</string>
+    <string name="race_startnr_unknownrider">?</string>
 </resources>

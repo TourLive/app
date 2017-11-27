@@ -37,7 +37,11 @@ public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupA
     @Override
     public void onBindViewHolder(RiderRaceGroupAdapter.RiderRaceGroupViewHolder holder, int position) {
         holder.racegroupRiderName.setText(String.valueOf(riders.get(position).getName()));
-        holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
+        if (riders.get(position).getStartNr() < 900) {
+            holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
+        } else {
+            holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);
+        }
         holder.racegroupRiderCountry.setImageResource(UIUtilitis.getCountryFlag(riders.get(position).getCountry()));
     }
 

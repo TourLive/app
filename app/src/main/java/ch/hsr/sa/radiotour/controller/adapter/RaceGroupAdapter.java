@@ -11,6 +11,7 @@ import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Collections;
@@ -79,6 +80,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             return "0" + Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
         } else if (resMinutes < 10 && resMinutes >= 10) {
             return "0" + Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
+        } else if (resMinutes > 10 && resMinutes >= 10) {
+            return Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
         } else {
             return Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
         }
@@ -106,15 +109,21 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private RecyclerView racegroupRiders;
         private View layoutRacegroup;
         private View layoutAddButton;
+        private ImageView icDragAndDrop;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
             layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
             layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
+            icDragAndDrop = (ImageView) itemView.findViewById(R.id.icDragAndDrop);
+            if (icDragAndDrop != null) {
+                icDragAndDrop.setOnLongClickListener(this);
+            }
             racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
             racegroupName.setOnLongClickListener(this);
             racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
             racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
+            racegroupCount.setOnLongClickListener(this);
             gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
             gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
             gaptimeActual.setOnClickListener(this);
@@ -183,6 +192,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
         @Override
         public void onClick(View view) {
+            if (raceGroups.get(getAdapterPosition()).getType() == RaceGroupType.LEAD) {
+                return;
+            }
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             LayoutInflater inflater = LayoutInflater.from(context);
             View dialogView = inflater.inflate(R.layout.time_picker_dialog, null);
