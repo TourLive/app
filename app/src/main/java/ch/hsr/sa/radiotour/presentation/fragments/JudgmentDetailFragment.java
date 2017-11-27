@@ -204,7 +204,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             Judgement judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
             rewardM = RewardPresenter.getInstance().getRewardReturnedByJudgment(judgement);
             RiderStageConnection riderStageConnection = new RiderStageConnection();
-            riderStageConnection.setId(RiderStageConnectionPresenter.getInstance().getRiderByRank(RiderPresenter.getInstance().getRiderByStartNr(r).getRiderStages().first().getRank()).getId());
+            riderStageConnection.setId(RiderPresenter.getInstance().getRiderByStartNr(r).getRiderStages().first().getId());
             if (rewardM.getType() == RewardType.TIME) {
                 riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
             } else if (rewardM.getType() == RewardType.POINTS) {

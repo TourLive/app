@@ -1,14 +1,12 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
-import java.util.Date;
-
 public class RiderExtended {
     private int rank;
     private int bonusPoint;
     private int bonusTime;
-    private Date officialTime;
-    private Date officialGap;
-    private Date virtualGap;
+    private long officialTime;
+    private long officialGap;
+    private long virtualGap;
     private String typeState;
     private int money;
     private String id;
@@ -106,27 +104,27 @@ public class RiderExtended {
         this.bonusTime = bonusTime;
     }
 
-    public Date getOfficialTime() {
+    public long getOfficialTime() {
         return officialTime;
     }
 
-    public void setOfficialTime(Date officialTime) {
+    public void setOfficialTime(long officialTime) {
         this.officialTime = officialTime;
     }
 
-    public Date getOfficialGap() {
+    public long getOfficialGap() {
         return officialGap;
     }
 
-    public void setOfficialGap(Date officialGap) {
+    public void setOfficialGap(long officialGap) {
         this.officialGap = officialGap;
     }
 
-    public Date getVirtualGap() {
+    public long getVirtualGap() {
         return virtualGap;
     }
 
-    public void setVirtualGap(Date virtualGap) {
+    public void setVirtualGap(long virtualGap) {
         this.virtualGap = virtualGap;
     }
 
