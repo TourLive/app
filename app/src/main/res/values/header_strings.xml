@@ -16,4 +16,6 @@
     <string name="header_prefix_m">%1$.1f m</string>
     <string name="header_prefix_km">%1$.0f km von %2$.0f km</string>
     <string name="header_prefix_kmh">%1$.0f km/h</string>
+    <string name="header_reset">Reset</string>
+    <string name="header_select_time">Zeit auswählen</string>
 </resources>

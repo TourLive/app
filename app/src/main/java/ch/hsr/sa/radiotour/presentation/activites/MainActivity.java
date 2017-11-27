@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.activites;
 
 import android.Manifest;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceKilometerView;
     private TextView raceTimeView;
     private TextView startStopView;
+    private TextView resetView;
 
     private Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
@@ -165,6 +168,7 @@ public class MainActivity extends AppCompatActivity {
         raceKilometerView = (TextView) findViewById(R.id.txtRacekilometerValue);
         raceTimeView = (TextView) findViewById(R.id.txtRacetimeValue);
         startStopView = (TextView) findViewById(R.id.btnStartStopRace);
+        resetView = (TextView) findViewById(R.id.btnReset);
 
         if(StagePresenter.getInstance().getStage() != null)
             updateStageInfo(StagePresenter.getInstance().getStage());
@@ -240,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        startStopView.setOnLongClickListener(event -> {
+        resetView.setOnClickListener(event -> {
             raceInProgress = false;
             raceTime.setTime(0);
             distanceInMeter = 0;
@@ -249,9 +253,20 @@ public class MainActivity extends AppCompatActivity {
             startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
             raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
             timerForRace.cancel();
-            return true;
         });
 
+        raceTimeView.setOnClickListener((View event) ->{
+            TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    raceTime.setTime(new Time(TimeUnit.HOURS.toMillis(view.getHour()) + TimeUnit.MINUTES.toMillis(view.getMinute())).getTime());
+                    raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
+                }
+            },0 , 0, true);
+            dialog.setTitle(R.string.header_select_time);
+            dialog.show();
+
+        });
 
         timerForUpdate = new Timer();
         timerTaskForUpdate = new TimerTask() {
