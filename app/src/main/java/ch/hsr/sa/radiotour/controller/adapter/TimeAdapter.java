@@ -10,7 +10,7 @@ import ch.hsr.sa.radiotour.R;
 
 public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHolder> {
 
-    private String[] numbers = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58"};
+    private String[] numbers = {"0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59"};
     private String selectedNumber;
     private View selectedView;
 
@@ -27,6 +27,10 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
     @Override
     public void onBindViewHolder(TimeAdapter.NumberViewHolder holder, int position) {
         holder.numberPad.setText(numbers[position]);
+        if (position == 0) {
+            selectedNumber = Integer.toString(position);
+            holder.itemView.setBackgroundResource(R.color.colorAccent);
+        }
     }
 
     @Override
