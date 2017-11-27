@@ -130,14 +130,21 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.commitTransaction();
 
         realm.beginTransaction();
-        if (timeBefore > 0) {
+        if (timeBefore > 0 && !res.getRiders().isEmpty()) {
             for (Rider r : res.getRiders()) {
-                r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
+                }
             }
         }
-        for (Rider r : res.getRiders()) {
-            r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
+        if (!res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
+                }
+            }
         }
+
         realm.commitTransaction();
 
         if (callback != null) {
