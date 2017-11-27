@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -53,7 +52,7 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 8:
                 view = setTextToView(String.valueOf(rider.getBonusPoint()));
                 break;
-            case 9:
+            case 11:
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 7:
@@ -64,6 +63,12 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 break;
             case 5:
                 view = setTextToView(df.format(TimeUnit.SECONDS.toMillis(rider.getOfficialTime().getTime())));
+                break;
+            case 9:
+                view = setTextToView(String.valueOf(rider.getMountainBonusPoints()));
+                break;
+            case 10:
+                view = setTextToView(String.valueOf(rider.getSprintBonusPoints()));
                 break;
             default:
                 break;

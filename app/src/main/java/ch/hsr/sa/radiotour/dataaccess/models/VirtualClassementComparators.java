@@ -26,6 +26,12 @@ public final class VirtualClassementComparators {
     public static Comparator<RiderExtended> getPointComparator() {
         return new RiderExtendedPointComparator();
     }
+    public static Comparator<RiderExtended> getSprintPointComparator() {
+        return new RiderExtendedSprintPointComparator();
+    }
+    public static Comparator<RiderExtended> getMountainPointComparator() {
+        return new RiderExtendedMountainPointComparator();
+    }
     public static Comparator<RiderExtended> getMoneyComparator() {
         return new RiderExtendedMoneyComparator();
     }
@@ -70,6 +76,20 @@ public final class VirtualClassementComparators {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
             return riderOne.getBonusPoint() - riderTwo.getBonusPoint();
+        }
+    }
+
+    private static class RiderExtendedSprintPointComparator implements Comparator<RiderExtended> {
+        @Override
+        public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
+            return riderOne.getSprintBonusPoints() - riderTwo.getSprintBonusPoints();
+        }
+    }
+
+    private static class RiderExtendedMountainPointComparator implements Comparator<RiderExtended> {
+        @Override
+        public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
+            return riderOne.getMountainBonusPoints() - riderTwo.getMountainBonusPoints();
         }
     }
 

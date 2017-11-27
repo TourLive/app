@@ -201,13 +201,21 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private void updateRiderStateConnectionWithPerformance(Rider rider, int rank) {
         int r = rider.getStartNr();
         new Thread(() -> {
-            rewardM = RewardPresenter.getInstance().getRewardReturnedByJudgment(JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID));
+            Judgement judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
+            rewardM = RewardPresenter.getInstance().getRewardReturnedByJudgment(judgement);
             RiderStageConnection riderStageConnection = new RiderStageConnection();
             riderStageConnection.setId(RiderStageConnectionPresenter.getInstance().getRiderByRank(RiderPresenter.getInstance().getRiderByStartNr(r).getRiderStages().first().getRank()).getId());
             if (rewardM.getType() == RewardType.TIME) {
                 riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
             } else if (rewardM.getType() == RewardType.POINTS) {
-                riderStageConnection.setBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+                int points = RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM);
+                if (judgement.getName().toLowerCase().contains("sprint")) {
+                    riderStageConnection.setSprintBonusPoints(points);
+                } else if (judgement.getName().toLowerCase().contains("bergpreis")) {
+                    riderStageConnection.setMountainBonusPoints(points);
+                } else {
+                    riderStageConnection.setBonusPoint(points);
+                }
             } else {
                 Log.d(JudgmentDetailFragment.class.getSimpleName(), "APP - CALCULATE - UNSUPPORTED TYPE");
             }
