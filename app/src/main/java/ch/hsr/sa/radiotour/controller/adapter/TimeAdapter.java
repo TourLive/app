@@ -39,7 +39,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
     public void onBindViewHolder(TimeAdapter.NumberViewHolder holder, int position) {
         holder.numberPad.setText(numbers[position]);
         if (position == 0) {
-            selectedNumber = Integer.toString(position);
+            selectedNumber = numbers[position];
             holder.itemView.setBackgroundResource(R.color.colorAccent);
             selectedView = holder.itemView;
         }
