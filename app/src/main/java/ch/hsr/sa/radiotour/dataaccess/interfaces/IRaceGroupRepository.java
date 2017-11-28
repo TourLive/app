@@ -6,7 +6,7 @@ import io.realm.RealmList;
 
 public interface IRaceGroupRepository {
     interface OnSaveRaceGroupCallback {
-        void onSuccess();
+        void onSuccess(RaceGroup raceGroup);
         void onError(String message);
     }
 
@@ -29,4 +29,5 @@ public interface IRaceGroupRepository {
     void deleteRaceGroup(RaceGroup raceGroup);
     void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider, OnUpdateRaceGroupCallBack callback);
     void updateRaceGroupPosition(RaceGroup raceGroup, final int position);
+    RaceGroup getRaceGroupById(String raceGroupId);
 }

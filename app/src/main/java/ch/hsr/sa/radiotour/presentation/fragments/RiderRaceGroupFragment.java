@@ -144,9 +144,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RiderPresenter.getInstance().getAllRiders();
     }
 
-    public void addRaceGroupToList() {
+    public void addRaceGroupToList(String raceGroupId) {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
-        adapter.updateAnimateRiderInGroup(adapter.getSelectedRiders());
+        adapter.updateAnimateRiderInGroup(raceGroupId);
     }
 
     public void updateRiderStates(RiderStateType riderStateType) {
@@ -218,9 +218,10 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         raceGroupAdapter.notifyItemChanged(position);
     }
 
-    public void onNewRaceGroupClicked(int position, RaceGroupType raceGroupType) {
+    public void onNewRaceGroupClicked(RaceGroup beforeRaceGroup, RaceGroupType raceGroupType) {
         RaceGroup raceGroup = new RaceGroup();
-        raceGroup.setPosition(position);
+        raceGroup.setPosition(beforeRaceGroup.getPosition() + 1);
+        raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
         raceGroup.setType(raceGroupType);
         if (!adapter.getSelectedRiders().isEmpty()) {
             RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
@@ -260,7 +261,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             rider.setTeamName("UNKNOWN");
             rider.setStartNr(i + 900);
             RiderPresenter.getInstance().addRiderNone(rider);
-            unknownRiders.add(rider);
+            unknownRiders.add(RiderPresenter.getInstance().getRiderByStartNr(rider.getStartNr()));
         }
         txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");
         txtUnknownRiders.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));

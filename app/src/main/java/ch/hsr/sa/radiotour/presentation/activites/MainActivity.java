@@ -248,7 +248,8 @@ public class MainActivity extends AppCompatActivity {
             raceInProgress = false;
             raceTime.setTime(0);
             distanceInMeter = 0;
-            locationManager.removeUpdates(locationListener);
+            if(locationListener != null)
+                locationManager.removeUpdates(locationListener);
             actualLocation = null;
             startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
             raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
