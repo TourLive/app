@@ -204,4 +204,13 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         realm.commitTransaction();
     }
+
+    @Override
+    public RaceGroup getRaceGroupById(String raceGroupId){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        RaceGroup raceGroup = realm.where(RaceGroup.class).equalTo("id", raceGroupId).findFirst();
+        realm.commitTransaction();
+        return raceGroup;
+    }
 }

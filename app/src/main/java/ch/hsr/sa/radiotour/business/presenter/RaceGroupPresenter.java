@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
@@ -43,10 +44,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     public void subscribeCallbacks() {
         onSaveRaceGroupCallback = new IRaceGroupRepository.OnSaveRaceGroupCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(RaceGroup raceGroup) {
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        ((RaceFragment) frag).addRaceGroupToList();
+                        ((RaceFragment) frag).addRaceGroupToList(raceGroup.getId());
                     }
                     if(frag instanceof RiderRaceGroupFragment){
                         ((RiderRaceGroupFragment) frag).addRaceGroupToList();
@@ -84,7 +85,9 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        handler.post(() -> ((RaceFragment) frag).addRaceGroupToList());
+                        handler.post(() -> {
+                                ((RaceFragment) frag).addRaceGroupToList(raceGroup.getId());
+                        });
                     }
                     if(frag instanceof RiderRaceGroupFragment){
                         handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList());
@@ -158,5 +161,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     @Override
     public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
         raceGroupRepository.updateRaceGroupPosition(raceGroup, position);
+    }
+
+    @Override
+    public RaceGroup getRaceGroupById(String raceGroupId){
+        return raceGroupRepository.getRaceGroupById(raceGroupId);
     }
 }

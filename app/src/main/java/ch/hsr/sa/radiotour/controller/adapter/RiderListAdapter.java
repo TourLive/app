@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.Context;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -23,16 +25,19 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
+
 public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.RiderViewHolder>{
 
     private RealmList<Rider> riders;
     private android.content.Context context;
     private HashMap<Integer, RiderViewHolder> holderHashMap;
+    private Handler handler;
 
     public RiderListAdapter(RealmList<Rider> riders, Context context) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
         this.holderHashMap = new HashMap<>();
         this.context = context;
+        handler = new Handler();
     }
 
     @Override
@@ -71,11 +76,24 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         }
     }
 
-    public void updateAnimateRiderInGroup(){
+    public void animateRiderNotInGroup(TextView tvNumber){
+        GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
+        if(context != null)
+            drawable.setColor(0);
+    }
+
+    public void updateAnimateRiderInGroup(String raceGroupId){
+        RaceGroup raceGroup = RaceGroupPresenter.getInstance().getRaceGroupById(raceGroupId);
         if(!holderHashMap.isEmpty()){
-            for(Rider r : riders){
-                TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
-                animateRiderInGroup(tvNumber, r.getStartNr());
+            for(Rider r : raceGroup.getRiders()){
+                if(holderHashMap.get(r.getStartNr()) != null){
+                    TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
+                    if(raceGroup.getType() == RaceGroupType.FELD){
+                        handler.post(() -> animateRiderNotInGroup(tvNumber));
+                    }   else {
+                        handler.post(() ->  animateRiderInGroup(tvNumber, r.getStartNr()));
+                    }
+                }
             }
         }
     }
