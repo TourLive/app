@@ -6,7 +6,7 @@ import io.realm.RealmList;
 
 public interface IRaceGroupRepository {
     interface OnSaveRaceGroupCallback {
-        void onSuccess();
+        void onSuccess(RaceGroup raceGroup);
         void onError(String message);
     }
 

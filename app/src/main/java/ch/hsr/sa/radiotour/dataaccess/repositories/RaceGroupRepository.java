@@ -17,22 +17,24 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final RaceGroup transferRaceGroup = raceGroup;
 
-        realm.executeTransaction((Realm db) -> {
-            RaceGroup realmRaceGroup = db.createObject(RaceGroup.class, UUID.randomUUID().toString());
-            realmRaceGroup.setType(transferRaceGroup.getType());
-            realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
-            realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
-            RealmList<Rider> res = new RealmList<>();
-            for (Rider r : transferRaceGroup.getRiders()) {
-                RealmResults<Rider> temp = db.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
-                res.addAll(temp);
-            }
-            realmRaceGroup.setPosition(transferRaceGroup.getPosition());
-            realmRaceGroup.setRiders(res);
-        });
+        realm.beginTransaction();
+
+        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
+        realmRaceGroup.setType(transferRaceGroup.getType());
+        realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
+        realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
+        RealmList<Rider> res = new RealmList<>();
+        for (Rider r : transferRaceGroup.getRiders()) {
+            RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
+            res.addAll(temp);
+        }
+        realmRaceGroup.setPosition(transferRaceGroup.getPosition());
+        realmRaceGroup.setRiders(res);
+
+        realm.commitTransaction();
 
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(realmRaceGroup);
         }
     }
 
@@ -73,7 +75,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.commitTransaction();
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(realmRaceGroup);
         }
     }
 
