@@ -4,6 +4,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
@@ -43,13 +44,13 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     public void subscribeCallbacks() {
         onSaveRaceGroupCallback = new IRaceGroupRepository.OnSaveRaceGroupCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(RaceGroup raceGroup) {
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        ((RaceFragment) frag).addRaceGroupToList();
+                        ((RaceFragment) frag).addRaceGroupToList(raceGroup.getId());
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                        ((RiderRaceGroupFragment) frag).addRaceGroupToList(raceGroup.getId());
                     }
                 }
             }
@@ -83,11 +84,12 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
             public void onSuccess(RaceGroup raceGroup) {
 
                 for(android.support.v4.app.Fragment frag : fragments){
+                    String raceGroupId = raceGroup.getId();
                     if(frag instanceof RaceFragment){
-                        handler.post(() -> ((RaceFragment) frag).addRaceGroupToList());
+                        handler.post(() -> ((RaceFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList());
+                        handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                 }
             }
@@ -146,8 +148,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void deleteRaceGroup() {
-        // Not implemented yet
+    public void deleteRaceGroup(RaceGroup raceGroup) {
+        raceGroupRepository.deleteRaceGroup(raceGroup);
     }
 
     @Override
@@ -158,5 +160,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     @Override
     public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
         raceGroupRepository.updateRaceGroupPosition(raceGroup, position);
+    }
+
+    @Override
+    public RaceGroup getRaceGroupById(String raceGroupId){
+        return raceGroupRepository.getRaceGroupById(raceGroupId);
     }
 }

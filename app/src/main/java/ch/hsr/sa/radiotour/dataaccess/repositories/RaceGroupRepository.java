@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.Iterator;
 import java.util.UUID;
 
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -17,22 +19,24 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final RaceGroup transferRaceGroup = raceGroup;
 
-        realm.executeTransaction((Realm db) -> {
-            RaceGroup realmRaceGroup = db.createObject(RaceGroup.class, UUID.randomUUID().toString());
-            realmRaceGroup.setType(transferRaceGroup.getType());
-            realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
-            realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
-            RealmList<Rider> res = new RealmList<>();
-            for (Rider r : transferRaceGroup.getRiders()) {
-                RealmResults<Rider> temp = db.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
-                res.addAll(temp);
-            }
-            realmRaceGroup.setPosition(transferRaceGroup.getPosition());
-            realmRaceGroup.setRiders(res);
-        });
+        realm.beginTransaction();
+
+        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
+        realmRaceGroup.setType(transferRaceGroup.getType());
+        realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
+        realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
+        RealmList<Rider> res = new RealmList<>();
+        for (Rider r : transferRaceGroup.getRiders()) {
+            RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
+            res.addAll(temp);
+        }
+        realmRaceGroup.setPosition(transferRaceGroup.getPosition());
+        realmRaceGroup.setRiders(res);
+
+        realm.commitTransaction();
 
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(realmRaceGroup);
         }
     }
 
@@ -44,23 +48,33 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", raceGroup.getPosition()).findAllSorted("position");
         for (RaceGroup rG : rGtoUpdate) {
             rG.setPosition(rG.getPosition() + 1);
+            rG.setActualGapTime(rG.getActualGapTime() + 1);
             if (rG.getType() == RaceGroupType.LEAD) {
                 rG.setType(RaceGroupType.NORMAL);
             }
         }
+        realm.commitTransaction();
 
         for (Rider r : raceGroup.getRiders()) {
             RealmResults<RaceGroup> resRG = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
             if (!resRG.isEmpty()) {
-                for (RaceGroup rG : resRG) {
+                Iterator<RaceGroup> iterator = resRG.iterator();
+                while(iterator.hasNext()) {
+                    RaceGroup rG = iterator.next();
+                    realm.beginTransaction();
                     rG.removeRider(r);
+                    realm.commitTransaction();
+                    if(rG.getRiders().isEmpty())
+                        deleteRaceGroup(rG);
                 }
             }
         }
 
+        realm.beginTransaction();
+
         RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
         realmRaceGroup.setType(raceGroup.getType());
-        realmRaceGroup.setActualGapTime(0);
+        realmRaceGroup.setActualGapTime(raceGroup.getActualGapTime());
         realmRaceGroup.setHistoryGapTime(0);
         realmRaceGroup.setPosition(raceGroup.getPosition());
         RealmList<Rider> res = new RealmList<>();
@@ -73,7 +87,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.commitTransaction();
         if (callback != null) {
-            callback.onSuccess();
+            callback.onSuccess(realmRaceGroup);
         }
     }
 
@@ -91,10 +105,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
     public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RiderRepository riderRepository = new RiderRepository();
         RealmList<Rider> riders = new RealmList<>();
         riders.addAll(newRiders);
 
         realm.beginTransaction();
+
         RaceGroup realmRemoveGroup = realm.where(RaceGroup.class).equalTo("riders.id", newRiders.get(0).getId()).findFirst();
         if(realmRemoveGroup != null){
             for (Rider r : riders) {
@@ -103,9 +119,22 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         realm.commitTransaction();
 
+        if(raceGroup.getType() == RaceGroupType.FELD){
+            Iterator<Rider> iterator = riders.iterator();
+            while(iterator.hasNext()) {
+                Rider r = iterator.next();
+                if (r.isUnknown()) {
+                    riderRepository.removeRider(r, null);
+                    iterator.remove();
+                }
+            }
+        }
+
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
-        realmRaceGroup.appendRiders(riders);
+
+        if(!riders.isEmpty())
+            realmRaceGroup.appendRiders(riders);
         realm.commitTransaction();
 
         if(realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()){
@@ -201,5 +230,14 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             raceGroup.setType(RaceGroupType.NORMAL);
         }
         realm.commitTransaction();
+    }
+
+    @Override
+    public RaceGroup getRaceGroupById(String raceGroupId){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        RaceGroup raceGroup = realm.where(RaceGroup.class).equalTo("id", raceGroupId).findFirst();
+        realm.commitTransaction();
+        return raceGroup;
     }
 }

@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -110,6 +111,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private View layoutRacegroup;
         private View layoutAddButton;
         private ImageView icDragAndDrop;
+        private RaceGroup actualRaceGroup;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
@@ -136,19 +138,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
-                        if(raceGroup.getType() == RaceGroupType.FELD){
-                            if(newRiders.size() == 1 && newRiders.first().getTeamName().equals("UNKNOWN")){
-                                RiderPresenter.getInstance().removeRider(newRiders.first());
-                                RaceGroupPresenter.getInstance().getAllRaceGroups();
-                                return true;
-                            }
-                            List<Rider> iteratorCopy = Realm.getInstance(RadioTourApplication.getInstance()).copyFromRealm(newRiders);
-                            for(Rider r : iteratorCopy){
-                                if(r.getTeamName().equals("UNKNOWN")){
-                                    RiderPresenter.getInstance().removeRider(r);
-                                }
-                            }
-                        }
                         RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;
@@ -164,10 +153,12 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         case DragEvent.ACTION_DROP:
                             RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                             int raceGroupPos = raceGroups.get(getAdapterPosition()).getPosition();
+                            RaceGroup beforeRaceGroup = raceGroups.get(getAdapterPosition());
                             RaceGroup raceGroup = new RaceGroup();
                             raceGroup.setPosition(raceGroupPos + 1);
                             raceGroup.setType(RaceGroupType.NORMAL);
                             raceGroup.setRiders(newRiders);
+                            raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
                             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
                             notifyDataSetChanged();
                             return true;
@@ -206,8 +197,33 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8);
             GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8);
 
-            final TimeAdapter adapterMinutes = new TimeAdapter();
-            final TimeAdapter adapterSeconds = new TimeAdapter();
+            final TimeAdapter adapterMinutes;
+            final TimeAdapter adapterSeconds;
+
+            final int adapterPosition = getAdapterPosition();
+
+            if(adapterPosition == 0){
+                adapterMinutes = new TimeAdapter();
+                ArrayList<String> seconds = new ArrayList<>();
+                for(int i = 1; i < 60; i++){
+                    seconds.add(String.valueOf(i));
+                }
+                adapterSeconds = new TimeAdapter(seconds);
+            } else {
+                ArrayList<String> minutes = new ArrayList<>();
+                ArrayList<String> seconds = new ArrayList<>();
+                RaceGroup raceGroup = raceGroups.get(adapterPosition - 1);
+                int actualMinutes =  (int) raceGroup.getActualGapTime() / 60;
+                for(int i = actualMinutes; i < 60; i++){
+                    minutes.add(String.valueOf(i));
+                }
+                int actualSeconds = (int) raceGroup.getActualGapTime() - (actualMinutes * 60);
+                for(int i = actualSeconds + 1; i < 60; i++){
+                    seconds.add(String.valueOf(i));
+                }
+                adapterMinutes = new TimeAdapter(minutes);
+                adapterSeconds = new TimeAdapter(seconds);
+            }
             rvMinutes.setLayoutManager(layoutManagerMinutes);
             rvMinutes.setAdapter(adapterMinutes);
             rvSeconds.setLayoutManager(layoutManagerSeconds);

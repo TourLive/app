@@ -81,7 +81,7 @@ public class RaceGroupRepositoryInstrumentedTest {
 
         onSaveRaceGroupCallback = new IRaceGroupRepository.OnSaveRaceGroupCallback() {
             @Override
-            public void onSuccess() {
+            public void onSuccess(RaceGroup raceGroup) {
                 successFullyAdded();
             }
 
