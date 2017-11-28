@@ -110,9 +110,9 @@ public class RaceFragment extends Fragment {
         RiderPresenter.getInstance().getAllRiders();
     }
 
-    public void addRaceGroupToList() {
+    public void addRaceGroupToList(String raceGroupId) {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
-        riderAdapter.updateAnimateRiderInGroup();
+        riderAdapter.updateAnimateRiderInGroup(raceGroupId);
     }
 
     @Override

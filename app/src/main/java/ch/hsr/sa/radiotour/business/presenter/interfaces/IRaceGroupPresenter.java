@@ -15,4 +15,5 @@ public interface IRaceGroupPresenter extends IBasePresenter {
     void deleteRaceGroup();
     void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider);
     void updateRaceGroupPosition(RaceGroup raceGroup, int position);
+    RaceGroup getRaceGroupById(String raceGroupId);
 }
