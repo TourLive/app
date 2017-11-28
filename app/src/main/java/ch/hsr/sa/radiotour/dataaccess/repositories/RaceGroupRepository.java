@@ -48,6 +48,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", raceGroup.getPosition()).findAllSorted("position");
         for (RaceGroup rG : rGtoUpdate) {
             rG.setPosition(rG.getPosition() + 1);
+            rG.setActualGapTime(rG.getActualGapTime() + 1);
             if (rG.getType() == RaceGroupType.LEAD) {
                 rG.setType(RaceGroupType.NORMAL);
             }
@@ -73,7 +74,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
         realmRaceGroup.setType(raceGroup.getType());
-        realmRaceGroup.setActualGapTime(0);
+        realmRaceGroup.setActualGapTime(raceGroup.getActualGapTime());
         realmRaceGroup.setHistoryGapTime(0);
         realmRaceGroup.setPosition(raceGroup.getPosition());
         RealmList<Rider> res = new RealmList<>();
@@ -131,8 +132,10 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
+        RealmList<Rider> before = realmRaceGroup.getRiders();
         if(!riders.isEmpty())
             realmRaceGroup.appendRiders(riders);
+        RealmList<Rider> test = realmRaceGroup.getRiders();
         realm.commitTransaction();
 
         if(realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()){

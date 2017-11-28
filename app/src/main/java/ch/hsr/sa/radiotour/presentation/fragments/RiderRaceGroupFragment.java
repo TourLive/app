@@ -218,9 +218,10 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         raceGroupAdapter.notifyItemChanged(position);
     }
 
-    public void onNewRaceGroupClicked(int position, RaceGroupType raceGroupType) {
+    public void onNewRaceGroupClicked(RaceGroup beforeRaceGroup, RaceGroupType raceGroupType) {
         RaceGroup raceGroup = new RaceGroup();
-        raceGroup.setPosition(position);
+        raceGroup.setPosition(beforeRaceGroup.getPosition() + 1);
+        raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
         raceGroup.setType(raceGroupType);
         if (!adapter.getSelectedRiders().isEmpty()) {
             RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
