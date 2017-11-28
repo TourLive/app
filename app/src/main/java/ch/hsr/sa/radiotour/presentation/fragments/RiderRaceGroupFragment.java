@@ -261,7 +261,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             rider.setTeamName("UNKNOWN");
             rider.setStartNr(i + 900);
             RiderPresenter.getInstance().addRiderNone(rider);
-            unknownRiders.add(rider);
+            unknownRiders.add(RiderPresenter.getInstance().getRiderByStartNr(rider.getStartNr()));
         }
         txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");
         txtUnknownRiders.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
