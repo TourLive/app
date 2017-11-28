@@ -132,10 +132,9 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
-        RealmList<Rider> before = realmRaceGroup.getRiders();
+
         if(!riders.isEmpty())
             realmRaceGroup.appendRiders(riders);
-        RealmList<Rider> test = realmRaceGroup.getRiders();
         realm.commitTransaction();
 
         if(realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()){
