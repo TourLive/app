@@ -1,7 +1,9 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.Iterator;
 import java.util.UUID;
 
+import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -50,15 +52,24 @@ public class RaceGroupRepository implements IRaceGroupRepository {
                 rG.setType(RaceGroupType.NORMAL);
             }
         }
+        realm.commitTransaction();
 
         for (Rider r : raceGroup.getRiders()) {
             RealmResults<RaceGroup> resRG = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
             if (!resRG.isEmpty()) {
-                for (RaceGroup rG : resRG) {
+                Iterator<RaceGroup> iterator = resRG.iterator();
+                while(iterator.hasNext()) {
+                    RaceGroup rG = iterator.next();
+                    realm.beginTransaction();
                     rG.removeRider(r);
+                    realm.commitTransaction();
+                    if(rG.getRiders().isEmpty())
+                        deleteRaceGroup(rG);
                 }
             }
         }
+
+        realm.beginTransaction();
 
         RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
         realmRaceGroup.setType(raceGroup.getType());
@@ -93,10 +104,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
     public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RiderRepository riderRepository = new RiderRepository();
         RealmList<Rider> riders = new RealmList<>();
         riders.addAll(newRiders);
 
         realm.beginTransaction();
+
         RaceGroup realmRemoveGroup = realm.where(RaceGroup.class).equalTo("riders.id", newRiders.get(0).getId()).findFirst();
         if(realmRemoveGroup != null){
             for (Rider r : riders) {
@@ -105,9 +118,21 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         realm.commitTransaction();
 
+        if(raceGroup.getType() == RaceGroupType.FELD){
+            Iterator<Rider> iterator = riders.iterator();
+            while(iterator.hasNext()) {
+                Rider r = iterator.next();
+                if (r.isUnknown()) {
+                    riderRepository.removeRider(r, null);
+                    iterator.remove();
+                }
+            }
+        }
+
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type",raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
-        realmRaceGroup.appendRiders(riders);
+        if(!riders.isEmpty())
+            realmRaceGroup.appendRiders(riders);
         realm.commitTransaction();
 
         if(realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()){
