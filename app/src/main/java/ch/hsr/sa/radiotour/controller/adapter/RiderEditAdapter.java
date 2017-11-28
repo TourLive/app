@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -64,17 +65,24 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     public void animateRiderInGroup(TextView tvNumber, Integer startNr){
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
-        if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
+        if(raceGroup != null && context != null){
             GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-            drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+            if(raceGroup.getType() != RaceGroupType.FELD){
+                drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+            } else {
+                drawable.setColor(0);
+            }
         }
     }
 
-    public void updateAnimateRiderInGroup(RealmList<Rider> riders){
+    public void updateAnimateRiderInGroup(String raceGroupId){
+        RealmList<Rider> ridersToUpdate = RaceGroupPresenter.getInstance().getRaceGroupById(raceGroupId).getRiders();
         if(!holderHashMap.isEmpty()){
-            for(Rider r : riders){
-                TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
-                animateRiderInGroup(tvNumber, r.getStartNr());
+            for(Rider r : ridersToUpdate){
+                if(holderHashMap.get(r.getStartNr()) != null){
+                    TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
+                    animateRiderInGroup(tvNumber, r.getStartNr());
+                }
             }
         }
     }
@@ -146,6 +154,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
         @Override
         public void onClick(View view) {
+            int test = getLayoutPosition();
             Rider rider = riders.get(getLayoutPosition());
             if (selectedRiders.contains(rider)) {
                 selectedRiders.remove(rider);
