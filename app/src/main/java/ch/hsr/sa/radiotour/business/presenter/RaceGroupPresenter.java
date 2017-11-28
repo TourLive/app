@@ -50,7 +50,7 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
                         ((RaceFragment) frag).addRaceGroupToList(raceGroup.getId());
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        ((RiderRaceGroupFragment) frag).addRaceGroupToList();
+                        ((RiderRaceGroupFragment) frag).addRaceGroupToList(raceGroup.getId());
                     }
                 }
             }
@@ -84,12 +84,12 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
             public void onSuccess(RaceGroup raceGroup) {
 
                 for(android.support.v4.app.Fragment frag : fragments){
+                    String raceGroupId = raceGroup.getId();
                     if(frag instanceof RaceFragment){
-                        String raceGroupId = raceGroup.getId();
                         handler.post(() -> ((RaceFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                     if(frag instanceof RiderRaceGroupFragment){
-                        handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList());
+                        handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                 }
             }

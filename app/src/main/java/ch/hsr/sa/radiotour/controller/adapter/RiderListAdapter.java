@@ -69,17 +69,14 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     public void animateRiderInGroup(TextView tvNumber, Integer startNr){
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
-        if(raceGroup != null && raceGroup.getType() != RaceGroupType.FELD){
+        if(raceGroup != null && context != null){
             GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-            if(context != null)
+            if(raceGroup.getType() != RaceGroupType.FELD){
                 drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
+            } else {
+                drawable.setColor(0);
+            }
         }
-    }
-
-    public void animateRiderNotInGroup(TextView tvNumber){
-        GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-        if(context != null)
-            drawable.setColor(0);
     }
 
     public void updateAnimateRiderInGroup(String raceGroupId){
@@ -88,11 +85,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
             for(Rider r : raceGroup.getRiders()){
                 if(holderHashMap.get(r.getStartNr()) != null){
                     TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
-                    if(raceGroup.getType() == RaceGroupType.FELD){
-                        handler.post(() -> animateRiderNotInGroup(tvNumber));
-                    }   else {
-                        handler.post(() ->  animateRiderInGroup(tvNumber, r.getStartNr()));
-                    }
+                    handler.post(() ->  animateRiderInGroup(tvNumber, r.getStartNr()));
                 }
             }
         }

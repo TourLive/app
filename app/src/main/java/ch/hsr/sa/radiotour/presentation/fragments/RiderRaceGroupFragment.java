@@ -144,9 +144,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RiderPresenter.getInstance().getAllRiders();
     }
 
-    public void addRaceGroupToList() {
+    public void addRaceGroupToList(String raceGroupId) {
         RaceGroupPresenter.getInstance().getAllRaceGroups();
-        adapter.updateAnimateRiderInGroup(adapter.getSelectedRiders());
+        adapter.updateAnimateRiderInGroup(raceGroupId);
     }
 
     public void updateRiderStates(RiderStateType riderStateType) {
