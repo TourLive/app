@@ -110,6 +110,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private View layoutRacegroup;
         private View layoutAddButton;
         private ImageView icDragAndDrop;
+        private RaceGroup actualRaceGroup;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
@@ -136,19 +137,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
-                        if(raceGroup.getType() == RaceGroupType.FELD){
-                            if(newRiders.size() == 1 && newRiders.first().getTeamName().equals("UNKNOWN")){
-                                RiderPresenter.getInstance().removeRider(newRiders.first());
-                                RaceGroupPresenter.getInstance().getAllRaceGroups();
-                                return true;
-                            }
-                            List<Rider> iteratorCopy = Realm.getInstance(RadioTourApplication.getInstance()).copyFromRealm(newRiders);
-                            for(Rider r : iteratorCopy){
-                                if(r.getTeamName().equals("UNKNOWN")){
-                                    RiderPresenter.getInstance().removeRider(r);
-                                }
-                            }
-                        }
                         RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
                         notifyItemChanged(getAdapterPosition());
                         return true;

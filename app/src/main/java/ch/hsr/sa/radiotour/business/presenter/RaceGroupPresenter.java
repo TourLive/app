@@ -148,8 +148,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void deleteRaceGroup() {
-        // Not implemented yet
+    public void deleteRaceGroup(RaceGroup raceGroup) {
+        raceGroupRepository.deleteRaceGroup(raceGroup);
     }
 
     @Override
