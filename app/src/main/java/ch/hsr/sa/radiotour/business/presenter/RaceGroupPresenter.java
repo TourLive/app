@@ -85,9 +85,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
 
                 for(android.support.v4.app.Fragment frag : fragments){
                     if(frag instanceof RaceFragment){
-                        handler.post(() -> {
-                                ((RaceFragment) frag).addRaceGroupToList(raceGroup.getId());
-                        });
+                        String raceGroupId = raceGroup.getId();
+                        handler.post(() -> ((RaceFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                     if(frag instanceof RiderRaceGroupFragment){
                         handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList());
