@@ -44,6 +44,7 @@ import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.RealmModul;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
@@ -297,12 +298,14 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     progressBarHandler.post(() -> {
                         if(demoMode){
                             btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.backgroup_shape));
+                            MainActivity.getInstance().findViewById(R.id.txt_DemoMode).setVisibility(View.INVISIBLE);
                             btnDemo.setText(getResources().getText(R.string.import_demodata));
                             btnImport.setEnabled(true);
                             demoMode = false;
                             APIClient.setDemoMode(demoMode);
                         } else {
                             btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_green));
+                            MainActivity.getInstance().findViewById(R.id.txt_DemoMode).setVisibility(View.VISIBLE);
                             btnDemo.setText(getResources().getString(R.string.import_demomode_active));
                             btnImport.setEnabled(false);
                             demoMode = true;
