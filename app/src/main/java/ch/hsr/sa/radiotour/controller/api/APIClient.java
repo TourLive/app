@@ -27,7 +27,7 @@ public final class APIClient {
     private static int stageNr = 0;
     private static Handler uiHandler;
     private static boolean demoMode = false;
-    private static final String readTimeOutMessage = "Die Internetverbindung wurde während der Übertragung unterbrochen, bitte erneut versuchen\n\n";
+    private static final String readTimeOutMessage = "Die Internetverbindung wurde während der Übertragung unterbrochen, bitte erneut versuchen!\n\n";
     private static final String throwableType = "Read timed out";
 
     private static SyncHttpClient client = new SyncHttpClient();
