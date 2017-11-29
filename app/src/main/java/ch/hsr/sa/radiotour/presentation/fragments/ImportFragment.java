@@ -296,13 +296,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     afterImport();
                     progressBarHandler.post(() -> {
                         if(demoMode){
-                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_green));
+                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.backgroup_shape));
                             btnDemo.setText(getResources().getText(R.string.import_demodata));
                             btnImport.setEnabled(true);
                             demoMode = false;
                             APIClient.setDemoMode(demoMode);
                         } else {
-                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.backgroup_shape));
+                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_green));
                             btnDemo.setText(getResources().getString(R.string.import_demomode_active));
                             btnImport.setEnabled(false);
                             demoMode = true;
