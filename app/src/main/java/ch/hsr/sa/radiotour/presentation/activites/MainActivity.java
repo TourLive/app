@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private TextView startStopView;
     private TextView resetView;
-    private TextView demoView;
 
     private Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
@@ -171,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
         raceTimeView = (TextView) findViewById(R.id.txtRacetimeValue);
         startStopView = (TextView) findViewById(R.id.btnStartStopRace);
         resetView = (TextView) findViewById(R.id.btnReset);
-        demoView = (TextView) findViewById(R.id.txt_DemoMode);
 
         if(StagePresenter.getInstance().getStage() != null)
             updateStageInfo(StagePresenter.getInstance().getStage());

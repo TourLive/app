@@ -319,6 +319,7 @@
                     android:layout_marginTop="8dp"
                     android:text="@string/header_demo"
                     android:visibility="invisible"
+                    android:background="@color/green"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
                     app:layout_constraintStart_toStartOf="@+id/guidlineImage"
