@@ -32,6 +32,7 @@ import java.io.InputStream;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import ch.hsr.sa.radiotour.BuildConfig;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
@@ -96,6 +97,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             }
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
+
+        TextView versionView = (TextView) root.findViewById(R.id.txtVersion);
+        versionView.setText(getString(R.string.import_version, BuildConfig.VERSION_NAME));
+
         return root;
     }
 
