@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -158,35 +159,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             }
         }
         if(v == btnDemo){
-            if(demoMode){
-                try {
-                    resetDataToImport();
-                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_leave), Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                    toast.show();
-                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
-                    btnDemo.setText(getResources().getText(R.string.import_demodata));
-                    btnImport.setEnabled(true);
-                    demoMode = false;
-                    APIClient.setDemoMode(demoMode);
-                } catch (IOException e) {
-                    Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE - " + e.getMessage());
-                }
-            } else {
-                try {
-                    loadDataForDemoMode();
-                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_demomode_activated), Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
-                    toast.show();
-                    btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
-                    btnDemo.setText(getResources().getString(R.string.import_demomode_active));
-                    btnImport.setEnabled(false);
-                    demoMode = true;
-                    APIClient.setDemoMode(demoMode);
-                } catch (IOException e) {
-                    Log.d(ImportFragment.class.getSimpleName(), "APP - MAINMODE - " + e.getMessage());
-                }
-            }
+            switchDemoMode();
         }
     }
 
@@ -232,7 +205,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
     }
 
     private int importData() {
-        while (progressBarStatus <= 100) {
+        while (progressBarStatus < 100) {
             if (progressBarStatus < 20) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_delete_data)));
                 String message = APIClient.deleteData();
@@ -301,17 +274,97 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public void loadDataForDemoMode() throws IOException {
-        File file = new File(getContext().getFilesDir(), DEMOREALM);
-        if(!file.exists())
-            copyBundledRealmFile();
+    private void switchDemoMode(){
+        try{
+            progressBar.setCancelable(false);
+            progressBar.setMessage(getResources().getString(R.string.import_demo_start));
+            progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+            progressBar.setProgress(0);
+            progressBar.setMax(100);
+            progressBar.show();
+            progressBarStatus = 0;
+            new Thread(() -> {
+                while (progressBarStatus < 100) {
+                    try {
+                        progressBarStatus = loadDataForDemoMode();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    progressBarHandler.post(() -> progressBar.setProgress(progressBarStatus));
+                }
+                if (progressBarStatus >= 100) {
+                    afterImport();
+                    progressBarHandler.post(() -> {
+                        if(demoMode){
+                            btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorGrayLight));
+                            btnDemo.setText(getResources().getText(R.string.import_demodata));
+                            btnImport.setEnabled(true);
+                            demoMode = false;
+                            APIClient.setDemoMode(demoMode);
+                        } else {
+                            btnDemo.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.green));
+                            btnDemo.setText(getResources().getString(R.string.import_demomode_active));
+                            btnImport.setEnabled(false);
+                            demoMode = true;
+                            APIClient.setDemoMode(demoMode);
+                        }
+                    });
+                }
+            }).start();
+        } catch (Exception ex){
+            Log.d("error", ex.getMessage());
+        }
+
+    }
+
+    private int loadDataForDemoMode() throws IOException {
+        while (progressBarStatus < 100) {
+            if (progressBarStatus < 50 && !demoMode) {
+                File file = new File(getContext().getFilesDir(), DEMOREALM);
+                if(!demoMode && !file.exists()) {
+                    progressBarHandler.post(() -> {
+                        progressBar.setMessage(getResources().getText(R.string.import_firstload_demodata));
+                        try {
+                            copyBundledRealmFile();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+                return 50;
+            } else  {
+                if(!demoMode){
+                    progressBarHandler.post(() -> {
+                        progressBar.setMessage(getResources().getText(R.string.import_context_switch_demo));
+                        try {
+                            setDataToDemo();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                } else {
+                    progressBarHandler.post(() -> {
+                        progressBar.setMessage(getResources().getText(R.string.import_context_switch_real));
+                        try {
+                            resetDataToImport();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    });
+                }
+                return 100;
+            }
+        }
+        return 100;
+    }
+
+    private void setDataToDemo() throws  IOException{
         RealmConfiguration config = new RealmConfiguration.Builder().
                 name(DEMOREALM).
                 deleteRealmIfMigrationNeeded().
                 modules(new RealmModul()).
                 build();
         RadioTourApplication.setInstance(config);
-        updateUI();
     }
 
     private void resetDataToImport() throws IOException {
@@ -321,7 +374,6 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 modules(new RealmModul()).
                 build();
         RadioTourApplication.setInstance(config);
-        updateUI();
     }
 
     private String copyBundledRealmFile() throws IOException {
@@ -351,13 +403,5 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             is.close();
         }
         return null;
-    }
-
-    private void updateUI(){
-        RiderPresenter.getInstance().getAllRiders();
-        RaceGroupPresenter.getInstance().getAllRaceGroups();
-        RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
-        JudgmentPresenter.getInstance().getAllJudgments();
-        MaillotPresenter.getInstance().getAllMaillots();
     }
 }
