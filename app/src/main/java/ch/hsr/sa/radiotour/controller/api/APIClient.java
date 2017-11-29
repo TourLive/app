@@ -27,6 +27,8 @@ public final class APIClient {
     private static int stageNr = 0;
     private static Handler uiHandler;
     private static boolean demoMode = false;
+    private static final String readTimeOutMessage = "Die Internetverbindung wurde während der Übertragung unterbrochen, bitte erneut versuchen!\n\n";
+    private static final String throwableType = "Read timed out";
 
     private static SyncHttpClient client = new SyncHttpClient();
 
@@ -112,7 +114,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders) {
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
@@ -138,7 +144,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
@@ -164,7 +174,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
@@ -190,7 +204,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
@@ -223,7 +241,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
@@ -250,7 +272,11 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                messages[0] = throwable.getMessage();
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
             }
         });
         return messages[0];
