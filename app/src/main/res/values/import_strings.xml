@@ -38,4 +38,5 @@
     <string name="import_start_import">Import der Daten vom Server starten</string>
     <string name="import_start_info">Sämtliche Daten in der Datenbank werden gelöscht.
         \nFalls die Daten zu einem späteren Zeitpunkt verfügbar sein sollen bitte ein Backup anelegen.</string>
+    <string name="import_version">Version %1$s</string>
 </resources>
