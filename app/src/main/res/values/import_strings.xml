@@ -39,4 +39,10 @@
     <string name="import_start_info">Sämtliche Daten in der Datenbank werden gelöscht.
         \nFalls die Daten zu einem späteren Zeitpunkt verfügbar sein sollen bitte ein Backup anelegen.</string>
     <string name="import_version">Version %1$s</string>
+    <string name="import_demo_start">Demomodus wird gestartet</string>
+    <string name="import_demo_stop">Demomodus wird gestoppt</string>
+    <string name="import_firstload_demodata">Initales laden der Demodaten</string>
+    <string name="import_context_switch_demo">Demodaten werden übertragen</string>
+    <string name="import_context_switch_real">Reale Daten werden wiederhergestellt</string>
+    <string name="import_reaload_ui">Anzeigen werden aktualisiert</string>
 </resources>

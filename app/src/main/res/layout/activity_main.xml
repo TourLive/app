@@ -308,6 +308,24 @@
                     android:orientation="vertical"
                     app:layout_constraintGuide_begin="837dp" />
 
+                <TextView
+                    android:id="@+id/txt_DemoMode"
+                    style="@style/HeaderTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/green"
+                    android:text="@string/header_demo"
+                    android:gravity="center"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintStart_toStartOf="@+id/guidlineImage"
+                    app:layout_constraintTop_toTopOf="parent" />
+
             </android.support.constraint.ConstraintLayout>
 
         </android.support.v7.widget.Toolbar>
