@@ -23,6 +23,7 @@ import android.widget.TimePicker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private TextView startStopView;
     private TextView resetView;
+    private TextView demoView;
 
     private Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
@@ -169,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
         raceTimeView = (TextView) findViewById(R.id.txtRacetimeValue);
         startStopView = (TextView) findViewById(R.id.btnStartStopRace);
         resetView = (TextView) findViewById(R.id.btnReset);
+        demoView = (TextView) findViewById(R.id.txt_DemoMode);
 
         if(StagePresenter.getInstance().getStage() != null)
             updateStageInfo(StagePresenter.getInstance().getStage());

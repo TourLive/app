@@ -18,4 +18,5 @@
     <string name="header_prefix_kmh">%1$.0f km/h</string>
     <string name="header_reset">Reset</string>
     <string name="header_select_time">Zeit auswählen</string>
+    <string name="header_demo">Demomodus aktiviert</string>
 </resources>
