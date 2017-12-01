@@ -184,13 +184,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                 alertDialog.setTargetFragment(RiderRaceGroupFragment.this, 300);
                 alertDialog.show(fm, "");
                 break;
-            case R.id.txtUnknownRiders:
-                if (txtUnknownRiders.getBackground() == null) {
-                    txtUnknownRiders.setBackgroundResource(R.drawable.backgroup_shape_racetime);
-                } else {
-                    removeUnknownRiders();
-                }
-                break;
             default:
                 break;
         }
