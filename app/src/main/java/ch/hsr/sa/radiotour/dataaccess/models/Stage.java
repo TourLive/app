@@ -11,6 +11,8 @@ public class Stage extends RealmObject {
     @PrimaryKey
     private String id;
     private int stageId;
+    private int raceId;
+    private String raceName;
     @Required
     private String name;
     @Required
@@ -35,6 +37,18 @@ public class Stage extends RealmObject {
 
     public void setStageId(int stageId) {
         this.stageId = stageId;
+    }
+
+    public int getRaceId() { return raceId;}
+
+    public void setRaceId(int raceId) {this.raceId = raceId;}
+
+    public String getRaceName() {
+        return raceName;
+    }
+
+    public void setRaceName(String raceName) {
+        this.raceName = raceName;
     }
 
     public String getName() {
