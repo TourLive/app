@@ -231,6 +231,9 @@ public final class Parser {
                 stage.setDistance(jsonStage.getInt("distance"));
                 stage.setStageConnections(Context.getAllRiderStageConnections());
                 stage.setMaillotConnections(Context.getAllMaillots());
+                JSONObject jsonRace = jsonStage.getJSONObject("race");
+                stage.setRaceId(jsonRace.getInt("raceId"));
+                stage.setRaceName(jsonRace.getString("raceName"));
                 Context.addStage(stage);
             } catch (JSONException e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - STAGES - " + e.getMessage());

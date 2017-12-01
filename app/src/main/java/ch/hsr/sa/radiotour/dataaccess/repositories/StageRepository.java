@@ -24,6 +24,8 @@ public class StageRepository implements IStageRepository {
             realmStage.setType(stage.getType());
             realmStage.setStageConnections(stage.getStageConnections());
             realmStage.setMaillotConnections(stage.getMaillotConnections());
+            realmStage.setRaceName(stage.getRaceName());
+            realmStage.setRaceId(stage.getRaceId());
         });
 
         Stage dbStage = realm.where(Stage.class).findFirst();
