@@ -380,7 +380,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
 
     public void updateActualStage(Stage stage) {
         raceIdView.setText(getString(R.string.import_race_infos, stage.getRaceName(), stage.getRaceId()));
-        stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getStageId()));
+        stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getFrom(), stage.getTo(), stage.getStageId()));
     }
 
     private String copyBundledRealmFile() throws IOException {
