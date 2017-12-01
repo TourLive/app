@@ -9,6 +9,7 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IStageRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.repositories.StageRepository;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
+import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 
 public class StagePresenter implements IStagePresenter {
     private ArrayList<Fragment> fragments = new ArrayList<>();
@@ -16,6 +17,7 @@ public class StagePresenter implements IStagePresenter {
     private StageRepository stageRepository = new StageRepository();
 
     private IStageRepository.OnSaveStageCallback onSaveStageCallback;
+    private IStageRepository.OnGetStageCallback onGetStageCallback;
 
     public static StagePresenter getInstance() {
         if(instance == null){
@@ -33,8 +35,23 @@ public class StagePresenter implements IStagePresenter {
         onSaveStageCallback = new IStageRepository.OnSaveStageCallback() {
             @Override
             public void onSuccess(Stage stage) {
+                MainActivity.getInstance().updateStageInfo(stage);
+            }
+
+            @Override
+            public void onError(String message) {
+                // Not needed and therefore not implemented
+            }
+        };
+
+        onGetStageCallback = new IStageRepository.OnGetStageCallback() {
+            @Override
+            public void onSuccess(Stage stage) {
                 for(Fragment frag : fragments){
-                    // call specifc update function for each fragment type
+                    if (frag instanceof ImportFragment) {
+                        ImportFragment fragment = (ImportFragment) frag;
+                        fragment.updateActualStage(stage);
+                    }
                 }
                 MainActivity.getInstance().updateStageInfo(stage);
             }
@@ -49,6 +66,7 @@ public class StagePresenter implements IStagePresenter {
     @Override
     public void unSubscribeCallbacks() {
         onSaveStageCallback = null;
+        onGetStageCallback = null;
     }
 
 
@@ -60,6 +78,11 @@ public class StagePresenter implements IStagePresenter {
     @Override
     public Stage getStage(){
         return stageRepository.getStage();
+    }
+
+    @Override
+    public void getStageWithCallback(){
+        stageRepository.getStage(onGetStageCallback);
     }
 
     @Override

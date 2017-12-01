@@ -10,7 +10,7 @@
     <string name="header_special_class">SPEZIALKLASSEMENT</string>
     <string name="header_virtual_class">VIRTUELLES KLASSEMENT</string>
     <string name="header_maillots">MAILLOTS</string>
-    <string name="header_import_data">IMPORT</string>
+    <string name="header_import_data">Administration</string>
     <string name="header_startstop">Start / Stop</string>
     <string name="header_ridergroup">Fahrer auswählen</string>
     <string name="header_prefix_m">%1$.1f m</string>

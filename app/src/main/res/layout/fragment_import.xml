@@ -347,9 +347,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="0"
+        android:text="Keine Daten geladen"
         android:textSize="@dimen/text_size_undertitle"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/spacerTitle4" />
 
@@ -371,9 +370,8 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="0"
+        android:text="Keine Daten geladen"
         android:textSize="@dimen/text_size_undertitle"
-        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/txtActualRaceId" />
 

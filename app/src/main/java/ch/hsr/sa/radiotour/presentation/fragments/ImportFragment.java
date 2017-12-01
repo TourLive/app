@@ -40,13 +40,16 @@ import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.RealmModul;
+import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.StageRealmProxy;
 
 public class ImportFragment extends Fragment implements View.OnClickListener  {
     private Button btnImport;
@@ -88,6 +91,11 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         serverView = (TextView) root.findViewById(R.id.circleServer);
         raceIdView = (TextView) root.findViewById(R.id.txtActualRaceIdValue);
         stageIdView = (TextView) root.findViewById(R.id.txtActualStageIdValue);
+        StagePresenter.getInstance().addView(this);
+        Stage stage = StagePresenter.getInstance().getStage();
+        if (stage != null) {
+            updateActualStage(stage);
+        }
 
         progressBar = new ProgressDialog(getActivity());
 
@@ -114,18 +122,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         JSONArray settings = APIClient.getDataFromAPI(UrlLink.GLOBALSETTINGS, null);
         if(settings == null) {
             updateDrawable(serverView, false);
-            setText(stageIdView, getResources().getString(R.string.import_actual_not_available));
-            setText(raceIdView, getResources().getString(R.string.import_actual_not_available));
         } else {
-            try {
-                updateDrawable(serverView, true);
-                JSONObject settingsJSONObject= settings.getJSONObject(0);
-                setText(stageIdView, settingsJSONObject.getString(PARAMETER));
-                settingsJSONObject = settings.getJSONObject(1);
-                setText(raceIdView, settingsJSONObject.getString(PARAMETER));
-            } catch (JSONException e) {
-                Log.d(ImportFragment.class.getSimpleName(), "APP - UI - " + e.getMessage());
-            }
+            updateDrawable(serverView, true);
         }
     }
 
@@ -202,6 +200,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
            RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
            JudgmentPresenter.getInstance().getAllJudgments();
            MaillotPresenter.getInstance().getAllMaillots();
+           StagePresenter.getInstance().getStageWithCallback();
         });
     }
 
@@ -377,6 +376,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 modules(new RealmModul()).
                 build();
         RadioTourApplication.setInstance(config);
+    }
+
+    public void updateActualStage(Stage stage) {
+        raceIdView.setText(stage.getName() + " (" + stage.getStageId() + ") ");
     }
 
     private String copyBundledRealmFile() throws IOException {
