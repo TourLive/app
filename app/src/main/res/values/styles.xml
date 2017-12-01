@@ -13,6 +13,11 @@
         <item name="android:textSize">8dp</item>
     </style>
     <style name="HeaderTitle">
+        <item name="android:textColor">#FF424242</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="DemoTitle">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">24sp</item>
         <item name="android:textStyle">bold</item>
