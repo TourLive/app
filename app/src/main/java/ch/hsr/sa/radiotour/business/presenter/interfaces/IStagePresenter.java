@@ -7,4 +7,5 @@ public interface IStagePresenter extends IBasePresenter {
     void addStage(Stage stage);
     void clearAllStages();
     Stage getStage();
+    void getStageWithCallback();
 }
