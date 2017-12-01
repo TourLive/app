@@ -24,6 +24,8 @@ public class StageRepository implements IStageRepository {
             realmStage.setType(stage.getType());
             realmStage.setStageConnections(stage.getStageConnections());
             realmStage.setMaillotConnections(stage.getMaillotConnections());
+            realmStage.setRaceName(stage.getRaceName());
+            realmStage.setRaceId(stage.getRaceId());
         });
 
         Stage dbStage = realm.where(Stage.class).findFirst();
@@ -36,6 +38,15 @@ public class StageRepository implements IStageRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         return realm.where(Stage.class).findFirst();
     }
+    public void getStage(OnGetStageCallback callback){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        Stage stage = realm.where(Stage.class).findFirst();
+
+        if (callback!= null) {
+            callback.onSuccess(stage);
+        }
+    }
+
 
     @Override
     public void clearAllStages() {
