@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,13 +42,25 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView rankThree;
     private TextView rankFour;
     private TextView rankFive;
+    private TextView rankSix;
+    private TextView rankSeven;
+    private TextView rankEight;
+    private TextView rankNine;
+    private TextView rankTen;
     private TextView rankOneTxt;
     private TextView rankTwoTxt;
     private TextView rankThreeTxt;
     private TextView rankFourTxt;
     private TextView rankFiveTxt;
+    private TextView rankSixTxt;
+    private TextView rankSevenTxt;
+    private TextView rankEightTxt;
+    private TextView rankNineTxt;
+    private TextView rankTenTxt;
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
+    private ConstraintLayout lineTwoHeader;
+    private ConstraintLayout lineTwoButtons;
     private Reward rewardM;
     private int rank = 0;
 
@@ -67,6 +80,8 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
         rvRidersToSelect.setHasFixedSize(true);
+        lineTwoHeader = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTxtTwo);
+        lineTwoButtons = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTwo);
         initRankView(root);
 
         return root;
@@ -78,11 +93,21 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankThree = (TextView) root.findViewById(R.id.RankThree);
         rankFour = (TextView) root.findViewById(R.id.RankFour);
         rankFive = (TextView) root.findViewById(R.id.RankFive);
+        rankSix = (TextView) root.findViewById(R.id.RankSix);
+        rankSeven = (TextView) root.findViewById(R.id.RankSeven);
+        rankEight = (TextView) root.findViewById(R.id.RankEight);
+        rankNine = (TextView) root.findViewById(R.id.RankNine);
+        rankTen = (TextView) root.findViewById(R.id.RankTen);
         rankOneTxt = (TextView) root.findViewById(R.id.txtRankOne);
         rankTwoTxt = (TextView) root.findViewById(R.id.txtRankTwo);
         rankThreeTxt = (TextView) root.findViewById(R.id.txtRankThree);
         rankFourTxt = (TextView) root.findViewById(R.id.txtRankFour);
         rankFiveTxt = (TextView) root.findViewById(R.id.txtRankFive);
+        rankSixTxt = (TextView) root.findViewById(R.id.txtRankSix);
+        rankSevenTxt = (TextView) root.findViewById(R.id.txtRankSeven);
+        rankEightTxt = (TextView) root.findViewById(R.id.txtRankEight);
+        rankNineTxt = (TextView) root.findViewById(R.id.txtRankNine);
+        rankTenTxt = (TextView) root.findViewById(R.id.txtRankTen);
         initListener();
         iniList();
 
@@ -93,10 +118,19 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 headers.get(o).setVisibility(View.GONE);
             }
         }
+        if (work.size() < 6) {
+            lineTwoButtons.setVisibility(View.GONE);
+            lineTwoHeader.setVisibility(View.GONE);
+        }
         initTextViewsWithData();
     }
 
     private void iniList() {
+        textViews.add(rankOne);
+        textViews.add(rankTwo);
+        textViews.add(rankThree);
+        textViews.add(rankFour);
+        textViews.add(rankFive);
         textViews.add(rankOne);
         textViews.add(rankTwo);
         textViews.add(rankThree);
@@ -107,6 +141,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         headers.add(rankThreeTxt);
         headers.add(rankFourTxt);
         headers.add(rankFiveTxt);
+        headers.add(rankSixTxt);
+        headers.add(rankSevenTxt);
+        headers.add(rankEightTxt);
+        headers.add(rankNineTxt);
+        headers.add(rankTenTxt);
     }
 
     private void initListener() {
@@ -115,6 +154,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankThree.setOnClickListener(this);
         rankFour.setOnClickListener(this);
         rankFive.setOnClickListener(this);
+        rankSix.setOnClickListener(this);
+        rankSeven.setOnClickListener(this);
+        rankEight.setOnClickListener(this);
+        rankNine.setOnClickListener(this);
+        rankTen.setOnClickListener(this);
     }
 
     private void initTextViewsWithData() {
@@ -136,6 +180,21 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                     break;
                 case 5:
                     rankFive.setText(String.valueOf(startNr));
+                    break;
+                case 6:
+                    rankSix.setText(String.valueOf(startNr));
+                    break;
+                case 7:
+                    rankSeven.setText(String.valueOf(startNr));
+                    break;
+                case 8:
+                    rankEight.setText(String.valueOf(startNr));
+                    break;
+                case 9:
+                    rankNine.setText(String.valueOf(startNr));
+                    break;
+                case 10:
+                    rankTen.setText(String.valueOf(startNr));
                     break;
                 default:
                     break;
@@ -173,7 +232,22 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             case R.id.RankFive:
                 rank = 5;
                 break;
-            default:
+           case R.id.RankSix:
+                rank = 6;
+                break;
+           case R.id.RankSeven:
+                rank = 7;
+                break;
+           case R.id.RankEight:
+                rank = 8;
+                break;
+           case R.id.RankNine:
+                rank = 9;
+                break;
+           case R.id.RankTen:
+                rank = 10;
+                break;
+           default:
                 break;
        }
     }
