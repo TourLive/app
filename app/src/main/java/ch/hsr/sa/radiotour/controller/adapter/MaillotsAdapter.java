@@ -10,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
@@ -24,6 +26,7 @@ import io.realm.RealmList;
 
 public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.MaillotViewHolder> {
     private RealmList<Maillot> maillots;
+    private Map<Maillot, MaillotViewHolder> maillotMaillotViewHolderMap;
     private Context context;
 
     public MaillotsAdapter(RealmList<Maillot> maillots, Context context) {
@@ -43,6 +46,8 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         holder.partner.setText(maillots.get(position).getPartner());
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
         getActualLeader(maillots.get(position).getType(), holder.leader);
+        this.maillotMaillotViewHolderMap.put(maillots.get(position), holder);
+
     }
 
     private void getMaillotColor(String color, ImageView view) {
@@ -81,7 +86,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     }
                 });
                 rider = riderStageConnections.get(0).getRiders();
-                view.setText(rider.getName());
+                view.setText(String.format("%d, %s, %s, %s", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName()));
                 break;
             case "mountain":
                 Collections.sort(riderStageConnections, new Comparator<RiderStageConnection>() {
@@ -130,6 +135,13 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 break;
             default:
                 break;
+        }
+    }
+
+    public void updateLeaders(){
+        // needs to be calles from callback when ranking changed, get assoziated view
+        for(Maillot maillot : this.maillots){
+            getActualLeader(maillot.getType(), maillotMaillotViewHolderMap.get(maillot).leader);
         }
     }
 
