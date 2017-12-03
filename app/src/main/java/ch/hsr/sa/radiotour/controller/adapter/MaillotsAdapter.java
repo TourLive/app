@@ -3,19 +3,17 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.Format;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
@@ -26,12 +24,13 @@ import io.realm.RealmList;
 
 public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.MaillotViewHolder> {
     private RealmList<Maillot> maillots;
-    private Map<Maillot, MaillotViewHolder> maillotMaillotViewHolderMap;
+    private HashMap<Maillot, MaillotViewHolder> maillotMaillotViewHolderMap;
     private Context context;
 
     public MaillotsAdapter(RealmList<Maillot> maillots, Context context) {
         this.maillots = maillots;
         this.context = context;
+        this.maillotMaillotViewHolderMap = new HashMap<>();
     }
 
     @Override
@@ -47,7 +46,6 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
         getActualLeader(maillots.get(position).getType(), holder.leader);
         this.maillotMaillotViewHolderMap.put(maillots.get(position), holder);
-
     }
 
     private void getMaillotColor(String color, ImageView view) {
@@ -86,7 +84,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     }
                 });
                 rider = riderStageConnections.get(0).getRiders();
-                view.setText(String.format("%d, %s, %s, %s", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName()));
+                view.setText(String.format("%d, %s, %s, %s, %d", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
                 break;
             case "mountain":
                 Collections.sort(riderStageConnections, new Comparator<RiderStageConnection>() {
@@ -99,7 +97,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     }
                 });
                 rider = riderStageConnections.get(0).getRiders();
-                view.setText(rider.getName());
+                view.setText(String.format("%d, %s, %s, %s, %d", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
                 break;
             case "points":
                 Collections.sort(riderStageConnections, new Comparator<RiderStageConnection>() {
@@ -112,7 +110,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     }
                 });
                 rider = riderStageConnections.get(0).getRiders();
-                view.setText(rider.getName());
+                view.setText(String.format("%d, %s, %s, %s, %d", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
                 break;
             case "bestSwiss":
                 Collections.sort(riderStageConnections, new Comparator<RiderStageConnection>() {
@@ -131,7 +129,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     }
                 }
                 if(rider!=null)
-                    view.setText(rider.getName());
+                    view.setText(String.format("%d, %s, %s, %s, %d", rider.getStartNr(), "flag", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
                 break;
             default:
                 break;
