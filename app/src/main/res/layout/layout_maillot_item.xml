@@ -20,11 +20,11 @@
 
     <TextView
         android:id="@+id/txtMaillotPartner"
-        android:layout_width="100dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Partner"
+        android:text="@string/maillots_partner"
         app:layout_constraintStart_toEndOf="@+id/imgTrikot"
         app:layout_constraintTop_toBottomOf="@+id/MaillotName" />
 
@@ -39,14 +39,39 @@
         app:layout_constraintStart_toEndOf="@+id/txtMaillotPartner"
         app:layout_constraintTop_toBottomOf="@+id/MaillotName" />
 
+    <TextView
+        android:id="@+id/txtLeader"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/maillots_leader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgTrikot"
+        app:layout_constraintTop_toBottomOf="@+id/txtMaillotPartner" />
+
+    <TextView
+        android:id="@+id/leaderInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/maillots_noleader"
+        android:textAlignment="textStart"
+        app:layout_constraintStart_toEndOf="@+id/txtMaillotPartner"
+        app:layout_constraintTop_toBottomOf="@+id/MaillotPartner" />
+
     <ImageView
         android:id="@+id/imgTrikot"
         android:layout_width="89dp"
         android:layout_height="76dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/maillots" />
 
 </android.support.constraint.ConstraintLayout>
