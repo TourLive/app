@@ -32,7 +32,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
-public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
+public class JudgmentDetailFragment extends Fragment implements View.OnClickListener, OnRiderJudgmentClickListener {
     private String judgementID;
     private Judgement judgement;
     private RiderBasicAdapter riderBasicAdapter;
@@ -49,6 +49,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
     private Reward rewardM;
+    private int rank = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,11 +59,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
 
         TextView title = (TextView) root.findViewById(R.id.titleJudgements2);
-        title.setText(judgement.getDistance() + " | " + judgement.getName());
+        title.setText("KM " + judgement.getDistance() + " | " + judgement.getName());
 
 
         RecyclerView rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
-        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement);
+        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement, this);
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
         rvRidersToSelect.setHasFixedSize(true);
@@ -156,58 +157,50 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Rider rider = riderBasicAdapter.getSelectedRider();
-        if (rider == null) {
-            return;
-        }
-        for (TextView textView : textViews) {
-            if (textView.getText() == String.valueOf(rider.getStartNr())) {
-                Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                toast.show();
-                riderBasicAdapter.resetSelectedRider();
-                return;
-            }
-        }
-        switch(view.getId()) {
+       switch(view.getId()) {
             case R.id.RankOne:
-                rankOne.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(1, rider);
+                rank = 1;
                 break;
             case R.id.RankTwo:
-                rankTwo.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(2, rider);
+                rank = 2;
                 break;
             case R.id.RankThree:
-                rankThree.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(3, rider);
+                rank = 3;
                 break;
             case R.id.RankFour:
-                rankFour.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(4, rider);
+                rank = 4;
                 break;
             case R.id.RankFive:
-                rankFive.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(5, rider);
+                rank = 5;
                 break;
             default:
                 break;
-        }
-        riderBasicAdapter.resetSelectedRider();
-        riderBasicAdapter.setColorOnRider(rider.getStartNr());
+       }
     }
 
-    private void saveJudgmnet(int rank, Rider rider) {
-        JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
-        judgmentRiderConnection.setRank(rank);
-        RealmList<Rider> riderToAdd = new RealmList<>();
-        riderToAdd.add(rider);
-        judgmentRiderConnection.setRider(riderToAdd);
-        RealmList<Judgement> judgementToAdd = new RealmList<>();
-        judgementToAdd.add(judgement);
-        judgmentRiderConnection.setJudgements(judgementToAdd);
-        JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
-        updateRiderStateConnectionWithPerformance(rider, rank);
+    public void saveJudgmnet() {
+        Rider rider = riderBasicAdapter.getSelectedRider();
+        if (rank != 0) {
+            JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
+            judgmentRiderConnection.setRank(rank);
+            RealmList<Rider> riderToAdd = new RealmList<>();
+            riderToAdd.add(rider);
+            judgmentRiderConnection.setRider(riderToAdd);
+            RealmList<Judgement> judgementToAdd = new RealmList<>();
+            judgementToAdd.add(judgement);
+            judgmentRiderConnection.setJudgements(judgementToAdd);
+            JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
+            updateRiderStateConnectionWithPerformance(rider, rank);
+            textViews.get(rank - 1).setText(String.valueOf(rider.getStartNr()));
+        } else {
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+            toast.show();
+            Integer integer = rider.getRiderID();
+            riderBasicAdapter.removeRiderFromList(integer);
+        }
+        riderBasicAdapter.resetSelectedRider();
+        rank = 0;
     }
 
     private void updateRiderStateConnectionWithPerformance(Rider rider, int rank) {
