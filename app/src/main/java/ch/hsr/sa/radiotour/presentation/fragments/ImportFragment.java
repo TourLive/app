@@ -296,7 +296,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     afterImport();
                     progressBarHandler.post(() -> {
                         if(demoMode){
-                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.backgroup_shape));
+                            btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape));
                             MainActivity.getInstance().findViewById(R.id.txt_DemoMode).setVisibility(View.INVISIBLE);
                             btnDemo.setText(getResources().getText(R.string.import_demodata));
                             btnImport.setEnabled(true);
