@@ -8,7 +8,7 @@
     <string name="header_racetime">Rennzeit</string>
     <string name="header_race">RENNEN</string>
     <string name="header_special_class">WERTUNGEN EINGEBEN</string>
-    <string name="header_virtual_class">VIRTUELLES KLASSEMENT</string>
+    <string name="header_virtual_class">KLASSEMENTE</string>
     <string name="header_maillots">MAILLOTS</string>
     <string name="header_import_data">Administration</string>
     <string name="header_startstop">Start / Stop</string>
