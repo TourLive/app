@@ -76,7 +76,7 @@ public final class APIClient {
     }
 
     public static String getMaillotsRiderConnections() {
-        return getMaillotsRiderConnections(UrlLink.RIDERJERSEY + 202, null);
+        return getMaillotsRiderConnections(UrlLink.RIDERJERSEY + stageId, null);
     }
 
     public static void clearDatabase(){
