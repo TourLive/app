@@ -46,7 +46,7 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
         tableColumnWeightModel.setColumnWeight(2, 3);
         tableColumnWeightModel.setColumnWeight(3, 1);
         tableColumnWeightModel.setColumnWeight(4, 3);
-        tableColumnWeightModel.setColumnWeight(5, 5);
+        tableColumnWeightModel.setColumnWeight(5, 3);
         tableColumnWeightModel.setColumnWeight(6, 5);
         tableColumnWeightModel.setColumnWeight(7, 5);
         tableColumnWeightModel.setColumnWeight(8, 3);
