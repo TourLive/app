@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation.fragments;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -32,7 +33,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
-public class JudgmentDetailFragment extends Fragment implements View.OnClickListener {
+public class JudgmentDetailFragment extends Fragment implements View.OnClickListener, OnRiderJudgmentClickListener {
     private String judgementID;
     private Judgement judgement;
     private RiderBasicAdapter riderBasicAdapter;
@@ -41,14 +42,27 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView rankThree;
     private TextView rankFour;
     private TextView rankFive;
+    private TextView rankSix;
+    private TextView rankSeven;
+    private TextView rankEight;
+    private TextView rankNine;
+    private TextView rankTen;
     private TextView rankOneTxt;
     private TextView rankTwoTxt;
     private TextView rankThreeTxt;
     private TextView rankFourTxt;
     private TextView rankFiveTxt;
+    private TextView rankSixTxt;
+    private TextView rankSevenTxt;
+    private TextView rankEightTxt;
+    private TextView rankNineTxt;
+    private TextView rankTenTxt;
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
+    private ConstraintLayout lineTwoHeader;
+    private ConstraintLayout lineTwoButtons;
     private Reward rewardM;
+    private int rank = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,14 +72,16 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
 
         TextView title = (TextView) root.findViewById(R.id.titleJudgements2);
-        title.setText(judgement.getDistance() + " | " + judgement.getName());
+        title.setText("KM " + judgement.getDistance() + " | " + judgement.getName());
 
 
         RecyclerView rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
-        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement);
+        riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement, this);
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
         rvRidersToSelect.setHasFixedSize(true);
+        lineTwoHeader = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTxtTwo);
+        lineTwoButtons = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTwo);
         initRankView(root);
 
         return root;
@@ -77,11 +93,21 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankThree = (TextView) root.findViewById(R.id.RankThree);
         rankFour = (TextView) root.findViewById(R.id.RankFour);
         rankFive = (TextView) root.findViewById(R.id.RankFive);
+        rankSix = (TextView) root.findViewById(R.id.RankSix);
+        rankSeven = (TextView) root.findViewById(R.id.RankSeven);
+        rankEight = (TextView) root.findViewById(R.id.RankEight);
+        rankNine = (TextView) root.findViewById(R.id.RankNine);
+        rankTen = (TextView) root.findViewById(R.id.RankTen);
         rankOneTxt = (TextView) root.findViewById(R.id.txtRankOne);
         rankTwoTxt = (TextView) root.findViewById(R.id.txtRankTwo);
         rankThreeTxt = (TextView) root.findViewById(R.id.txtRankThree);
         rankFourTxt = (TextView) root.findViewById(R.id.txtRankFour);
         rankFiveTxt = (TextView) root.findViewById(R.id.txtRankFive);
+        rankSixTxt = (TextView) root.findViewById(R.id.txtRankSix);
+        rankSevenTxt = (TextView) root.findViewById(R.id.txtRankSeven);
+        rankEightTxt = (TextView) root.findViewById(R.id.txtRankEight);
+        rankNineTxt = (TextView) root.findViewById(R.id.txtRankNine);
+        rankTenTxt = (TextView) root.findViewById(R.id.txtRankTen);
         initListener();
         iniList();
 
@@ -92,10 +118,19 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 headers.get(o).setVisibility(View.GONE);
             }
         }
+        if (work.size() < 6) {
+            lineTwoButtons.setVisibility(View.GONE);
+            lineTwoHeader.setVisibility(View.GONE);
+        }
         initTextViewsWithData();
     }
 
     private void iniList() {
+        textViews.add(rankOne);
+        textViews.add(rankTwo);
+        textViews.add(rankThree);
+        textViews.add(rankFour);
+        textViews.add(rankFive);
         textViews.add(rankOne);
         textViews.add(rankTwo);
         textViews.add(rankThree);
@@ -106,6 +141,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         headers.add(rankThreeTxt);
         headers.add(rankFourTxt);
         headers.add(rankFiveTxt);
+        headers.add(rankSixTxt);
+        headers.add(rankSevenTxt);
+        headers.add(rankEightTxt);
+        headers.add(rankNineTxt);
+        headers.add(rankTenTxt);
     }
 
     private void initListener() {
@@ -114,6 +154,11 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankThree.setOnClickListener(this);
         rankFour.setOnClickListener(this);
         rankFive.setOnClickListener(this);
+        rankSix.setOnClickListener(this);
+        rankSeven.setOnClickListener(this);
+        rankEight.setOnClickListener(this);
+        rankNine.setOnClickListener(this);
+        rankTen.setOnClickListener(this);
     }
 
     private void initTextViewsWithData() {
@@ -136,6 +181,21 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 case 5:
                     rankFive.setText(String.valueOf(startNr));
                     break;
+                case 6:
+                    rankSix.setText(String.valueOf(startNr));
+                    break;
+                case 7:
+                    rankSeven.setText(String.valueOf(startNr));
+                    break;
+                case 8:
+                    rankEight.setText(String.valueOf(startNr));
+                    break;
+                case 9:
+                    rankNine.setText(String.valueOf(startNr));
+                    break;
+                case 10:
+                    rankTen.setText(String.valueOf(startNr));
+                    break;
                 default:
                     break;
             }
@@ -156,58 +216,65 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        Rider rider = riderBasicAdapter.getSelectedRider();
-        if (rider == null) {
-            return;
-        }
-        for (TextView textView : textViews) {
-            if (textView.getText() == String.valueOf(rider.getStartNr())) {
-                Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
-                toast.show();
-                riderBasicAdapter.resetSelectedRider();
-                return;
-            }
-        }
-        switch(view.getId()) {
+       switch(view.getId()) {
             case R.id.RankOne:
-                rankOne.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(1, rider);
+                rank = 1;
                 break;
             case R.id.RankTwo:
-                rankTwo.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(2, rider);
+                rank = 2;
                 break;
             case R.id.RankThree:
-                rankThree.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(3, rider);
+                rank = 3;
                 break;
             case R.id.RankFour:
-                rankFour.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(4, rider);
+                rank = 4;
                 break;
             case R.id.RankFive:
-                rankFive.setText(String.valueOf(rider.getStartNr()));
-                saveJudgmnet(5, rider);
+                rank = 5;
                 break;
-            default:
+           case R.id.RankSix:
+                rank = 6;
                 break;
-        }
-        riderBasicAdapter.resetSelectedRider();
-        riderBasicAdapter.setColorOnRider(rider.getStartNr());
+           case R.id.RankSeven:
+                rank = 7;
+                break;
+           case R.id.RankEight:
+                rank = 8;
+                break;
+           case R.id.RankNine:
+                rank = 9;
+                break;
+           case R.id.RankTen:
+                rank = 10;
+                break;
+           default:
+                break;
+       }
     }
 
-    private void saveJudgmnet(int rank, Rider rider) {
-        JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
-        judgmentRiderConnection.setRank(rank);
-        RealmList<Rider> riderToAdd = new RealmList<>();
-        riderToAdd.add(rider);
-        judgmentRiderConnection.setRider(riderToAdd);
-        RealmList<Judgement> judgementToAdd = new RealmList<>();
-        judgementToAdd.add(judgement);
-        judgmentRiderConnection.setJudgements(judgementToAdd);
-        JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
-        updateRiderStateConnectionWithPerformance(rider, rank);
+    public void saveJudgmnet() {
+        Rider rider = riderBasicAdapter.getSelectedRider();
+        if (rank != 0) {
+            JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
+            judgmentRiderConnection.setRank(rank);
+            RealmList<Rider> riderToAdd = new RealmList<>();
+            riderToAdd.add(rider);
+            judgmentRiderConnection.setRider(riderToAdd);
+            RealmList<Judgement> judgementToAdd = new RealmList<>();
+            judgementToAdd.add(judgement);
+            judgmentRiderConnection.setJudgements(judgementToAdd);
+            JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
+            updateRiderStateConnectionWithPerformance(rider, rank);
+            textViews.get(rank - 1).setText(String.valueOf(rider.getStartNr()));
+        } else {
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+            toast.show();
+            Integer integer = rider.getRiderID();
+            riderBasicAdapter.removeRiderFromList(integer);
+        }
+        riderBasicAdapter.resetSelectedRider();
+        rank = 0;
     }
 
     private void updateRiderStateConnectionWithPerformance(Rider rider, int rank) {
