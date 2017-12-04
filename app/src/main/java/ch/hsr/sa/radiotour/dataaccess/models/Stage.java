@@ -39,9 +39,13 @@ public class Stage extends RealmObject {
         this.stageId = stageId;
     }
 
-    public int getRaceId() { return raceId;}
+    public int getRaceId() {
+        return raceId;
+    }
 
-    public void setRaceId(int raceId) {this.raceId = raceId;}
+    public void setRaceId(int raceId) {
+        this.raceId = raceId;
+    }
 
     public String getRaceName() {
         return raceName;

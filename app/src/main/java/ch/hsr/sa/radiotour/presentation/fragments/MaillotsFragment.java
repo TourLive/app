@@ -24,7 +24,7 @@ public class MaillotsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG","MaillotsFragment onCreateView");
+        Log.d("TAG", "MaillotsFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_maillots, container, false);
         this.maillots = new RealmList<>();
         this.adapter = new MaillotsAdapter(maillots, mContext);

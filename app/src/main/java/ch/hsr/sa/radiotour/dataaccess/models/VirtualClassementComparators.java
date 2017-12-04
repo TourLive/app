@@ -14,36 +14,47 @@ public final class VirtualClassementComparators {
     public static Comparator<RiderExtended> getStartNrComparator() {
         return new RiderExtendedStartNrComparator();
     }
+
     public static Comparator<RiderExtended> getCountryComparator() {
         return new RiderExtendedCountryComparator();
     }
+
     public static Comparator<RiderExtended> getNameComparator() {
         return new RiderExtendedNameComparator();
     }
-    public static Comparator<RiderExtended>  getTeamComparator() {
+
+    public static Comparator<RiderExtended> getTeamComparator() {
         return new RiderExtendedTeamComparator();
     }
+
     public static Comparator<RiderExtended> getPointComparator() {
         return new RiderExtendedPointComparator();
     }
+
     public static Comparator<RiderExtended> getSprintPointComparator() {
         return new RiderExtendedSprintPointComparator();
     }
+
     public static Comparator<RiderExtended> getMountainPointComparator() {
         return new RiderExtendedMountainPointComparator();
     }
+
     public static Comparator<RiderExtended> getMoneyComparator() {
         return new RiderExtendedMoneyComparator();
     }
+
     public static Comparator<RiderExtended> getVirtualDeficitComparator() {
         return new RiderExtendedVirtualDeficitComparator();
     }
+
     public static Comparator<RiderExtended> getOffizialDeficitComparator() {
         return new RiderExtendedOffizialDeficitComparator();
     }
+
     public static Comparator<RiderExtended> getOfficialTimeComparator() {
         return new RiderExtendedOfficialTimeComparator();
     }
+
     public static Comparator<RiderExtended> getRankComparator() {
         return new RiderExtendedRankComparator();
     }
@@ -75,6 +86,7 @@ public final class VirtualClassementComparators {
             return riderOne.getName().compareTo(riderTwo.getName());
         }
     }
+
     private static class RiderExtendedTeamComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {

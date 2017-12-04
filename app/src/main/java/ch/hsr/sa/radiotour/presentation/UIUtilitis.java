@@ -126,7 +126,7 @@ public final class UIUtilitis {
         } else {
             String numberString = Integer.toString(startNr);
             if (startNr < 100) {
-                firstNumber = Integer.parseInt(numberString.substring(0,1));
+                firstNumber = Integer.parseInt(numberString.substring(0, 1));
             } else {
                 firstNumber = Integer.parseInt(numberString.substring(0, 2));
             }
@@ -147,7 +147,7 @@ public final class UIUtilitis {
                 number.put(firstNumber, temp);
             }
         }
-        number.put(30,1);
+        number.put(30, 1);
         return number;
     }
 }

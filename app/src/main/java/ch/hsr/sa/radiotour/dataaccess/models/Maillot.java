@@ -8,9 +8,10 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Maillot extends RealmObject {
+    @LinkingObjects("maillotConnections")
+    private final RealmResults<Stage> stages = null;
     @PrimaryKey
     private String id;
-
     private Integer dbIDd;
     @Required
     private String type;
@@ -20,10 +21,6 @@ public class Maillot extends RealmObject {
     private String color;
     @Required
     private String partner;
-
-    @LinkingObjects("maillotConnections")
-    private final RealmResults<Stage> stages = null;
-
     private RealmList<RiderStageConnection> mailRiderConnection;
 
     public String getId() {

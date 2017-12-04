@@ -57,16 +57,21 @@ import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 public class MainActivity extends AppCompatActivity {
 
     private static MainActivity activity;
+    private static int updateTime = 5000;
+    private static int delayTime = 10000;
+    private static int updateTimeForRace = 1000;
+    private static int delayZero = 0;
+    private static int minDistanceChange = 0;
+    private static String sources = "sources";
+    private static String raceKilometer = "rennkilometer";
+    private static String speed = "speed";
     private ViewPageAdapter viewPageAdapter;
     private ViewPager viewPager;
-
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
     private Timer timerForRace;
     private TimerTask timerTaskForRace;
-
     private Handler uiHandler;
-
     private TextView heightView;
     private TextView topFieldActualGapView;
     private TextView topRadioTourActualGapView;
@@ -76,7 +81,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView raceTimeView;
     private TextView startStopView;
     private TextView resetView;
-
     private Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
     private float distanceInMeter = 0;
@@ -88,21 +92,10 @@ public class MainActivity extends AppCompatActivity {
     private float officialSpeedField = 0;
     private float officalGapTopRadioTour = 0;
     private float officalGapTopField = 0;
-
     private Location actualLocation;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private double correctionHeight = 0;
-
-    private static int updateTime = 5000;
-    private static int delayTime = 10000;
-    private static int updateTimeForRace = 1000;
-    private static int delayZero = 0;
-    private static int minDistanceChange = 0;
-
-    private static String sources = "sources";
-    private static String raceKilometer = "rennkilometer";
-    private static String speed = "speed";
 
     public static MainActivity getInstance() {
         return activity;
@@ -142,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
                 if (tab.getText().toString().equals(getString(R.string.header_special_class))) {
                     closeDetailJudgmentFragment();
                 }
-                if (tab.getText().toString().equals(getString(R.string.header_ridergroup))){
+                if (tab.getText().toString().equals(getString(R.string.header_ridergroup))) {
                     resetStateRiders(viewPageAdapter.getItem(tab.getPosition()));
                 }
             }
@@ -170,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
         startStopView = (TextView) findViewById(R.id.btnStartStopRace);
         resetView = (TextView) findViewById(R.id.btnReset);
 
-        if(StagePresenter.getInstance().getStage() != null)
+        if (StagePresenter.getInstance().getStage() != null)
             updateStageInfo(StagePresenter.getInstance().getStage());
 
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -179,10 +172,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         startStopView.setOnClickListener((View click) -> {
-            if(!raceInProgress){
+            if (!raceInProgress) {
                 raceInProgress = true;
                 startStopView.setBackgroundColor(getColor(R.color.colorOlive));
-                if(ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     locationManager.getProvider(LocationManager.GPS_PROVIDER).supportsAltitude();
                     locationManager.addNmeaListener((OnNmeaMessageListener) (message, timestamp) -> {
                         if (message.startsWith("$")) {
@@ -196,7 +189,9 @@ public class MainActivity extends AppCompatActivity {
                     locationListener = new LocationListener() {
                         @Override
                         public void onLocationChanged(Location location) {
-                            if(actualLocation != null) { distanceInMeter += actualLocation.distanceTo(location); }
+                            if (actualLocation != null) {
+                                distanceInMeter += actualLocation.distanceTo(location);
+                            }
                             actualLocation = location;
                             uiHandler.post(() -> {
                                 heightView.setText(getString(R.string.header_prefix_m, (actualLocation.getAltitude() - correctionHeight)));
@@ -236,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                     timerForRace.schedule(timerTaskForRace, delayZero, updateTimeForRace);
 
                 }
-            } else{
+            } else {
                 raceInProgress = false;
                 locationManager.removeUpdates(locationListener);
                 startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
@@ -248,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
             raceInProgress = false;
             raceTime.setTime(0);
             distanceInMeter = 0;
-            if(locationListener != null)
+            if (locationListener != null)
                 locationManager.removeUpdates(locationListener);
             actualLocation = null;
             startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
@@ -256,14 +251,14 @@ public class MainActivity extends AppCompatActivity {
             timerForRace.cancel();
         });
 
-        raceTimeView.setOnClickListener((View event) ->{
+        raceTimeView.setOnClickListener((View event) -> {
             TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     raceTime.setTime(new Time(TimeUnit.HOURS.toMillis(view.getHour()) + TimeUnit.MINUTES.toMillis(view.getMinute())).getTime());
                     raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
                 }
-            },0 , 0, true);
+            }, 0, 0, true);
             dialog.setTitle(R.string.header_select_time);
             dialog.show();
 
@@ -286,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void resetStateRiders(Fragment fragment){
+    private void resetStateRiders(Fragment fragment) {
         RiderRaceGroupFragment frag = (RiderRaceGroupFragment) fragment;
         frag.resetStates();
     }
@@ -319,34 +314,38 @@ public class MainActivity extends AppCompatActivity {
 
     private void updateUIInfos() {
         new Thread(() -> {
-                JSONObject temp = new JSONObject();
-                JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
-                if(gpsData == null) return;
-                try {
-                    JSONArray gpsInfoArray = gpsData.getJSONArray(sources);
-                    temp = gpsInfoArray.getJSONObject(2);
-                    raceKilometerTop = (float)temp.getDouble(raceKilometer);
-                    temp = gpsInfoArray.getJSONObject(3);
-                    raceKilometerRadioTour = (float)temp.getDouble(raceKilometer);
-                    officialSpeedRadioTour = (float)temp.getDouble(speed);
-                    temp = gpsInfoArray.getJSONObject(4);
-                    raceKilometerField = (float)temp.getDouble(raceKilometer);
-                    officialSpeedField = (float)temp.getDouble(speed);
-                } catch (JSONException e) {
-                    Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
-                }
+            JSONObject temp = new JSONObject();
+            JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+            if (gpsData == null) return;
+            try {
+                JSONArray gpsInfoArray = gpsData.getJSONArray(sources);
+                temp = gpsInfoArray.getJSONObject(2);
+                raceKilometerTop = (float) temp.getDouble(raceKilometer);
+                temp = gpsInfoArray.getJSONObject(3);
+                raceKilometerRadioTour = (float) temp.getDouble(raceKilometer);
+                officialSpeedRadioTour = (float) temp.getDouble(speed);
+                temp = gpsInfoArray.getJSONObject(4);
+                raceKilometerField = (float) temp.getDouble(raceKilometer);
+                officialSpeedField = (float) temp.getDouble(speed);
+            } catch (JSONException e) {
+                Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
+            }
 
-                if(officialSpeedRadioTour != 0) { officalGapTopRadioTour = (raceKilometerTop - raceKilometerRadioTour) / officialSpeedRadioTour; }
-                if(officialSpeedField != 0){ officalGapTopField = (raceKilometerTop - raceKilometerField) / officialSpeedField; }
+            if (officialSpeedRadioTour != 0) {
+                officalGapTopRadioTour = (raceKilometerTop - raceKilometerRadioTour) / officialSpeedRadioTour;
+            }
+            if (officialSpeedField != 0) {
+                officalGapTopField = (raceKilometerTop - raceKilometerField) / officialSpeedField;
+            }
 
-                uiHandler.post(() -> {
-                    topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopRadioTour)));
-                    topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long)officalGapTopField)));
-                });
+            uiHandler.post(() -> {
+                topRadioTourActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long) officalGapTopRadioTour)));
+                topFieldActualGapView.setText(convertLongToTimeShortString(TimeUnit.SECONDS.toMillis((long) officalGapTopField)));
+            });
         }).start();
     }
 
-    public void updateStageInfo(Stage stage){
+    public void updateStageInfo(Stage stage) {
         Pattern p = Pattern.compile("(\\d+)");
         Matcher m = p.matcher(stage.getName());
         m.find();

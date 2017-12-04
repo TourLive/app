@@ -20,12 +20,12 @@ public class RaceGroup extends RealmObject {
         return id;
     }
 
-    public void setRiders(RealmList<Rider> riders) {
-        this.riders = riders;
-    }
-
     public RealmList<Rider> getRiders() {
         return riders;
+    }
+
+    public void setRiders(RealmList<Rider> riders) {
+        this.riders = riders;
     }
 
     public void appendRiders(RealmList<Rider> newRiders) {
@@ -68,8 +68,12 @@ public class RaceGroup extends RealmObject {
         return position;
     }
 
+    public void setPosition(int position) {
+        this.position = position;
+    }
+
     public String getName() {
-        switch(getType()) {
+        switch (getType()) {
             case LEAD:
                 return "SPITZENGRUPPE";
             case FELD:
@@ -79,9 +83,5 @@ public class RaceGroup extends RealmObject {
             default:
                 return "DEFAULT";
         }
-    }
-
-    public void setPosition(int position) {
-        this.position = position;
     }
 }

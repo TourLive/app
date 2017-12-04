@@ -45,33 +45,31 @@ import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class ImportFragment extends Fragment implements View.OnClickListener  {
+public class ImportFragment extends Fragment implements View.OnClickListener {
+    private static final String PARAMETER = "parameter";
+    private static final String SUCCESS_MESSAGE = "success";
+    private static final String DEMOREALM = "demorealm.realm";
+    private static final String DEMODATA = "DemoRealm.realm";
+    private static final String REALREAM = "radiotour.realm";
+    private static int updateTime = 5000;
+    private static int delayTime = 10000;
     private Button btnImport;
     private Button btnDemo;
     private TextView gpsView;
     private TextView serverView;
     private TextView raceIdView;
     private TextView stageIdView;
-    private static final String PARAMETER = "parameter";
     private ProgressDialog progressBar;
     private int progressBarStatus;
     private Handler progressBarHandler = new Handler();
     private Handler uiHandler = new Handler();
-    private static final String SUCCESS_MESSAGE = "success";
-
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
-    private static int updateTime = 5000;
-    private static int delayTime = 10000;
-
-    private static final String DEMOREALM = "demorealm.realm";
-    private static final String DEMODATA = "DemoRealm.realm";
-    private static final String REALREAM = "radiotour.realm";
     private boolean demoMode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG","ImportFragment onCreateView");
+        Log.d("TAG", "ImportFragment onCreateView");
         demoMode = false;
         View root = inflater.inflate(R.layout.fragment_import, container, false);
 
@@ -108,56 +106,56 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return root;
     }
 
-    private void updateViews(){
+    private void updateViews() {
         LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
         updateDrawable(gpsView, active);
 
         JSONArray settings = APIClient.getDataFromAPI(UrlLink.GLOBALSETTINGS, null);
-        if(settings == null) {
+        if (settings == null) {
             updateDrawable(serverView, false);
         } else {
             updateDrawable(serverView, true);
         }
     }
 
-    private void updateDrawable(View view, Boolean active){
+    private void updateDrawable(View view, Boolean active) {
         GradientDrawable drawable = (GradientDrawable) view.getBackground();
         int color = active ? ContextCompat.getColor(getContext(), R.color.green) : ContextCompat.getColor(getContext(), R.color.colorRed);
         uiHandler.post(() -> drawable.setColor(color));
     }
 
-    private void setText(TextView view, String text){
+    private void setText(TextView view, String text) {
         uiHandler.post(() -> view.setText(text));
     }
 
     @Override
     public void onClick(View v) {
-        if(v == btnImport){
-            if(isNetworkAvailable()) {
+        if (v == btnImport) {
+            if (isNetworkAvailable()) {
                 new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.import_start_import)
-                    .setMessage(R.string.import_start_info)
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
-                    .create()
-                    .show();
+                        .setTitle(R.string.import_start_import)
+                        .setMessage(R.string.import_start_info)
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
+                        .create()
+                        .show();
             } else {
                 new AlertDialog.Builder(getContext())
-                    .setTitle(R.string.import_no_internet_title)
-                    .setMessage(R.string.import_no_internet_connection)
-                    .setPositiveButton(android.R.string.ok,null)
-                    .create()
-                    .show();
+                        .setTitle(R.string.import_no_internet_title)
+                        .setMessage(R.string.import_no_internet_connection)
+                        .setPositiveButton(android.R.string.ok, null)
+                        .create()
+                        .show();
             }
         }
-        if(v == btnDemo){
+        if (v == btnDemo) {
             switchDemoMode();
         }
     }
 
-    private void startImport(){
-        try{
+    private void startImport() {
+        try {
             progressBar.setCancelable(false);
             progressBar.setMessage("Import starting ...");
             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -174,7 +172,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     afterImport();
                 }
             }).start();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.d("error", ex.getMessage());
         }
     }
@@ -189,12 +187,12 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         progressBar.setProgress(0);
         progressBar.dismiss();
         progressBarHandler.post(() -> {
-           RiderPresenter.getInstance().getAllRiders();
-           RaceGroupPresenter.getInstance().getAllRaceGroups();
-           RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
-           JudgmentPresenter.getInstance().getAllJudgments();
-           MaillotPresenter.getInstance().getAllMaillots();
-           StagePresenter.getInstance().getStageWithCallback();
+            RiderPresenter.getInstance().getAllRiders();
+            RaceGroupPresenter.getInstance().getAllRaceGroups();
+            RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+            JudgmentPresenter.getInstance().getAllJudgments();
+            MaillotPresenter.getInstance().getAllMaillots();
+            StagePresenter.getInstance().getStageWithCallback();
         });
     }
 
@@ -203,7 +201,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             if (progressBarStatus < 20) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_delete_data)));
                 String message = APIClient.deleteData();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
@@ -211,28 +209,28 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             } else if (progressBarStatus < 40) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver)));
                 String message = APIClient.getRiders();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
                 return 40;
-            }  else if (progressBarStatus < 50) {
+            } else if (progressBarStatus < 50) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_maillot)));
                 String message = APIClient.getMaillots();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
                 message = APIClient.getMaillotsRiderConnections();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
                 return 50;
-            }   else if (progressBarStatus < 60) {
+            } else if (progressBarStatus < 60) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));
                 String message = APIClient.getStages();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
@@ -240,7 +238,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             } else if (progressBarStatus < 80) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_reward)));
                 String message = APIClient.getJudgments();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
@@ -248,7 +246,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
             } else {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_judgment)));
                 String message = APIClient.getRewards();
-                if(!message.equals(SUCCESS_MESSAGE)){
+                if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
@@ -273,8 +271,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    private void switchDemoMode(){
-        try{
+    private void switchDemoMode() {
+        try {
             progressBar.setCancelable(false);
             progressBar.setMessage(getResources().getString(R.string.import_demo_start));
             progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
@@ -294,7 +292,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                 if (progressBarStatus >= 100) {
                     afterImport();
                     progressBarHandler.post(() -> {
-                        if(demoMode){
+                        if (demoMode) {
                             btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape));
                             MainActivity.getInstance().findViewById(R.id.txt_DemoMode).setVisibility(View.INVISIBLE);
                             btnDemo.setText(getResources().getText(R.string.import_demodata));
@@ -312,7 +310,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     });
                 }
             }).start();
-        } catch (Exception ex){
+        } catch (Exception ex) {
             Log.d("error", ex.getMessage());
         }
 
@@ -322,7 +320,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         while (progressBarStatus < 100) {
             if (progressBarStatus < 50 && !demoMode) {
                 File file = new File(getContext().getFilesDir(), DEMOREALM);
-                if(!demoMode && !file.exists()) {
+                if (!demoMode && !file.exists()) {
                     progressBarHandler.post(() -> {
                         progressBar.setMessage(getResources().getText(R.string.import_firstload_demodata));
                         try {
@@ -333,8 +331,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     });
                 }
                 return 50;
-            } else  {
-                if(!demoMode){
+            } else {
+                if (!demoMode) {
                     progressBarHandler.post(() -> {
                         progressBar.setMessage(getResources().getText(R.string.import_context_switch_demo));
                         try {
@@ -359,7 +357,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
         return 100;
     }
 
-    private void setDataToDemo() throws  IOException{
+    private void setDataToDemo() throws IOException {
         RealmConfiguration config = new RealmConfiguration.Builder().
                 name(DEMOREALM).
                 deleteRealmIfMigrationNeeded().

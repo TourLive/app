@@ -11,8 +11,17 @@ import io.realm.RealmConfiguration;
 public class RadioTourApplication extends Application {
 
     private static RealmConfiguration realmConfig;
+
+    public static RealmConfiguration getInstance() {
+        return realmConfig;
+    }
+
+    public static void setInstance(RealmConfiguration realmConfigNew) {
+        realmConfig = realmConfigNew;
+    }
+
     @Override
-    public void onCreate(){
+    public void onCreate() {
         super.onCreate();
 
         Realm.init(this);
@@ -32,10 +41,4 @@ public class RadioTourApplication extends Application {
                         .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
                         .build());
     }
-
-    public static RealmConfiguration getInstance() {
-        return realmConfig;
-    }
-
-    public static void setInstance(RealmConfiguration realmConfigNew) { realmConfig = realmConfigNew;}
 }

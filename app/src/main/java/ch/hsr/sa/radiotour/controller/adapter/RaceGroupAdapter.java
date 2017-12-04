@@ -26,13 +26,13 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
+    private static final int NORMALITEM = 0;
+    private static final int LASTITEM = 1;
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private Fragment fragment;
-    private static final int NORMALITEM = 0;
-    private static final int LASTITEM = 1;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment){
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment) {
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.context = context;
@@ -75,7 +75,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     public String convertLongToTimeString(long time) {
         long resMinutes = time / 60;
-        long resSeconds =  time - (resMinutes * 60);
+        long resSeconds = time - (resMinutes * 60);
         if (resMinutes < 10 && resSeconds < 10) {
             return "0" + Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
         } else if (resMinutes < 10 && resMinutes >= 10) {
@@ -95,6 +95,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             return LASTITEM;
         }
     }
+
     @Override
     public int getItemCount() {
         return raceGroups.size();
@@ -129,7 +130,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
             gaptimeActual.setOnClickListener(this);
             layoutRacegroup.setOnDragListener((View view, DragEvent dragEvent) -> {
-                switch(dragEvent.getAction()) {
+                switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
                         return true;
                     case DragEvent.ACTION_DROP:
@@ -146,7 +147,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             });
             if (layoutAddButton != null) {
                 layoutAddButton.setOnDragListener((View view, DragEvent dragEvent) -> {
-                    switch(dragEvent.getAction()) {
+                    switch (dragEvent.getAction()) {
                         case DragEvent.ACTION_DRAG_STARTED:
                             return true;
                         case DragEvent.ACTION_DROP:
@@ -205,7 +206,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                 pos = adapterPosition - 1;
             }
             RaceGroup raceGroup = raceGroups.get(pos);
-            int actualMinutes =  (int) raceGroup.getActualGapTime() / 60;
+            int actualMinutes = (int) raceGroup.getActualGapTime() / 60;
             int actualSeconds = (int) raceGroup.getActualGapTime() - (actualMinutes * 60);
 
             adapterMinutes = new TimeAdapter(actualMinutes);

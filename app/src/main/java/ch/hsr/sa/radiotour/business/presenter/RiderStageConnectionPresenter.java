@@ -17,8 +17,8 @@ import io.realm.RealmList;
 
 
 public class RiderStageConnectionPresenter implements IRiderStageConnectionPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static RiderStageConnectionPresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private RiderStageConnectionRepository riderStageConnectionRepository = new RiderStageConnectionRepository();
 
     private IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback onSaveRiderStageConnectionCallbackCallback;
@@ -27,13 +27,13 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     private IRiderStageConnectionRepository.OnUpdateRiderStateCallBack onUpdateRiderStateCallBack;
 
     public static RiderStageConnectionPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new RiderStageConnectionPresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -42,7 +42,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onSaveRiderStageConnectionCallbackCallback = new IRiderStageConnectionRepository.OnSaveRiderStageConnectionCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     // call specifc update function for each fragment type
                 }
             }
@@ -57,7 +57,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onGetAllRiderStageConnectionsCallback = new IRiderStageConnectionRepository.OnGetAllRiderStageConnectionsCallback() {
             @Override
             public void onSuccess(RealmList<RiderStageConnection> stageConnections) {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     // call specifc update function for each fragment type
                 }
             }
@@ -71,7 +71,7 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onUpdateRiderStageConnectionCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStageConnectionCallBack() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     if (frag instanceof VirtualClassFragment) {
                         ((VirtualClassFragment) frag).updateRiderStageConnection();
                     }
@@ -87,11 +87,11 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         onUpdateRiderStateCallBack = new IRiderStageConnectionRepository.OnUpdateRiderStateCallBack() {
             @Override
             public void onSuccess(RiderStageConnection connection) {
-                for(Fragment frag : fragments){
-                    if(frag instanceof RaceFragment){
+                for (Fragment frag : fragments) {
+                    if (frag instanceof RaceFragment) {
                         ((RaceFragment) frag).updateRiderStateOnGUI(connection);
                     }
-                    if(frag instanceof RiderRaceGroupFragment){
+                    if (frag instanceof RiderRaceGroupFragment) {
                         ((RiderRaceGroupFragment) frag).updateRiderStateOnGUI(connection);
                     }
                 }
@@ -158,12 +158,12 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public RealmList<RiderStageConnection> getAllRiderStateConnections(){
+    public RealmList<RiderStageConnection> getAllRiderStateConnections() {
         return riderStageConnectionRepository.getAllRiderStateConnections();
     }
 
     @Override
-    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection){
+    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection) {
         riderStageConnectionRepository.updateRiderStageConnectionRank(rank, connection);
     }
 

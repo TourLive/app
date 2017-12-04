@@ -16,10 +16,6 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         // Empty Constructor needed to work as expected
     }
 
-    public interface UnknownUserAddListener {
-        void onFinishAddingUnknownUser(int count);
-    }
-
     public static UnknownRiderDialogFragment newInstance() {
         return new UnknownRiderDialogFragment();
     }
@@ -39,15 +35,19 @@ public class UnknownRiderDialogFragment extends DialogFragment {
 
         alertDialogBuilder.setTitle("Adding Unknown Riders");
         alertDialogBuilder.setMessage("Please select how many unknown riders you would add and select the racegroup.");
-        alertDialogBuilder.setPositiveButton("Add unknown riders", (DialogInterface dialog, int which) ->  {
-           UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
-           int count = numberPicker.getValue();
-           unknownUserAddListener.onFinishAddingUnknownUser(count);
+        alertDialogBuilder.setPositiveButton("Add unknown riders", (DialogInterface dialog, int which) -> {
+            UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
+            int count = numberPicker.getValue();
+            unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
 
         alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
 
         return alertDialogBuilder.create();
+    }
+
+    public interface UnknownUserAddListener {
+        void onFinishAddingUnknownUser(int count);
     }
 
 }

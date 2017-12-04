@@ -39,13 +39,13 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
-    public RealmList<Judgement> getJudgmentsById(final int judgmentId){
+    public RealmList<Judgement> getJudgmentsById(final int judgmentId) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmList<Judgement> results = new RealmList<>();
         RealmResults<Judgement> judgments = realm.where(Judgement.class).findAll();
 
-        for(Judgement j : judgments){
-            if(j.getRewardId() == judgmentId){
+        for (Judgement j : judgments) {
+            if (j.getRewardId() == judgmentId) {
                 results.add(j);
             }
         }
@@ -54,7 +54,7 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
-    public Judgement getJudgmentByObjectIdReturned (final String id) {
+    public Judgement getJudgmentByObjectIdReturned(final String id) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         return realm.where(Judgement.class).equalTo("id", id).findFirst();
     }

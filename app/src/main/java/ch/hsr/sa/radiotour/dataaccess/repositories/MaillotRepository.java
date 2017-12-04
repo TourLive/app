@@ -29,7 +29,7 @@ public class MaillotRepository implements IMaillotRepository {
     }
 
     @Override
-    public void getAllMaillots(OnGetAllMaillotsCallback callback){
+    public void getAllMaillots(OnGetAllMaillotsCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
         RealmList<Maillot> res = new RealmList<>();
@@ -41,7 +41,7 @@ public class MaillotRepository implements IMaillotRepository {
     }
 
     @Override
-    public RealmList<Maillot> getAllMaillotsReturned(){
+    public RealmList<Maillot> getAllMaillotsReturned() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
         RealmList<Maillot> res = new RealmList<>();
