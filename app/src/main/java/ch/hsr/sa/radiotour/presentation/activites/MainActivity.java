@@ -23,7 +23,6 @@ import android.widget.TimePicker;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
