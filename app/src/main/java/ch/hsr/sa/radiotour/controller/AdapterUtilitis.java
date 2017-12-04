@@ -41,7 +41,8 @@ public final class AdapterUtilitis {
         long hours = TimeUnit.SECONDS.toHours(time - days * 86400);
         long minutes = TimeUnit.SECONDS.toMinutes(time - hours * 3600 - days * 86400);
         long seconds = TimeUnit.SECONDS.toSeconds(time - minutes * 60 - hours * 3600 - days * 86400);
+        hours += 24 * days;
 
-        return String.format("%02d:%02d:%02d:%02d", days, hours, minutes, seconds);
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 }
