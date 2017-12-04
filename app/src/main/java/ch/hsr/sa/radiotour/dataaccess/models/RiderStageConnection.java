@@ -28,6 +28,9 @@ public class RiderStageConnection extends RealmObject {
     private String typeState;
 
     public Rider getRiders() {
+        if (riders.isEmpty()) {
+            return null;
+        }
         return riders.first();
     }
 
