@@ -13,21 +13,21 @@ import io.realm.RealmList;
 
 
 public class JudgmentPresenter implements IJudgmentPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static JudgmentPresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private JudgmentRepository judgmentRepository = new JudgmentRepository();
 
     private IJudgmentRepository.OnSaveJudgmentCallback onSaveJudgmentCallback;
     private IJudgmentRepository.OnGetAllJudgmentCallback onGetAllJudgmentCallback;
 
     public static JudgmentPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new JudgmentPresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -37,7 +37,7 @@ public class JudgmentPresenter implements IJudgmentPresenter {
         onSaveJudgmentCallback = new IJudgmentRepository.OnSaveJudgmentCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     // call specifc update function for each fragment type
                 }
             }
@@ -50,7 +50,7 @@ public class JudgmentPresenter implements IJudgmentPresenter {
         onGetAllJudgmentCallback = new IJudgmentRepository.OnGetAllJudgmentCallback() {
             @Override
             public void onSuccess(RealmList<Judgement> judgements) {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     SpecialFragment specialFragment = (SpecialFragment) frag;
                     specialFragment.showJudgments(judgements);
                 }
@@ -75,7 +75,7 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     }
 
     @Override
-    public RealmList<Judgement> getJudgmentsById(int judgmentId){
+    public RealmList<Judgement> getJudgmentsById(int judgmentId) {
         return judgmentRepository.getJudgmentsById(judgmentId);
     }
 

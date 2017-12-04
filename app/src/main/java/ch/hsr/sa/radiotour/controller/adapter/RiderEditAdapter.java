@@ -55,19 +55,19 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         holderHashMap.put(riders.get(position).getStartNr(), holder);
     }
 
-    public RiderStateType getRiderStateType(int position){
+    public RiderStateType getRiderStateType(int position) {
         return riders.get(position).getRiderStages().first().getType();
     }
 
-    public int getItemStartNr (int pos) {
+    public int getItemStartNr(int pos) {
         return riders.get(pos).getStartNr();
     }
 
-    public void animateRiderInGroup(TextView tvNumber, Integer startNr){
+    public void animateRiderInGroup(TextView tvNumber, Integer startNr) {
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
-        if(raceGroup != null && context != null){
+        if (raceGroup != null && context != null) {
             GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-            if(raceGroup.getType() != RaceGroupType.FELD){
+            if (raceGroup.getType() != RaceGroupType.FELD) {
                 drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
             } else {
                 drawable.setColor(0);
@@ -75,11 +75,11 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         }
     }
 
-    public void updateAnimateRiderInGroup(String raceGroupId){
+    public void updateAnimateRiderInGroup(String raceGroupId) {
         RealmList<Rider> ridersToUpdate = RaceGroupPresenter.getInstance().getRaceGroupById(raceGroupId).getRiders();
-        if(!holderHashMap.isEmpty()){
-            for(Rider r : ridersToUpdate){
-                if(holderHashMap.get(r.getStartNr()) != null){
+        if (!holderHashMap.isEmpty()) {
+            for (Rider r : ridersToUpdate) {
+                if (holderHashMap.get(r.getStartNr()) != null) {
                     TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
                     animateRiderInGroup(tvNumber, r.getStartNr());
                 }
@@ -89,10 +89,10 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
-        if(!holderHashMap.isEmpty()){
+        if (!holderHashMap.isEmpty()) {
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
-            if(stateType == RiderStateType.AKTIVE){
+            if (stateType == RiderStateType.AKTIVE) {
                 animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
             }
         }
@@ -103,9 +103,9 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         return riders.size();
     }
 
-    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType) {
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-        switch (stateType){
+        switch (stateType) {
             case QUIT:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);

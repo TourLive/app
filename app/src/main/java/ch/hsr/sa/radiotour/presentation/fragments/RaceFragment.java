@@ -26,6 +26,8 @@ import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class RaceFragment extends Fragment {
+    private static final int SPAN = 8;
+    private static final int LASTNUMBER = 300;
     private RealmList<RaceGroup> raceGroups;
     private RealmList<Rider> riders;
     private RiderListAdapter riderAdapter;
@@ -34,8 +36,6 @@ public class RaceFragment extends Fragment {
     private RecyclerView rvRaceGroup;
     private Context mContext;
     private HashMap<Integer, Integer> number = new HashMap<>();
-    private static final int SPAN = 8;
-    private static final int LASTNUMBER = 300;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class RaceFragment extends Fragment {
         return root;
     }
 
-    public void initComponents(View root){
+    public void initComponents(View root) {
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
@@ -53,7 +53,7 @@ public class RaceFragment extends Fragment {
         this.riders = new RealmList<>();
         this.raceGroups = new RealmList<>();
         this.riderAdapter = new RiderListAdapter(riders, mContext);
-        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext,  RaceFragment.this);
+        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this);
         rvRider.setAdapter(riderAdapter);
         rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
         rvRaceGroup.setAdapter(raceGroupAdapter);
@@ -89,8 +89,8 @@ public class RaceFragment extends Fragment {
             }
         });
         rvRider.setLayoutManager(mLayoutManager);
-        rvRider.swapAdapter(riderAdapter,true);
-        rvRider.scrollBy(0,0);
+        rvRider.swapAdapter(riderAdapter, true);
+        rvRider.scrollBy(0, 0);
         this.riderAdapter.notifyDataSetChanged();
     }
 
@@ -101,12 +101,12 @@ public class RaceFragment extends Fragment {
     public void showRaceGroups(RealmList<RaceGroup> raceGroupRealmList) {
         this.raceGroups.clear();
         this.raceGroups.addAll(raceGroupRealmList);
-        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this),true);
-        rvRaceGroup.scrollBy(0,0);
+        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this), true);
+        rvRaceGroup.scrollBy(0, 0);
         this.raceGroupAdapter.notifyDataSetChanged();
     }
 
-    public void addRiderToList(){
+    public void addRiderToList() {
         RiderPresenter.getInstance().getAllRiders();
     }
 

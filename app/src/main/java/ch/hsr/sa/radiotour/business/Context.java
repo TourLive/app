@@ -21,89 +21,91 @@ public final class Context {
         // Empty, needed to hide public Constructor
     }
 
-    public static void addRider(Rider rider){
+    public static void addRider(Rider rider) {
         RiderPresenter.getInstance().addRiderNone(rider);
     }
 
-    public static void deleteRiders(){
+    public static void deleteRiders() {
         RiderPresenter.getInstance().clearAllRiders();
     }
 
-    public static RealmList<Rider> getAllRiders(){
+    public static RealmList<Rider> getAllRiders() {
         return RiderPresenter.getInstance().getAllRidersReturned();
     }
 
-    public static void addRaceGroup(RaceGroup raceGroup){
+    public static void addRaceGroup(RaceGroup raceGroup) {
         RaceGroupPresenter.getInstance().addRaceGroupWithoutCallback(raceGroup);
     }
 
-    public static void deleteRaceGroups(){
+    public static void deleteRaceGroups() {
         RaceGroupPresenter.getInstance().clearAllRaceGroups();
     }
 
-    public static void addJudgment(Judgement judgment){
+    public static void addJudgment(Judgement judgment) {
         JudgmentPresenter.getInstance().addJudgment(judgment);
     }
 
-    public static void deleteJudgments(){
+    public static void deleteJudgments() {
         JudgmentPresenter.getInstance().clearAllJudgments();
     }
 
-    public static void addReward(Reward reward){
+    public static void addReward(Reward reward) {
         RewardPresenter.getInstance().addReward(reward);
     }
 
-    public static void deleteRewards(){
+    public static void deleteRewards() {
         RewardPresenter.getInstance().clearAllRewards();
     }
 
-    public static RealmList<Judgement> getJudgmentsById(int judgmentId){
+    public static RealmList<Judgement> getJudgmentsById(int judgmentId) {
         return JudgmentPresenter.getInstance().getJudgmentsById(judgmentId);
     }
 
-    public static void addStage(Stage stage){
+    public static void addStage(Stage stage) {
         StagePresenter.getInstance().addStage(stage);
     }
 
-    public static void deleteStages(){
+    public static void deleteStages() {
         StagePresenter.getInstance().clearAllStages();
     }
 
-    public static void addRiderStageConnection(RiderStageConnection riderStageConnection){
+    public static void addRiderStageConnection(RiderStageConnection riderStageConnection) {
         RiderStageConnectionPresenter.getInstance().addRiderStageConnection(riderStageConnection);
     }
 
-    public static void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> riderStageConnection){
+    public static void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> riderStageConnection) {
         RiderPresenter.getInstance().updateRiderStageConnection(rider, riderStageConnection);
     }
 
-    public static void updateRiderStageConnectionRank(int rank, RiderStageConnection connection){
+    public static void updateRiderStageConnectionRank(int rank, RiderStageConnection connection) {
         RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionRank(rank, connection);
     }
 
-    public static void deleteAllRiderStageConnections(){
+    public static void deleteAllRiderStageConnections() {
         RiderStageConnectionPresenter.getInstance().clearAllRiderStageConnection();
     }
 
-    public static RiderStageConnection getRiderStageConnectionByRank(int rank){
+    public static RiderStageConnection getRiderStageConnectionByRank(int rank) {
         return RiderStageConnectionPresenter.getInstance().getRiderByRank(rank);
     }
 
-    public static RealmList<RiderStageConnection> getAllRiderStageConnections(){
+    public static RealmList<RiderStageConnection> getAllRiderStageConnections() {
         return RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
     }
 
-    public static void addMaillot(Maillot maillot){ MaillotPresenter.getInstance().addMaillot(maillot); }
+    public static void addMaillot(Maillot maillot) {
+        MaillotPresenter.getInstance().addMaillot(maillot);
+    }
 
-    public static void deleteMaillots(){
+    public static void deleteMaillots() {
         MaillotPresenter.getInstance().clearAllMaillots();
     }
 
-    public static RealmList<Maillot> getAllMaillots(){
+    public static RealmList<Maillot> getAllMaillots() {
         return MaillotPresenter.getInstance().getAllMaillotsReturned();
     }
 
-    public static void addRiderToMaillot (Maillot maillot, int riderDbId) {
+    public static void addRiderToMaillot(Maillot maillot, int riderDbId) {
         MaillotPresenter.getInstance().addRiderToMaillot(maillot, riderDbId);
     }
 

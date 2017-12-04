@@ -12,21 +12,21 @@ import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
 import io.realm.RealmList;
 
 public class MaillotPresenter implements IMaillotPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static MaillotPresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private MaillotRepository maillotRepository = new MaillotRepository();
 
     private IMaillotRepository.OnSaveMaillotCallback onSaveMaillotCallback;
     private IMaillotRepository.OnGetAllMaillotsCallback onGetAllMaillotsCallback;
 
     public static MaillotPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new MaillotPresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -36,7 +36,7 @@ public class MaillotPresenter implements IMaillotPresenter {
         onSaveMaillotCallback = new IMaillotRepository.OnSaveMaillotCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     // call specifc update function for each fragment type
                 }
             }
@@ -49,7 +49,7 @@ public class MaillotPresenter implements IMaillotPresenter {
         onGetAllMaillotsCallback = new IMaillotRepository.OnGetAllMaillotsCallback() {
             @Override
             public void onSuccess(RealmList<Maillot> maillots) {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     if (frag instanceof MaillotsFragment) {
                         MaillotsFragment maillotsFragment = (MaillotsFragment) frag;
                         maillotsFragment.showMaillots(maillots);
@@ -81,7 +81,7 @@ public class MaillotPresenter implements IMaillotPresenter {
     }
 
     @Override
-    public void getAllMaillots(){
+    public void getAllMaillots() {
         maillotRepository.getAllMaillots(onGetAllMaillotsCallback);
     }
 

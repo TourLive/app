@@ -36,6 +36,8 @@ import io.realm.RealmList;
 
 public class RiderRaceGroupFragment extends Fragment implements View.OnClickListener, UnknownRiderDialogFragment.UnknownUserAddListener {
 
+    private static final int SPAN = 8;
+    private static final int LASTNUMBER = 300;
     private RealmList<RaceGroup> raceGroups = new RealmList<>();
     private RealmList<Rider> riders = new RealmList<>();
     private RealmList<Rider> unknownRiders = new RealmList<>();
@@ -48,8 +50,6 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     private Context mContext;
     private Handler stateHandler = new Handler();
     private HashMap<Integer, Integer> number = new HashMap<>();
-    private static final int SPAN = 8;
-    private static final int LASTNUMBER = 300;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -59,7 +59,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         return root;
     }
 
-    public void initComponents(View root){
+    public void initComponents(View root) {
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
@@ -129,7 +129,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         adapter.updateRiderStateOnGUI(connection);
         boolean stillInRace = connection.getRiders().getRiderStages().first().getType() != RiderStateType.QUIT
                 && connection.getRiders().getRiderStages().first().getType() != RiderStateType.DNC;
-        if(connection.getRiders().getRaceGroups() != null && !stillInRace){
+        if (connection.getRiders().getRaceGroups() != null && !stillInRace) {
             RaceGroupPresenter.getInstance().deleteRiderInRaceGroup(connection.getRiders().getRaceGroups(), connection.getRiders());
         }
     }
@@ -140,7 +140,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         rvRaceGroup.setAdapter(raceGroupAdapter);
     }
 
-    public void addRiderToList(){
+    public void addRiderToList() {
         RiderPresenter.getInstance().getAllRiders();
     }
 
@@ -159,7 +159,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         RealmList<Rider> selectedRiders = adapter.getSelectedRiders();
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.btn_Defect:
                 addRiderToResetAfterTabChange(selectedRiders);
                 updateRiderStates(RiderStateType.DEFECT);
@@ -189,8 +189,8 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void addRiderToResetAfterTabChange(RealmList<Rider> riders){
-        for(Rider r : riders){
+    private void addRiderToResetAfterTabChange(RealmList<Rider> riders) {
+        for (Rider r : riders) {
             resetRiderAnimation.add(r.getStartNr());
         }
     }
@@ -198,7 +198,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void onRaceGroupClicked(RaceGroup raceGroup, int position) {
         if (!adapter.getSelectedRiders().isEmpty()) {
             RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
-            if(activeRider.isEmpty()){
+            if (activeRider.isEmpty()) {
                 adapter.resetSelectRiders();
                 return;
             }
@@ -218,7 +218,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         raceGroup.setType(raceGroupType);
         if (!adapter.getSelectedRiders().isEmpty()) {
             RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());
-            if(activeRider.isEmpty()) {
+            if (activeRider.isEmpty()) {
                 adapter.resetSelectRiders();
                 return;
             }
@@ -280,9 +280,9 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         this.mContext = context;
     }
 
-    public void resetStates(){
+    public void resetStates() {
         stateHandler.post(() -> {
-            for(int startNr : resetRiderAnimation){
+            for (int startNr : resetRiderAnimation) {
                 Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
                 RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
             }
@@ -290,14 +290,14 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         });
     }
 
-    private RealmList<Rider> filterNonActiveRiders(RealmList<Rider> riders){
-            RealmList<Rider> activeRiders = new RealmList<>();
-            for(Rider r : riders){
-                if(!(r.getRiderStages().first().getType() == RiderStateType.DNC ||
-                        r.getRiderStages().first().getType() == RiderStateType.QUIT)){
-                    activeRiders.add(r);
-                }
+    private RealmList<Rider> filterNonActiveRiders(RealmList<Rider> riders) {
+        RealmList<Rider> activeRiders = new RealmList<>();
+        for (Rider r : riders) {
+            if (!(r.getRiderStages().first().getType() == RiderStateType.DNC ||
+                    r.getRiderStages().first().getType() == RiderStateType.QUIT)) {
+                activeRiders.add(r);
             }
-            return activeRiders;
+        }
+        return activeRiders;
     }
 }

@@ -9,21 +9,20 @@ import io.realm.annotations.Required;
 
 public class Judgement extends RealmObject {
 
+    @LinkingObjects("rewardJudgements")
+    private final RealmResults<Reward> rewards = null;
+    @LinkingObjects("judgements")
+    private final RealmResults<JudgmentRiderConnection> judgmentRiderConnections = null;
+    int rewardId;
     @PrimaryKey
     private String id;
     @Required
     private String name;
-    int rewardId;
-
     private int distance;
 
-    @LinkingObjects("rewardJudgements")
-    private final RealmResults<Reward> rewards = null;
-
-    @LinkingObjects("judgements")
-    private final RealmResults<JudgmentRiderConnection> judgmentRiderConnections = null;
-
-    public Reward getRewards() { return this.rewards.first(); }
+    public Reward getRewards() {
+        return this.rewards.first();
+    }
 
     public String getName() {
         return name;

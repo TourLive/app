@@ -17,7 +17,7 @@ public final class AdapterUtilitis {
     public static RealmList<Rider> removeUnknownRiders(RealmList<Rider> riders) {
         RealmList<Rider> sortedRiders = riders;
         Iterator<Rider> iterator = sortedRiders.iterator();
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             Rider r = iterator.next();
             if (r.isUnknown()) {
                 iterator.remove();

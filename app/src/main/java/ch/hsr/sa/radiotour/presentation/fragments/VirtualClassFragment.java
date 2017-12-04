@@ -24,14 +24,14 @@ public class VirtualClassFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG","VirtualClassFragment onCreateView");
+        Log.d("TAG", "VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
         intiTable(root);
         initComponents();
         return root;
     }
 
-    public void initComponents(){
+    public void initComponents() {
         RiderPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
         handler = new Handler();
@@ -51,8 +51,9 @@ public class VirtualClassFragment extends Fragment {
         super.onStart();
         RiderPresenter.getInstance().getAllRiders();
     }
+
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         RiderPresenter.getInstance().removeView(this);
     }

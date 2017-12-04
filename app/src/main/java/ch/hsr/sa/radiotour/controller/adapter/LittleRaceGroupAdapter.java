@@ -16,13 +16,12 @@ import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
 
 public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroupAdapter.LittleRaceGroupViewHolder> {
+    private static final int NORMALITEM = 0;
+    private static final int FIRSTITEM = 1;
     private RealmList<RaceGroup> raceGroups;
     private RiderRaceGroupFragment fragment;
 
-    private static final int NORMALITEM = 0;
-    private static final int FIRSTITEM = 1;
-
-    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment){
+    public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment) {
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComperator());
         this.fragment = fragment;
@@ -56,6 +55,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
         }
 
     }
+
     @Override
     public int getItemCount() {
         return raceGroups.size();

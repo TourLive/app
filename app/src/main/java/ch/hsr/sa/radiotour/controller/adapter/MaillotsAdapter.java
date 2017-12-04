@@ -71,7 +71,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     }
 
     private void getRealLeader(Maillot maillot, MaillotViewHolder holder) {
-        if (maillot.getRider() !=  null) {
+        if (maillot.getRider() != null) {
             holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
             holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
             holder.leaderRealFlag.setAdjustViewBounds(true);
@@ -79,13 +79,13 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         }
     }
 
-    private void getActualLeader(String type, MaillotViewHolder holder){
+    private void getActualLeader(String type, MaillotViewHolder holder) {
         Rider rider = null;
         List<RiderStageConnection> riderStageConnections = new ArrayList<>(RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections());
-        switch (type){
+        switch (type) {
             case "leader":
                 Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if(o1.getVirtualGap() >= o2.getVirtualGap()){
+                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
                         return 1;
                     }
                     return -1;
@@ -94,7 +94,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 break;
             case "mountain":
                 Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if(o1.getMountainBonusPoints() >= o2.getMountainBonusPoints()){
+                    if (o1.getMountainBonusPoints() >= o2.getMountainBonusPoints()) {
                         return 1;
                     }
                     return -1;
@@ -103,7 +103,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 break;
             case "points":
                 Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if(o1.getBonusPoint() >= o2.getBonusPoint()){
+                    if (o1.getBonusPoint() >= o2.getBonusPoint()) {
                         return 1;
                     }
                     return -1;
@@ -112,13 +112,13 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 break;
             case "bestSwiss":
                 Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if(o1.getVirtualGap() >= o2.getVirtualGap()){
+                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
                         return 1;
                     }
                     return -1;
                 });
-                for(RiderStageConnection connection : riderStageConnections){
-                    if(connection.getRiders().getCountry().equals("SUI")){
+                for (RiderStageConnection connection : riderStageConnections) {
+                    if (connection.getRiders().getCountry().equals("SUI")) {
                         rider = connection.getRiders();
                         break;
                     }
@@ -135,9 +135,9 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         }
     }
 
-    public void updateLeaders(){
+    public void updateLeaders() {
         // needs to be calles from callback when ranking changed, get assoziated view
-        for(Maillot maillot : this.maillots){
+        for (Maillot maillot : this.maillots) {
             getActualLeader(maillot.getType(), maillotMaillotViewHolderMap.get(maillot));
         }
     }

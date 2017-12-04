@@ -28,7 +28,9 @@ public class Reward extends RealmObject {
         this.rewardId = rewardId;
     }
 
-    public RewardType getType() { return RewardType.valueOf(type); }
+    public RewardType getType() {
+        return RewardType.valueOf(type);
+    }
 
     public void setType(RewardType type) {
         this.type = type.toString();

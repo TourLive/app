@@ -2,10 +2,6 @@ package ch.hsr.sa.radiotour.controller.api;
 
 
 public final class UrlLink {
-    private UrlLink() {
-        throw new IllegalStateException("Static class");
-    }
-
     public static final String RIDERS = "api/masterdata/riders/stage/";
     public static final String STAGES = "public/stages/";
     public static final String JUDGEMENTS = "api/masterdata/judgements/";
@@ -13,4 +9,7 @@ public final class UrlLink {
     public static final String GLOBALSETTINGS = "api/getAllGlobalSettings";
     public static final String MAILLOTS = "api/masterdata/jerseys/race/";
     public static final String RIDERJERSEY = "json_public/riderjerseystartstage.php?stage=";
+    private UrlLink() {
+        throw new IllegalStateException("Static class");
+    }
 }
