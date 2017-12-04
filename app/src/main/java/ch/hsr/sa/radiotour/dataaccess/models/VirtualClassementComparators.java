@@ -55,10 +55,6 @@ public final class VirtualClassementComparators {
         return new RiderExtendedOfficialTimeComparator();
     }
 
-    public static Comparator<RiderExtended> getRankComparator() {
-        return new RiderExtendedRankComparator();
-    }
-
     private static class RiderExtendedStartNrComparator implements Comparator<RiderExtended> {
         @Override
         public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
@@ -66,12 +62,6 @@ public final class VirtualClassementComparators {
         }
     }
 
-    private static class RiderExtendedRankComparator implements Comparator<RiderExtended> {
-        @Override
-        public int compare(final RiderExtended riderOne, final RiderExtended riderTwo) {
-            return riderOne.getRank() - riderTwo.getRank();
-        }
-    }
 
     private static class RiderExtendedCountryComparator implements Comparator<RiderExtended> {
         @Override
