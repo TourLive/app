@@ -31,43 +31,40 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
             case 0:
                 view = setTextToView(String.valueOf(rider.getStartNr()));
                 break;
-            case 1:
-                view = setTextToView(String.valueOf(rider.getRank()));
-                break;
-            case 4:
+            case 3:
                 view = getLayoutInflater().inflate(R.layout.table_cell_image, parentView, false);
                 final ImageView imageView = (ImageView) view.findViewById(R.id.imageViewCountry);
                 imageView.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
                 imageView.setAdjustViewBounds(true);
                 break;
-            case 5:
+            case 4:
                 view = setTextToView(String.valueOf(rider.getCountry()));
                 break;
-            case 2:
+            case 1:
                 view = setTextToView(String.valueOf(rider.getName()));
                 break;
-            case 3:
+            case 2:
                 view = setTextToView(String.valueOf(rider.getTeamShortName()));
                 break;
-            case 9:
+            case 8:
                 view = setTextToView(String.valueOf(rider.getBonusPoint()));
                 break;
-            case 12:
+            case 11:
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
-            case 8:
+            case 7:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()));
                 break;
-            case 7:
+            case 6:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()));
                 break;
-            case 6:
+            case 5:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialTime()));
                 break;
-            case 10:
+            case 9:
                 view = setTextToView(String.valueOf(rider.getMountainBonusPoints()));
                 break;
-            case 11:
+            case 10:
                 view = setTextToView(String.valueOf(rider.getSprintBonusPoints()));
                 break;
             default:
