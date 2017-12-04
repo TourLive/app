@@ -1,5 +1,5 @@
 <resources>
-    <string name="specrank_special_ranking">Wertungen (Spezialklassemente)</string>
+    <string name="specrank_special_ranking">Wertungen</string>
     <string name="specrank_create_judgment">NEUE WERTUNG ERSTELLEN</string>
     <string name="specrank_create_change_judgment">Wertung erstellen / bearbeiten</string>
     <string name="specrank_save_judgement">WERTUNG SPEICHERN</string>
@@ -10,5 +10,12 @@
     <string name="rank_three">Platz 3</string>
     <string name="rank_four">Platz 4</string>
     <string name="rank_five">Platz 5</string>
-    <string name="judgment_text">Ein Fahrer kann nur einer Wertung gleichzeitig zugewiesen werden.</string>
+    <string name="rank_six">Platz 6</string>
+    <string name="rank_seven">Platz 7</string>
+    <string name="rank_eight">Platz 8</string>
+    <string name="rank_nine">Platz 9</string>
+    <string name="rank_ten">Platz 10</string>
+    <string name="judgment_text">Zuerst einen Platz auswählen und nachher den Fahrer</string>
+    <string name="judgment_duplicated_rider">Ein Fahrer kann nur einer Wertung gleichzeitig zugewiesen werden</string>
+    <string name="judgment_only_active">Es können nur aktiven Fahrer Wertungen zugewiesen werden.</string>
 </resources>

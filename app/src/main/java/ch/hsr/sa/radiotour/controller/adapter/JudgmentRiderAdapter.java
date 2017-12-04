@@ -36,6 +36,7 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
     public void onBindViewHolder(JudgmentRiderViewHolder holder, int position) {
         holder.itemRank.setText(String.valueOf(position + 1) + ".");
         holder.itemRiderName.setText(getRiderNameByRank(position + 1, holder));
+        holder.itemTeam.setText(getRiderTeamByRank(position + 1, holder));
     }
 
     private String getRiderNameByRank(int rank, JudgmentRiderViewHolder viewHolder) {
@@ -46,6 +47,16 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
             }
         }
         return context.getResources().getString(R.string.placeholder_rider_judgment);
+    }
+
+    private String getRiderTeamByRank(int rank, JudgmentRiderViewHolder viewHolder) {
+        for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
+            if (jRC.getRank() == rank) {
+                viewHolder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(jRC.getRider().first().getCountry()));
+                return jRC.getRider().first().getTeamShortName();
+            }
+        }
+        return "";
     }
 
     @Override
@@ -65,12 +76,14 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
         private TextView itemRank;
         private TextView itemRiderName;
         private ImageView imgCountry;
+        private TextView itemTeam;
 
         public JudgmentRiderViewHolder(View itemView) {
             super(itemView);
             itemRank = (TextView) itemView.findViewById(R.id.judgment_rank);
             itemRiderName = (TextView) itemView.findViewById(R.id.judgment_rider_name);
             imgCountry = (ImageView) itemView.findViewById(R.id.imgCountry);
+            itemTeam = (TextView) itemView.findViewById(R.id.judgment_rider_team);
         }
     }
 
