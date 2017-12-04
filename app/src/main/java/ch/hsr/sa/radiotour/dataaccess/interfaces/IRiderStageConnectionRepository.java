@@ -28,6 +28,14 @@ public interface IRiderStageConnectionRepository {
 
     void updateRiderStageConnectionRank(final int rank, RiderStageConnection connection);
 
+    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap();
+
+    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints();
+
+    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain();
+
+    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
+
     interface OnSaveRiderStageConnectionCallback {
         void onSuccess();
 

@@ -13,6 +13,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
+import io.realm.Sort;
 
 public class RiderStageConnectionRepository implements IRiderStageConnectionRepository {
     @Override
@@ -156,4 +157,46 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.setRank(rank);
         });
     }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("virtualGap", Sort.ASCENDING);
+        RealmList<RiderStageConnection> res = new RealmList<>();
+        res.addAll(results);
+        realm.close();
+        return res;
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("sprintBonusPoints", Sort.ASCENDING);
+        RealmList<RiderStageConnection> res = new RealmList<>();
+        res.addAll(results);
+        realm.close();
+        return res;
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("mountainBonusPoints", Sort.ASCENDING);
+        RealmList<RiderStageConnection> res = new RealmList<>();
+        res.addAll(results);
+        realm.close();
+        return res;
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss() {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).equalTo("riders.country", "SUI").findAll().sort("virtualGap", Sort.ASCENDING);
+        RealmList<RiderStageConnection> res = new RealmList<>();
+        res.addAll(results);
+        realm.close();
+        return res;
+    }
+
+
 }
