@@ -25,18 +25,17 @@ import ch.hsr.sa.radiotour.dataaccess.models.StageType;
 import io.realm.RealmList;
 
 public final class Parser {
-    private Parser() {
-        throw new IllegalStateException("Static class");
-    }
-
     private static String startNr = "startNr";
     private static String country = "country";
     private static String name = "name";
     private static String team = "team";
     private static String teamShort = "teamShort";
     private static String riderID = "riderId";
+    private Parser() {
+        throw new IllegalStateException("Static class");
+    }
 
-    public static void deleteData(){
+    public static void deleteData() {
         Context.deleteAllRiderStageConnections();
         Context.deleteRiders();
         Context.deleteRaceGroups();
@@ -61,7 +60,7 @@ public final class Parser {
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
                         rider.setRiderID(jsonRider.getInt(riderID));
-                        synchronized (this){
+                        synchronized (this) {
                             Context.addRider(rider);
                         }
 
@@ -73,12 +72,12 @@ public final class Parser {
                         riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
                         riderStageConnection.setRank(jsonRider.getInt(startNr));
                         String state = jsonRider.getString("active");
-                        if(state.equals("true")){
+                        if (state.equals("true")) {
                             riderStageConnection.setType(RiderStateType.AKTIVE);
                         } else {
                             riderStageConnection.setType(RiderStateType.DNC);
                         }
-                        synchronized (this){
+                        synchronized (this) {
                             Context.addRiderStageConnection(riderStageConnection);
                         }
                         RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
@@ -103,7 +102,7 @@ public final class Parser {
         threadRank.join();
     }
 
-    private static Thread createDefaultGroup(){
+    private static Thread createDefaultGroup() {
         Runnable runnable = (() -> {
             try {
                 RaceGroup raceGroupField = new RaceGroup();
@@ -112,8 +111,8 @@ public final class Parser {
                 raceGroupField.setPosition(1);
                 raceGroupField.setType(RaceGroupType.FELD);
                 RealmList<Rider> activeRiders = new RealmList<>();
-                for(Rider r : Context.getAllRiders()){
-                    if(r.getRiderStages().first().getType() == RiderStateType.AKTIVE){
+                for (Rider r : Context.getAllRiders()) {
+                    if (r.getRiderStages().first().getType() == RiderStateType.AKTIVE) {
                         activeRiders.add(r);
                     }
                 }
@@ -126,20 +125,20 @@ public final class Parser {
         return new Thread(runnable);
     }
 
-    private static Thread updateRiderConnectionRankByOfficalGap(){
+    private static Thread updateRiderConnectionRankByOfficalGap() {
         Runnable runnable = (() -> {
             try {
                 RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
                 HashMap<Long, RiderStageConnection> gapConnectionMap = new HashMap<>();
                 ArrayList<Long> gaps = new ArrayList<>();
-                for(RiderStageConnection con : connections){
+                for (RiderStageConnection con : connections) {
                     gapConnectionMap.put(con.getOfficialGap(), con);
                     gaps.add(con.getOfficialGap());
                 }
                 gaps.sort(Comparator.naturalOrder());
-                for(int i = 0; i < gaps.size(); i++){
+                for (int i = 0; i < gaps.size(); i++) {
                     RiderStageConnection connection = gapConnectionMap.get(gaps.get(i));
-                    Context.updateRiderStageConnectionRank(i+1,connection);
+                    Context.updateRiderStageConnectionRank(i + 1, connection);
                 }
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
@@ -181,22 +180,22 @@ public final class Parser {
 
                     RealmList<Integer> moneyList = new RealmList<>();
                     String[] moneyString = jsonReward.getString("reward").split(",");
-                    for(String s : moneyString){
+                    for (String s : moneyString) {
                         moneyList.add(Integer.valueOf(s));
                     }
                     reward.setMoney(moneyList);
 
                     String bonusType = jsonReward.getString("bonusType");
-                    if(bonusType.equals("time")) {
+                    if (bonusType.equals("time")) {
                         reward.setType(RewardType.TIME);
                     }
-                    if(bonusType.equals("points")){
+                    if (bonusType.equals("points")) {
                         reward.setType(RewardType.POINTS);
                     }
 
                     RealmList<Integer> bonusList = new RealmList<>();
                     String[] bonusString = jsonReward.getString("bonus").split(",");
-                    for(String s : bonusString){
+                    for (String s : bonusString) {
                         bonusList.add(Integer.valueOf(s));
                     }
                     reward.setPoints(bonusList);
@@ -257,6 +256,25 @@ public final class Parser {
                     maillot.setDbIDd(jsonMaillot.getInt("dbId"));
                     maillot.setColor(jsonMaillot.getString("color"));
                     Context.addMaillot(maillot);
+                } catch (JSONException e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+                }
+            }
+        });
+        Thread threadMaillots = new Thread(runnable);
+        threadMaillots.start();
+        threadMaillots.join();
+    }
+
+    public static void parseMaillotsRiderConnectionAndPersist(JSONArray maillotsrider) throws InterruptedException {
+        final JSONArray maillotsJson = maillotsrider;
+        Runnable runnable = (() -> {
+            for (int i = 0; i < maillotsJson.length(); i++) {
+                try {
+                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
+                    int id = Integer.parseInt(jsonMaillot.getString("jerseyId"));
+                    Maillot maillot = Context.getMaillotById(id);
+                    Context.addRiderToMaillot(maillot, Integer.parseInt(jsonMaillot.getString("riderId")));
                 } catch (JSONException e) {
                     Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
                 }

@@ -12,4 +12,8 @@
     <string name="maillots_tricot">Trikotträger</string>
     <string name="maillots_color">Farbe</string>
     <string name="maillots_save_maillot">Maillot speichern</string>
+    <string name="maillots_leader_virt">Leader (virtuell)</string>
+    <string name="maillots_leader_real">Leader (offiziell)</string>
+    <string name="maillots_partner">Partner</string>
+    <string name="maillots_noleader">Kein aktueller Leader vorhanden</string>
 </resources>

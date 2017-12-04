@@ -7,6 +7,12 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class RiderStageConnection extends RealmObject {
+    @LinkingObjects("riderStages")
+    private final RealmResults<Rider> riders = null;
+    @LinkingObjects("stageConnections")
+    private final RealmResults<Stage> stages = null;
+    @LinkingObjects("mailRiderConnection")
+    private final RealmResults<Maillot> maillots = null;
     @PrimaryKey
     private String id;
     private int rank;
@@ -21,18 +27,20 @@ public class RiderStageConnection extends RealmObject {
     @Required
     private String typeState;
 
-    @LinkingObjects("riderStages")
-    private final RealmResults<Rider> riders = null;
-
-    @LinkingObjects("stageConnections")
-    private final RealmResults<Stage> stages = null;
-
-
     public Rider getRiders() {
+        if (riders.isEmpty()) {
+            return null;
+        }
         return riders.first();
     }
 
-    public Stage getStages() { return stages.first(); }
+    public Stage getStages() {
+        return stages.first();
+    }
+
+    public Maillot getMaillot() {
+        return maillots.first();
+    }
 
     public String getId() {
         return id;
@@ -58,9 +66,13 @@ public class RiderStageConnection extends RealmObject {
         this.bonusPoint = bonusPoint;
     }
 
-    public void appendBonusPoint(int add) { this.bonusPoint += add; }
+    public void appendBonusPoint(int add) {
+        this.bonusPoint += add;
+    }
 
-    public void removeBonusPoint(int sub) { this.bonusPoint -= sub; }
+    public void removeBonusPoint(int sub) {
+        this.bonusPoint -= sub;
+    }
 
     public int getMountainBonusPoints() {
         return mountainBonusPoints;
@@ -70,9 +82,13 @@ public class RiderStageConnection extends RealmObject {
         this.mountainBonusPoints = mountainBonusPoints;
     }
 
-    public void appendMountainBonusPoints(int add) { this.mountainBonusPoints += add; }
+    public void appendMountainBonusPoints(int add) {
+        this.mountainBonusPoints += add;
+    }
 
-    public void removeMountainBonusPoints(int sub) { this.mountainBonusPoints -= sub; }
+    public void removeMountainBonusPoints(int sub) {
+        this.mountainBonusPoints -= sub;
+    }
 
     public int getSprintBonusPoints() {
         return sprintBonusPoints;
@@ -82,33 +98,45 @@ public class RiderStageConnection extends RealmObject {
         this.sprintBonusPoints = sprintBonusPoints;
     }
 
-    public void appendSprintBonusPoints(int add) { this.sprintBonusPoints += add; }
+    public void appendSprintBonusPoints(int add) {
+        this.sprintBonusPoints += add;
+    }
 
-    public void removeSprintBonusPoints(int sub) { this.sprintBonusPoints -= sub; }
+    public void removeSprintBonusPoints(int sub) {
+        this.sprintBonusPoints -= sub;
+    }
 
     public int getBonusTime() {
         return bonusTime;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setBonusTime(int bonusTime) {
+        this.bonusTime = bonusTime;
     }
 
     public int getMoney() {
         return money;
     }
 
-    public void appendMoney(int add) { this.money += add; }
-
-    public void removeMoney(int sub) { this.money -= sub; }
-
-    public void setBonusTime(int bonusTime) {
-        this.bonusTime = bonusTime;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
-    public void appendBonusTime(int add) { this.bonusTime += add; }
+    public void appendMoney(int add) {
+        this.money += add;
+    }
 
-    public void removeBonusTime(int sub) { this.bonusTime -= sub; }
+    public void removeMoney(int sub) {
+        this.money -= sub;
+    }
+
+    public void appendBonusTime(int add) {
+        this.bonusTime += add;
+    }
+
+    public void removeBonusTime(int sub) {
+        this.bonusTime -= sub;
+    }
 
     public long getOfficialTime() {
         return officialTime;

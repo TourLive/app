@@ -17,12 +17,12 @@ import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
-public class RiderRaceGroupAdapter extends  RecyclerView.Adapter<RiderRaceGroupAdapter.RiderRaceGroupViewHolder>{
+public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAdapter.RiderRaceGroupViewHolder> {
     private RealmList<Rider> riders;
     private RealmList<Rider> selectedRider;
     private Fragment fragment;
 
-    public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment){
+    public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment) {
         this.riders = riders;
         this.selectedRider = new RealmList<>();
         this.fragment = fragment;

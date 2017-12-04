@@ -66,7 +66,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG","JudgmentDetailFragment onCreateView");
+        Log.d("TAG", "JudgmentDetailFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_detail_judgment, container, false);
         judgementID = getArguments().getString("id");
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
@@ -163,7 +163,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     private void initTextViewsWithData() {
 
-        for (JudgmentRiderConnection jRc : JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement)){
+        for (JudgmentRiderConnection jRc : JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement)) {
             int startNr = jRc.getRider().first().getStartNr();
             switch (jRc.getRank()) {
                 case 1:
@@ -216,7 +216,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-       switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.RankOne:
                 rank = 1;
                 break;
@@ -232,24 +232,24 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             case R.id.RankFive:
                 rank = 5;
                 break;
-           case R.id.RankSix:
+            case R.id.RankSix:
                 rank = 6;
                 break;
-           case R.id.RankSeven:
+            case R.id.RankSeven:
                 rank = 7;
                 break;
-           case R.id.RankEight:
+            case R.id.RankEight:
                 rank = 8;
                 break;
-           case R.id.RankNine:
+            case R.id.RankNine:
                 rank = 9;
                 break;
-           case R.id.RankTen:
+            case R.id.RankTen:
                 rank = 10;
                 break;
-           default:
+            default:
                 break;
-       }
+        }
     }
 
     public void saveJudgmnet() {

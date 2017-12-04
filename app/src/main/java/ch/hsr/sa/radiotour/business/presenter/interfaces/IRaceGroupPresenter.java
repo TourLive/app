@@ -6,14 +6,24 @@ import io.realm.RealmList;
 
 public interface IRaceGroupPresenter extends IBasePresenter {
     void addInitialRaceGroup(RaceGroup raceGroup);
+
     void addRaceGroupWithoutCallback(RaceGroup raceGroup);
+
     void addRaceGroup(RaceGroup raceGroup);
+
     void getAllRaceGroups();
+
     void clearAllRaceGroups();
+
     void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders);
+
     void updateRaceGroupGapTime(RaceGroup raceGroup, String minutes, String seconds);
+
     void deleteRaceGroup(RaceGroup raceGroup);
+
     void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider);
+
     void updateRaceGroupPosition(RaceGroup raceGroup, int position);
+
     RaceGroup getRaceGroupById(String raceGroupId);
 }

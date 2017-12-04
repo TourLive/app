@@ -22,7 +22,7 @@ public final class RiderStageConnectionUtilities {
 
     public static int getMoneyAtPosition(int pos, Reward reward) {
         if (reward.getMoney().size() >= pos) {
-            return reward.getMoney().get(pos -1);
+            return reward.getMoney().get(pos - 1);
         } else {
             return 0;
         }

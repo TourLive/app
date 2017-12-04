@@ -5,12 +5,15 @@ import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 
 public interface IRewardRepository {
 
+    void addReward(Reward reward, OnSaveRewardCallback callback);
+
+    Reward getRewardReturnedByJudgment(Judgement judgement);
+
+    void clearAllRewards();
+
     interface OnSaveRewardCallback {
         void onSuccess();
+
         void onError(String message);
     }
-
-    void addReward(Reward reward, OnSaveRewardCallback callback);
-    Reward getRewardReturnedByJudgment(Judgement judgement);
-    void clearAllRewards();
 }

@@ -6,6 +6,8 @@ import io.realm.RealmList;
 
 public interface IJudgmentRiderConnectionPresenter extends IBasePresenter {
     void addJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection);
+
     void clearAllJudgmentRiderConnections();
+
     RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement);
 }

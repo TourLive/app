@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -7,9 +8,10 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Maillot extends RealmObject {
+    @LinkingObjects("maillotConnections")
+    private final RealmResults<Stage> stages = null;
     @PrimaryKey
     private String id;
-
     private Integer dbIDd;
     @Required
     private String type;
@@ -19,9 +21,7 @@ public class Maillot extends RealmObject {
     private String color;
     @Required
     private String partner;
-
-    @LinkingObjects("maillotConnections")
-    private final RealmResults<Stage> stages = null;
+    private RealmList<RiderStageConnection> mailRiderConnection;
 
     public String getId() {
         return id;
@@ -65,5 +65,19 @@ public class Maillot extends RealmObject {
 
     public void setPartner(String partner) {
         this.partner = partner;
+    }
+
+    public Rider getRider() {
+        if (mailRiderConnection.isEmpty()) {
+            return null;
+        }
+        return mailRiderConnection.first().getRiders();
+    }
+
+    public void setRider(Rider rider) {
+        if (rider != null) {
+            this.mailRiderConnection.clear();
+            this.mailRiderConnection.add(rider.getRiderStages().first());
+        }
     }
 }

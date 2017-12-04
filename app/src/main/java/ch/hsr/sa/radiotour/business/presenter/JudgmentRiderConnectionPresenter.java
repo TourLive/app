@@ -13,20 +13,20 @@ import ch.hsr.sa.radiotour.presentation.fragments.SpecialFragment;
 import io.realm.RealmList;
 
 public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectionPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static JudgmentRiderConnectionPresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private JudgmentRiderConnectionRepository judgmentRiderConnectionRepository = new JudgmentRiderConnectionRepository();
 
     private IJudgmentRiderConnectionRepository.OnSaveJudgmentRiderConnectionCallback onSaveJudgmentRiderConnectionCallback;
 
     public static JudgmentRiderConnectionPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new JudgmentRiderConnectionPresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -35,7 +35,7 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
         onSaveJudgmentRiderConnectionCallback = new IJudgmentRiderConnectionRepository.OnSaveJudgmentRiderConnectionCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     if (frag instanceof SpecialFragment) {
                         SpecialFragment specialFragment = (SpecialFragment) frag;
                         specialFragment.updateList();

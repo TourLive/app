@@ -10,7 +10,7 @@ import ch.hsr.sa.radiotour.R;
 
 public class ErrorDialog extends DialogFragment {
 
-    public ErrorDialog(){
+    public ErrorDialog() {
         // Empty Constructor needed to work as expected
     }
 
@@ -20,7 +20,8 @@ public class ErrorDialog extends DialogFragment {
                 .setIcon(R.drawable.error)
                 .setTitle(R.string.import_error)
                 .setMessage(getArguments().getString("message"))
-                .setPositiveButton("OK", (DialogInterface dialog, int which) -> {})
+                .setPositiveButton("OK", (DialogInterface dialog, int which) -> {
+                })
                 .create();
     }
 }

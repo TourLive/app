@@ -9,6 +9,9 @@ public class JudgmentRiderConnection extends RealmObject {
     @PrimaryKey
     private String id;
     private int rank;
+    private RealmList<Rider> rider = null;
+    private RealmList<Judgement> judgements;
+
     public int getRank() {
         return rank;
     }
@@ -16,10 +19,6 @@ public class JudgmentRiderConnection extends RealmObject {
     public void setRank(int rank) {
         this.rank = rank;
     }
-
-    private RealmList<Rider> rider = null;
-
-    private RealmList<Judgement> judgements;
 
     public RealmList<Judgement> getJudgements() {
         return judgements;

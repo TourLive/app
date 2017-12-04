@@ -7,8 +7,12 @@ import io.realm.RealmList;
 
 public interface IPresenterFragments {
     void addRaceGroupToList();
+
     void addRiderToList();
+
     void showRaceGroups(RealmList<RaceGroup> raceGroups);
+
     void showRiders(RealmList<Rider> riders);
+
     void updateRiderStateOnGUI(RiderStageConnection connection);
 }

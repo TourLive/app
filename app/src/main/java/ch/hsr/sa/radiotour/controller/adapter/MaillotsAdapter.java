@@ -9,17 +9,28 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
 public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.MaillotViewHolder> {
     private RealmList<Maillot> maillots;
+    private HashMap<Maillot, MaillotViewHolder> maillotMaillotViewHolderMap;
     private Context context;
 
     public MaillotsAdapter(RealmList<Maillot> maillots, Context context) {
         this.maillots = maillots;
         this.context = context;
+        this.maillotMaillotViewHolderMap = new HashMap<>();
     }
 
     @Override
@@ -33,6 +44,9 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         holder.name.setText(maillots.get(position).getDbIDd() + " | " + maillots.get(position).getName());
         holder.partner.setText(maillots.get(position).getPartner());
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
+        getActualLeader(maillots.get(position).getType(), holder);
+        getRealLeader(maillots.get(position), holder);
+        this.maillotMaillotViewHolderMap.put(maillots.get(position), holder);
     }
 
     private void getMaillotColor(String color, ImageView view) {
@@ -56,6 +70,78 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         view.setColorFilter(colorCode);
     }
 
+    private void getRealLeader(Maillot maillot, MaillotViewHolder holder) {
+        if (maillot.getRider() != null) {
+            holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
+            holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
+            holder.leaderRealFlag.setAdjustViewBounds(true);
+            holder.leaderRealInfo.setText(String.format("%s, %s, %d", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRank()));
+        }
+    }
+
+    private void getActualLeader(String type, MaillotViewHolder holder) {
+        Rider rider = null;
+        List<RiderStageConnection> riderStageConnections = new ArrayList<>(RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections());
+        switch (type) {
+            case "leader":
+                Collections.sort(riderStageConnections, (o1, o2) -> {
+                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
+                        return 1;
+                    }
+                    return -1;
+                });
+                rider = riderStageConnections.get(0).getRiders();
+                break;
+            case "mountain":
+                Collections.sort(riderStageConnections, (o1, o2) -> {
+                    if (o1.getMountainBonusPoints() >= o2.getMountainBonusPoints()) {
+                        return 1;
+                    }
+                    return -1;
+                });
+                rider = riderStageConnections.get(0).getRiders();
+                break;
+            case "points":
+                Collections.sort(riderStageConnections, (o1, o2) -> {
+                    if (o1.getBonusPoint() >= o2.getBonusPoint()) {
+                        return 1;
+                    }
+                    return -1;
+                });
+                rider = riderStageConnections.get(0).getRiders();
+                break;
+            case "bestSwiss":
+                Collections.sort(riderStageConnections, (o1, o2) -> {
+                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
+                        return 1;
+                    }
+                    return -1;
+                });
+                for (RiderStageConnection connection : riderStageConnections) {
+                    if (connection.getRiders().getCountry().equals("SUI")) {
+                        rider = connection.getRiders();
+                        break;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        if (rider != null) {
+            holder.leaderVirtStart.setText(String.valueOf(rider.getStartNr()));
+            holder.leaderVirtFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
+            holder.leaderVirtFlag.setAdjustViewBounds(true);
+            holder.leaderVirtInfo.setText(String.format("%s, %s, %d", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
+        }
+    }
+
+    public void updateLeaders() {
+        // needs to be calles from callback when ranking changed, get assoziated view
+        for (Maillot maillot : this.maillots) {
+            getActualLeader(maillot.getType(), maillotMaillotViewHolderMap.get(maillot));
+        }
+    }
+
     @Override
     public int getItemCount() {
         return maillots.size();
@@ -66,12 +152,24 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         private TextView partner;
         private TextView name;
         private ImageView trikot;
+        private TextView leaderVirtInfo;
+        private TextView leaderRealInfo;
+        private TextView leaderRealStart;
+        private TextView leaderVirtStart;
+        private ImageView leaderRealFlag;
+        private ImageView leaderVirtFlag;
 
         public MaillotViewHolder(View itemView) {
             super(itemView);
             partner = (TextView) itemView.findViewById(R.id.MaillotPartner);
             name = (TextView) itemView.findViewById(R.id.MaillotName);
             trikot = (ImageView) itemView.findViewById(R.id.imgTrikot);
+            leaderVirtInfo = (TextView) itemView.findViewById(R.id.LeaderVirtInfo);
+            leaderRealInfo = (TextView) itemView.findViewById(R.id.LeaderRealInfo);
+            leaderRealStart = (TextView) itemView.findViewById(R.id.LeaderRealStart);
+            leaderVirtStart = (TextView) itemView.findViewById(R.id.LeaderVirtStart);
+            leaderRealFlag = (ImageView) itemView.findViewById(R.id.img_country_real);
+            leaderVirtFlag = (ImageView) itemView.findViewById(R.id.img_country_virt);
         }
     }
 

@@ -12,21 +12,21 @@ import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 
 public class StagePresenter implements IStagePresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static StagePresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private StageRepository stageRepository = new StageRepository();
 
     private IStageRepository.OnSaveStageCallback onSaveStageCallback;
     private IStageRepository.OnGetStageCallback onGetStageCallback;
 
     public static StagePresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new StagePresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -47,7 +47,7 @@ public class StagePresenter implements IStagePresenter {
         onGetStageCallback = new IStageRepository.OnGetStageCallback() {
             @Override
             public void onSuccess(Stage stage) {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     if (frag instanceof ImportFragment) {
                         ImportFragment fragment = (ImportFragment) frag;
                         fragment.updateActualStage(stage);
@@ -72,16 +72,16 @@ public class StagePresenter implements IStagePresenter {
 
     @Override
     public void addStage(Stage stage) {
-         stageRepository.addStage(stage, onSaveStageCallback);
+        stageRepository.addStage(stage, onSaveStageCallback);
     }
 
     @Override
-    public Stage getStage(){
+    public Stage getStage() {
         return stageRepository.getStage();
     }
 
     @Override
-    public void getStageWithCallback(){
+    public void getStageWithCallback() {
         stageRepository.getStage(onGetStageCallback);
     }
 

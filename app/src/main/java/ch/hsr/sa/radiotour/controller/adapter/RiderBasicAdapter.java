@@ -60,9 +60,9 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         setRiderStateAnimation(holder.tvNummer, riders.get(position).getRiderStages().first().getType());
     }
 
-    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType) {
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-        switch (stateType){
+        switch (stateType) {
             case QUIT:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);
