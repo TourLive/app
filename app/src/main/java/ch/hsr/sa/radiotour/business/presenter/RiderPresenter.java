@@ -9,6 +9,7 @@ import java.util.List;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -169,6 +170,7 @@ public class RiderPresenter implements IRiderPresenter {
 
     private List<RiderExtended> riderToExtendedRider(RealmList<Rider> riders) {
         List<RiderExtended> newRiders = new ArrayList<>();
+        RealmList<Maillot> maillots = MaillotPresenter.getInstance().getAllMaillotsReturned();
         for (Rider r : riders) {
             RiderStageConnection riderStageConnection = r.getRiderStages().first();
             RiderExtended riderExtended = new RiderExtended();
@@ -185,6 +187,11 @@ public class RiderPresenter implements IRiderPresenter {
             riderExtended.setSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
             riderExtended.setCountry(r.getCountry());
             riderExtended.setTeamName(r.getTeamName());
+            for(Maillot m : maillots){
+                if(m.getRider().getRiderID().equals(r.getRiderID())){
+                    riderExtended.setMaillots(m);
+                }
+            }
             newRiders.add(riderExtended);
         }
         return newRiders;

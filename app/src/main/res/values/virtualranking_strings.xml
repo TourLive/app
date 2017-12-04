@@ -12,7 +12,7 @@
     <string name="virtrank_point_mountain">P. Berg</string>
     <string name="virtrank_rank">Rang</string>
     <string name="virtrank_price_money">Preisgeld</string>
-    <string name="virtrank_virt_deficit">Virtueller Rückstand</string>
-    <string name="virtrank_offical_deficit">Offizieller Rückstand</string>
-    <string name="virtrank_offical_time">Offizielle Zeit</string>
+    <string name="virtrank_virt_deficit">Virt. Rückstand</string>
+    <string name="virtrank_offical_deficit">Off. Rückstand</string>
+    <string name="virtrank_offical_time">Off. Zeit</string>
 </resources>
