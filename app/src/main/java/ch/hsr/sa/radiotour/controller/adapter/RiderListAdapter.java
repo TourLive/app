@@ -26,7 +26,7 @@ import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
 
-public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.RiderViewHolder>{
+public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.RiderViewHolder> {
 
     private RealmList<Rider> riders;
     private android.content.Context context;
@@ -54,11 +54,11 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         animateRiderInGroup(holder.tvNummer, riders.get(position).getStartNr());
     }
 
-    public RiderStateType getRiderStateType(int position){
+    public RiderStateType getRiderStateType(int position) {
         return riders.get(position).getRiderStages().first().getType();
     }
 
-    public int getItemStartNr (int pos) {
+    public int getItemStartNr(int pos) {
         return riders.get(pos).getStartNr();
     }
 
@@ -67,11 +67,11 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         return riders.size();
     }
 
-    public void animateRiderInGroup(TextView tvNumber, Integer startNr){
+    public void animateRiderInGroup(TextView tvNumber, Integer startNr) {
         RaceGroup raceGroup = RiderPresenter.getInstance().getRiderByStartNr(startNr).getRaceGroups();
-        if(raceGroup != null && context != null){
+        if (raceGroup != null && context != null) {
             GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-            if(raceGroup.getType() != RaceGroupType.FELD){
+            if (raceGroup.getType() != RaceGroupType.FELD) {
                 drawable.setColor(ContextCompat.getColor(context, R.color.colorGrayLight));
             } else {
                 drawable.setColor(0);
@@ -79,13 +79,13 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         }
     }
 
-    public void updateAnimateRiderInGroup(String raceGroupId){
+    public void updateAnimateRiderInGroup(String raceGroupId) {
         RaceGroup raceGroup = RaceGroupPresenter.getInstance().getRaceGroupById(raceGroupId);
-        if(!holderHashMap.isEmpty()){
-            for(Rider r : raceGroup.getRiders()){
-                if(holderHashMap.get(r.getStartNr()) != null){
+        if (!holderHashMap.isEmpty()) {
+            for (Rider r : raceGroup.getRiders()) {
+                if (holderHashMap.get(r.getStartNr()) != null) {
                     TextView tvNumber = holderHashMap.get(r.getStartNr()).tvNummer;
-                    handler.post(() ->  animateRiderInGroup(tvNumber, r.getStartNr()));
+                    handler.post(() -> animateRiderInGroup(tvNumber, r.getStartNr()));
                 }
             }
         }
@@ -93,18 +93,18 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
     public void updateRiderStateOnGUI(RiderStageConnection connection) {
         RiderStateType stateType = connection.getType();
-        if(!holderHashMap.isEmpty()){
+        if (!holderHashMap.isEmpty()) {
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
-            if(stateType == RiderStateType.AKTIVE){
+            if (stateType == RiderStateType.AKTIVE) {
                 animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
             }
         }
     }
 
-    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType){
+    private void setRiderStateAnimation(TextView tvNumber, RiderStateType stateType) {
         GradientDrawable drawable = (GradientDrawable) tvNumber.getBackground();
-        switch (stateType){
+        switch (stateType) {
             case QUIT:
                 tvNumber.setPaintFlags(Paint.STRIKE_THRU_TEXT_FLAG);
                 drawable.setColor(0);

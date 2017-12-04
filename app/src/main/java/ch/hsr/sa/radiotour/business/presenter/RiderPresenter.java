@@ -19,29 +19,25 @@ import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 import io.realm.RealmList;
 
 public class RiderPresenter implements IRiderPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
-
     private static RiderPresenter instance = null;
-
+    private static Handler handler;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private IRiderRepository.OnSaveRiderCallback onSaveRiderCallback;
     private IRiderRepository.OnGetAllRidersCallback onGetAllRidersCallback;
     private IRiderRepository.OnUpdateRiderStageCallback onUpdateRiderStateCallback;
-
-    private static Handler handler;
-
     private RiderRepository riderRepository = new RiderRepository();
 
     public static RiderPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new RiderPresenter();
-            if((Looper.getMainLooper().getThread() != Thread.currentThread()))
+            if ((Looper.getMainLooper().getThread() != Thread.currentThread()))
                 Looper.prepare();
             handler = new Handler();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -50,7 +46,9 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public void addRider(Rider rider) { riderRepository.addRider(rider, onSaveRiderCallback); }
+    public void addRider(Rider rider) {
+        riderRepository.addRider(rider, onSaveRiderCallback);
+    }
 
     @Override
     public void addRiderNone(Rider rider) {
@@ -63,16 +61,24 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public RealmList<Rider> getAllRidersReturned() { return riderRepository.getAllRidersReturned(); }
+    public RealmList<Rider> getAllRidersReturned() {
+        return riderRepository.getAllRidersReturned();
+    }
 
     @Override
-    public RealmList<Rider> getAllActiveRidersReturned() { return riderRepository.getAllActiveRidersReturned(); }
+    public RealmList<Rider> getAllActiveRidersReturned() {
+        return riderRepository.getAllActiveRidersReturned();
+    }
 
     @Override
-    public Rider getRiderByStartNr(int startNr){ return riderRepository.getRiderByStartNr(startNr); }
+    public Rider getRiderByStartNr(int startNr) {
+        return riderRepository.getRiderByStartNr(startNr);
+    }
 
     @Override
-    public RealmList<Rider> getAllUnknownRidersReturned() { return riderRepository.getAllUnknownRidersReturned(); }
+    public RealmList<Rider> getAllUnknownRidersReturned() {
+        return riderRepository.getAllUnknownRidersReturned();
+    }
 
     @Override
     public void removeRider(Rider rider) {
@@ -80,7 +86,7 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public void removeRiderWithoutCallback(Rider rider){
+    public void removeRiderWithoutCallback(Rider rider) {
         riderRepository.removeRider(rider, null);
     }
 
@@ -90,7 +96,9 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public void clearAllRiders() { riderRepository.clearAllRiders(); }
+    public void clearAllRiders() {
+        riderRepository.clearAllRiders();
+    }
 
 
     @Override
@@ -98,8 +106,8 @@ public class RiderPresenter implements IRiderPresenter {
         onSaveRiderCallback = new IRiderRepository.OnSaveRiderCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
-                    if(frag instanceof RaceFragment){
+                for (Fragment frag : fragments) {
+                    if (frag instanceof RaceFragment) {
                         handler.post(() -> {
                             RaceFragment rF = (RaceFragment) frag;
                             rF.addRiderToList();
@@ -124,8 +132,8 @@ public class RiderPresenter implements IRiderPresenter {
         onGetAllRidersCallback = new IRiderRepository.OnGetAllRidersCallback() {
             @Override
             public void onSuccess(RealmList<Rider> riders) {
-                for(Fragment frag : fragments){
-                    if(frag instanceof RaceFragment) {
+                for (Fragment frag : fragments) {
+                    if (frag instanceof RaceFragment) {
                         RaceFragment rF = (RaceFragment) frag;
                         rF.showRiders(riders);
                     } else if (frag instanceof RiderRaceGroupFragment) {
@@ -159,7 +167,7 @@ public class RiderPresenter implements IRiderPresenter {
         };
     }
 
-    private List<RiderExtended> riderToExtendedRider (RealmList<Rider> riders) {
+    private List<RiderExtended> riderToExtendedRider(RealmList<Rider> riders) {
         List<RiderExtended> newRiders = new ArrayList<>();
         for (Rider r : riders) {
             RiderStageConnection riderStageConnection = r.getRiderStages().first();

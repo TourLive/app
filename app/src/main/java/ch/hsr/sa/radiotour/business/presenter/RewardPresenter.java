@@ -11,20 +11,20 @@ import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RewardRepository;
 
 public class RewardPresenter implements IRewardPresenter {
-    private ArrayList<Fragment> fragments = new ArrayList<>();
     private static RewardPresenter instance = null;
+    private ArrayList<Fragment> fragments = new ArrayList<>();
     private RewardRepository rewardRepository = new RewardRepository();
 
     private IRewardRepository.OnSaveRewardCallback onSaveRewardCallback;
 
     public static RewardPresenter getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new RewardPresenter();
         }
         return instance;
     }
 
-    public void addView(Fragment frag){
+    public void addView(Fragment frag) {
         this.fragments.add(frag);
     }
 
@@ -34,7 +34,7 @@ public class RewardPresenter implements IRewardPresenter {
         onSaveRewardCallback = new IRewardRepository.OnSaveRewardCallback() {
             @Override
             public void onSuccess() {
-                for(Fragment frag : fragments){
+                for (Fragment frag : fragments) {
                     // call specifc update function for each fragment type
                 }
             }

@@ -6,14 +6,24 @@ import io.realm.RealmList;
 
 public interface IRiderPresenter extends IBasePresenter {
     void addRider(Rider rider);
+
     void addRiderNone(Rider rider);
+
     void getAllRiders();
+
     RealmList<Rider> getAllRidersReturned();
+
     RealmList<Rider> getAllActiveRidersReturned();
+
     Rider getRiderByStartNr(int startNr);
+
     RealmList<Rider> getAllUnknownRidersReturned();
+
     void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> connections);
+
     void clearAllRiders();
+
     void removeRider(Rider rider);
+
     void removeRiderWithoutCallback(Rider rider);
 }

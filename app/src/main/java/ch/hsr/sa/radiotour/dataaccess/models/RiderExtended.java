@@ -29,7 +29,9 @@ public class RiderExtended {
         return startNr;
     }
 
-    public void setStartNr(int startNr) { this.startNr = startNr; }
+    public void setStartNr(int startNr) {
+        this.startNr = startNr;
+    }
 
     public String getName() {
         return name;
@@ -92,16 +94,16 @@ public class RiderExtended {
         return bonusTime;
     }
 
-    public void setMoney(int money) {
-        this.money = money;
+    public void setBonusTime(int bonusTime) {
+        this.bonusTime = bonusTime;
     }
 
     public int getMoney() {
         return money;
     }
 
-    public void setBonusTime(int bonusTime) {
-        this.bonusTime = bonusTime;
+    public void setMoney(int money) {
+        this.money = money;
     }
 
     public long getOfficialTime() {
@@ -144,9 +146,13 @@ public class RiderExtended {
         this.mountainBonusPoints = mountainBonusPoints;
     }
 
-    public void appendMountainBonusPoints(int add) { this.mountainBonusPoints += add; }
+    public void appendMountainBonusPoints(int add) {
+        this.mountainBonusPoints += add;
+    }
 
-    public void removeMountainBonusPoints(int sub) { this.mountainBonusPoints -= sub; }
+    public void removeMountainBonusPoints(int sub) {
+        this.mountainBonusPoints -= sub;
+    }
 
     public int getSprintBonusPoints() {
         return sprintBonusPoints;
@@ -156,7 +162,11 @@ public class RiderExtended {
         this.sprintBonusPoints = sprintBonusPoints;
     }
 
-    public void appendSprintBonusPoints(int add) { this.sprintBonusPoints += add; }
+    public void appendSprintBonusPoints(int add) {
+        this.sprintBonusPoints += add;
+    }
 
-    public void removeSprintBonusPoints(int sub) { this.sprintBonusPoints -= sub; }
+    public void removeSprintBonusPoints(int sub) {
+        this.sprintBonusPoints -= sub;
+    }
 }

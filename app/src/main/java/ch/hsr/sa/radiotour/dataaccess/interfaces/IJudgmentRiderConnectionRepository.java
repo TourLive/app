@@ -6,12 +6,15 @@ import io.realm.RealmList;
 
 public interface IJudgmentRiderConnectionRepository {
 
+    void addJudgmentRiderConnection(JudgmentRiderConnection rewardRiderConnection, OnSaveJudgmentRiderConnectionCallback callback);
+
+    RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement);
+
+    void clearAllJudgmentRiderConnections();
+
     interface OnSaveJudgmentRiderConnectionCallback {
         void onSuccess();
+
         void onError(String message);
     }
-
-    void addJudgmentRiderConnection(JudgmentRiderConnection rewardRiderConnection, OnSaveJudgmentRiderConnectionCallback callback);
-    RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement);
-    void clearAllJudgmentRiderConnections();
 }

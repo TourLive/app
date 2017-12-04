@@ -5,6 +5,7 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -28,7 +29,7 @@ public class MaillotRepository implements IMaillotRepository {
     }
 
     @Override
-    public void getAllMaillots(OnGetAllMaillotsCallback callback){
+    public void getAllMaillots(OnGetAllMaillotsCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
         RealmList<Maillot> res = new RealmList<>();
@@ -40,13 +41,29 @@ public class MaillotRepository implements IMaillotRepository {
     }
 
     @Override
-    public RealmList<Maillot> getAllMaillotsReturned(){
+    public RealmList<Maillot> getAllMaillotsReturned() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmResults<Maillot> results = realm.where(Maillot.class).findAll();
         RealmList<Maillot> res = new RealmList<>();
         res.addAll(results);
 
         return res;
+    }
+
+    @Override
+    public void addRiderToMaillot(Maillot maillot, int riderDbId) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        Maillot realmMaillot = realm.where(Maillot.class).equalTo("id", maillot.getId()).findFirst();
+        Rider rider = realm.where(Rider.class).equalTo("riderID", riderDbId).findFirst();
+        realm.beginTransaction();
+        realmMaillot.setRider(rider);
+        realm.commitTransaction();
+    }
+
+    @Override
+    public Maillot getMaillotById(int id) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        return realm.where(Maillot.class).equalTo("dbIDd", id).findFirst();
     }
 
     @Override

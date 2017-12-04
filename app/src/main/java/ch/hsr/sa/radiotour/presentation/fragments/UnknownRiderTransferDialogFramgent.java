@@ -69,9 +69,9 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
 
     private Rider getRider(String startNr) {
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
-                if (r.getStartNr() ==  Integer.parseInt(startNr)){
-                    return r;
-                }
+            if (r.getStartNr() == Integer.parseInt(startNr)) {
+                return r;
+            }
         }
         return null;
     }

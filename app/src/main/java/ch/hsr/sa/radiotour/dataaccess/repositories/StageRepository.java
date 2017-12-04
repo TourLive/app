@@ -34,15 +34,16 @@ public class StageRepository implements IStageRepository {
             callback.onSuccess(dbStage);
     }
 
-    public Stage getStage(){
+    public Stage getStage() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         return realm.where(Stage.class).findFirst();
     }
-    public void getStage(OnGetStageCallback callback){
+
+    public void getStage(OnGetStageCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         Stage stage = realm.where(Stage.class).findFirst();
 
-        if (callback!= null) {
+        if (callback != null) {
             callback.onSuccess(stage);
         }
     }

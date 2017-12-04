@@ -27,7 +27,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d("TAG","SpecialFragment onCreateView");
+        Log.d("TAG", "SpecialFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_special, container, false);
         initComponents(root);
         return root;
@@ -54,7 +54,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         this.judgements.clear();
         this.judgements.addAll(judgementRealmList);
         rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, this), true);
-        rvJudgement.scrollBy(0,0);
+        rvJudgement.scrollBy(0, 0);
         this.judgementAdapter.notifyDataSetChanged();
     }
 

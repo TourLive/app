@@ -332,11 +332,11 @@
     <TextView
         android:id="@+id/txtActualRaceId"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_actual_raceid"
-        android:textSize="@dimen/text_size_undertitle"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/spacerTitle4" />
@@ -348,7 +348,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Keine Daten geladen"
-        android:textSize="@dimen/text_size_undertitle"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/spacerTitle4" />
 
@@ -359,7 +359,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_actual_stageid"
-        android:textSize="@dimen/text_size_undertitle"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/txtActualRaceId" />
@@ -371,7 +371,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Keine Daten geladen"
-        android:textSize="@dimen/text_size_undertitle"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline9"
         app:layout_constraintTop_toBottomOf="@+id/txtActualRaceId" />
 
@@ -380,7 +380,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="683dp" />
+        app:layout_constraintGuide_begin="641dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline13"
@@ -409,8 +409,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_copyright"
-        android:textSize="@dimen/text_size_undertitle"
-        android:textStyle="bold"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/spacerTitle5" />
 
