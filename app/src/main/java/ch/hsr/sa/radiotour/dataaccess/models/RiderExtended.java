@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.RealmResults;
+
 public class RiderExtended {
     private int rank;
     private int bonusPoint;
@@ -20,6 +22,18 @@ public class RiderExtended {
     private String teamName;
     private String teamShortName;
     private boolean isUnknown = false;
+
+    private Maillot maillot = null;
+
+    public Maillot getMaillot() {
+        if(maillot == null)
+            return null;
+        return maillot;
+    }
+
+    public void setMaillots(Maillot maillot){
+        this.maillot = maillot;
+    }
 
     public String getId() {
         return id;

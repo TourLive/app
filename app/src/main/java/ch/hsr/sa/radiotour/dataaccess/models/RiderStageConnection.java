@@ -39,6 +39,8 @@ public class RiderStageConnection extends RealmObject {
     }
 
     public Maillot getMaillot() {
+        if(maillots == null)
+            return null;
         return maillots.first();
     }
 
