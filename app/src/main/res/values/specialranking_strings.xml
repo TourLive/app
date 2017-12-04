@@ -1,5 +1,5 @@
 <resources>
-    <string name="specrank_special_ranking">Wertungen (Spezialklassemente)</string>
+    <string name="specrank_special_ranking">Wertungen</string>
     <string name="specrank_create_judgment">NEUE WERTUNG ERSTELLEN</string>
     <string name="specrank_create_change_judgment">Wertung erstellen / bearbeiten</string>
     <string name="specrank_save_judgement">WERTUNG SPEICHERN</string>
