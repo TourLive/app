@@ -71,6 +71,9 @@ public class Maillot extends RealmObject {
     }
 
     public Rider getRider() {
+        if (mailRiderConnection.isEmpty()) {
+            return null;
+        }
         return mailRiderConnection.first().getRiders();
     }
 
