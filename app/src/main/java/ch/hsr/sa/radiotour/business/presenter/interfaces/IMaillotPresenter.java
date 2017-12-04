@@ -8,4 +8,6 @@ public interface IMaillotPresenter extends IBasePresenter {
     void clearAllMaillots();
     void getAllMaillots();
     RealmList<Maillot> getAllMaillotsReturned();
+    void addRiderToMaillot(Maillot maillot, int riderDbId);
+    Maillot getMaillotById(int id);
 }

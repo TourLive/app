@@ -86,7 +86,17 @@ public class MaillotPresenter implements IMaillotPresenter {
     }
 
     @Override
+    public void addRiderToMaillot(Maillot maillot, int riderDbId) {
+        maillotRepository.addRiderToMaillot(maillot, riderDbId);
+    }
+
+    @Override
     public RealmList<Maillot> getAllMaillotsReturned() {
         return maillotRepository.getAllMaillotsReturned();
+    }
+
+    @Override
+    public Maillot getMaillotById(int id) {
+        return maillotRepository.getMaillotById(id);
     }
 }

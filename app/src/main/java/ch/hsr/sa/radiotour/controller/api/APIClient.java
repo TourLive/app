@@ -75,6 +75,10 @@ public final class APIClient {
         return getMaillots(UrlLink.MAILLOTS + raceId, null);
     }
 
+    public static String getMaillotsRiderConnections() {
+        return getMaillotsRiderConnections(UrlLink.RIDERJERSEY + 202, null);
+    }
+
     public static void clearDatabase(){
         Parser.deleteData();
     }
@@ -104,7 +108,8 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    stageId = settings.getJSONObject(0).getString("parameter");
+                    //stageId = settings.getJSONObject(0).getString("parameter");
+                    stageId = "202";
                     raceId = settings.getJSONObject(1).getString("parameter");
                     messages[0] = "success";
                 } catch (JSONException ex){
@@ -237,6 +242,37 @@ public final class APIClient {
                     messages[0] = ex.getMessage();
                 }
 
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getMaillotsRiderConnections(String url, RequestParams params) {
+        final String[] messages = {"success"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+                try {
+                    Parser.parseMaillotsRiderConnectionAndPersist(data.getJSONArray("data"));
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray maillots) {
+                // No needed
             }
 
             @Override

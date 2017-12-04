@@ -102,4 +102,12 @@ public final class Context {
     public static RealmList<Maillot> getAllMaillots(){
         return MaillotPresenter.getInstance().getAllMaillotsReturned();
     }
+
+    public static void addRiderToMaillot (Maillot maillot, int riderDbId) {
+        MaillotPresenter.getInstance().addRiderToMaillot(maillot, riderDbId);
+    }
+
+    public static Maillot getMaillotById(int id) {
+        return MaillotPresenter.getInstance().getMaillotById(id);
+    }
 }
