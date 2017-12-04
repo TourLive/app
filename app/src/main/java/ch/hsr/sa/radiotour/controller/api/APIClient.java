@@ -108,8 +108,7 @@ public final class APIClient {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    //stageId = settings.getJSONObject(0).getString("parameter");
-                    stageId = "202";
+                    stageId = settings.getJSONObject(0).getString("parameter");
                     raceId = settings.getJSONObject(1).getString("parameter");
                     messages[0] = "success";
                 } catch (JSONException ex){
@@ -260,9 +259,7 @@ public final class APIClient {
         final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // Not needed and therefore not implemented
-                try {
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {try {
                     Parser.parseMaillotsRiderConnectionAndPersist(data.getJSONArray("data"));
                     messages[0] = "success";
                 } catch (Exception ex){
@@ -272,7 +269,7 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray maillots) {
-                // No needed
+                // Not needed and therefore not implemented
             }
 
             @Override

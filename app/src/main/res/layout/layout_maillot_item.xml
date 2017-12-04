@@ -9,6 +9,7 @@
         android:id="@+id/img_country_real"
         android:layout_width="30dp"
         android:layout_height="20dp"
+        android:layout_marginTop="4dp"
         android:adjustViewBounds="true"
         app:layout_constraintStart_toEndOf="@+id/LeaderRealStart"
         app:layout_constraintTop_toBottomOf="@+id/img_country_virt" />
@@ -91,6 +92,7 @@
         android:layout_height="20dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="@string/maillots_leader_real"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgTrikot"
@@ -110,6 +112,7 @@
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
         android:text="Nr."
         app:layout_constraintStart_toEndOf="@+id/txtLeaderReal"
         app:layout_constraintTop_toBottomOf="@+id/LeaderVirtStart" />
@@ -119,6 +122,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="4dp"
         android:text="Text"
         app:layout_constraintStart_toEndOf="@+id/img_country_real"
         app:layout_constraintTop_toBottomOf="@+id/LeaderVirtInfo" />
