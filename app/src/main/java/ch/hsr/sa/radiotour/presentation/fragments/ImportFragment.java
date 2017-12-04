@@ -229,6 +229,11 @@ public class ImportFragment extends Fragment implements View.OnClickListener  {
                     setErrorDialog(message);
                     break;
                 }
+                message = APIClient.getMaillotsRiderConnections();
+                if(!message.equals(SUCCESS_MESSAGE)){
+                    setErrorDialog(message);
+                    break;
+                }
                 return 50;
             }   else if (progressBarStatus < 60) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));

@@ -266,4 +266,23 @@ public final class Parser {
         threadMaillots.start();
         threadMaillots.join();
     }
+
+    public static void parseMaillotsRiderConnectionAndPersist(JSONArray maillotsrider) throws InterruptedException {
+        final JSONArray maillotsJson = maillotsrider;
+        Runnable runnable = (() -> {
+            for (int i = 0; i < maillotsJson.length(); i++) {
+                try {
+                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
+                    int id = Integer.parseInt(jsonMaillot.getString("jerseyId"));
+                    Maillot maillot = Context.getMaillotById(id);
+                    Context.addRiderToMaillot(maillot, Integer.parseInt(jsonMaillot.getString("riderId")));
+                } catch (JSONException e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+                }
+            }
+        });
+        Thread threadMaillots = new Thread(runnable);
+        threadMaillots.start();
+        threadMaillots.join();
+    }
 }

@@ -18,4 +18,6 @@ public interface IMaillotRepository {
     void getAllMaillots(OnGetAllMaillotsCallback callback);
     RealmList<Maillot> getAllMaillotsReturned();
     void clearAllMaillots();
+    void addRiderToMaillot(Maillot maillot, int riderDbId);
+    Maillot getMaillotById(int id);
 }

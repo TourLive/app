@@ -45,6 +45,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         holder.partner.setText(maillots.get(position).getPartner());
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
         getActualLeader(maillots.get(position).getType(), holder.leader);
+        //getRealLeader(maillots.get(position), holder.realLeader);
         this.maillotMaillotViewHolderMap.put(maillots.get(position), holder);
     }
 
@@ -67,6 +68,10 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 break;
         }
         view.setColorFilter(colorCode);
+    }
+
+    private void getRealLeader(Maillot maillot, TextView textView) {
+        textView.setText(String.format("%d, %s, %s, %s, %d", maillot.getRider().getStartNr(), "flag", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRank()));
     }
 
     private void getActualLeader(String type, TextView view){
@@ -154,6 +159,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         private TextView name;
         private ImageView trikot;
         private TextView leader;
+        private TextView realLeader;
 
         public MaillotViewHolder(View itemView) {
             super(itemView);
@@ -161,6 +167,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             name = (TextView) itemView.findViewById(R.id.MaillotName);
             trikot = (ImageView) itemView.findViewById(R.id.imgTrikot);
             leader = (TextView) itemView.findViewById(R.id.leaderInfo);
+            //realLeader = (TextView) itemView.findViewById(R.id.realLeader);
         }
     }
 
