@@ -3,9 +3,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,19 +15,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
-import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import io.realm.Realm;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {

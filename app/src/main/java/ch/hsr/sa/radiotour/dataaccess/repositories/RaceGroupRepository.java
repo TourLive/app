@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import java.util.Iterator;
 import java.util.UUID;
 
-import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
