@@ -3,9 +3,12 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -66,6 +69,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(raceGroups.get(position).getRiders(), fragment);
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
+            if (raceGroups.get(position).getType() == RaceGroupType.LEAD) {
+                holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime_before));
+            }
         } else {
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(new RealmList<Rider>(), fragment);
             holder.racegroupRiders.setLayoutManager(layoutManager);
@@ -194,36 +200,24 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RecyclerView rvMinutes = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadMinutes);
             RecyclerView rvSeconds = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadSeconds);
 
-            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8);
-            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8);
+            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
 
             final TimeAdapter adapterMinutes;
             final TimeAdapter adapterSeconds;
 
             final int adapterPosition = getAdapterPosition();
-
-            if(adapterPosition == 0){
-                adapterMinutes = new TimeAdapter();
-                ArrayList<String> seconds = new ArrayList<>();
-                for(int i = 1; i < 60; i++){
-                    seconds.add(String.valueOf(i));
-                }
-                adapterSeconds = new TimeAdapter(seconds);
-            } else {
-                ArrayList<String> minutes = new ArrayList<>();
-                ArrayList<String> seconds = new ArrayList<>();
-                RaceGroup raceGroup = raceGroups.get(adapterPosition - 1);
-                int actualMinutes =  (int) raceGroup.getActualGapTime() / 60;
-                for(int i = actualMinutes; i < 60; i++){
-                    minutes.add(String.valueOf(i));
-                }
-                int actualSeconds = (int) raceGroup.getActualGapTime() - (actualMinutes * 60);
-                for(int i = actualSeconds + 1; i < 60; i++){
-                    seconds.add(String.valueOf(i));
-                }
-                adapterMinutes = new TimeAdapter(minutes);
-                adapterSeconds = new TimeAdapter(seconds);
+            int pos = 0;
+            if (getAdapterPosition() > 0) {
+                pos = adapterPosition - 1;
             }
+            RaceGroup raceGroup = raceGroups.get(pos);
+            int actualMinutes =  (int) raceGroup.getActualGapTime() / 60;
+            int actualSeconds = (int) raceGroup.getActualGapTime() - (actualMinutes * 60);
+
+            adapterMinutes = new TimeAdapter(actualMinutes);
+            adapterSeconds = new TimeAdapter(actualSeconds);
+
             rvMinutes.setLayoutManager(layoutManagerMinutes);
             rvMinutes.setAdapter(adapterMinutes);
             rvSeconds.setLayoutManager(layoutManagerSeconds);

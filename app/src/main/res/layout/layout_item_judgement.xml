@@ -46,7 +46,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/backgroup_shape_judgment"
+        android:background="@drawable/background_shape_judgment"
         android:padding="8dp"
         android:text="0"
         android:textSize="12sp"

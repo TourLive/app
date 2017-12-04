@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
-    android:background="@drawable/backgroup_shape"
+    android:background="@drawable/background_shape"
     android:orientation="vertical">
 
     <ImageView
@@ -48,7 +48,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/backgroup_shape_racetime"
+        android:background="@drawable/background_shape_racetime_before"
         android:text="(00:00)"
         android:textAlignment="center"
         app:layout_constraintHorizontal_bias="0.0"
@@ -65,7 +65,7 @@
         android:layout_marginRight="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="11dp"
-        android:background="@drawable/backgroup_shape_racetime"
+        android:background="@drawable/background_shape_racetime"
         android:text="00:00"
         android:textAlignment="center"
         android:textSize="18sp"
