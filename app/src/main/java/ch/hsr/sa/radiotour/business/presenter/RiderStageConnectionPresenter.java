@@ -167,4 +167,24 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         riderStageConnectionRepository.updateRiderStageConnectionRank(rank, connection);
     }
 
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap() {
+        return riderStageConnectionRepository.getRiderStageConnectionsSortedByVirtualGap();
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
+        return riderStageConnectionRepository.getRiderStageConnectionsSortedByPoints();
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
+        return riderStageConnectionRepository.getRiderStageConnectionsSortedByMountain();
+    }
+
+    @Override
+    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss() {
+        return riderStageConnectionRepository.getRiderStageConnectionsSortedByBestSwiss();
+    }
+
 }
