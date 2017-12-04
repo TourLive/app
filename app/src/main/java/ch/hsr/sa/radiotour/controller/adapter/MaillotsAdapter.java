@@ -19,6 +19,7 @@ import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
@@ -81,48 +82,23 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
 
     private void getActualLeader(String type, MaillotViewHolder holder) {
         Rider rider = null;
-        List<RiderStageConnection> riderStageConnections = new ArrayList<>(RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections());
+        RealmList<RiderStageConnection> riderStageConnections;
         switch (type) {
             case "leader":
-                Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
-                        return 1;
-                    }
-                    return -1;
-                });
+                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
                 rider = riderStageConnections.get(0).getRiders();
                 break;
             case "mountain":
-                Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if (o1.getMountainBonusPoints() >= o2.getMountainBonusPoints()) {
-                        return 1;
-                    }
-                    return -1;
-                });
+                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
                 rider = riderStageConnections.get(0).getRiders();
                 break;
             case "points":
-                Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if (o1.getBonusPoint() >= o2.getBonusPoint()) {
-                        return 1;
-                    }
-                    return -1;
-                });
+                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
                 rider = riderStageConnections.get(0).getRiders();
                 break;
             case "bestSwiss":
-                Collections.sort(riderStageConnections, (o1, o2) -> {
-                    if (o1.getVirtualGap() >= o2.getVirtualGap()) {
-                        return 1;
-                    }
-                    return -1;
-                });
-                for (RiderStageConnection connection : riderStageConnections) {
-                    if (connection.getRiders().getCountry().equals("SUI")) {
-                        rider = connection.getRiders();
-                        break;
-                    }
-                }
+                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByBestSwiss();
+                rider = riderStageConnections.get(0).getRiders();
                 break;
             default:
                 break;
