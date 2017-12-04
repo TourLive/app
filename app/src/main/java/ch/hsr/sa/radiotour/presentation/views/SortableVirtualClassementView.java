@@ -43,16 +43,16 @@ public class SortableVirtualClassementView extends SortableTableView<RiderExtend
         final TableColumnWeightModel tableColumnWeightModel = new TableColumnWeightModel(12);
         tableColumnWeightModel.setColumnWeight(0, 3);
         tableColumnWeightModel.setColumnWeight(1, 8);
-        tableColumnWeightModel.setColumnWeight(2, 2);
+        tableColumnWeightModel.setColumnWeight(2, 3);
         tableColumnWeightModel.setColumnWeight(3, 1);
         tableColumnWeightModel.setColumnWeight(4, 3);
         tableColumnWeightModel.setColumnWeight(5, 5);
         tableColumnWeightModel.setColumnWeight(6, 5);
         tableColumnWeightModel.setColumnWeight(7, 5);
-        tableColumnWeightModel.setColumnWeight(8, 5);
-        tableColumnWeightModel.setColumnWeight(9, 4);
-        tableColumnWeightModel.setColumnWeight(10, 4);
-        tableColumnWeightModel.setColumnWeight(11, 4);
+        tableColumnWeightModel.setColumnWeight(8, 3);
+        tableColumnWeightModel.setColumnWeight(9, 3);
+        tableColumnWeightModel.setColumnWeight(10, 3);
+        tableColumnWeightModel.setColumnWeight(11, 3);
         setColumnModel(tableColumnWeightModel);
 
         setColumnComparator(0, VirtualClassementComparators.getStartNrComparator());
