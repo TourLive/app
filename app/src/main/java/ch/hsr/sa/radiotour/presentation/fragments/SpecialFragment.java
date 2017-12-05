@@ -58,7 +58,6 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         this.judgements.clear();
         this.judgements.addAll(judgementRealmList);
         rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, this), true);
-        //rvJudgement.getLayoutManager().scrollToPosition(pos);
         rvJudgement.scrollBy(0, actualOffset);
         this.judgementAdapter.notifyDataSetChanged();
     }
