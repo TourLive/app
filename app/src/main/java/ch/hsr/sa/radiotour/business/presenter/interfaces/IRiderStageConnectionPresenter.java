@@ -10,8 +10,6 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
 
     void getRiderStageConnections();
 
-    void calculateRanks();
-
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
 
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection);

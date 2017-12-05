@@ -29,7 +29,8 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
         virtualRank = new HashMap<>();
         RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
         for(int i = 0; i < riderStageConnections.size(); i++){
-            virtualRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
+            if(riderStageConnections.get(i).getRiders() != null)
+                virtualRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
         }
 
     }
@@ -73,10 +74,10 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 8:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " Rang:" + virtualRank.get(rider.getStartNr()));
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " R:" + virtualRank.get(rider.getStartNr()));
                 break;
             case 7:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()));
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()) + " R:" + rider.getRank());
                 break;
             case 6:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialTime()));

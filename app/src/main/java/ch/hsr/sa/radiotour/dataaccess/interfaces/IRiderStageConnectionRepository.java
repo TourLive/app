@@ -20,8 +20,6 @@ public interface IRiderStageConnectionRepository {
 
     void deleteRiderStageConnection();
 
-    void calculateRanks(OnGetAllRiderStageConnectionsCallback callback);
-
     RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
