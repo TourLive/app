@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.DragEvent;
 import android.view.LayoutInflater;
@@ -52,6 +53,10 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
                     holder.racegroupRiderVirtualRank.setText("R: " + (i+1));
                     break;
                 }
+            }
+            if(rider.getRiderStages().first().getRank() == 1){
+                holder.racegroupRiderTricot.setImageResource(R.drawable.maillots);
+                holder.racegroupRiderTricot.setColorFilter(R.color.yellow);
             }
 
         } else {
