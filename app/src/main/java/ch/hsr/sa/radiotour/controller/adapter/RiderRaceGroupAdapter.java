@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.ClipData;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -39,8 +42,10 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         holder.racegroupRiderName.setText(String.valueOf(riders.get(position).getName()));
         if (riders.get(position).getStartNr() < 900) {
             holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
+            holder.racegroupRiderTeam.setText(String.valueOf(riders.get(position).getTeamShortName()));
         } else {
             holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);
+            holder.racegroupRiderTeam.setText(R.string.race_startnr_unknownrider);
         }
         holder.racegroupRiderCountry.setImageResource(UIUtilitis.getCountryFlag(riders.get(position).getCountry()));
     }
@@ -54,12 +59,18 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         private TextView racegroupRiderName;
         private TextView racegroupRiderStartNr;
         private ImageView racegroupRiderCountry;
+        private TextView racegroupRiderTeam;
+        private ImageView racegroupRiderTricot;
+        private TextView racegroupRiderVirtualRank;
 
         public RiderRaceGroupViewHolder(View itemView) {
             super(itemView);
             racegroupRiderName = (TextView) itemView.findViewById(R.id.racegroup_rider_name);
             racegroupRiderStartNr = (TextView) itemView.findViewById(R.id.racegroup_rider_startnr);
             racegroupRiderCountry = (ImageView) itemView.findViewById(R.id.racegroup_rider_country);
+            racegroupRiderTeam = (TextView) itemView.findViewById(R.id.racegroup_rider_team);
+            racegroupRiderTricot = (ImageView) itemView.findViewById(R.id.racegroup_rider_tricot);
+            racegroupRiderVirtualRank = (TextView) itemView.findViewById(R.id.racegroup_rider_virtualRank);
             itemView.setOnLongClickListener(this);
             itemView.setOnDragListener(this);
             itemView.setOnClickListener(this);
