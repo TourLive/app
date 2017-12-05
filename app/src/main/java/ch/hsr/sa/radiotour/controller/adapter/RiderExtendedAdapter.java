@@ -22,14 +22,32 @@ import io.realm.RealmList;
 public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
     private Context context;
     private HashMap<Integer, Integer> virtualRank;
+    private HashMap<Integer, Integer> mountainRank;
+    private HashMap<Integer, Integer> pointRank;
+
 
     public RiderExtendedAdapter(final Context context, final List<RiderExtended> data) {
         super(context, data);
         this.context = context;
         virtualRank = new HashMap<>();
+        mountainRank = new HashMap<>();
+        pointRank = new HashMap<>();
         RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
         for(int i = 0; i < riderStageConnections.size(); i++){
-            virtualRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
+            if(riderStageConnections.get(i).getRiders() != null)
+                virtualRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
+        }
+
+        riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
+        for(int i = 0; i < riderStageConnections.size(); i++){
+            if(riderStageConnections.get(i).getRiders() != null)
+                mountainRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
+        }
+
+        riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
+        for(int i = 0; i < riderStageConnections.size(); i++){
+            if(riderStageConnections.get(i).getRiders() != null)
+                pointRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
         }
 
     }
@@ -73,19 +91,19 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 8:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " Rang:" + virtualRank.get(rider.getStartNr()));
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " R:" + virtualRank.get(rider.getStartNr()));
                 break;
             case 7:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()));
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()) + " R:" + rider.getRank());
                 break;
             case 6:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialTime()));
                 break;
             case 10:
-                view = setTextToView(String.valueOf(rider.getMountainBonusPoints()));
+                view = setTextToView(String.valueOf(rider.getMountainBonusPoints()) + " R:" + mountainRank.get(rider.getStartNr()));
                 break;
             case 11:
-                view = setTextToView(String.valueOf(rider.getSprintBonusPoints()));
+                view = setTextToView(String.valueOf(rider.getSprintBonusPoints()) + " R:" + pointRank.get(rider.getStartNr()));
                 break;
             default:
                 break;
