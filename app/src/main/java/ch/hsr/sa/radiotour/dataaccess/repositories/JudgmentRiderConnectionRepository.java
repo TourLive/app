@@ -8,6 +8,8 @@ import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionReposit
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
+import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
@@ -40,10 +42,22 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
     private void removeOldJudgmentRiderConnections(RealmResults<JudgmentRiderConnection> res) {
         for (JudgmentRiderConnection jRc : res) {
             int rank = jRc.getRank();
-            Reward reward = jRc.getJudgements().first().getRewards();
-            jRc.getRider().first().getRiderStages().first().removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, reward));
-            jRc.getRider().first().getRiderStages().first().removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
-            jRc.getRider().first().getRiderStages().first().removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+            Judgement judgement = jRc.getJudgements().first();
+            Reward reward = judgement.getRewards();
+            RiderStageConnection riderStageConnection = jRc.getRider().first().getRiderStages().first();
+            if(reward.getType() == RewardType.POINTS){
+                if (judgement.getName().toLowerCase().contains("sprint")) {
+                    riderStageConnection.removeSprintBonusPoints(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+                } else if (judgement.getName().toLowerCase().contains("bergpreis")) {
+                    riderStageConnection.removeMountainBonusPoints(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+                } else {
+                    riderStageConnection.removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+                }
+            }
+            if(reward.getType() == RewardType.TIME){
+                riderStageConnection.removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+            }
+            riderStageConnection.removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, reward));
             jRc.deleteFromRealm();
         }
     }
