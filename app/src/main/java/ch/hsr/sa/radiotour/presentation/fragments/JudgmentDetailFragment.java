@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,6 +58,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     private TextView rankEightTxt;
     private TextView rankNineTxt;
     private TextView rankTenTxt;
+    private View selectedView;
     private List<TextView> textViews = new ArrayList<>();
     private List<TextView> headers = new ArrayList<>();
     private ConstraintLayout lineTwoHeader;
@@ -83,6 +85,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         lineTwoHeader = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTxtTwo);
         lineTwoButtons = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTwo);
         initRankView(root);
+        selectedView = null;
 
         return root;
     }
@@ -220,6 +223,10 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View view) {
+        if(selectedView != null)
+            selectedView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape));
+        selectedView = view;
+        selectedView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_active));
         switch (view.getId()) {
             case R.id.RankOne:
                 rank = 1;
