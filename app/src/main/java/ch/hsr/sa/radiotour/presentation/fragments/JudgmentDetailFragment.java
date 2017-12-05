@@ -146,6 +146,10 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         headers.add(rankEightTxt);
         headers.add(rankNineTxt);
         headers.add(rankTenTxt);
+        Reward reward = judgement.getRewards();
+        for(int i = 0; i < reward.getPoints().size(); i++){
+            headers.get(i).setText(headers.get(i).getText() + getResources().getString(R.string.judgment_points) + reward.getPoints().get(i));
+        }
     }
 
     private void initListener() {
