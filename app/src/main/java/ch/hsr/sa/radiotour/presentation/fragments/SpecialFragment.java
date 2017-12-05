@@ -24,6 +24,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     private JudgementAdapter judgementAdapter;
     private RecyclerView rvJudgement;
     private Context mContext;
+    private int actualOffset = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +43,9 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
         rvJudgement.setAdapter(judgementAdapter);
         rvJudgement.setLayoutManager(new LinearLayoutManager(mContext));
+        rvJudgement.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
+               actualOffset = rvJudgement.computeVerticalScrollOffset();
+        });
     }
 
     @Override
@@ -54,7 +58,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         this.judgements.clear();
         this.judgements.addAll(judgementRealmList);
         rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, this), true);
-        rvJudgement.scrollBy(0, 0);
+        rvJudgement.scrollBy(0, actualOffset);
         this.judgementAdapter.notifyDataSetChanged();
     }
 
