@@ -15,7 +15,9 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
@@ -39,10 +41,19 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
 
     @Override
     public void onBindViewHolder(RiderRaceGroupAdapter.RiderRaceGroupViewHolder holder, int position) {
-        holder.racegroupRiderName.setText(String.valueOf(riders.get(position).getName()));
-        if (riders.get(position).getStartNr() < 900) {
-            holder.racegroupRiderStartNr.setText(String.valueOf(riders.get(position).getStartNr()));
-            holder.racegroupRiderTeam.setText(String.valueOf(riders.get(position).getTeamShortName()));
+        Rider rider = riders.get(position);
+        holder.racegroupRiderName.setText(String.valueOf(rider.getName()));
+        if (rider.getStartNr() < 900) {
+            holder.racegroupRiderStartNr.setText(String.valueOf(rider.getStartNr()));
+            holder.racegroupRiderTeam.setText(String.valueOf(rider.getTeamShortName()));
+            RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
+            for(int i = 0; i < riderStageConnections.size(); i++){
+                if(riderStageConnections.get(i).getRiders().getStartNr() == rider.getStartNr()){
+                    holder.racegroupRiderVirtualRank.setText("R: " + (i+1));
+                    break;
+                }
+            }
+
         } else {
             holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);
             holder.racegroupRiderTeam.setText(R.string.race_startnr_unknownrider);
