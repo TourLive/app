@@ -114,24 +114,6 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void calculateRanks(OnGetAllRiderStageConnectionsCallback callback) {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-
-        RealmList<RiderStageConnection> connections = getAllRiderStateConnections();
-        HashMap<Long, RiderStageConnection> gapConnectionMap = new HashMap<>();
-        ArrayList<Long> gaps = new ArrayList<>();
-        for (RiderStageConnection con : connections) {
-            gapConnectionMap.put(con.getVirtualGap(), con);
-            gaps.add(con.getVirtualGap());
-        }
-        gaps.sort(Comparator.naturalOrder());
-        for (int i = 0; i < gaps.size(); i++) {
-            RiderStageConnection connection = gapConnectionMap.get(gaps.get(i));
-            updateRiderStageConnectionRank(i + 1, connection);
-        }
-    }
-
-    @Override
     public RiderStageConnection getRiderByRank(final int rank) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
