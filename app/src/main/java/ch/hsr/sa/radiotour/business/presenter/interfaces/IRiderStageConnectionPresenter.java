@@ -33,4 +33,12 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain();
 
     RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
+
+    RiderStageConnection getLeader();
+
+    RiderStageConnection getSprintLeader();
+
+    RiderStageConnection getMountainLeader();
+
+    RiderStageConnection getSwissLeader();
 }
