@@ -1,5 +1,8 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +23,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     private static final int FIRSTITEM = 1;
     private RealmList<RaceGroup> raceGroups;
     private RiderRaceGroupFragment fragment;
+    private Context context;
 
     public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment) {
         this.raceGroups = raceGroups;
@@ -30,6 +34,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     @Override
     public LittleRaceGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view;
+        context = parent.getContext();
         if (viewType == NORMALITEM) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_little_racegroup, parent, false);
         } else if (viewType == FIRSTITEM) {
@@ -44,6 +49,14 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     public void onBindViewHolder(LittleRaceGroupViewHolder holder, int position) {
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
         holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
+        if (raceGroups.get(position).getType() != RaceGroupType.FELD) {
+            int color = ContextCompat.getColor(context, R.color.colorGrayLight);
+            holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        } else {
+
+            int color = ContextCompat.getColor(context, R.color.colorGrayMiddle);
+            holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+        }
     }
 
     @Override
