@@ -1,8 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
@@ -178,6 +175,26 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         res.addAll(results);
         realm.close();
         return res;
+    }
+
+    @Override
+    public RiderStageConnection getLeader() {
+        return getRiderStageConnectionsSortedByVirtualGap().first();
+    }
+
+    @Override
+    public RiderStageConnection getSprintLeader() {
+        return getRiderStageConnectionsSortedByPoints().first();
+    }
+
+    @Override
+    public RiderStageConnection getMountainLeader() {
+        return getRiderStageConnectionsSortedByMountain().first();
+    }
+
+    @Override
+    public RiderStageConnection getSwissLeader() {
+        return getRiderStageConnectionsSortedByBestSwiss().first();
     }
 
 

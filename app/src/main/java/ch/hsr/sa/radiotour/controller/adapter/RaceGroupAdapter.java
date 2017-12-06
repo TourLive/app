@@ -3,7 +3,9 @@ package ch.hsr.sa.radiotour.controller.adapter;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.PorterDuff;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -65,10 +67,15 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             if (raceGroups.get(position).getType() == RaceGroupType.LEAD) {
                 holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime_before));
             }
+            int color = ContextCompat.getColor(context, R.color.colorGrayLight);
+            holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
         } else {
             RiderRaceGroupAdapter adapter = new RiderRaceGroupAdapter(new RealmList<Rider>(), fragment);
             holder.racegroupRiders.setLayoutManager(layoutManager);
             holder.racegroupRiders.setAdapter(adapter);
+            int color = ContextCompat.getColor(context, R.color.colorGrayMiddle);
+            holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
+            holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime));
         }
         holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
     }
@@ -175,11 +182,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             if (raceGroup.getType() == RaceGroupType.FELD)
                 return true;
             ClipData data = ClipData.newPlainText(" ", " ");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            View viewOne = (View) view.getParent();
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(viewOne);
             view.startDragAndDrop(data, shadowBuilder, raceGroup.getRiders(), 0);
             return true;
         }
-
 
         @Override
         public void onClick(View view) {
@@ -217,14 +224,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             rvSeconds.setLayoutManager(layoutManagerSeconds);
             rvSeconds.setAdapter(adapterSeconds);
 
-            builder.setTitle("Time Gap");
-            builder.setMessage("Please enter the gap time relative to the leading group");
-            builder.setPositiveButton("Change time", (DialogInterface dialogInterface, int i) -> {
+            builder.setTitle(R.string.racegroup_timechange_title);
+            builder.setMessage(R.string.racegroup_timechange_description);
+            builder.setPositiveButton(R.string.racegroup_timechange_button, (DialogInterface dialogInterface, int i) -> {
                 if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
                     RaceGroupPresenter.getInstance().updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
                 }
             });
-            builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());
+            builder.setNegativeButton(R.string.dismiss, (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 
