@@ -183,4 +183,24 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         return riderStageConnectionRepository.getRiderStageConnectionsSortedByBestSwiss();
     }
 
+    @Override
+    public RiderStageConnection getLeader() {
+        return riderStageConnectionRepository.getLeader();
+    }
+
+    @Override
+    public RiderStageConnection getSprintLeader() {
+        return riderStageConnectionRepository.getSprintLeader();
+    }
+
+    @Override
+    public RiderStageConnection getMountainLeader() {
+        return riderStageConnectionRepository.getMountainLeader();
+    }
+
+    @Override
+    public RiderStageConnection getSwissLeader() {
+        return riderStageConnectionRepository.getSwissLeader();
+    }
+
 }

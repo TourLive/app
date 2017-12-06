@@ -34,6 +34,14 @@ public interface IRiderStageConnectionRepository {
 
     RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
 
+    RiderStageConnection getLeader();
+
+    RiderStageConnection getSprintLeader();
+
+    RiderStageConnection getMountainLeader();
+
+    RiderStageConnection getSwissLeader();
+
     interface OnSaveRiderStageConnectionCallback {
         void onSuccess();
 

@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -29,11 +32,21 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
     private RealmList<Rider> selectedRider;
     private Fragment fragment;
     private Context context;
+    HashMap<String, Integer> tricots;
 
     public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment) {
         this.riders = riders;
         this.selectedRider = new RealmList<>();
         this.fragment = fragment;
+        tricots = new HashMap<>();
+        initTricots();
+    }
+
+    private void initTricots() {
+        tricots.put("leader", RiderStageConnectionPresenter.getInstance().getLeader().getRiders().getStartNr());
+        tricots.put("sprint", RiderStageConnectionPresenter.getInstance().getSprintLeader().getRiders().getStartNr());
+        tricots.put("mountain", RiderStageConnectionPresenter.getInstance().getMountainLeader().getRiders().getStartNr());
+        tricots.put("swiss", RiderStageConnectionPresenter.getInstance().getSwissLeader().getRiders().getStartNr());
     }
 
     @Override
@@ -57,10 +70,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
                     break;
                 }
             }
-            if(rider.getRiderStages().first().getRank() == 1){
-                setMaillotColor("yellow", holder);
-            }
-
+            setTrictos(rider, holder);
         } else {
             holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);
             holder.racegroupRiderTeam.setText(R.string.race_startnr_unknownrider);
@@ -68,20 +78,29 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         holder.racegroupRiderCountry.setImageResource(UIUtilitis.getCountryFlag(riders.get(position).getCountry()));
     }
 
+    private void setTrictos(Rider rider, RiderRaceGroupViewHolder holder) {
+        int ridernr = rider.getStartNr();
+        for (String key : tricots.keySet()) {
+            if (tricots.get(key).equals(ridernr)) {
+                setMaillotColor(key, holder);
+            }
+        }
+    }
+
     private void setMaillotColor(String color, RiderRaceGroupViewHolder holder) {
         holder.racegroupRiderTricot.setVisibility(View.VISIBLE);
         int colorCode = ContextCompat.getColor(context, R.color.colorGrayDark);
         switch (color) {
-            case "yellow":
+            case "leader":
                 colorCode = ContextCompat.getColor(context, R.color.yellow);
                 break;
-            case "red":
+            case "swiss":
                 colorCode = ContextCompat.getColor(context, R.color.red);
                 break;
-            case "blue":
+            case "mountain":
                 colorCode = ContextCompat.getColor(context, R.color.blue);
                 break;
-            case "black":
+            case "sprint":
                 colorCode = ContextCompat.getColor(context, R.color.black);
                 break;
             default:
