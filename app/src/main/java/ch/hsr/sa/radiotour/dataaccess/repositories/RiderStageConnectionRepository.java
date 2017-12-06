@@ -150,7 +150,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     @Override
     public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("sprintBonusPoints", Sort.ASCENDING);
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("sprintBonusPoints", Sort.DESCENDING);
         RealmList<RiderStageConnection> res = new RealmList<>();
         res.addAll(results);
         realm.close();
@@ -160,7 +160,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     @Override
     public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("mountainBonusPoints", Sort.ASCENDING);
+        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("mountainBonusPoints", Sort.DESCENDING);
         RealmList<RiderStageConnection> res = new RealmList<>();
         res.addAll(results);
         realm.close();
