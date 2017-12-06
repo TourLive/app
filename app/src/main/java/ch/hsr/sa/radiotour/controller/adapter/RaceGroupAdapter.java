@@ -182,11 +182,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             if (raceGroup.getType() == RaceGroupType.FELD)
                 return true;
             ClipData data = ClipData.newPlainText(" ", " ");
-            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+            View viewOne = (View) view.getParent();
+            View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(viewOne);
             view.startDragAndDrop(data, shadowBuilder, raceGroup.getRiders(), 0);
             return true;
         }
-
 
         @Override
         public void onClick(View view) {
