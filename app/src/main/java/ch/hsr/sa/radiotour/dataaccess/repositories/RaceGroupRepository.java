@@ -202,6 +202,9 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         RealmResults<RaceGroup> rGtoUpdate = realm.where(RaceGroup.class).greaterThanOrEqualTo("position", pos).findAllSorted("position");
         for (RaceGroup rG : rGtoUpdate) {
             rG.setPosition(rG.getPosition() - 1);
+            if (rG.getPosition() == 0 && rG.getType() != RaceGroupType.FELD) {
+                rG.setType(RaceGroupType.LEAD);
+            }
         }
         realm.commitTransaction();
     }
