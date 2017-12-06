@@ -41,7 +41,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Arzt"
+        android:text="@string/race_drop"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/Rider"
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Sturz"
+        android:text="@string/race_drop"
         app:layout_constraintStart_toEndOf="@+id/btn_Doctor"
         app:layout_constraintTop_toTopOf="@+id/Rider"
         android:background="@color/colorOlive"/>
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Defekt"
+        android:text="@string/race_defect"
         app:layout_constraintStart_toEndOf="@+id/btn_Drop"
         app:layout_constraintTop_toTopOf="@+id/Rider"
         android:background="@color/colorRed"/>
@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="DNC"
+        android:text="@string/race_dnc"
         app:layout_constraintStart_toEndOf="@+id/btn_Defect"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
 
@@ -81,7 +81,7 @@
         android:layout_width="89dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="Aufgabe"
+        android:text="@string/race_quit"
         app:layout_constraintStart_toEndOf="@+id/btn_DNC"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
 
