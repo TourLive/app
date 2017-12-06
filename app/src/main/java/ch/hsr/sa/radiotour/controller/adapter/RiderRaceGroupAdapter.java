@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.ClipData;
+import android.content.Context;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +28,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
     private RealmList<Rider> riders;
     private RealmList<Rider> selectedRider;
     private Fragment fragment;
+    private Context context;
 
     public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment) {
         this.riders = riders;
@@ -37,6 +39,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
     @Override
     public RiderRaceGroupAdapter.RiderRaceGroupViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.layout_item_rider_in_racegroup, parent, false);
+        context = parent.getContext();
         return new RiderRaceGroupAdapter.RiderRaceGroupViewHolder(view);
     }
 
@@ -55,8 +58,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
                 }
             }
             if(rider.getRiderStages().first().getRank() == 1){
-                holder.racegroupRiderTricot.setImageResource(R.drawable.maillots);
-                holder.racegroupRiderTricot.setColorFilter(R.color.yellow);
+                setMaillotColor("yellow", holder);
             }
 
         } else {
@@ -64,6 +66,28 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
             holder.racegroupRiderTeam.setText(R.string.race_startnr_unknownrider);
         }
         holder.racegroupRiderCountry.setImageResource(UIUtilitis.getCountryFlag(riders.get(position).getCountry()));
+    }
+
+    private void setMaillotColor(String color, RiderRaceGroupViewHolder holder) {
+        holder.racegroupRiderTricot.setVisibility(View.VISIBLE);
+        int colorCode = ContextCompat.getColor(context, R.color.colorGrayDark);
+        switch (color) {
+            case "yellow":
+                colorCode = ContextCompat.getColor(context, R.color.yellow);
+                break;
+            case "red":
+                colorCode = ContextCompat.getColor(context, R.color.red);
+                break;
+            case "blue":
+                colorCode = ContextCompat.getColor(context, R.color.blue);
+                break;
+            case "black":
+                colorCode = ContextCompat.getColor(context, R.color.black);
+                break;
+            default:
+                break;
+        }
+        holder.racegroupRiderTricot.setColorFilter(colorCode);
     }
 
     @Override
