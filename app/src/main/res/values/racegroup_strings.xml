@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="racegroup_minutes">MINUTEN</string>
+    <string name="racegroup_seconds">SEKUNDEN</string>
+    <string name="racegroup_timechange_button">Zeit ändern</string>
+    <string name="racegroup_timechange_title">Zeitabstand</string>
+    <string name="racegroup_timechange_description">Geben Sie die Zeit des Abstands relativ zur Spitzengruppe ein</string>
+</resources>

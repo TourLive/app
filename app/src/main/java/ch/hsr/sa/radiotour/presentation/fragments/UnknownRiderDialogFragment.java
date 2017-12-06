@@ -33,15 +33,15 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         numberPicker.setMaxValue(100);
         numberPicker.setWrapSelectorWheel(true);
 
-        alertDialogBuilder.setTitle("Adding Unknown Riders");
-        alertDialogBuilder.setMessage("Please select how many unknown riders you would add and select the racegroup.");
-        alertDialogBuilder.setPositiveButton("Add unknown riders", (DialogInterface dialog, int which) -> {
+        alertDialogBuilder.setTitle(R.string.race_unknownrider_title);
+        alertDialogBuilder.setMessage(R.string.race_unknownrider_description);
+        alertDialogBuilder.setPositiveButton(R.string.race_unknownrider_button, (DialogInterface dialog, int which) -> {
             UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
             int count = numberPicker.getValue();
             unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
 
-        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
+        alertDialogBuilder.setNegativeButton(R.string.dismiss, (DialogInterface dialog, int which) -> dialog.dismiss());
 
         return alertDialogBuilder.create();
     }
