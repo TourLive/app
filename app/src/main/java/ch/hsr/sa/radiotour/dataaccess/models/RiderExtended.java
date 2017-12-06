@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
-import io.realm.RealmResults;
-
 public class RiderExtended {
     private int rank;
     private int bonusPoint;
