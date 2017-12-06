@@ -45,9 +45,9 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
 
         addItemsToSpinner();
 
-        alertDialogBuilder.setTitle("Change unknown rider to an known rider");
-        alertDialogBuilder.setMessage("Please select the rider to which you want transfer the unknown rider to.");
-        alertDialogBuilder.setPositiveButton("Change the unknown rider", (DialogInterface dialog, int which) -> {
+        alertDialogBuilder.setTitle(R.string.race_unknownrider_transfer_title);
+        alertDialogBuilder.setMessage(R.string.race_unknownrider_transfer_description);
+        alertDialogBuilder.setPositiveButton(R.string.race_unknownrider_transfer_button, (DialogInterface dialog, int which) -> {
             String[] parts = spinner.getItemAtPosition(spinner.getSelectedItemPosition()).toString().split("\\-");
             String startNr = parts[0];
             Log.d("", "" + selectedUnknownRider.toString());
@@ -62,7 +62,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
                 RiderPresenter.getInstance().removeRiderWithoutCallback(unknownRider);
             }).start();
         });
-        alertDialogBuilder.setNegativeButton("Dismiss", (DialogInterface dialog, int which) -> dialog.dismiss());
+        alertDialogBuilder.setNegativeButton(R.string.dismiss, (DialogInterface dialog, int which) -> dialog.dismiss());
 
         return alertDialogBuilder.create();
     }

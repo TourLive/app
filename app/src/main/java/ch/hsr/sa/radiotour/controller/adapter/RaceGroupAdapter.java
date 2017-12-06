@@ -224,14 +224,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             rvSeconds.setLayoutManager(layoutManagerSeconds);
             rvSeconds.setAdapter(adapterSeconds);
 
-            builder.setTitle("Time Gap");
-            builder.setMessage("Please enter the gap time relative to the leading group");
-            builder.setPositiveButton("Change time", (DialogInterface dialogInterface, int i) -> {
+            builder.setTitle(R.string.racegroup_timechange_title);
+            builder.setMessage(R.string.racegroup_timechange_description);
+            builder.setPositiveButton(R.string.racegroup_timechange_button, (DialogInterface dialogInterface, int i) -> {
                 if (adapterMinutes.getSelectedNumber() != null && adapterSeconds.getSelectedNumber() != null) {
                     RaceGroupPresenter.getInstance().updateRaceGroupGapTime(raceGroups.get(getAdapterPosition()), adapterMinutes.getSelectedNumber(), adapterSeconds.getSelectedNumber());
                 }
             });
-            builder.setNegativeButton("Dismiss", (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());
+            builder.setNegativeButton(R.string.dismiss, (DialogInterface dialogInterface, int i) -> dialogInterface.dismiss());
             AlertDialog alertDialog = builder.create();
             alertDialog.show();
 

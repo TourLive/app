@@ -256,13 +256,13 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
             RiderPresenter.getInstance().addRiderNone(rider);
             unknownRiders.add(RiderPresenter.getInstance().getRiderByStartNr(rider.getStartNr()));
         }
-        txtUnknownRiders.setText("" + Integer.toString(count) + " unknown Riders to add");
+        txtUnknownRiders.setText(getString(R.string.race_unknownrider_value, Integer.toString(count)));
         txtUnknownRiders.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.colorAccent));
     }
 
     private void removeUnknownRiders() {
         txtUnknownRiders.setBackgroundResource(0);
-        txtUnknownRiders.setText("EMPTY");
+        txtUnknownRiders.setText(R.string.race_unknownrider_empty);
         unknownRiders.clear();
     }
 
