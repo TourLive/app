@@ -46,7 +46,6 @@ import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;

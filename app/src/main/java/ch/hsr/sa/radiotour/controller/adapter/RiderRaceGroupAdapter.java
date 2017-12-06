@@ -2,7 +2,6 @@ package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.ClipData;
 import android.content.Context;
-import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -14,9 +13,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
