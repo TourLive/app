@@ -2,7 +2,7 @@
     <string name="import_import">Import</string>
     <string name="import_data">DATEN IMPORTIEREN</string>
     <string name="import_demomode">Demomode</string>
-    <string name="import_demodata">Demodaten laden</string>
+    <string name="import_demodata">Demomodus starten</string>
     <string name="import_demomode_active">Demomodus aktiv, um zu verlassen nochmals drücken</string>
     <string name="import_demomode_leave">Demomodus verlassen</string>
     <string name="import_demomode_activated">Demomodus aktiviert</string>
@@ -18,7 +18,7 @@
     <string name="import_maillot">MAILLOTS IMPORTIEREN</string>
     <string name="import_error">Ein Fehler ist aufgetreten</string>
     <string name="import_actual_stage">Aktuelle Etappe</string>
-    <string name="import_status">Status</string>
+    <string name="import_status">Status: </string>
     <string name="import_status_ok">Status ok</string>
     <string name="import_status_error">Das Tablet kann aktuell keine Verbindung zum Server aufbauen</string>
     <string name="import_connection_to_server">Verbindung zum Server</string>
@@ -28,7 +28,7 @@
     <string name="import_actual_stageid">Aktuelle Etappe</string>
     <string name="import_actual_not_available">Nicht verfügbar</string>
     <string name="import_hint_copyright">Copyright Hinweise</string>
-    <string name="import_copyright">Die Rechte der App liegen bei cnlab</string>
+    <string name="import_copyright">Die Idee für die RadioTour Anwendung stammt von Rolf Huser (damals Radio Tour Speaker an der Tour de Suisse) und Peter Heinzmann. Ein erster Prototyp wurde bei cnlab information technology research ag von Lukas Frey und Raphael Juchli entwickelt.  Die erste «Android Applikation RadioTour» erstellten Daniel Stucki und Florian Bentele 2012 im Rahmen ihrer Studienarbeit an der HSR Hochschule für Technik Rapperswil. 2017 erfolgte der «Redesign Android Applikation RadioTour» Urs Forrer und Dominik Good, Studienarbeit an der HSR. Die Radio Tour Speaker der Tour de Suisse arbeiten seit 2007 immer mit der RadioTour Anwendung, welche von cnlab betreut und weiterentwickelt wird.</string>
     <string name="import_progress">Fortschritt</string>
     <string name="import_download">Download</string>
     <string name="import_processing">Verarbeitung</string>
@@ -46,4 +46,5 @@
     <string name="import_reaload_ui">Anzeigen werden aktualisiert</string>
     <string name="import_stage_infos">%1$s | %2$s - %3$s (%4$d)</string>
     <string name="import_race_infos">%1$s (%2$d)</string>
+    <string name="import_success">Daten wurden erfolgreich geladen.</string>
 </resources>

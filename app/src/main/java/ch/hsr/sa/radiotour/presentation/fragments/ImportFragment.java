@@ -13,11 +13,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -100,9 +102,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
 
-        TextView versionView = (TextView) root.findViewById(R.id.txtVersion);
-        versionView.setText(getString(R.string.import_version, BuildConfig.VERSION_NAME));
-
+        TextView statusView = (TextView) root.findViewById(R.id.txtStatus);
+        statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, BuildConfig.VERSION_NAME));
         return root;
     }
 
@@ -187,12 +188,16 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         progressBar.setProgress(0);
         progressBar.dismiss();
         progressBarHandler.post(() -> {
+            updateActualStage(StagePresenter.getInstance().getStage());
             RiderPresenter.getInstance().getAllRiders();
             RaceGroupPresenter.getInstance().getAllRaceGroups();
             RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
             JudgmentPresenter.getInstance().getAllJudgments();
             MaillotPresenter.getInstance().getAllMaillots();
             StagePresenter.getInstance().getStageWithCallback();
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.show();
         });
     }
 
@@ -307,6 +312,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             demoMode = true;
                             APIClient.setDemoMode(demoMode);
                         }
+                        Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.show();
                     });
                 }
             }).start();
