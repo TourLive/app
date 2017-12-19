@@ -28,7 +28,7 @@
     <string name="import_actual_stageid">Aktuelle Etappe</string>
     <string name="import_actual_not_available">Nicht verfügbar</string>
     <string name="import_hint_copyright">Copyright Hinweise</string>
-    <string name="import_copyright">Die Rechte der App liegen bei cnlab</string>
+    <string name="import_copyright">Die Idee für die RadioTour Anwendung stammt von Rolf Huser (damals Radio Tour Speaker an der Tour de Suisse) und Peter Heinzmann. Ein erster Prototyp wurde bei cnlab information technology research ag von Lukas Frey und Raphael Juchli entwickelt.  Die erste «Android Applikation RadioTour» erstellten Daniel Stucki und Florian Bentele 2012 im Rahmen ihrer Studienarbeit an der HSR Hochschule für Technik Rapperswil. 2017 erfolgte der «Redesign Android Applikation RadioTour» Urs Forrer und Dominik Good, Studienarbeit an der HSR. Die Radio Tour Speaker der Tour de Suisse arbeiten seit 2007 immer mit der RadioTour Anwendung, welche von cnlab betreut und weiterentwickelt wird.</string>
     <string name="import_progress">Fortschritt</string>
     <string name="import_download">Download</string>
     <string name="import_processing">Verarbeitung</string>
