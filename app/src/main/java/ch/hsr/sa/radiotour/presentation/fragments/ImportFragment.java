@@ -13,11 +13,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 
@@ -193,6 +195,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             JudgmentPresenter.getInstance().getAllJudgments();
             MaillotPresenter.getInstance().getAllMaillots();
             StagePresenter.getInstance().getStageWithCallback();
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.show();
         });
     }
 
@@ -307,6 +312,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             demoMode = true;
                             APIClient.setDemoMode(demoMode);
                         }
+                        Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
+                        toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                        toast.show();
                     });
                 }
             }).start();
