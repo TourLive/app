@@ -186,6 +186,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         progressBar.setProgress(0);
         progressBar.dismiss();
         progressBarHandler.post(() -> {
+            updateActualStage(StagePresenter.getInstance().getStage());
             RiderPresenter.getInstance().getAllRiders();
             RaceGroupPresenter.getInstance().getAllRaceGroups();
             RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
