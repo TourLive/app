@@ -239,12 +239,11 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/circle"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/txtVersion" />
+        app:layout_constraintTop_toTopOf="@+id/txtConnection" />
 
     <TextView
         android:id="@+id/circleGPS"
@@ -272,7 +271,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="140dp" />
+        app:layout_constraintGuide_begin="114dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline12"
@@ -308,13 +307,11 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:text="@string/import_connection_to_server"
         android:textSize="@dimen/text_size_undertitle"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline11"
-        app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toBottomOf="@+id/txtVersion" />
+        app:layout_constraintStart_toStartOf="@+id/guideline10" />
 
     <TextView
         android:id="@+id/txt_GlobalSettings"
@@ -412,16 +409,5 @@
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
         app:layout_constraintTop_toBottomOf="@+id/spacerTitle5" />
-
-    <TextView
-        android:id="@+id/txtVersion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/spacerLeftRight"
-        app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/spacerTitle3" />
 
 </android.support.constraint.ConstraintLayout>
