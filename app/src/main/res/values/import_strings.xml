@@ -2,7 +2,7 @@
     <string name="import_import">Import</string>
     <string name="import_data">DATEN IMPORTIEREN</string>
     <string name="import_demomode">Demomode</string>
-    <string name="import_demodata">Demodaten laden</string>
+    <string name="import_demodata">Demomodus starten</string>
     <string name="import_demomode_active">Demomodus aktiv, um zu verlassen nochmals drücken</string>
     <string name="import_demomode_leave">Demomodus verlassen</string>
     <string name="import_demomode_activated">Demomodus aktiviert</string>
