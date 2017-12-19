@@ -2,6 +2,7 @@
 <resources>
     <dimen name="text_size_common">7sp</dimen>
     <dimen name="margin_common">4dp</dimen>
+    <dimen name="margin_little">2dp</dimen>
     <dimen name="button_height_common">40sp</dimen>
     <dimen name="text_size_title">40sp</dimen>
     <dimen name="text_size_undertitle">20sp</dimen>

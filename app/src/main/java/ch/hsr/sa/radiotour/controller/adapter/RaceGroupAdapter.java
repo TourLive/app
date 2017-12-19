@@ -56,7 +56,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     @Override
     public void onBindViewHolder(RaceGroupViewHolder holder, int position) {
-        GridLayoutManager layoutManager = new GridLayoutManager(context, 2);
+        GridLayoutManager layoutManager = new GridLayoutManager(context, 1);
         holder.racegroupName.setText(String.valueOf(raceGroups.get(position).getName()));
         holder.gaptimeActual.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getActualGapTime())));
         holder.gaptimeBefore.setText(String.valueOf(convertLongToTimeString(raceGroups.get(position).getHistoryGapTime())));
