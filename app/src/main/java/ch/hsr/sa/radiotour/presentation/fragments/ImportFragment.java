@@ -100,9 +100,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
 
-        TextView versionView = (TextView) root.findViewById(R.id.txtVersion);
-        versionView.setText(getString(R.string.import_version, BuildConfig.VERSION_NAME));
-
+        TextView statusView = (TextView) root.findViewById(R.id.txtStatus);
+        statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, BuildConfig.VERSION_NAME));
         return root;
     }
 
