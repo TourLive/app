@@ -41,11 +41,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/race_drop"
+        android:background="@color/colorBlue"
+        android:text="@string/race_doctor"
         android:textSize="12sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Rider"
-        android:background="@color/colorBlue"/>
+        app:layout_constraintTop_toTopOf="@+id/Rider" />
 
     <Button
         android:id="@+id/btn_Drop"
