@@ -312,6 +312,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             demoMode = true;
                             APIClient.setDemoMode(demoMode);
                         }
+                        updateActualStage(StagePresenter.getInstance().getStage());
                         Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
                         toast.show();
