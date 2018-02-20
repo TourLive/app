@@ -97,7 +97,11 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         realm.beginTransaction();
         Rider res = realm.where(Rider.class).equalTo("id", rider.getId()).findFirst();
         for (RiderStageConnection sC : res.getRiderStages()) {
-            sC.setType(type);
+            if (sC.getType() == type) {
+                sC.setType(RiderStateType.AKTIVE);
+            } else {
+                sC.setType(type);
+            }
         }
         realm.commitTransaction();
         RiderStageConnection state = realm.where(RiderStageConnection.class).equalTo("riders.id", rider.getId()).findFirst();
