@@ -315,7 +315,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             btnImport.setEnabled(false);
                             demoMode = true;
                             APIClient.setDemoMode(demoMode);
-                            statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, getString(R.string.import_demomode)));
+                            statusView.setText(getString(R.string.import_status)  + getString(R.string.import_demomode));
                         }
                         updateActualStage(StagePresenter.getInstance().getStage());
                         Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
