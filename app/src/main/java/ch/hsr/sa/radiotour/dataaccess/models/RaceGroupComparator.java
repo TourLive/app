@@ -3,7 +3,7 @@ package ch.hsr.sa.radiotour.dataaccess.models;
 import java.util.Comparator;
 
 
-public class RaceGroupComperator implements Comparator<RaceGroup> {
+public class RaceGroupComparator implements Comparator<RaceGroup> {
     @Override
     public int compare(RaceGroup raceGroup, RaceGroup t1) {
         int left = raceGroup.getPosition();

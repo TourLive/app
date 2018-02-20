@@ -13,7 +13,7 @@ import java.util.Collections;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import io.realm.RealmList;
@@ -27,7 +27,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
 
     public LittleRaceGroupAdapter(RealmList<RaceGroup> raceGroups, RiderRaceGroupFragment fragment) {
         this.raceGroups = raceGroups;
-        Collections.sort(raceGroups, new RaceGroupComperator());
+        Collections.sort(raceGroups, new RaceGroupComparator());
         this.fragment = fragment;
     }
 
