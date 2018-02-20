@@ -277,6 +277,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
             updateRiderStateConnectionWithPerformance(rider, rank);
             textViews.get(rank - 1).setText(String.valueOf(rider.getStartNr()));
+            riderBasicAdapter.setColorOnRider(rider.getStartNr());
         } else {
             Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
