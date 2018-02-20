@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -61,6 +62,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private TextView serverView;
     private TextView raceIdView;
     private TextView stageIdView;
+    private TextView statusView;
     private ProgressDialog progressBar;
     private int progressBarStatus;
     private Handler progressBarHandler = new Handler();
@@ -102,7 +104,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
 
-        TextView statusView = (TextView) root.findViewById(R.id.txtStatus);
+        statusView = (TextView) root.findViewById(R.id.txtStatus);
         statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, BuildConfig.VERSION_NAME));
         return root;
     }
@@ -304,6 +306,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             btnImport.setEnabled(true);
                             demoMode = false;
                             APIClient.setDemoMode(demoMode);
+                            statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, BuildConfig.VERSION_NAME));
+
                         } else {
                             btnDemo.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_green));
                             MainActivity.getInstance().findViewById(R.id.txt_DemoMode).setVisibility(View.VISIBLE);
@@ -311,6 +315,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                             btnImport.setEnabled(false);
                             demoMode = true;
                             APIClient.setDemoMode(demoMode);
+                            statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, getString(R.string.import_demomode)));
                         }
                         updateActualStage(StagePresenter.getInstance().getStage());
                         Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success), Toast.LENGTH_LONG);
