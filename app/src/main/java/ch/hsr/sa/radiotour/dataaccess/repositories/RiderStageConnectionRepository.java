@@ -5,6 +5,7 @@ import java.util.UUID;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
@@ -133,11 +134,11 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection) {
+    public void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction((Realm db) -> {
             RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", connection.getId()).findFirst();
-            res.setRank(rank);
+            res.addRiderRanking(riderRanking);
         });
     }
 

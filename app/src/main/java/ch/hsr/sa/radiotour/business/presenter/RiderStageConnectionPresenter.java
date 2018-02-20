@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
@@ -159,8 +160,8 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection) {
-        riderStageConnectionRepository.updateRiderStageConnectionRank(rank, connection);
+    public void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection) {
+        riderStageConnectionRepository.updateRiderStageConnectionRanking(riderRanking, connection);
     }
 
     @Override

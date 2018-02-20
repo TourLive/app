@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
@@ -24,7 +25,7 @@ public interface IRiderStageConnectionRepository {
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 
-    void updateRiderStageConnectionRank(final int rank, RiderStageConnection connection);
+    void updateRiderStageConnectionRanking(final RiderRanking riderRanking, RiderStageConnection connection);
 
     RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap();
 

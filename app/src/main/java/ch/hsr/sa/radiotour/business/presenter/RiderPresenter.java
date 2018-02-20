@@ -177,7 +177,7 @@ public class RiderPresenter implements IRiderPresenter {
             riderExtended.setVirtualGap(riderStageConnection.getVirtualGap());
             riderExtended.setTeamShortName(r.getTeamShortName());
             riderExtended.setStartNr(r.getStartNr());
-            riderExtended.setRank(riderStageConnection.getRank());
+            riderExtended.setRank(riderStageConnection.getRiderRanking().getRank());
             riderExtended.setOfficialTime(riderStageConnection.getOfficialTime());
             riderExtended.setOfficialGap(riderStageConnection.getOfficialGap());
             riderExtended.setName(r.getName());
