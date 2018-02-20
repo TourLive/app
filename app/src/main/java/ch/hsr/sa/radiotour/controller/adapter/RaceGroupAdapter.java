@@ -201,8 +201,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RecyclerView rvMinutes = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadMinutes);
             RecyclerView rvSeconds = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadSeconds);
 
-            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
-            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);
 
             final TimeAdapter adapterMinutes;
             final TimeAdapter adapterSeconds;

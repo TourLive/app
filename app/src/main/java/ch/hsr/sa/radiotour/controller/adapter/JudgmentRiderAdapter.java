@@ -8,9 +8,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
@@ -34,29 +37,26 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
 
     @Override
     public void onBindViewHolder(JudgmentRiderViewHolder holder, int position) {
+        Rider r = getRiderByRank(position + 1);
         holder.itemRank.setText(String.valueOf(position + 1) + ".");
-        holder.itemRiderName.setText(getRiderNameByRank(position + 1, holder));
-        holder.itemTeam.setText(getRiderTeamByRank(position + 1, holder));
+        if (r == null) {
+            holder.itemRiderInfo.setText(context.getResources().getString(R.string.placeholder_rider_judgment));
+            holder.itemRiderStartNr.setText("");
+        } else {
+            holder.itemRiderInfo.setText(r.getName() + r.getTeamShortName());
+            holder.itemRiderStartNr.setText(Integer.toString(r.getStartNr()));
+            holder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(r.getCountry()));
+        }
+
     }
 
-    private String getRiderNameByRank(int rank, JudgmentRiderViewHolder viewHolder) {
+    private Rider getRiderByRank(int rank) {
         for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
             if (jRC.getRank() == rank) {
-                viewHolder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(jRC.getRider().first().getCountry()));
-                return jRC.getRider().first().getName();
+                return jRC.getRider().first();
             }
         }
-        return context.getResources().getString(R.string.placeholder_rider_judgment);
-    }
-
-    private String getRiderTeamByRank(int rank, JudgmentRiderViewHolder viewHolder) {
-        for (JudgmentRiderConnection jRC : judgmentRiderConnections) {
-            if (jRC.getRank() == rank) {
-                viewHolder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(jRC.getRider().first().getCountry()));
-                return jRC.getRider().first().getTeamShortName();
-            }
-        }
-        return "";
+        return null;
     }
 
     @Override
@@ -74,16 +74,17 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
 
     public class JudgmentRiderViewHolder extends RecyclerView.ViewHolder {
         private TextView itemRank;
-        private TextView itemRiderName;
+        private TextView itemRiderInfo;
         private ImageView imgCountry;
-        private TextView itemTeam;
+        private TextView itemRiderStartNr;
 
         public JudgmentRiderViewHolder(View itemView) {
             super(itemView);
             itemRank = (TextView) itemView.findViewById(R.id.judgment_rank);
-            itemRiderName = (TextView) itemView.findViewById(R.id.judgment_rider_name);
+            itemRiderInfo = (TextView) itemView.findViewById(R.id.judgment_rider_info);
             imgCountry = (ImageView) itemView.findViewById(R.id.imgCountry);
-            itemTeam = (TextView) itemView.findViewById(R.id.judgment_rider_team);
+            itemRiderStartNr = (TextView) itemView.findViewById(R.id.judgment_rider_startnr);
+
         }
     }
 
