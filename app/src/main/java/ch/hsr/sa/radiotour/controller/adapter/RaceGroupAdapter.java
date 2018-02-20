@@ -22,7 +22,7 @@ import java.util.Collections;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
@@ -36,7 +36,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment) {
         this.raceGroups = raceGroups;
-        Collections.sort(raceGroups, new RaceGroupComperator());
+        Collections.sort(raceGroups, new RaceGroupComparator());
         this.context = context;
         this.fragment = fragment;
     }

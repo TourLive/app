@@ -13,25 +13,30 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
 public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAdapter.RiderRaceGroupViewHolder> {
-    private RealmList<Rider> riders;
+    private List<Rider> riders;
     private RealmList<Rider> selectedRider;
     private Fragment fragment;
     private Context context;
     HashMap<String, Integer> tricots;
 
     public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment) {
-        this.riders = riders;
+        this.riders = new LinkedList<>(riders);
+        Collections.sort(this.riders, new RiderComparator());
         this.selectedRider = new RealmList<>();
         this.fragment = fragment;
         tricots = new HashMap<>();
