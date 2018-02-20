@@ -5,6 +5,7 @@ import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
+import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
@@ -12,6 +13,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import io.realm.RealmList;
@@ -77,8 +79,8 @@ public final class Context {
         RiderPresenter.getInstance().updateRiderStageConnection(rider, riderStageConnection);
     }
 
-    public static void updateRiderStageConnectionRank(int rank, RiderStageConnection connection) {
-        RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionRank(rank, connection);
+    public static void updateRiderStageConnectionRanking(RiderRanking riderRanking, RiderStageConnection connection) {
+        RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionRanking(riderRanking, connection);
     }
 
     public static void deleteAllRiderStageConnections() {
@@ -111,5 +113,17 @@ public final class Context {
 
     public static Maillot getMaillotById(int id) {
         return MaillotPresenter.getInstance().getMaillotById(id);
+    }
+
+    public  static void addRiderRanking(RiderRanking riderRanking){
+        RiderRankingPresenter.getInstance().addRiderRanking(riderRanking);
+    }
+
+    public static RiderRanking getRiderRanking(RiderRanking riderRanking){
+        return  RiderRankingPresenter.getInstance().getRiderRanking(riderRanking);
+    }
+
+    public static void deleteRiderRankings() {
+        RiderRankingPresenter.getInstance().clearAllRiderRankings();
     }
 }

@@ -7,22 +7,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 
+import ch.hsr.sa.radiotour.controller.adapter.RiderRaceGroupAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.models.StageType;
 import io.realm.RealmList;
+import io.realm.Sort;
 
 public final class Parser {
     private static String startNr = "startNr";
@@ -43,6 +49,7 @@ public final class Parser {
         Context.deleteRewards();
         Context.deleteMaillots();
         Context.deleteStages();
+        Context.deleteRiderRankings();
     }
 
     public static void parseRidersAndPersist(JSONArray riders) throws InterruptedException {
@@ -70,7 +77,7 @@ public final class Parser {
                         riderStageConnection.setOfficialGap(jsonRider.getLong("timeRueckLong"));
                         riderStageConnection.setOfficialTime(jsonRider.getLong("timeOffLong"));
                         riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
-                        riderStageConnection.setRank(jsonRider.getInt(startNr));
+                        riderStageConnection.setRank(jsonRider.getInt("startNr"));
                         String state = jsonRider.getString("active");
                         if (state.equals("true")) {
                             riderStageConnection.setType(RiderStateType.AKTIVE);
@@ -97,9 +104,7 @@ public final class Parser {
         Thread threadGroup = createDefaultGroup();
         threadGroup.start();
         threadGroup.join();
-        Thread threadRank = updateRiderConnectionRankByOfficalGap();
-        threadRank.start();
-        threadRank.join();
+        updateRiderConnectionRankByOfficalGap();
     }
 
     private static Thread createDefaultGroup() {
@@ -125,26 +130,29 @@ public final class Parser {
         return new Thread(runnable);
     }
 
-    private static Thread updateRiderConnectionRankByOfficalGap() {
-        Runnable runnable = (() -> {
+    private static void updateRiderConnectionRankByOfficalGap() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
             try {
                 RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
-                HashMap<Long, RiderStageConnection> gapConnectionMap = new HashMap<>();
-                ArrayList<Long> gaps = new ArrayList<>();
-                for (RiderStageConnection con : connections) {
-                    gapConnectionMap.put(con.getOfficialGap(), con);
-                    gaps.add(con.getOfficialGap());
-                }
-                gaps.sort(Comparator.naturalOrder());
-                for (int i = 0; i < gaps.size(); i++) {
-                    RiderStageConnection connection = gapConnectionMap.get(gaps.get(i));
-                    Context.updateRiderStageConnectionRank(i + 1, connection);
+                connections.sort(new RiderStageConnectionComparator());
+                for (int i = 0; i < connections.size(); i++) {
+                    RiderRanking ranking = new RiderRanking();
+                    ranking.setType(RankingType.OFFICAL);
+                    ranking.setRank(i + 1);
+                    synchronized (this){
+                        Context.addRiderRanking(ranking);
+                    }
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(ranking);
+                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
                 }
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
             }
-        });
-        return new Thread(runnable);
+        }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
     }
 
     public static void parseJudgmentsAndPersist(JSONArray judgments, final int STAGE_NR) throws InterruptedException {
