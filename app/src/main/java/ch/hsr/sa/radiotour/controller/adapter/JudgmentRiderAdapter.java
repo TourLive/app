@@ -8,8 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
