@@ -4,18 +4,11 @@ import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
-import ch.hsr.sa.radiotour.business.presenter.interfaces.IMaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderRankingPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.RiderRaceGroupAdapter;
-import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRankingRepository;
-import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
-import ch.hsr.sa.radiotour.dataaccess.repositories.MaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRankingRepository;
-import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
-import io.realm.RealmList;
 
 public class RiderRankingPresenter implements IRiderRankingPresenter {
     private static RiderRankingPresenter instance = null;

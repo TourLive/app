@@ -22,7 +22,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;

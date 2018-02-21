@@ -3,15 +3,10 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
-import ch.hsr.sa.radiotour.dataaccess.interfaces.IMaillotRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRankingRepository;
-import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
-import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import io.realm.Realm;
-import io.realm.RealmList;
-import io.realm.RealmResults;
 
 public class RiderRankingRepository implements IRiderRankingRepository {
     @Override
