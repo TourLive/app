@@ -202,5 +202,12 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         return getRiderStageConnectionsSortedByBestSwiss().first();
     }
 
+    @Override
+    public RiderStageConnection getRiderStageConnectionByStartNr(int startNr){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        Rider rider = realm.where(Rider.class).equalTo("startNr", startNr).findFirst();
+        return rider.getRiderStages().first();
+    }
+
 
 }

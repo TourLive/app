@@ -170,6 +170,10 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
+    public RiderStageConnection getRiderStageConnectionByStartNr(int startNr){
+        return riderStageConnectionRepository.getRiderStageConnectionByStartNr(startNr);
+    }
+    @Override
     public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
         return riderStageConnectionRepository.getRiderStageConnectionsSortedByPoints();
     }

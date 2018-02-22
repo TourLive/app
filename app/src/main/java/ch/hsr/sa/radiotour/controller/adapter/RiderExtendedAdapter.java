@@ -13,6 +13,7 @@ import java.util.List;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
@@ -21,40 +22,16 @@ import io.realm.RealmList;
 
 public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
     private Context context;
-    private HashMap<Integer, Integer> virtualRank;
-    private HashMap<Integer, Integer> mountainRank;
-    private HashMap<Integer, Integer> pointRank;
-
 
     public RiderExtendedAdapter(final Context context, final List<RiderExtended> data) {
         super(context, data);
         this.context = context;
-        virtualRank = new HashMap<>();
-        mountainRank = new HashMap<>();
-        pointRank = new HashMap<>();
-        RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
-        for(int i = 0; i < riderStageConnections.size(); i++){
-            if(riderStageConnections.get(i).getRiders() != null)
-                virtualRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
-        }
-
-        riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
-        for(int i = 0; i < riderStageConnections.size(); i++){
-            if(riderStageConnections.get(i).getRiders() != null)
-                mountainRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
-        }
-
-        riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
-        for(int i = 0; i < riderStageConnections.size(); i++){
-            if(riderStageConnections.get(i).getRiders() != null)
-                pointRank.put(riderStageConnections.get(i).getRiders().getStartNr(), i+1);
-        }
-
     }
 
     @Override
     public View getCellView(int rowIndex, int columnIndex, ViewGroup parentView) {
         final RiderExtended rider = getRowData(rowIndex);
+        final RiderStageConnection rSCon = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionByStartNr(rider.getStartNr());
         View view = new View(context);
 
         switch (columnIndex) {
@@ -91,19 +68,19 @@ public class RiderExtendedAdapter extends TableDataAdapter<RiderExtended> {
                 view = setTextToView(String.valueOf(rider.getMoney()));
                 break;
             case 8:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " R:" + virtualRank.get(rider.getStartNr()));
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getVirtualGap()) + " R:" + Integer.toString(rSCon.getRiderRanking(RankingType.VIRTUAL).getRank()));
                 break;
             case 7:
-                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()) + " R:" + rider.getRank());
+                view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialGap()) + " R:" + Integer.toString(rSCon.getRiderRanking(RankingType.OFFICAL).getRank()));
                 break;
             case 6:
                 view = setTextToView(AdapterUtilitis.longTimeToString(rider.getOfficialTime()));
                 break;
             case 10:
-                view = setTextToView(String.valueOf(rider.getMountainBonusPoints()) + " R:" + mountainRank.get(rider.getStartNr()));
+                view = setTextToView(String.valueOf(rider.getMountainBonusPoints()) + " R:" + Integer.toString(rSCon.getRiderRanking(RankingType.MOUNTAIN).getRank()));
                 break;
             case 11:
-                view = setTextToView(String.valueOf(rider.getSprintBonusPoints()) + " R:" + pointRank.get(rider.getStartNr()));
+                view = setTextToView(String.valueOf(rider.getSprintBonusPoints()) + " R:" + Integer.toString(rSCon.getRiderRanking(RankingType.SPRINT).getRank()));
                 break;
             default:
                 break;
