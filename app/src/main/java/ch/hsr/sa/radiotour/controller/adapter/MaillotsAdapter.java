@@ -84,18 +84,30 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             case "leader":
                 riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
                 rider = riderStageConnections.get(0).getRiders();
+                if(rider != null){
+                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
+                }
                 break;
             case "mountain":
                 riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
                 rider = riderStageConnections.get(0).getRiders();
+                if(rider != null){
+                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.MOUNTAIN).getRank()));
+                }
                 break;
             case "points":
                 riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
                 rider = riderStageConnections.get(0).getRiders();
+                if(rider != null){
+                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.SPRINT).getRank()));
+                }
                 break;
             case "bestSwiss":
                 riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByBestSwiss();
                 rider = riderStageConnections.get(0).getRiders();
+                if(rider != null){
+                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.SWISS).getRank()));
+                }
                 break;
             default:
                 break;
@@ -104,7 +116,6 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             holder.leaderVirtStart.setText(String.valueOf(rider.getStartNr()));
             holder.leaderVirtFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
             holder.leaderVirtFlag.setAdjustViewBounds(true);
-            holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
         }
     }
 
