@@ -20,6 +20,7 @@ import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -64,13 +65,14 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         if (rider.getStartNr() < 900) {
             holder.racegroupRiderStartNr.setText(String.valueOf(rider.getStartNr()));
             holder.racegroupRiderTeam.setText(String.valueOf(rider.getTeamShortName()));
-            RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
+            /*RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
             for(int i = 0; i < riderStageConnections.size(); i++){
                 if(riderStageConnections.get(i).getRiders().getStartNr() == rider.getStartNr()){
                     holder.racegroupRiderVirtualRank.setText("R: " + (i+1));
                     break;
                 }
-            }
+            }*/
+            holder.racegroupRiderVirtualRank.setText(Integer.toString(rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
             setTrictos(rider, holder);
         } else {
             holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);
