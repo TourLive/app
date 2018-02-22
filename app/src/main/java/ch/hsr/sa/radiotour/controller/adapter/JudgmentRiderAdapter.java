@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
@@ -41,7 +42,7 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
             holder.itemRiderInfo.setText(context.getResources().getString(R.string.placeholder_rider_judgment));
             holder.itemRiderStartNr.setText("");
         } else {
-            holder.itemRiderInfo.setText(r.getName() + r.getTeamShortName());
+            holder.itemRiderInfo.setText(r.getName() + ", " + r.getTeamShortName() + ", (" + Integer.toString(r.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank())+ ")");
             holder.itemRiderStartNr.setText(Integer.toString(r.getStartNr()));
             holder.imgCountry.setImageResource(UIUtilitis.getCountryFlag(r.getCountry()));
         }
