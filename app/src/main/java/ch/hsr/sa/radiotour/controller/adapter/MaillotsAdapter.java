@@ -14,6 +14,7 @@ import java.util.HashMap;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
@@ -103,7 +104,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             holder.leaderVirtStart.setText(String.valueOf(rider.getStartNr()));
             holder.leaderVirtFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
             holder.leaderVirtFlag.setAdjustViewBounds(true);
-            holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
+            holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL)));
         }
     }
 
