@@ -18,7 +18,10 @@ import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparator;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorOfficalGap;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorSprintPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.models.StageType;
@@ -129,16 +132,64 @@ public final class Parser {
             public void run() {
             try {
                 RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
-                connections.sort(new RiderStageConnectionComparator());
+                connections.sort(new RiderStageConnectionComparatorOfficalGap());
                 for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking ranking = new RiderRanking();
-                    ranking.setType(RankingType.OFFICAL);
-                    ranking.setRank(i + 1);
+                    RiderRanking rankingOfficial = new RiderRanking();
+                    rankingOfficial.setType(RankingType.OFFICAL);
+                    rankingOfficial.setRank(i + 1);
                     synchronized (this){
-                        Context.addRiderRanking(ranking);
+                        Context.addRiderRanking(rankingOfficial);
                     }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(ranking);
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingOfficial);
                     Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                }
+                connections.sort(new RiderStageConnectionComparatorVirtualGap());
+                for (int i = 0; i < connections.size(); i++) {
+                    RiderRanking rankingVirtual = new RiderRanking();
+                    rankingVirtual.setType(RankingType.VIRTUAL);
+                    rankingVirtual.setRank(i + 1);
+                    synchronized (this){
+                        Context.addRiderRanking(rankingVirtual);
+                    }
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingVirtual);
+                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                }
+                connections.sort(new RiderStageConnectionComparatorMountainPoints());
+                for (int i = 0; i < connections.size(); i++) {
+                    RiderRanking rankingMountain = new RiderRanking();
+                    rankingMountain.setType(RankingType.MOUNTAIN);
+                    rankingMountain.setRank(i + 1);
+                    synchronized (this){
+                        Context.addRiderRanking(rankingMountain);
+                    }
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMountain);
+                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                }
+                connections.sort(new RiderStageConnectionComparatorSprintPoints());
+                for (int i = 0; i < connections.size(); i++) {
+                    RiderRanking rankingSprint = new RiderRanking();
+                    rankingSprint.setType(RankingType.SPRINT);
+                    rankingSprint.setRank(i + 1);
+                    synchronized (this){
+                        Context.addRiderRanking(rankingSprint);
+                    }
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingSprint);
+                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                }
+                connections.sort(new RiderStageConnectionComparatorVirtualGap());
+                int rank = 1;
+                for (int i = 0; i < connections.size(); i++) {
+                    if(connections.get(i).getRiders().getCountry().equals("SUI")){
+                        RiderRanking rankingSwiss = new RiderRanking();
+                        rankingSwiss.setType(RankingType.SWISS);
+                        rankingSwiss.setRank(rank);
+                        rank++;
+                        synchronized (this){
+                            Context.addRiderRanking(rankingSwiss);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingSwiss);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
                 }
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
