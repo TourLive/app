@@ -65,13 +65,6 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         if (rider.getStartNr() < 900) {
             holder.racegroupRiderStartNr.setText(String.valueOf(rider.getStartNr()));
             holder.racegroupRiderTeam.setText(String.valueOf(rider.getTeamShortName()));
-            /*RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
-            for(int i = 0; i < riderStageConnections.size(); i++){
-                if(riderStageConnections.get(i).getRiders().getStartNr() == rider.getStartNr()){
-                    holder.racegroupRiderVirtualRank.setText("R: " + (i+1));
-                    break;
-                }
-            }*/
             holder.racegroupRiderVirtualRank.setText(Integer.toString(rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
             setTrictos(rider, holder);
         } else {
