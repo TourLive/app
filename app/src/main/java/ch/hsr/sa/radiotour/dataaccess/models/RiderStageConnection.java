@@ -179,10 +179,17 @@ public class RiderStageConnection extends RealmObject {
         this.riderRankings.add(riderRanking);
     }
 
-    public RiderRanking getRiderRanking() {
+    public RiderRanking getRiderRanking(RankingType type) {
         if (this.riderRankings.isEmpty()) {
             return null;
         }
-        return this.riderRankings.first();
+        RiderRanking temp = new RiderRanking();
+        for(RiderRanking r : this.riderRankings){
+            if(r.getType() == type){
+                temp = r;
+                break;
+            }
+        }
+        return temp;
     }
 }
