@@ -43,6 +43,8 @@ public interface IRiderStageConnectionRepository {
 
     RiderStageConnection getSwissLeader();
 
+    RiderStageConnection getRiderStageConnectionByStartNr(int startNr);
+
     interface OnSaveRiderStageConnectionCallback {
         void onSuccess();
 
