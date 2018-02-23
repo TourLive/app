@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -68,4 +69,6 @@ public interface IRiderStageConnectionRepository {
 
         void onError(String message);
     }
+
+    void updateRiderStageConnectionTime(long timeBefore, long timeStamp, final RaceGroup res, OnUpdateRiderStageConnectionCallBack callback);
 }

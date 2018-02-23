@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.business.presenter.interfaces;
 
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -44,4 +45,6 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     RiderStageConnection getMountainLeader();
 
     RiderStageConnection getSwissLeader();
+
+    void updateRiderStageConnectionTime(long timeBefore, long timeStamp, RaceGroup res);
 }

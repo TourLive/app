@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -87,6 +88,30 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
 
         });
 
+        if (callback != null) {
+            callback.onSuccess();
+        }
+    }
+
+    @Override
+    public void updateRiderStageConnectionTime(long timeBefore, long timeStamp, final RaceGroup res, OnUpdateRiderStageConnectionCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        if (timeBefore > 0 && !res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
+                }
+            }
+        }
+        if (!res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
+                }
+            }
+        }
+        realm.commitTransaction();
         if (callback != null) {
             callback.onSuccess();
         }
