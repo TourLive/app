@@ -7,18 +7,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView
-        android:id="@+id/tableView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvVirtualClassement"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:paddingBottom="8dp"
+        android:scrollbars="vertical"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toTopOf="parent"
-        custom:tableView_columnCount="6"
-        custom:tableView_headerColor="@color/colorTeal"
-        custom:tableView_headerElevation="10" />
+        custom:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>
