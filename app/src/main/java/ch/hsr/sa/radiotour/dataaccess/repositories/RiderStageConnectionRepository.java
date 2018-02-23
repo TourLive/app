@@ -1,13 +1,18 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorSprintPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -85,7 +90,20 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.appendMoney(riderStageConnection.getMoney());
             res.appendMountainBonusPoints(riderStageConnection.getMountainBonusPoints());
             res.appendSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
+        });
 
+        realm.executeTransaction((Realm db) -> {
+            RealmResults<RiderStageConnection> connections = db.where(RiderStageConnection.class).findAll();
+            List<RiderStageConnection> cons = realm.copyFromRealm(connections);
+            cons.sort(new RiderStageConnectionComparatorSprintPoints());
+            for (int i = 0; i < cons.size(); i++) {
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.SPRINT).setRank(i+1);
+            }
+
+            cons.sort(new RiderStageConnectionComparatorMountainPoints());
+            for (int i = 0; i < cons.size(); i++) {
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.MOUNTAIN).setRank(i+1);
+            }
         });
 
         if (callback != null) {
@@ -111,6 +129,13 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
                 }
             }
         }
+        RealmResults<RiderStageConnection> connections = realm.where(RiderStageConnection.class).findAll();
+        List<RiderStageConnection> cons = realm.copyFromRealm(connections);
+        cons.sort(new RiderStageConnectionComparatorVirtualGap());
+        for (int i = 0; i < cons.size(); i++) {
+            realm.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.VIRTUAL).setRank(i+1);
+        }
+
         realm.commitTransaction();
         if (callback != null) {
             callback.onSuccess();

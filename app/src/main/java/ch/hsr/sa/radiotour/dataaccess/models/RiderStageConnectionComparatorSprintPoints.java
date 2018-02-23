@@ -6,6 +6,6 @@ import java.util.Comparator;
 public class RiderStageConnectionComparatorSprintPoints implements Comparator<RiderStageConnection> {
     @Override
     public int compare(RiderStageConnection r1, RiderStageConnection r2) {
-        return Long.compare(r1.getSprintBonusPoints(), r2.getSprintBonusPoints());
+        return Long.compare(r2.getSprintBonusPoints(), r1.getSprintBonusPoints());
     }
 }
