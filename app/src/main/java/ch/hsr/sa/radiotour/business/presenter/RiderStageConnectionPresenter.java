@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -206,6 +207,11 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public RiderStageConnection getSwissLeader() {
         return riderStageConnectionRepository.getSwissLeader();
+    }
+
+    @Override
+    public void updateRiderStageConnectionTime(long timeBefore, long timeStamp, RaceGroup res) {
+        riderStageConnectionRepository.updateRiderStageConnectionTime(timeBefore, timeStamp, res, onUpdateRiderStageConnectionCallBack);
     }
 
 }

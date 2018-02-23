@@ -127,10 +127,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // Has to be implemented, but not needed
-                if(tab.getText().toString().equals(getString(R.string.header_virtual_class))){
-                    RiderPresenter.getInstance().getAllRiders();
-                }
+                
             }
 
             @Override
