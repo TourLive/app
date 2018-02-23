@@ -13,18 +13,17 @@ import android.view.ViewGroup;
 
 import net.gotev.recycleradapter.RecyclerAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.adapter.RiderExtendedAdapter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.presentation.models.EmptyItem;
-import ch.hsr.sa.radiotour.presentation.models.ExampleItem;
-import ch.hsr.sa.radiotour.presentation.views.SortableVirtualClassementView;
+import ch.hsr.sa.radiotour.presentation.models.VirtualClassementRider;
+import io.realm.Realm;
+import io.realm.RealmList;
 
 public class VirtualClassFragment extends Fragment {
     private Handler handler;
@@ -54,7 +53,7 @@ public class VirtualClassFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(recyclerAdapter);
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
-            recyclerAdapter.add(new ExampleItem(mContext, r.getName()));
+            recyclerAdapter.add(new VirtualClassementRider(mContext, r));
         }
     }
 
@@ -70,8 +69,12 @@ public class VirtualClassFragment extends Fragment {
         RiderPresenter.getInstance().removeView(this);
     }
 
-    public void showRiders(List<RiderExtended> riders) {
-        //final RiderExtendedAdapter extendedAdapter = new RiderExtendedAdapter(getContext(), riders);
+    public void updateRiders(RealmList<Rider> riders) {
+        recyclerAdapter.clear();
+        for (Rider r : riders) {
+            recyclerAdapter.add(new VirtualClassementRider(mContext, r));
+        }
+        recyclerAdapter.notifyDataSetChanged();
     }
 
     public void updateRiderStageConnection() {
