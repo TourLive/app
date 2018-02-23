@@ -9,8 +9,6 @@ import java.util.List;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
-import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
-import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -143,7 +141,7 @@ public class RiderPresenter implements IRiderPresenter {
                         riderRaceGroupFragment.showRiders(riders);
                     } else if (frag instanceof VirtualClassFragment) {
                         VirtualClassFragment virtualClassFragment = (VirtualClassFragment) frag;
-                        virtualClassFragment.showRiders(riderToExtendedRider(riders));
+                        virtualClassFragment.updateRiders(riders);
                     } else {
                         // Do nothing because a not supported fragment
                     }
@@ -167,35 +165,6 @@ public class RiderPresenter implements IRiderPresenter {
                 // Not needed and therefore not implemented
             }
         };
-    }
-
-    private List<RiderExtended> riderToExtendedRider(RealmList<Rider> riders) {
-        List<RiderExtended> newRiders = new ArrayList<>();
-        RealmList<Maillot> maillots = MaillotPresenter.getInstance().getAllMaillotsReturned();
-        for (Rider r : riders) {
-            RiderStageConnection riderStageConnection = r.getRiderStages().first();
-            RiderExtended riderExtended = new RiderExtended();
-            riderExtended.setVirtualGap(riderStageConnection.getVirtualGap());
-            riderExtended.setTeamShortName(r.getTeamShortName());
-            riderExtended.setStartNr(r.getStartNr());
-            riderExtended.setRank(riderStageConnection.getRiderRanking(RankingType.OFFICAL).getRank());
-            riderExtended.setOfficialTime(riderStageConnection.getOfficialTime());
-            riderExtended.setOfficialGap(riderStageConnection.getOfficialGap());
-            riderExtended.setName(r.getName());
-            riderExtended.setMoney(riderStageConnection.getMoney());
-            riderExtended.setBonusPoint(riderStageConnection.getBonusPoint());
-            riderExtended.setMountainBonusPoints(riderStageConnection.getMountainBonusPoints());
-            riderExtended.setSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
-            riderExtended.setCountry(r.getCountry());
-            riderExtended.setTeamName(r.getTeamName());
-            for(Maillot m : maillots){
-                if(m.getRider().getRiderID().equals(r.getRiderID())){
-                    riderExtended.setMaillots(m);
-                }
-            }
-            newRiders.add(riderExtended);
-        }
-        return newRiders;
     }
 
     @Override
