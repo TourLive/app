@@ -73,7 +73,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
             holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
             holder.leaderRealFlag.setAdjustViewBounds(true);
-            holder.leaderRealInfo.setText(String.format("%s, %s, (%d)", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank());
+            holder.leaderRealInfo.setText(String.format("%s, %s, (%d)", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
         }
     }
 
