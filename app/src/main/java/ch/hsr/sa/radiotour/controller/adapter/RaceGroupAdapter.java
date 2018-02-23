@@ -87,7 +87,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             return "0" + Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
         } else if (resMinutes < 10 && resSeconds >= 10) {
             return "0" + Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
-        } else if (resMinutes > 10 && resSeconds >= 10) {
+        } else if (resMinutes >= 10 && resSeconds >= 10) {
             return Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
         } else {
             return Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
