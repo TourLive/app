@@ -19,11 +19,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
@@ -45,10 +46,10 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
     }
 
     private void initTricots() {
-        tricots.put("leader", RiderStageConnectionPresenter.getInstance().getLeader().getRiders().getStartNr());
-        tricots.put("sprint", RiderStageConnectionPresenter.getInstance().getSprintLeader().getRiders().getStartNr());
-        tricots.put("mountain", RiderStageConnectionPresenter.getInstance().getMountainLeader().getRiders().getStartNr());
-        tricots.put("swiss", RiderStageConnectionPresenter.getInstance().getSwissLeader().getRiders().getStartNr());
+        tricots.put("leader", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.VIRTUAL).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("sprint", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("mountain", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.MOUNTAIN).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("swiss", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SWISS).getRiderStageConnection().getRiders().getStartNr());
     }
 
     @Override

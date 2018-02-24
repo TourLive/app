@@ -20,31 +20,11 @@ public interface IRiderStageConnectionRepository {
 
     void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
 
-    void deleteRiderStageConnection();
-
     RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 
     void updateRiderStageConnectionRanking(final RiderRanking riderRanking, RiderStageConnection connection);
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
-
-    RiderStageConnection getLeader();
-
-    RiderStageConnection getSprintLeader();
-
-    RiderStageConnection getMountainLeader();
-
-    RiderStageConnection getSwissLeader();
-
-    RiderStageConnection getRiderStageConnectionByStartNr(int startNr);
 
     interface OnSaveRiderStageConnectionCallback {
         void onSuccess();

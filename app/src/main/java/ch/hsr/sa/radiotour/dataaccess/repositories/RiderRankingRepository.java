@@ -26,7 +26,7 @@ public class RiderRankingRepository implements IRiderRankingRepository {
     @Override
     public RiderRanking getFirstInRanking(RankingType type) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        return realm.where(RiderRanking.class).equalTo("type", type.toString()).equalTo("rank", "1").findFirst();
+        return realm.where(RiderRanking.class).equalTo("type", type.toString()).equalTo("rank", 1).findFirst();
     }
 
     @Override

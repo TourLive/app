@@ -12,10 +12,12 @@ import android.widget.TextView;
 import java.util.HashMap;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
@@ -69,7 +71,8 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     }
 
     private void getRealLeader(Maillot maillot, MaillotViewHolder holder) {
-        if (maillot.getRider() != null) {
+        Rider rider = maillot.getRider();
+        if (rider != null) {
             holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
             holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
             holder.leaderRealFlag.setAdjustViewBounds(true);
@@ -79,35 +82,31 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
 
     private void getActualLeader(String type, MaillotViewHolder holder) {
         Rider rider = null;
-        RealmList<RiderStageConnection> riderStageConnections;
+        RiderRanking riderRanking = null;
         switch (type) {
             case "leader":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
-                rider = riderStageConnections.get(0).getRiders();
-                if(rider != null){
-                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
-                }
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.VIRTUAL);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "mountain":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
-                rider = riderStageConnections.get(0).getRiders();
-                if(rider != null){
-                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.MOUNTAIN).getRank()));
-                }
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.MOUNTAIN);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "points":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
-                rider = riderStageConnections.get(0).getRiders();
-                if(rider != null){
-                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.SPRINT).getRank()));
-                }
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "bestSwiss":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByBestSwiss();
-                rider = riderStageConnections.get(0).getRiders();
-                if(rider != null){
-                    holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRiderRanking(RankingType.SWISS).getRank()));
-                }
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SWISS);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             default:
                 break;
