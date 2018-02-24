@@ -8,12 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import butterknife.BindView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
+import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
 
 public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdapter.JudgmentRiderViewHolder> {
@@ -71,18 +73,18 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
         return size;
     }
 
-    public class JudgmentRiderViewHolder extends RecyclerView.ViewHolder {
-        private TextView itemRank;
-        private TextView itemRiderInfo;
-        private ImageView imgCountry;
-        private TextView itemRiderStartNr;
+    public class JudgmentRiderViewHolder extends ButterKnifeViewHolder {
+        @BindView(R.id.judgment_rank)
+        TextView itemRank;
+        @BindView(R.id.judgment_rider_info)
+        TextView itemRiderInfo;
+        @BindView(R.id.imgCountry)
+        ImageView imgCountry;
+        @BindView(R.id.judgment_rider_startnr)
+        TextView itemRiderStartNr;
 
         public JudgmentRiderViewHolder(View itemView) {
             super(itemView);
-            itemRank = (TextView) itemView.findViewById(R.id.judgment_rank);
-            itemRiderInfo = (TextView) itemView.findViewById(R.id.judgment_rider_info);
-            imgCountry = (ImageView) itemView.findViewById(R.id.imgCountry);
-            itemRiderStartNr = (TextView) itemView.findViewById(R.id.judgment_rider_startnr);
 
         }
     }
