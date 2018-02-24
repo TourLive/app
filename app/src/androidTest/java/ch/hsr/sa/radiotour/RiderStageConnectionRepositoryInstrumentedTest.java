@@ -11,7 +11,9 @@ import java.util.Date;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderRepository;
@@ -305,25 +307,29 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void updateRiderStageConnectionRank(){
         Date date = new Date();
+        RiderRanking virtRank = new RiderRanking();
+        virtRank.setRank(1);
+        virtRank.setType(RankingType.VIRTUAL);
         RiderStageConnection riderStageConnection = new RiderStageConnection();
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setOfficialTime(100);
-        riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
         synchronized (this) {
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
         }
+        RiderStageConnection rSC = realm.where(RiderStageConnection.class).equalTo("virtualGap", riderStageConnection.getVirtualGap()).findFirst();
 
-        final int rank = 300;
-        RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
         synchronized (this) {
-            riderStageConnectionRepository.updateRiderStageConnectionRank(rank, res);
+            riderStageConnectionRepository.updateRiderStageConnectionRanking(virtRank, rSC);
         }
-        assertEquals(300, realm.where(RiderStageConnection.class).findAll().first().getRank());
+
+        rSC = realm.where(RiderStageConnection.class).equalTo("id", rSC.getId()).findFirst();
+
+        assertEquals(1, rSC.getRiderRanking(RankingType.VIRTUAL).getRank());
     }
 
     @Test

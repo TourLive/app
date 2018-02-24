@@ -133,7 +133,8 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         List<RiderStageConnection> cons = realm.copyFromRealm(connections);
         cons.sort(new RiderStageConnectionComparatorVirtualGap());
         for (int i = 0; i < cons.size(); i++) {
-            realm.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.VIRTUAL).setRank(i+1);
+            RiderRanking riderRanking = realm.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.VIRTUAL);
+            if(riderRanking != null) {riderRanking.setRank(i+1);}
         }
 
         realm.commitTransaction();
