@@ -114,7 +114,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderOne.getRiderPoints() - riderTwo.getRiderPoints();
+                return riderTwo.getRiderPoints() - riderOne.getRiderPoints();
             }
             return 0;
         }
@@ -126,7 +126,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderOne.getRiderSprintPoints() - riderTwo.getRiderSprintPoints();
+                return riderTwo.getRiderSprintPoints() - riderOne.getRiderSprintPoints();
             }
             return 0;
         }
@@ -138,7 +138,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderOne.getRiderMountainPoints() - riderTwo.getRiderMountainPoints();
+                return riderTwo.getRiderMountainPoints() - riderOne.getRiderMountainPoints();
             }
             return 0;
         }
@@ -150,7 +150,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderOne.getRiderMoney() - riderTwo.getRiderMoney();
+                return riderTwo.getRiderMoney() - riderOne.getRiderMoney();
             }
             return 0;
         }
