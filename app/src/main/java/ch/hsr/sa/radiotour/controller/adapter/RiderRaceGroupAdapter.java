@@ -13,25 +13,32 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
 public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAdapter.RiderRaceGroupViewHolder> {
-    private RealmList<Rider> riders;
+    private List<Rider> riders;
     private RealmList<Rider> selectedRider;
     private Fragment fragment;
     private Context context;
     HashMap<String, Integer> tricots;
 
     public RiderRaceGroupAdapter(RealmList<Rider> riders, Fragment fragment) {
-        this.riders = riders;
+        this.riders = new LinkedList<>(riders);
+        Collections.sort(this.riders, new RiderComparator());
         this.selectedRider = new RealmList<>();
         this.fragment = fragment;
         tricots = new HashMap<>();
@@ -39,10 +46,10 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
     }
 
     private void initTricots() {
-        tricots.put("leader", RiderStageConnectionPresenter.getInstance().getLeader().getRiders().getStartNr());
-        tricots.put("sprint", RiderStageConnectionPresenter.getInstance().getSprintLeader().getRiders().getStartNr());
-        tricots.put("mountain", RiderStageConnectionPresenter.getInstance().getMountainLeader().getRiders().getStartNr());
-        tricots.put("swiss", RiderStageConnectionPresenter.getInstance().getSwissLeader().getRiders().getStartNr());
+        tricots.put("leader", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.VIRTUAL).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("sprint", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("mountain", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.MOUNTAIN).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("swiss", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SWISS).getRiderStageConnection().getRiders().getStartNr());
     }
 
     @Override
@@ -59,13 +66,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         if (rider.getStartNr() < 900) {
             holder.racegroupRiderStartNr.setText(String.valueOf(rider.getStartNr()));
             holder.racegroupRiderTeam.setText(String.valueOf(rider.getTeamShortName()));
-            RealmList<RiderStageConnection> riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
-            for(int i = 0; i < riderStageConnections.size(); i++){
-                if(riderStageConnections.get(i).getRiders().getStartNr() == rider.getStartNr()){
-                    holder.racegroupRiderVirtualRank.setText("R: " + (i+1));
-                    break;
-                }
-            }
+            holder.racegroupRiderVirtualRank.setText(Integer.toString(rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
             setTrictos(rider, holder);
         } else {
             holder.racegroupRiderStartNr.setText(R.string.race_startnr_unknownrider);

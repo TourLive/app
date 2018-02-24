@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.repositories.RiderStageConnectionRepository;
@@ -118,11 +120,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void getRiderStageConnections() {
-        riderStageConnectionRepository.getRiderStageConnections(onGetAllRiderStageConnectionsCallback);
-    }
-
-    @Override
     public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, oldRiderStageConnection, onUpdateRiderStageConnectionCallBack);
     }
@@ -130,11 +127,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public void updateRiderStageConnectionReward(RiderStageConnection riderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnectionReward(riderStageConnection, onUpdateRiderStageConnectionCallBack);
-    }
-
-    @Override
-    public void deleteRiderStageConnection() {
-        // Not implemented yet
     }
 
     @Override
@@ -159,48 +151,13 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection) {
-        riderStageConnectionRepository.updateRiderStageConnectionRank(rank, connection);
+    public void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection) {
+        riderStageConnectionRepository.updateRiderStageConnectionRanking(riderRanking, connection);
     }
 
     @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByVirtualGap();
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByPoints();
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByMountain();
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByBestSwiss();
-    }
-
-    @Override
-    public RiderStageConnection getLeader() {
-        return riderStageConnectionRepository.getLeader();
-    }
-
-    @Override
-    public RiderStageConnection getSprintLeader() {
-        return riderStageConnectionRepository.getSprintLeader();
-    }
-
-    @Override
-    public RiderStageConnection getMountainLeader() {
-        return riderStageConnectionRepository.getMountainLeader();
-    }
-
-    @Override
-    public RiderStageConnection getSwissLeader() {
-        return riderStageConnectionRepository.getSwissLeader();
+    public void updateRiderStageConnectionTime(long timeBefore, long timeStamp, RaceGroup res) {
+        riderStageConnectionRepository.updateRiderStageConnectionTime(timeBefore, timeStamp, res, onUpdateRiderStageConnectionCallBack);
     }
 
 }

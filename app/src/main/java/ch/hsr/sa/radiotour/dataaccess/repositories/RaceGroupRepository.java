@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import java.util.Iterator;
 import java.util.UUID;
 
+import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -157,25 +158,8 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         res.setActualGapTime(timeStamp);
         realm.commitTransaction();
 
-        realm.beginTransaction();
-        if (timeBefore > 0 && !res.getRiders().isEmpty()) {
-            for (Rider r : res.getRiders()) {
-                if (!r.getRiderStages().isEmpty()) {
-                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
-                }
-            }
-        }
-        if (!res.getRiders().isEmpty()) {
-            for (Rider r : res.getRiders()) {
-                if (!r.getRiderStages().isEmpty()) {
-                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
-                }
-            }
-        }
-
-        realm.commitTransaction();
-
         if (callback != null) {
+            RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
             callback.onSuccess(res);
         }
     }

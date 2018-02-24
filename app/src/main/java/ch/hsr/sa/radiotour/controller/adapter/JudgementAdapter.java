@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import java.util.Collections;
 
+import butterknife.BindView;
+import butterknife.OnClick;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
@@ -17,6 +19,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentComperator;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.presentation.fragments.OnJudgmentClickListener;
+import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
 
 public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.JudgementViewHolder> {
@@ -54,21 +57,20 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
         return judgements.size();
     }
 
-    public class JudgementViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView itemTitleJudgement;
-        private TextView itemJudgementKM;
-        private RecyclerView rvJudgmentRiders;
+    public class JudgementViewHolder extends ButterKnifeViewHolder {
+        @BindView(R.id.itemTitleJudgement)
+        TextView itemTitleJudgement;
+        @BindView(R.id.itemJudgementKM)
+        TextView itemJudgementKM;
+        @BindView(R.id.rvRiderJudgement)
+        RecyclerView rvJudgmentRiders;
 
         public JudgementViewHolder(View itemView) {
             super(itemView);
-            itemTitleJudgement = (TextView) itemView.findViewById(R.id.itemTitleJudgement);
-            itemJudgementKM = (TextView) itemView.findViewById(R.id.itemJudgementKM);
-            rvJudgmentRiders = (RecyclerView) itemView.findViewById(R.id.rvRiderJudgement);
-            itemJudgementKM.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View view) {
+        @OnClick(R.id.itemJudgementKM)
+        public void onClick() {
             onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()));
         }
     }

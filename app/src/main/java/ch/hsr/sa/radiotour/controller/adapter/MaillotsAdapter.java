@@ -11,12 +11,17 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import butterknife.BindView;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
+import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
 
 public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.MaillotViewHolder> {
@@ -68,33 +73,42 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     }
 
     private void getRealLeader(Maillot maillot, MaillotViewHolder holder) {
-        if (maillot.getRider() != null) {
+        Rider rider = maillot.getRider();
+        if (rider != null) {
             holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
             holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
             holder.leaderRealFlag.setAdjustViewBounds(true);
-            holder.leaderRealInfo.setText(String.format("%s, %s, %d", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRank()));
+            holder.leaderRealInfo.setText(String.format("%s, %s, (%d)", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
         }
     }
 
     private void getActualLeader(String type, MaillotViewHolder holder) {
         Rider rider = null;
-        RealmList<RiderStageConnection> riderStageConnections;
+        RiderRanking riderRanking = null;
         switch (type) {
             case "leader":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByVirtualGap();
-                rider = riderStageConnections.get(0).getRiders();
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.VIRTUAL);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "mountain":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByMountain();
-                rider = riderStageConnections.get(0).getRiders();
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.MOUNTAIN);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "points":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByPoints();
-                rider = riderStageConnections.get(0).getRiders();
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "bestSwiss":
-                riderStageConnections = RiderStageConnectionPresenter.getInstance().getRiderStageConnectionsSortedByBestSwiss();
-                rider = riderStageConnections.get(0).getRiders();
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SWISS);
+                rider = riderRanking.getRiderStageConnection().getRiders();
+
+                holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             default:
                 break;
@@ -103,7 +117,6 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
             holder.leaderVirtStart.setText(String.valueOf(rider.getStartNr()));
             holder.leaderVirtFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
             holder.leaderVirtFlag.setAdjustViewBounds(true);
-            holder.leaderVirtInfo.setText(String.format("%s, %s, %d", rider.getName(), rider.getTeamName(), rider.getRiderStages().first().getRank()));
         }
     }
 
@@ -119,29 +132,29 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         return maillots.size();
     }
 
-    public class MaillotViewHolder extends RecyclerView.ViewHolder {
+    public class MaillotViewHolder extends ButterKnifeViewHolder {
 
-        private TextView partner;
-        private TextView name;
-        private ImageView trikot;
-        private TextView leaderVirtInfo;
-        private TextView leaderRealInfo;
-        private TextView leaderRealStart;
-        private TextView leaderVirtStart;
-        private ImageView leaderRealFlag;
-        private ImageView leaderVirtFlag;
+        @BindView(R.id.MaillotPartner)
+        TextView partner;
+        @BindView(R.id.MaillotName)
+        TextView name;
+        @BindView(R.id.imgTrikot)
+        ImageView trikot;
+        @BindView(R.id.LeaderVirtInfo)
+        TextView leaderVirtInfo;
+        @BindView(R.id.LeaderRealInfo)
+        TextView leaderRealInfo;
+        @BindView(R.id.LeaderRealStart)
+        TextView leaderRealStart;
+        @BindView(R.id.LeaderVirtStart)
+        TextView leaderVirtStart;
+        @BindView(R.id.img_country_real)
+        ImageView leaderRealFlag;
+        @BindView(R.id.img_country_virt)
+        ImageView leaderVirtFlag;
 
         public MaillotViewHolder(View itemView) {
             super(itemView);
-            partner = (TextView) itemView.findViewById(R.id.MaillotPartner);
-            name = (TextView) itemView.findViewById(R.id.MaillotName);
-            trikot = (ImageView) itemView.findViewById(R.id.imgTrikot);
-            leaderVirtInfo = (TextView) itemView.findViewById(R.id.LeaderVirtInfo);
-            leaderRealInfo = (TextView) itemView.findViewById(R.id.LeaderRealInfo);
-            leaderRealStart = (TextView) itemView.findViewById(R.id.LeaderRealStart);
-            leaderVirtStart = (TextView) itemView.findViewById(R.id.LeaderVirtStart);
-            leaderRealFlag = (ImageView) itemView.findViewById(R.id.img_country_real);
-            leaderVirtFlag = (ImageView) itemView.findViewById(R.id.img_country_virt);
         }
     }
 

@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
 import io.realm.annotations.LinkingObjects;
@@ -13,6 +14,8 @@ public class RiderStageConnection extends RealmObject {
     private final RealmResults<Stage> stages = null;
     @LinkingObjects("mailRiderConnection")
     private final RealmResults<Maillot> maillots = null;
+    private RealmList<RiderRanking> riderRankings;
+
     @PrimaryKey
     private String id;
     private int rank;
@@ -170,5 +173,23 @@ public class RiderStageConnection extends RealmObject {
 
     public void setType(RiderStateType type) {
         this.typeState = type.toString();
+    }
+
+    public void addRiderRanking(RiderRanking riderRanking) {
+        this.riderRankings.add(riderRanking);
+    }
+
+    public RiderRanking getRiderRanking(RankingType type) {
+        if (this.riderRankings.isEmpty()) {
+            return null;
+        }
+        RiderRanking temp = new RiderRanking();
+        for(RiderRanking r : this.riderRankings){
+            if(r.getType() == type){
+                temp = r;
+                break;
+            }
+        }
+        return temp;
     }
 }

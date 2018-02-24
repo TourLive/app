@@ -126,6 +126,8 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
                 break;
             default:
                 drawable.setColor(0);
+                tvNumber.setPaintFlags(0);
+                tvNumber.setTextColor(ContextCompat.getColor(context, R.color.colorGrayDark));
                 break;
         }
     }
