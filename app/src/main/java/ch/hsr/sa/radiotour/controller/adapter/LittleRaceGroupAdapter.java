@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,11 +12,15 @@ import android.widget.TextView;
 
 import java.util.Collections;
 
+import butterknife.BindView;
+import butterknife.OnClick;
+import butterknife.Optional;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
+import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
 
 public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroupAdapter.LittleRaceGroupViewHolder> {
@@ -75,30 +80,26 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
     }
 
 
-    public class LittleRaceGroupViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView racegroupName;
-        private TextView racegroupCount;
-        private View layoutRacegroup;
-        private View layoutAddButton;
-        private View layoutAddButtonTop;
+    public class LittleRaceGroupViewHolder extends ButterKnifeViewHolder {
+        @BindView(R.id.racegroup_name)
+        TextView racegroupName;
+        @BindView(R.id.racegroup_count)
+        TextView racegroupCount;
+        @BindView(R.id.constraintLayout_RaceGroup)
+        View layoutRacegroup;
+        @BindView(R.id.constraintLayout_AddButton)
+        View layoutAddButton;
+        @Nullable
+        @BindView(R.id.constraintLayout_AddButtonTop)
+        View layoutAddButtonTop;
 
         public LittleRaceGroupViewHolder(View itemView) {
             super(itemView);
-            layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
-            layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
-            layoutAddButtonTop = itemView.findViewById(R.id.constraintLayout_AddButtonTop);
-            racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
-            racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
-            layoutRacegroup.setOnClickListener(this);
-            layoutAddButton.setOnClickListener(this);
-            if (layoutAddButtonTop != null) {
-                layoutAddButtonTop.setOnClickListener(this);
-            }
 
         }
 
-        @Override
-        public void onClick(View view) {
+        @Optional @OnClick({R.id.constraintLayout_RaceGroup, R.id.constraintLayout_AddButtonTop, R.id.constraintLayout_AddButton})
+        public void onLittleRaceGroupClick(View view) {
             switch (view.getId()) {
                 case R.id.constraintLayout_RaceGroup:
                     fragment.onRaceGroupClicked(raceGroups.get(getAdapterPosition()), getAdapterPosition());
