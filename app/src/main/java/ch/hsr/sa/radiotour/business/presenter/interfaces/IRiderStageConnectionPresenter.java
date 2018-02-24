@@ -10,13 +10,9 @@ import io.realm.RealmList;
 public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void addRiderStageConnection(RiderStageConnection riderStageConnection);
 
-    void getRiderStageConnections();
-
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
 
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection);
-
-    void deleteRiderStageConnection();
 
     void updateRiderState(final RiderStateType type, final Rider rider);
 
@@ -27,24 +23,6 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 
     void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection);
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
-
-    RiderStageConnection getRiderStageConnectionByStartNr(int startNr);
-
-    RiderStageConnection getLeader();
-
-    RiderStageConnection getSprintLeader();
-
-    RiderStageConnection getMountainLeader();
-
-    RiderStageConnection getSwissLeader();
 
     void updateRiderStageConnectionTime(long timeBefore, long timeStamp, RaceGroup res);
 }

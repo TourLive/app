@@ -120,11 +120,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void getRiderStageConnections() {
-        riderStageConnectionRepository.getRiderStageConnections(onGetAllRiderStageConnectionsCallback);
-    }
-
-    @Override
     public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, oldRiderStageConnection, onUpdateRiderStageConnectionCallBack);
     }
@@ -132,11 +127,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public void updateRiderStageConnectionReward(RiderStageConnection riderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnectionReward(riderStageConnection, onUpdateRiderStageConnectionCallBack);
-    }
-
-    @Override
-    public void deleteRiderStageConnection() {
-        // Not implemented yet
     }
 
     @Override
@@ -163,50 +153,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     @Override
     public void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection) {
         riderStageConnectionRepository.updateRiderStageConnectionRanking(riderRanking, connection);
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByVirtualGap();
-    }
-
-    @Override
-    public RiderStageConnection getRiderStageConnectionByStartNr(int startNr){
-        return riderStageConnectionRepository.getRiderStageConnectionByStartNr(startNr);
-    }
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByPoints();
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByMountain();
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss() {
-        return riderStageConnectionRepository.getRiderStageConnectionsSortedByBestSwiss();
-    }
-
-    @Override
-    public RiderStageConnection getLeader() {
-        return riderStageConnectionRepository.getLeader();
-    }
-
-    @Override
-    public RiderStageConnection getSprintLeader() {
-        return riderStageConnectionRepository.getSprintLeader();
-    }
-
-    @Override
-    public RiderStageConnection getMountainLeader() {
-        return riderStageConnectionRepository.getMountainLeader();
-    }
-
-    @Override
-    public RiderStageConnection getSwissLeader() {
-        return riderStageConnectionRepository.getSwissLeader();
     }
 
     @Override

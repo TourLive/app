@@ -33,4 +33,8 @@ public class RiderRanking extends RealmObject {
     public String getId() {
         return id;
     }
+
+    public RiderStageConnection getRiderStageConnection() {
+        return riderRankings.first();
+    }
 }
