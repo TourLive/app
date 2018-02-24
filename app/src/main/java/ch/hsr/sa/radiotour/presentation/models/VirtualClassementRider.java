@@ -121,7 +121,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
 
     }
 
-    public static class Holder extends ButterKnifeViewHolder {
+    public static class Holder extends ButterKnifeViewHolderList {
 
         @BindView(R.id.virtualClassementStartNr)
         TextView virtualClassementStartNr;

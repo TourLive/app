@@ -31,7 +31,7 @@ public class EmptyItem extends AdapterItem<EmptyItem.Holder> {
         holder.textView.setText(text);
     }
 
-    public static class Holder extends ButterKnifeViewHolder {
+    public static class Holder extends ButterKnifeViewHolderList {
 
         @BindView(R.id.test2)
         TextView textView;

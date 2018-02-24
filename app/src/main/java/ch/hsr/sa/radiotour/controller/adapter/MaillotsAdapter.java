@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.HashMap;
 
+import butterknife.BindView;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
@@ -20,6 +21,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
+import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
 
 public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.MaillotViewHolder> {
@@ -130,29 +132,29 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
         return maillots.size();
     }
 
-    public class MaillotViewHolder extends RecyclerView.ViewHolder {
+    public class MaillotViewHolder extends ButterKnifeViewHolder {
 
-        private TextView partner;
-        private TextView name;
-        private ImageView trikot;
-        private TextView leaderVirtInfo;
-        private TextView leaderRealInfo;
-        private TextView leaderRealStart;
-        private TextView leaderVirtStart;
-        private ImageView leaderRealFlag;
-        private ImageView leaderVirtFlag;
+        @BindView(R.id.MaillotPartner)
+        TextView partner;
+        @BindView(R.id.MaillotName)
+        TextView name;
+        @BindView(R.id.imgTrikot)
+        ImageView trikot;
+        @BindView(R.id.LeaderVirtInfo)
+        TextView leaderVirtInfo;
+        @BindView(R.id.LeaderRealInfo)
+        TextView leaderRealInfo;
+        @BindView(R.id.LeaderRealStart)
+        TextView leaderRealStart;
+        @BindView(R.id.LeaderVirtStart)
+        TextView leaderVirtStart;
+        @BindView(R.id.img_country_real)
+        ImageView leaderRealFlag;
+        @BindView(R.id.img_country_virt)
+        ImageView leaderVirtFlag;
 
         public MaillotViewHolder(View itemView) {
             super(itemView);
-            partner = (TextView) itemView.findViewById(R.id.MaillotPartner);
-            name = (TextView) itemView.findViewById(R.id.MaillotName);
-            trikot = (ImageView) itemView.findViewById(R.id.imgTrikot);
-            leaderVirtInfo = (TextView) itemView.findViewById(R.id.LeaderVirtInfo);
-            leaderRealInfo = (TextView) itemView.findViewById(R.id.LeaderRealInfo);
-            leaderRealStart = (TextView) itemView.findViewById(R.id.LeaderRealStart);
-            leaderVirtStart = (TextView) itemView.findViewById(R.id.LeaderVirtStart);
-            leaderRealFlag = (ImageView) itemView.findViewById(R.id.img_country_real);
-            leaderVirtFlag = (ImageView) itemView.findViewById(R.id.img_country_virt);
         }
     }
 
