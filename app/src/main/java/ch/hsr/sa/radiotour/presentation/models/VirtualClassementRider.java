@@ -50,6 +50,50 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         this.riderMoney = riderStageConnection.getMoney();
     }
 
+    public int getRiderStartNr() {
+        return riderStartNr;
+    }
+
+    public String getRiderName() {
+        return riderName;
+    }
+
+    public String getRiderTeam() {
+        return riderTeam;
+    }
+
+    public String getRiderCountry() {
+        return riderCountry;
+    }
+
+    public long getRiderOfficalTime() {
+        return riderOfficalTime;
+    }
+
+    public long getRiderOfficalGap() {
+        return riderOfficalGap;
+    }
+
+    public long getRiderVirtualGap() {
+        return riderVirtualGap;
+    }
+
+    public int getRiderPoints() {
+        return riderPoints;
+    }
+
+    public int getRiderMountainPoints() {
+        return riderMountainPoints;
+    }
+
+    public int getRiderSprintPoints() {
+        return riderSprintPoints;
+    }
+
+    public int getRiderMoney() {
+        return riderMoney;
+    }
+
     @Override
     public boolean onFilter(String searchTerm) {
         return riderName.contains(searchTerm);

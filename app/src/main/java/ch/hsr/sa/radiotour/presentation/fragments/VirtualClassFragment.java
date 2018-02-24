@@ -10,31 +10,63 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import net.gotev.recycleradapter.AdapterItem;
 import net.gotev.recycleradapter.RecyclerAdapter;
 
+import java.util.Comparator;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderExtended;
+import ch.hsr.sa.radiotour.dataaccess.models.VirtualClassementComparators;
 import ch.hsr.sa.radiotour.presentation.models.EmptyItem;
 import ch.hsr.sa.radiotour.presentation.models.VirtualClassementRider;
-import io.realm.Realm;
 import io.realm.RealmList;
 
 public class VirtualClassFragment extends Fragment {
     private Handler handler;
     private Context mContext;
     private RecyclerAdapter recyclerAdapter;
-    private RecyclerView recyclerView;
+    @BindView(R.id.rvVirtualClassement)
+    RecyclerView recyclerView;
+    @BindView(R.id.virtualClassementStartNrHeader)
+    TextView virtualClassementStartNrHeader;
+    @BindView(R.id.virtualClassementNameHeader)
+    TextView virtualClassementNameHeader;
+    @BindView(R.id.virtualClassementTeamHeader)
+    TextView virtualClassementTeamHeader;
+    @BindView(R.id.virtualClassementCountryHeader)
+    TextView virtualClassementCountryHeader;
+    @BindView(R.id.virtualClassementOfficialTimeHeader)
+    TextView virtualClassementOfficialTimeHeader;
+    @BindView(R.id.virtualClassementOfficalGapHeader)
+    TextView virtualClassementOfficalGapHeader;
+    @BindView(R.id.virtualClassementVirtualGapHeader)
+    TextView virtualClassementVirtualGapHeader;
+    @BindView(R.id.virtualClassementPointsHeader)
+    TextView virtualClassementPointsHeader;
+    @BindView(R.id.virtualClassementMountainPointsHeader)
+    TextView virtualClassementMountainPointsHeader;
+    @BindView(R.id.virtualClassementSprintPointsHeader)
+    TextView virtualClassementSprintPointsHeader;
+    @BindView(R.id.virtualClassementMoneyHeader)
+    TextView virtualClassementMoneyHeader;
+    private Unbinder unbinder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
+        unbinder = ButterKnife.bind(this, root);
         intiTable(root);
         initComponents();
         return root;
@@ -47,7 +79,6 @@ public class VirtualClassFragment extends Fragment {
     }
 
     private void intiTable(View root) {
-        recyclerView = (RecyclerView) root.findViewById(R.id.rvVirtualClassement);
         recyclerAdapter = new RecyclerAdapter();
         recyclerAdapter.setEmptyItem(new EmptyItem(getString(android.R.string.cancel)));
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
@@ -57,10 +88,54 @@ public class VirtualClassFragment extends Fragment {
         }
     }
 
+    @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementSprintPointsHeader, R.id.virtualClassementMoneyHeader})
+    public void onSortClicked(View view) {
+        Comparator<AdapterItem> comp = null;
+        switch(view.getId()) {
+            case R.id.virtualClassementStartNrHeader:
+                comp = VirtualClassementComparators.getStartNrComparator();
+                break;
+            case R.id.virtualClassementNameHeader:
+                comp = VirtualClassementComparators.getNameComparator();
+                break;
+            case R.id.virtualClassementTeamHeader:
+                comp = VirtualClassementComparators.getTeamComparator();
+                break;
+            case R.id.virtualClassementCountryHeader:
+                comp = VirtualClassementComparators.getCountryComparator();
+                break;
+            case R.id.virtualClassementOfficialTimeHeader:
+                comp = VirtualClassementComparators.getOfficialTimeComparator();
+                break;
+            case R.id.virtualClassementOfficalGapHeader:
+                comp = VirtualClassementComparators.getOffizialDeficitComparator();
+                break;
+            case R.id.virtualClassementVirtualGapHeader:
+                comp = VirtualClassementComparators.getVirtualDeficitComparator();
+                break;
+            case R.id.virtualClassementPointsHeader:
+                comp = VirtualClassementComparators.getPointComparator();
+                break;
+            case R.id.virtualClassementMountainPointsHeader:
+                comp = VirtualClassementComparators.getMountainPointComparator();
+                break;
+            case R.id.virtualClassementSprintPointsHeader:
+                comp = VirtualClassementComparators.getSprintPointComparator();
+                break;
+            case R.id.virtualClassementMoneyHeader:
+                comp = VirtualClassementComparators.getMoneyComparator();
+                break;
+            default:
+                comp = VirtualClassementComparators.getStartNrComparator();
+                break;
+        }
+
+        recyclerAdapter.sort(true, comp);
+    }
+
     @Override
     public void onStart() {
         super.onStart();
-        //RiderPresenter.getInstance().getAllRiders();
     }
 
     @Override
