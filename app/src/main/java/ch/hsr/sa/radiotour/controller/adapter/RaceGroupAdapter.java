@@ -22,7 +22,7 @@ import java.util.Collections;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
-import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComperator;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
@@ -36,7 +36,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment) {
         this.raceGroups = raceGroups;
-        Collections.sort(raceGroups, new RaceGroupComperator());
+        Collections.sort(raceGroups, new RaceGroupComparator());
         this.context = context;
         this.fragment = fragment;
     }
@@ -85,12 +85,12 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         long resSeconds = time - (resMinutes * 60);
         if (resMinutes < 10 && resSeconds < 10) {
             return "0" + Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
-        } else if (resMinutes < 10 && resMinutes >= 10) {
+        } else if (resMinutes < 10 && resSeconds >= 10) {
             return "0" + Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
-        } else if (resMinutes > 10 && resMinutes >= 10) {
-            return Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
-        } else {
+        } else if (resMinutes >= 10 && resSeconds >= 10) {
             return Long.toString(resMinutes) + ":" + Long.toString(resSeconds);
+        } else {
+            return Long.toString(resMinutes) + ":0" + Long.toString(resSeconds);
         }
     }
 
@@ -201,8 +201,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RecyclerView rvMinutes = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadMinutes);
             RecyclerView rvSeconds = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadSeconds);
 
-            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
-            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 8, LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);
+            GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);
 
             final TimeAdapter adapterMinutes;
             final TimeAdapter adapterSeconds;

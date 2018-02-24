@@ -1,11 +1,18 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.List;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorSprintPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
@@ -83,9 +90,54 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.appendMoney(riderStageConnection.getMoney());
             res.appendMountainBonusPoints(riderStageConnection.getMountainBonusPoints());
             res.appendSprintBonusPoints(riderStageConnection.getSprintBonusPoints());
-
         });
 
+        realm.executeTransaction((Realm db) -> {
+            RealmResults<RiderStageConnection> connections = db.where(RiderStageConnection.class).findAll();
+            List<RiderStageConnection> cons = realm.copyFromRealm(connections);
+            cons.sort(new RiderStageConnectionComparatorSprintPoints());
+            for (int i = 0; i < cons.size(); i++) {
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.SPRINT).setRank(i+1);
+            }
+
+            cons.sort(new RiderStageConnectionComparatorMountainPoints());
+            for (int i = 0; i < cons.size(); i++) {
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.MOUNTAIN).setRank(i+1);
+            }
+        });
+
+        if (callback != null) {
+            callback.onSuccess();
+        }
+    }
+
+    @Override
+    public void updateRiderStageConnectionTime(long timeBefore, long timeStamp, final RaceGroup res, OnUpdateRiderStageConnectionCallBack callback) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        if (timeBefore > 0 && !res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
+                }
+            }
+        }
+        if (!res.getRiders().isEmpty()) {
+            for (Rider r : res.getRiders()) {
+                if (!r.getRiderStages().isEmpty()) {
+                    r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
+                }
+            }
+        }
+        RealmResults<RiderStageConnection> connections = realm.where(RiderStageConnection.class).findAll();
+        List<RiderStageConnection> cons = realm.copyFromRealm(connections);
+        cons.sort(new RiderStageConnectionComparatorVirtualGap());
+        for (int i = 0; i < cons.size(); i++) {
+            RiderRanking riderRanking = realm.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.VIRTUAL);
+            if(riderRanking != null) {riderRanking.setRank(i+1);}
+        }
+
+        realm.commitTransaction();
         if (callback != null) {
             callback.onSuccess();
         }
@@ -97,17 +149,16 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         realm.beginTransaction();
         Rider res = realm.where(Rider.class).equalTo("id", rider.getId()).findFirst();
         for (RiderStageConnection sC : res.getRiderStages()) {
-            sC.setType(type);
+            if (sC.getType() == type) {
+                sC.setType(RiderStateType.AKTIVE);
+            } else {
+                sC.setType(type);
+            }
         }
         realm.commitTransaction();
         RiderStageConnection state = realm.where(RiderStageConnection.class).equalTo("riders.id", rider.getId()).findFirst();
         if (callback != null)
             callback.onSuccess(state);
-    }
-
-    @Override
-    public void deleteRiderStageConnection() {
-        // Not implemented yet
     }
 
     @Override
@@ -129,72 +180,12 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
     }
 
     @Override
-    public void updateRiderStageConnectionRank(final int rank, final RiderStageConnection connection) {
+    public void updateRiderStageConnectionRanking(final RiderRanking riderRanking, final RiderStageConnection connection) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction((Realm db) -> {
             RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", connection.getId()).findFirst();
-            res.setRank(rank);
+            res.addRiderRanking(riderRanking);
         });
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap() {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("virtualGap", Sort.ASCENDING);
-        RealmList<RiderStageConnection> res = new RealmList<>();
-        res.addAll(results);
-        realm.close();
-        return res;
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints() {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("sprintBonusPoints", Sort.DESCENDING);
-        RealmList<RiderStageConnection> res = new RealmList<>();
-        res.addAll(results);
-        realm.close();
-        return res;
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain() {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).findAll().sort("mountainBonusPoints", Sort.DESCENDING);
-        RealmList<RiderStageConnection> res = new RealmList<>();
-        res.addAll(results);
-        realm.close();
-        return res;
-    }
-
-    @Override
-    public RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss() {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        RealmResults<RiderStageConnection> results = realm.where(RiderStageConnection.class).equalTo("riders.country", "SUI").findAll().sort("virtualGap", Sort.ASCENDING);
-        RealmList<RiderStageConnection> res = new RealmList<>();
-        res.addAll(results);
-        realm.close();
-        return res;
-    }
-
-    @Override
-    public RiderStageConnection getLeader() {
-        return getRiderStageConnectionsSortedByVirtualGap().first();
-    }
-
-    @Override
-    public RiderStageConnection getSprintLeader() {
-        return getRiderStageConnectionsSortedByPoints().first();
-    }
-
-    @Override
-    public RiderStageConnection getMountainLeader() {
-        return getRiderStageConnectionsSortedByMountain().first();
-    }
-
-    @Override
-    public RiderStageConnection getSwissLeader() {
-        return getRiderStageConnectionsSortedByBestSwiss().first();
     }
 
 

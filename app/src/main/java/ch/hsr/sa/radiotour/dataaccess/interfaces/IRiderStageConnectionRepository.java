@@ -1,6 +1,8 @@
 package ch.hsr.sa.radiotour.dataaccess.interfaces;
 
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
@@ -18,29 +20,11 @@ public interface IRiderStageConnectionRepository {
 
     void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
 
-    void deleteRiderStageConnection();
-
     RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 
-    void updateRiderStageConnectionRank(final int rank, RiderStageConnection connection);
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByVirtualGap();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByPoints();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByMountain();
-
-    RealmList<RiderStageConnection> getRiderStageConnectionsSortedByBestSwiss();
-
-    RiderStageConnection getLeader();
-
-    RiderStageConnection getSprintLeader();
-
-    RiderStageConnection getMountainLeader();
-
-    RiderStageConnection getSwissLeader();
+    void updateRiderStageConnectionRanking(final RiderRanking riderRanking, RiderStageConnection connection);
 
     interface OnSaveRiderStageConnectionCallback {
         void onSuccess();
@@ -65,4 +49,6 @@ public interface IRiderStageConnectionRepository {
 
         void onError(String message);
     }
+
+    void updateRiderStageConnectionTime(long timeBefore, long timeStamp, final RaceGroup res, OnUpdateRiderStageConnectionCallBack callback);
 }

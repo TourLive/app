@@ -6,16 +6,16 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/img_country_real"
+        android:id="@+id/img_country_virt"
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginTop="4dp"
         android:adjustViewBounds="true"
-        app:layout_constraintStart_toEndOf="@+id/LeaderRealStart"
-        app:layout_constraintTop_toBottomOf="@+id/img_country_virt" />
+        app:layout_constraintStart_toEndOf="@+id/LeaderVirtStart"
+        app:layout_constraintTop_toBottomOf="@+id/img_country_real" />
 
     <ImageView
-        android:id="@+id/img_country_virt"
+        android:id="@+id/img_country_real"
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:adjustViewBounds="true"
@@ -56,21 +56,22 @@
         app:layout_constraintTop_toBottomOf="@+id/MaillotName" />
 
     <TextView
-        android:id="@+id/txtLeaderVirt"
+        android:id="@+id/txtLeaderReal"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="@string/maillots_leader_virt"
+        android:text="@string/maillots_leader_real"
         app:layout_constraintStart_toEndOf="@+id/imgTrikot"
         app:layout_constraintTop_toBottomOf="@+id/txtMaillotPartner" />
 
     <TextView
-        android:id="@+id/LeaderVirtInfo"
+        android:id="@+id/LeaderRealInfo"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:text="@string/maillots_noleader"
         android:textAlignment="textStart"
+        android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/img_country_virt"
         app:layout_constraintTop_toBottomOf="@+id/MaillotPartner" />
 
@@ -87,44 +88,44 @@
         app:srcCompat="@drawable/maillots" />
 
     <TextView
-        android:id="@+id/txtLeaderReal"
+        android:id="@+id/txtLeaderVirt"
         android:layout_width="200dp"
         android:layout_height="20dp"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="@string/maillots_leader_real"
+        android:text="@string/maillots_leader_virt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imgTrikot"
-        app:layout_constraintTop_toBottomOf="@+id/txtLeaderVirt" />
-
-    <TextView
-        android:id="@+id/LeaderVirtStart"
-        android:layout_width="30dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:text="Nr."
-        app:layout_constraintStart_toEndOf="@+id/txtLeaderVirt"
-        app:layout_constraintTop_toBottomOf="@+id/MaillotPartner" />
+        app:layout_constraintTop_toBottomOf="@+id/txtLeaderReal" />
 
     <TextView
         android:id="@+id/LeaderRealStart"
         android:layout_width="30dp"
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
         android:text="Nr."
         app:layout_constraintStart_toEndOf="@+id/txtLeaderReal"
-        app:layout_constraintTop_toBottomOf="@+id/LeaderVirtStart" />
+        app:layout_constraintTop_toBottomOf="@+id/MaillotPartner" />
 
     <TextView
-        android:id="@+id/LeaderRealInfo"
+        android:id="@+id/LeaderVirtStart"
+        android:layout_width="30dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:text="Nr."
+        app:layout_constraintStart_toEndOf="@+id/txtLeaderVirt"
+        app:layout_constraintTop_toBottomOf="@+id/LeaderRealStart" />
+
+    <TextView
+        android:id="@+id/LeaderVirtInfo"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:text="Text"
         app:layout_constraintStart_toEndOf="@+id/img_country_real"
-        app:layout_constraintTop_toBottomOf="@+id/LeaderVirtInfo" />
+        app:layout_constraintTop_toBottomOf="@+id/LeaderRealInfo" />
 
 </android.support.constraint.ConstraintLayout>

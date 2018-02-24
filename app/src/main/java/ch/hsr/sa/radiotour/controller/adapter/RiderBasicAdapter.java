@@ -92,6 +92,11 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.colorRed));
     }
 
+    public void resetColorOnRider(int startNr) {
+        RiderViewHolder holder = holderHashMap.get(startNr);
+        holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.colorGrayDark));
+    }
+
     @Override
     public int getItemCount() {
         return riders.size();
@@ -133,7 +138,6 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
             } else {
                 selectedRider = rider;
                 selectedRiders.add(rider.getRiderID());
-                setColorOnRider(rider.getStartNr());
                 onRiderJudgmentClickListener.saveJudgmnet();
             }
         }
