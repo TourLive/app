@@ -8,7 +8,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public interface IRiderStageConnectionPresenter extends IBasePresenter {
-    void addRiderStageConnection(RiderStageConnection riderStageConnection);
+    RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection);
 
     void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
 
@@ -17,8 +17,6 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void updateRiderState(final RiderStateType type, final Rider rider);
 
     void clearAllRiderStageConnection();
-
-    RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 
