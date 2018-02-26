@@ -325,21 +325,22 @@ public final class APIClient {
                 try{
                     uiHandler.post(() -> {new String("successfully");});
                 } catch (Exception ex){
-                    uiHandler.post(() -> ex.getMessage());
+                    uiHandler.post(ex::getMessage);
                 }
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
+                    // Not needed
                 } catch (Exception ex){
-                    uiHandler.post(() -> ex.getMessage());
+                    uiHandler.post(ex::getMessage);
                 }
             }
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                uiHandler.post(() -> throwable.getMessage());
+                uiHandler.post(throwable::getMessage);
             }
         });
     }
@@ -356,7 +357,7 @@ public final class APIClient {
                     response[0] = (T)data;
                 } catch (Exception ex){
                     Log.d("here", "here");
-                    uiHandler.post(() -> ex.getMessage());
+                    uiHandler.post(ex::getMessage);
                 }
             }
 
@@ -366,14 +367,14 @@ public final class APIClient {
                     response[0] = (T)data;
                 } catch (Exception ex){
                     Log.d("here", "here");
-                    uiHandler.post(() -> ex.getMessage());
+                    uiHandler.post(ex::getMessage);
                 }
             }
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
                 Log.d("here", "here");
-                uiHandler.post(() -> throwable.getMessage());
+                uiHandler.post(throwable::getMessage);
             }
         });
         return response[0];

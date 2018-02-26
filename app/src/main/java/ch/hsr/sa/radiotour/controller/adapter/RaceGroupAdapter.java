@@ -124,17 +124,17 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             super(itemView);
             layoutRacegroup = itemView.findViewById(R.id.constraintLayout_RaceGroup);
             layoutAddButton = itemView.findViewById(R.id.constraintLayout_AddButton);
-            icDragAndDrop = (ImageView) itemView.findViewById(R.id.icDragAndDrop);
+            icDragAndDrop = itemView.findViewById(R.id.icDragAndDrop);
             if (icDragAndDrop != null) {
                 icDragAndDrop.setOnLongClickListener(this);
             }
-            racegroupName = (TextView) itemView.findViewById(R.id.racegroup_name);
+            racegroupName = itemView.findViewById(R.id.racegroup_name);
             racegroupName.setOnLongClickListener(this);
-            racegroupRiders = (RecyclerView) itemView.findViewById(R.id.racegroup_riders);
-            racegroupCount = (TextView) itemView.findViewById(R.id.racegroup_count);
+            racegroupRiders = itemView.findViewById(R.id.racegroup_riders);
+            racegroupCount = itemView.findViewById(R.id.racegroup_count);
             racegroupCount.setOnLongClickListener(this);
-            gaptimeActual = (TextView) itemView.findViewById(R.id.gaptime_actual);
-            gaptimeBefore = (TextView) itemView.findViewById(R.id.gaptime_before);
+            gaptimeActual = itemView.findViewById(R.id.gaptime_actual);
+            gaptimeBefore = itemView.findViewById(R.id.gaptime_before);
             gaptimeActual.setOnClickListener(this);
             layoutRacegroup.setOnDragListener((View view, DragEvent dragEvent) -> {
                 switch (dragEvent.getAction()) {
@@ -198,8 +198,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             View dialogView = inflater.inflate(R.layout.time_picker_dialog, null);
             builder.setView(dialogView);
 
-            RecyclerView rvMinutes = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadMinutes);
-            RecyclerView rvSeconds = (RecyclerView) dialogView.findViewById(R.id.rvNumberPadSeconds);
+            RecyclerView rvMinutes = dialogView.findViewById(R.id.rvNumberPadMinutes);
+            RecyclerView rvSeconds = dialogView.findViewById(R.id.rvNumberPadSeconds);
 
             GridLayoutManager layoutManagerMinutes = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);
             GridLayoutManager layoutManagerSeconds = new GridLayoutManager(context, 10, LinearLayoutManager.HORIZONTAL, false);

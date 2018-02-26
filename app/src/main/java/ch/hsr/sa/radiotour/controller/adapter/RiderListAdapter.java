@@ -138,7 +138,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         public RiderViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
+            tvNummer = itemView.findViewById(R.id.tv_nummer);
         }
 
 
