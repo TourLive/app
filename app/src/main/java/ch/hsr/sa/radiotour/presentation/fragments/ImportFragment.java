@@ -291,7 +291,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     try {
                         progressBarStatus = loadDataForDemoMode();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE - " + e.getMessage());
                     }
                     progressBarHandler.post(() -> progressBar.setProgress(progressBarStatus));
                 }
@@ -339,7 +339,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                         try {
                             copyBundledRealmFile();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE FILELOADING - " + e.getMessage());
                         }
                     });
                 }
@@ -351,7 +351,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                         try {
                             setDataToDemo();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE - " + e.getMessage());
                         }
                     });
                 } else {
@@ -360,7 +360,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                         try {
                             resetDataToImport();
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Log.d(ImportFragment.class.getSimpleName(), "APP - DEMOMODE - " + e.getMessage());
                         }
                     });
                 }
