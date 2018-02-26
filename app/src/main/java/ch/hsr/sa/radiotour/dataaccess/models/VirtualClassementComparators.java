@@ -62,7 +62,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderStartNrComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderOne.getRiderStartNr() - riderTwo.getRiderStartNr();
@@ -75,7 +75,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderCountryComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderOne.getRiderCountry().compareTo(riderTwo.getRiderCountry());
@@ -87,7 +87,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderNameComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderOne.getRiderName().compareTo(riderTwo.getRiderName());
@@ -99,7 +99,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderTeamComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderOne.getRiderTeam().compareTo(riderTwo.getRiderTeam());
@@ -111,7 +111,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderPointComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderTwo.getRiderPoints() - riderOne.getRiderPoints();
@@ -123,7 +123,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderSprintPointComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderTwo.getRiderSprintPoints() - riderOne.getRiderSprintPoints();
@@ -135,7 +135,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderMountainPointComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderTwo.getRiderMountainPoints() - riderOne.getRiderMountainPoints();
@@ -147,7 +147,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderMoneyComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderTwo.getRiderMoney() - riderOne.getRiderMoney();
@@ -159,7 +159,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderVirtualDeficitComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return Long.compare(riderOne.getRiderVirtualGap(), riderTwo.getRiderVirtualGap());
@@ -171,7 +171,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderOffizialDeficitComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return Long.compare(riderOne.getRiderOfficalGap(), riderTwo.getRiderOfficalGap());
@@ -183,7 +183,7 @@ public final class VirtualClassementComparators {
     private static class VirtualClassementRiderOfficialTimeComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
-            if (itemOne.getClass() == VirtualClassementRider.class && itemOne.getClass() == VirtualClassementRider.class) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return Long.compare(riderOne.getRiderOfficalTime(), riderTwo.getRiderOfficalTime());
