@@ -8,7 +8,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.RealmList;
 
 public interface IRiderStageConnectionRepository {
-    void addRiderStageConnection(RiderStageConnection riderStageConnection, OnSaveRiderStageConnectionCallback callback);
+    RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection, OnSaveRiderStageConnectionCallback callback);
 
     void getRiderStageConnections(OnGetAllRiderStageConnectionsCallback callback);
 
@@ -19,8 +19,6 @@ public interface IRiderStageConnectionRepository {
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection, OnUpdateRiderStageConnectionCallBack callback);
 
     void updateRiderState(final RiderStateType type, final Rider rider, OnUpdateRiderStateCallBack callback);
-
-    RiderStageConnection getRiderByRank(final int rank);
 
     RealmList<RiderStageConnection> getAllRiderStateConnections();
 

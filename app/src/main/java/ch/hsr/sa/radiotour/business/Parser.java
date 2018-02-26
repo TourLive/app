@@ -74,18 +74,18 @@ public final class Parser {
                         riderStageConnection.setOfficialGap(jsonRider.getLong("timeRueckLong"));
                         riderStageConnection.setOfficialTime(jsonRider.getLong("timeOffLong"));
                         riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
-                        riderStageConnection.setRank(jsonRider.getInt("startNr"));
                         String state = jsonRider.getString("active");
                         if (state.equals("true")) {
                             riderStageConnection.setType(RiderStateType.AKTIVE);
                         } else {
                             riderStageConnection.setType(RiderStateType.DNC);
                         }
+                        RiderStageConnection riderStageConnectionOne;
                         synchronized (this) {
-                            Context.addRiderStageConnection(riderStageConnection);
+                            riderStageConnectionOne = Context.addRiderStageConnection(riderStageConnection);
                         }
                         RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
-                        riderStageConnections.add(Context.getRiderStageConnectionByRank(jsonRider.getInt(startNr)));
+                        riderStageConnections.add(riderStageConnectionOne);
 
                         Context.updateRiderStageConnection(rider, riderStageConnections);
 

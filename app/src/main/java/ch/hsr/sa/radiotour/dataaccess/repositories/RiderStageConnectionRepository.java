@@ -20,27 +20,29 @@ import io.realm.RealmResults;
 
 public class RiderStageConnectionRepository implements IRiderStageConnectionRepository {
     @Override
-    public void addRiderStageConnection(RiderStageConnection riderStageConnection, OnSaveRiderStageConnectionCallback callback) {
+    public RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection, OnSaveRiderStageConnectionCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final RiderStageConnection transferRiderStateConnection = riderStageConnection;
+        RiderStageConnection returnValue;
 
-        realm.executeTransaction((Realm db) -> {
-            RiderStageConnection realmRiderStageConnection = db.createObject(RiderStageConnection.class, UUID.randomUUID().toString());
-            realmRiderStageConnection.setBonusPoint(transferRiderStateConnection.getBonusPoint());
-            realmRiderStageConnection.setBonusTime(transferRiderStateConnection.getBonusTime());
-            realmRiderStageConnection.setMountainBonusPoints(transferRiderStateConnection.getMountainBonusPoints());
-            realmRiderStageConnection.setSprintBonusPoints(transferRiderStateConnection.getSprintBonusPoints());
-            realmRiderStageConnection.setOfficialGap(transferRiderStateConnection.getOfficialGap());
-            realmRiderStageConnection.setOfficialTime(transferRiderStateConnection.getOfficialTime());
-            realmRiderStageConnection.setRank(transferRiderStateConnection.getRank());
-            realmRiderStageConnection.setVirtualGap(transferRiderStateConnection.getVirtualGap());
-            realmRiderStageConnection.setType(transferRiderStateConnection.getType());
-            realmRiderStageConnection.setMoney(transferRiderStateConnection.getMoney());
-        });
+        realm.beginTransaction();
+        RiderStageConnection realmRiderStageConnection = realm.createObject(RiderStageConnection.class, UUID.randomUUID().toString());
+        realmRiderStageConnection.setBonusPoint(transferRiderStateConnection.getBonusPoint());
+        realmRiderStageConnection.setBonusTime(transferRiderStateConnection.getBonusTime());
+        realmRiderStageConnection.setMountainBonusPoints(transferRiderStateConnection.getMountainBonusPoints());
+        realmRiderStageConnection.setSprintBonusPoints(transferRiderStateConnection.getSprintBonusPoints());
+        realmRiderStageConnection.setOfficialGap(transferRiderStateConnection.getOfficialGap());
+        realmRiderStageConnection.setOfficialTime(transferRiderStateConnection.getOfficialTime());
+        realmRiderStageConnection.setVirtualGap(transferRiderStateConnection.getVirtualGap());
+        realmRiderStageConnection.setType(transferRiderStateConnection.getType());
+        realmRiderStageConnection.setMoney(transferRiderStateConnection.getMoney());
+        realm.commitTransaction();
+        returnValue = realmRiderStageConnection;
 
         if (callback != null) {
             callback.onSuccess();
         }
+        return returnValue;
     }
 
     @Override
@@ -73,7 +75,6 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             res.setVirtualGap(newRiderStageConnection.getVirtualGap());
             res.setOfficialGap(newRiderStageConnection.getOfficialGap());
             res.setOfficialTime(newRiderStageConnection.getOfficialTime());
-            res.setRank(newRiderStageConnection.getRank());
             res.setType(newRiderStageConnection.getType());
             res.setMoney(newRiderStageConnection.getMoney());
         });
@@ -158,15 +159,6 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         RiderStageConnection state = realm.where(RiderStageConnection.class).equalTo("riders.id", rider.getId()).findFirst();
         if (callback != null)
             callback.onSuccess(state);
-    }
-
-    @Override
-    public RiderStageConnection getRiderByRank(final int rank) {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        realm.beginTransaction();
-        RiderStageConnection res = realm.where(RiderStageConnection.class).equalTo("rank", rank).findFirst();
-        realm.commitTransaction();
-        return res;
     }
 
     @Override
