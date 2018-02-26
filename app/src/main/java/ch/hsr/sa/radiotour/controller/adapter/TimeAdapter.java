@@ -58,7 +58,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
 
         public NumberViewHolder(View itemView) {
             super(itemView);
-            numberPad = (TextView) itemView.findViewById(R.id.numberPad);
+            numberPad = itemView.findViewById(R.id.numberPad);
             itemView.setOnClickListener(this);
         }
 

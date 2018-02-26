@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.presentation;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -134,9 +135,9 @@ public final class UIUtilitis {
         return firstNumber;
     }
 
-    public static HashMap<Integer, Integer> getCountsPerLine(RealmList<Rider> riders) {
+    public static Map<Integer, Integer> getCountsPerLine(RealmList<Rider> riders) {
         HashMap<Integer, Integer> number = new HashMap<>();
-        if (riders.size() != 0) {
+        if (!riders.isEmpty()) {
             for (Rider r : riders) {
                 int startnr = r.getStartNr();
                 int firstNumber = UIUtilitis.getFirstDigit(startnr);
