@@ -41,7 +41,7 @@ public class UnknownRiderTransferDialogFramgent extends DialogFragment {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View dialogView = inflater.inflate(R.layout.dialog_unknowntransfer, null);
         alertDialogBuilder.setView(dialogView);
-        spinner = (Spinner) dialogView.findViewById(R.id.riderSpinner);
+        spinner = dialogView.findViewById(R.id.riderSpinner);
 
         addItemsToSpinner();
 

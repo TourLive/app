@@ -73,17 +73,17 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         judgementID = getArguments().getString("id");
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
 
-        TextView title = (TextView) root.findViewById(R.id.titleJudgements2);
+        TextView title = root.findViewById(R.id.titleJudgements2);
         title.setText("KM " + judgement.getDistance() + " | " + judgement.getName());
 
 
-        RecyclerView rvRidersToSelect = (RecyclerView) root.findViewById(R.id.rvRidersToSelect);
+        RecyclerView rvRidersToSelect = root.findViewById(R.id.rvRidersToSelect);
         riderBasicAdapter = new RiderBasicAdapter(RiderPresenter.getInstance().getAllRidersReturned(), judgement, this);
         rvRidersToSelect.setAdapter(riderBasicAdapter);
         rvRidersToSelect.setLayoutManager(new GridLayoutManager(this.getContext(), 8, LinearLayoutManager.HORIZONTAL, false));
         rvRidersToSelect.setHasFixedSize(true);
-        lineTwoHeader = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTxtTwo);
-        lineTwoButtons = (ConstraintLayout) root.findViewById(R.id.constraintLayoutTwo);
+        lineTwoHeader = root.findViewById(R.id.constraintLayoutTxtTwo);
+        lineTwoButtons = root.findViewById(R.id.constraintLayoutTwo);
         initRankView(root);
         selectedView = null;
 
@@ -91,26 +91,26 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     }
 
     private void initRankView(View root) {
-        rankOne = (TextView) root.findViewById(R.id.RankOne);
-        rankTwo = (TextView) root.findViewById(R.id.RankTwo);
-        rankThree = (TextView) root.findViewById(R.id.RankThree);
-        rankFour = (TextView) root.findViewById(R.id.RankFour);
-        rankFive = (TextView) root.findViewById(R.id.RankFive);
-        rankSix = (TextView) root.findViewById(R.id.RankSix);
-        rankSeven = (TextView) root.findViewById(R.id.RankSeven);
-        rankEight = (TextView) root.findViewById(R.id.RankEight);
-        rankNine = (TextView) root.findViewById(R.id.RankNine);
-        rankTen = (TextView) root.findViewById(R.id.RankTen);
-        rankOneTxt = (TextView) root.findViewById(R.id.txtRankOne);
-        rankTwoTxt = (TextView) root.findViewById(R.id.txtRankTwo);
-        rankThreeTxt = (TextView) root.findViewById(R.id.txtRankThree);
-        rankFourTxt = (TextView) root.findViewById(R.id.txtRankFour);
-        rankFiveTxt = (TextView) root.findViewById(R.id.txtRankFive);
-        rankSixTxt = (TextView) root.findViewById(R.id.txtRankSix);
-        rankSevenTxt = (TextView) root.findViewById(R.id.txtRankSeven);
-        rankEightTxt = (TextView) root.findViewById(R.id.txtRankEight);
-        rankNineTxt = (TextView) root.findViewById(R.id.txtRankNine);
-        rankTenTxt = (TextView) root.findViewById(R.id.txtRankTen);
+        rankOne = root.findViewById(R.id.RankOne);
+        rankTwo = root.findViewById(R.id.RankTwo);
+        rankThree = root.findViewById(R.id.RankThree);
+        rankFour = root.findViewById(R.id.RankFour);
+        rankFive = root.findViewById(R.id.RankFive);
+        rankSix = root.findViewById(R.id.RankSix);
+        rankSeven = root.findViewById(R.id.RankSeven);
+        rankEight = root.findViewById(R.id.RankEight);
+        rankNine = root.findViewById(R.id.RankNine);
+        rankTen = root.findViewById(R.id.RankTen);
+        rankOneTxt = root.findViewById(R.id.txtRankOne);
+        rankTwoTxt = root.findViewById(R.id.txtRankTwo);
+        rankThreeTxt = root.findViewById(R.id.txtRankThree);
+        rankFourTxt = root.findViewById(R.id.txtRankFour);
+        rankFiveTxt = root.findViewById(R.id.txtRankFive);
+        rankSixTxt = root.findViewById(R.id.txtRankSix);
+        rankSevenTxt = root.findViewById(R.id.txtRankSeven);
+        rankEightTxt = root.findViewById(R.id.txtRankEight);
+        rankNineTxt = root.findViewById(R.id.txtRankNine);
+        rankTenTxt = root.findViewById(R.id.txtRankTen);
         initListener();
         iniList();
 
