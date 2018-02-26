@@ -141,7 +141,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         riderStageConnection.setMountainBonusPoints(200);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setOfficialTime(100);
-        riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
@@ -159,7 +158,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(20, res.get(0).getBonusTime());
         assertEquals(100, res.get(0).getSprintBonusPoints());
         assertEquals(200, res.get(0).getMountainBonusPoints());
-        assertEquals(1, res.get(0).getRank());
         assertEquals(RiderStateType.DNC, res.get(0).getType());
 
     }
@@ -171,7 +169,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         riderStageConnection.setMountainBonusPoints(200);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setOfficialTime(100);
-        riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
@@ -182,7 +179,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         riderStageConnectionTwo.setBonusTime(40);
         riderStageConnectionTwo.setOfficialGap(100);
         riderStageConnectionTwo.setOfficialTime(100);
-        riderStageConnectionTwo.setRank(2);
         riderStageConnectionTwo.setType(RiderStateType.DOCTOR);
         riderStageConnectionTwo.setVirtualGap(100);
 
@@ -215,7 +211,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         id = res.getId();
         RiderStageConnection newStageConnection = new RiderStageConnection();
         newStageConnection.setType(RiderStateType.AKTIVE);
-        newStageConnection.setRank(4);
         newStageConnection.setBonusPoint(100);
         newStageConnection.setBonusTime(2020);
         newStageConnection.setMountainBonusPoints(4000);
@@ -237,7 +232,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(2020, endRes.getBonusTime());
         assertEquals(4000, endRes.getMountainBonusPoints());
         assertEquals(5000, endRes.getSprintBonusPoints());
-        assertEquals(4, endRes.getRank());
         assertEquals(RiderStateType.AKTIVE, endRes.getType());
     }
 
@@ -249,7 +243,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setOfficialTime(100);
-        riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
@@ -271,7 +264,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
             riderStageConnectionRepository.updateRiderState(RiderStateType.DROP, rider, onUpdateRiderStateCallBack);
         }
 
-        RiderStageConnection res = riderStageConnectionRepository.getRiderByRank(1);
+        RiderStageConnection res = riderStageConnectionRepository.getAllRiderStateConnections().first();
 
         assertEquals(RiderStateType.DROP, res.getType());
     }
@@ -291,8 +284,12 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void getRiderByRank() {
         initalData();
-
-        RiderStageConnection rider = riderStageConnectionRepository.getRiderByRank(2);
+        RiderStageConnection rider = null;
+        for (RiderStageConnection riderStageConnection : riderStageConnectionRepository.getAllRiderStateConnections()) {
+           if (riderStageConnection.getBonusPoint() == 20) {
+               rider = riderStageConnection;
+           }
+        }
         assertEquals(100, rider.getOfficialGap());
         assertEquals(100, rider.getVirtualGap());
         assertEquals(100, rider.getOfficialTime());
@@ -300,7 +297,6 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(400, rider.getMountainBonusPoints());
         assertEquals(300, rider.getSprintBonusPoints());
         assertEquals(40, rider.getBonusTime());
-        assertEquals(2, rider.getRank());
         assertEquals(RiderStateType.DOCTOR, rider.getType());
     }
 

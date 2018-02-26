@@ -71,8 +71,8 @@ public final class Context {
         StagePresenter.getInstance().clearAllStages();
     }
 
-    public static void addRiderStageConnection(RiderStageConnection riderStageConnection) {
-        RiderStageConnectionPresenter.getInstance().addRiderStageConnection(riderStageConnection);
+    public static RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection) {
+        return RiderStageConnectionPresenter.getInstance().addRiderStageConnection(riderStageConnection);
     }
 
     public static void updateRiderStageConnection(Rider rider, RealmList<RiderStageConnection> riderStageConnection) {
@@ -85,10 +85,6 @@ public final class Context {
 
     public static void deleteAllRiderStageConnections() {
         RiderStageConnectionPresenter.getInstance().clearAllRiderStageConnection();
-    }
-
-    public static RiderStageConnection getRiderStageConnectionByRank(int rank) {
-        return RiderStageConnectionPresenter.getInstance().getRiderByRank(rank);
     }
 
     public static RealmList<RiderStageConnection> getAllRiderStageConnections() {
