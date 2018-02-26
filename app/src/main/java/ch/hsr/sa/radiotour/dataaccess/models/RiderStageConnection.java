@@ -18,7 +18,6 @@ public class RiderStageConnection extends RealmObject {
 
     @PrimaryKey
     private String id;
-    private int rank;
     private int bonusPoint;
     private int mountainBonusPoints;
     private int sprintBonusPoints;
@@ -53,14 +52,6 @@ public class RiderStageConnection extends RealmObject {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public int getRank() {
-        return rank;
-    }
-
-    public void setRank(int rank) {
-        this.rank = rank;
     }
 
     public int getBonusPoint() {

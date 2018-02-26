@@ -112,9 +112,9 @@ public class MainActivity extends AppCompatActivity {
 
         initViewsAndHandlers();
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        TabLayout tabLayout = findViewById(R.id.tabs);
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = findViewById(R.id.viewpager);
         viewPageAdapter = new ViewPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPageAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
@@ -127,7 +127,7 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-
+                // Has to be implemented but not needed
             }
 
             @Override
@@ -153,15 +153,15 @@ public class MainActivity extends AppCompatActivity {
         uiHandler = new Handler();
         timerForRace = new Timer();
 
-        heightView = (TextView) findViewById(R.id.txtHeightValue);
-        topFieldActualGapView = (TextView) findViewById(R.id.txtTopFieldActualGap);
-        topRadioTourActualGapView = (TextView) findViewById(R.id.txtTopRadioTourActualGap);
-        stageView = (TextView) findViewById(R.id.txtStageValue);
-        velocityView = (TextView) findViewById(R.id.txtVelocityValue);
-        raceKilometerView = (TextView) findViewById(R.id.txtRacekilometerValue);
-        raceTimeView = (TextView) findViewById(R.id.txtRacetimeValue);
-        startStopView = (TextView) findViewById(R.id.btnStartStopRace);
-        resetView = (TextView) findViewById(R.id.btnReset);
+        heightView = findViewById(R.id.txtHeightValue);
+        topFieldActualGapView = findViewById(R.id.txtTopFieldActualGap);
+        topRadioTourActualGapView = findViewById(R.id.txtTopRadioTourActualGap);
+        stageView = findViewById(R.id.txtStageValue);
+        velocityView = findViewById(R.id.txtVelocityValue);
+        raceKilometerView = findViewById(R.id.txtRacekilometerValue);
+        raceTimeView = findViewById(R.id.txtRacetimeValue);
+        startStopView = findViewById(R.id.btnStartStopRace);
+        resetView = findViewById(R.id.btnReset);
 
         if (StagePresenter.getInstance().getStage() != null)
             updateStageInfo(StagePresenter.getInstance().getStage());
@@ -252,12 +252,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
         raceTimeView.setOnClickListener((View event) -> {
-            TimePickerDialog dialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    raceTime.setTime(new Time(TimeUnit.HOURS.toMillis(view.getHour()) + TimeUnit.MINUTES.toMillis(view.getMinute())).getTime());
-                    raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
-                }
+            TimePickerDialog dialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+                raceTime.setTime(new Time(TimeUnit.HOURS.toMillis(view.getHour()) + TimeUnit.MINUTES.toMillis(view.getMinute())).getTime());
+                raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
             }, 0, 0, true);
             dialog.setTitle(R.string.header_select_time);
             dialog.show();

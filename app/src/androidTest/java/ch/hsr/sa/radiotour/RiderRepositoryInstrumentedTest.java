@@ -172,7 +172,6 @@ public class RiderRepositoryInstrumentedTest {
     public void updateRiderStateConnection(){
 
         RiderStageConnection riderStageConnection = new RiderStageConnection();
-        riderStageConnection.setRank(1);
         riderStageConnection.setOfficialTime(100);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setVirtualGap(100);
@@ -197,14 +196,13 @@ public class RiderRepositoryInstrumentedTest {
 
         RealmList<RiderStageConnection> connections = new RealmList<>();
         synchronized (this){
-            connections.add(riderStageConnectionRepository.getRiderByRank(1));
+            connections.add(riderStageConnectionRepository.getAllRiderStateConnections().first());
             riderRepository.updateRiderStageConnection(rider, connections, OnUpdateRiderStageCallback);
         }
 
         Rider realmRider = realm.where(Rider.class).equalTo("startNr", rider.getStartNr()).findFirst();
         RealmList<RiderStageConnection> riderStageConnections = realmRider.getRiderStages();
 
-        assertEquals(1, riderStageConnections.get(0).getRank());
         assertEquals(100, riderStageConnections.get(0).getBonusPoint());
         assertEquals(200, riderStageConnections.get(0).getBonusTime());
     }

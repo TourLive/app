@@ -81,13 +81,12 @@ public class StageRepositoryInstrumentedTest {
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setOfficialTime(100);
-        riderStageConnection.setRank(1);
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
         synchronized (this){
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
-            riderStageConnection.setRank(2);
+            riderStageConnection.setBonusPoint(100);
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
         }
 

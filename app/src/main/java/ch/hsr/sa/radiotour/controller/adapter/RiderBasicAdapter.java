@@ -120,7 +120,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
 
         public RiderViewHolder(View itemView) {
             super(itemView);
-            tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
+            tvNummer = itemView.findViewById(R.id.tv_nummer);
             itemView.setOnClickListener(this);
         }
 

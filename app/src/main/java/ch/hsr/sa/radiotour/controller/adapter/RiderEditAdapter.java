@@ -150,13 +150,12 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
 
         public RiderViewHolder(View itemView) {
             super(itemView);
-            tvNummer = (TextView) itemView.findViewById(R.id.tv_nummer);
+            tvNummer = itemView.findViewById(R.id.tv_nummer);
             itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            int test = getLayoutPosition();
             Rider rider = riders.get(getLayoutPosition());
             if (selectedRiders.contains(rider)) {
                 selectedRiders.remove(rider);

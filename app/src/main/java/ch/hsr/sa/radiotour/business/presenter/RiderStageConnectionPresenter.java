@@ -115,8 +115,8 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void addRiderStageConnection(RiderStageConnection riderStageConnection) {
-        riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallbackCallback);
+    public RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection) {
+        return riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallbackCallback);
     }
 
     @Override
@@ -138,12 +138,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     public void clearAllRiderStageConnection() {
         riderStageConnectionRepository.clearAllRiderStageConnection();
     }
-
-    @Override
-    public RiderStageConnection getRiderByRank(final int rank) {
-        return riderStageConnectionRepository.getRiderByRank(rank);
-    }
-
 
     @Override
     public RealmList<RiderStageConnection> getAllRiderStateConnections() {
