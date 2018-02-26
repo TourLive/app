@@ -40,12 +40,10 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         JudgmentRiderConnectionPresenter.getInstance().addView(this);
         this.judgements = new RealmList<>();
         this.judgementAdapter = new JudgementAdapter(judgements, mContext, this);
-        rvJudgement = (RecyclerView) root.findViewById(R.id.rvJudgements);
+        rvJudgement = root.findViewById(R.id.rvJudgements);
         rvJudgement.setAdapter(judgementAdapter);
         rvJudgement.setLayoutManager(new LinearLayoutManager(mContext));
-        rvJudgement.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> {
-               actualOffset = rvJudgement.computeVerticalScrollOffset();
-        });
+        rvJudgement.setOnScrollChangeListener((v, scrollX, scrollY, oldScrollX, oldScrollY) -> actualOffset = rvJudgement.computeVerticalScrollOffset());
     }
 
     @Override

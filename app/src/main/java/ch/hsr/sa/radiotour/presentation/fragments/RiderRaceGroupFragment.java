@@ -63,21 +63,21 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
-        rvRider = (RecyclerView) root.findViewById(R.id.rvEditRider);
+        rvRider = root.findViewById(R.id.rvEditRider);
         rvRider.setAdapter(new RiderEditAdapter(riders, mContext));
-        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvEditRaceGroup);
+        rvRaceGroup = root.findViewById(R.id.rvEditRaceGroup);
         initRecyclerListener();
         initButtons(root);
     }
 
     private void initButtons(View root) {
-        Button btnDefect = (Button) root.findViewById(R.id.btn_Defect);
-        Button btnDNC = (Button) root.findViewById(R.id.btn_DNC);
-        Button btnDoctor = (Button) root.findViewById(R.id.btn_Doctor);
-        Button btnQuit = (Button) root.findViewById(R.id.btn_Quit);
-        Button btnDrop = (Button) root.findViewById(R.id.btn_Drop);
-        Button btnUnknownRiders = (Button) root.findViewById(R.id.btn_UnkownRiders);
-        txtUnknownRiders = (TextView) root.findViewById(R.id.txtUnknownRiders);
+        Button btnDefect = root.findViewById(R.id.btn_Defect);
+        Button btnDNC = root.findViewById(R.id.btn_DNC);
+        Button btnDoctor = root.findViewById(R.id.btn_Doctor);
+        Button btnQuit = root.findViewById(R.id.btn_Quit);
+        Button btnDrop = root.findViewById(R.id.btn_Drop);
+        Button btnUnknownRiders = root.findViewById(R.id.btn_UnkownRiders);
+        txtUnknownRiders = root.findViewById(R.id.txtUnknownRiders);
         btnDefect.setOnClickListener(this);
         btnDNC.setOnClickListener(this);
         btnDoctor.setOnClickListener(this);
