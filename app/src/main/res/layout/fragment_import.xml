@@ -76,6 +76,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:background="@drawable/border_bottom"
+        android:visibility="gone"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_Config" />
@@ -240,28 +241,25 @@
         android:id="@+id/circleServer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/circle"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/txtConnection" />
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitle3" />
 
     <TextView
         android:id="@+id/circleGPS"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:background="@drawable/circle"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/guideline11" />
+        app:layout_constraintTop_toBottomOf="@+id/circleServer" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline10"
@@ -295,27 +293,25 @@
         android:id="@+id/txtGPS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/import_gps_connection"
         android:textSize="@dimen/text_size_undertitle"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline12"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
-        app:layout_constraintTop_toTopOf="@+id/guideline11" />
+        app:layout_constraintTop_toBottomOf="@+id/txtConnection" />
 
     <TextView
         android:id="@+id/txtConnection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/import_connection_to_server"
         android:textSize="@dimen/text_size_undertitle"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline11"
-        app:layout_constraintStart_toStartOf="@+id/guideline10" />
+        app:layout_constraintStart_toStartOf="@+id/guideline10"
+        app:layout_constraintTop_toBottomOf="@+id/spacerTitle3" />
 
     <TextView
         android:id="@+id/txt_GlobalSettings"
@@ -324,11 +320,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/import_global_config"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toBottomOf="@+id/btn_ImportDemodata" />
+        app:layout_constraintTop_toTopOf="@+id/guideline11" />
 
     <TextView
         android:id="@+id/txtActualRaceId"
@@ -397,11 +393,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:text="@string/import_hint_copyright"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintTop_toBottomOf="@+id/txtActualStageIdValue" />
 
     <TextView
         android:id="@+id/txtCopyrightValue"
