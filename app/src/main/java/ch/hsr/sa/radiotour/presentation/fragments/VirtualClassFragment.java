@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 
 import net.gotev.recycleradapter.AdapterItem;
 import net.gotev.recycleradapter.RecyclerAdapter;
+
+import org.w3c.dom.Text;
 
 import java.util.Comparator;
 
@@ -59,6 +62,8 @@ public class VirtualClassFragment extends Fragment {
     @BindView(R.id.virtualClassementMoneyHeader)
     TextView virtualClassementMoneyHeader;
     private Unbinder unbinder;
+    private TextView selectedColumn;
+    private View selectedRow;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,13 +87,24 @@ public class VirtualClassFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(recyclerAdapter);
         for (Rider r : RiderPresenter.getInstance().getAllRidersReturned()) {
-            recyclerAdapter.add(new VirtualClassementRider(mContext, r));
+            recyclerAdapter.add(new VirtualClassementRider(this, mContext, r));
         }
+    }
+
+    public void resetAndSetSelectedRow(View v) {
+        if (selectedRow != null) {
+            selectedRow.setBackgroundColor(0);
+        }
+        selectedRow = v;
     }
 
     @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementSprintPointsHeader, R.id.virtualClassementMoneyHeader})
     public void onSortClicked(View view) {
         Comparator<AdapterItem> comp = null;
+        if (selectedColumn != null) {
+            selectedColumn.setBackgroundColor(0);
+        }
+        selectedColumn = (TextView) view;
         switch(view.getId()) {
             case R.id.virtualClassementStartNrHeader:
                 comp = VirtualClassementComparators.getStartNrComparator();
@@ -127,7 +143,7 @@ public class VirtualClassFragment extends Fragment {
                 comp = VirtualClassementComparators.getStartNrComparator();
                 break;
         }
-
+        selectedColumn.setBackgroundColor(ContextCompat.getColor(mContext ,R.color.colorAccent));
         recyclerAdapter.sort(true, comp);
     }
 
@@ -145,7 +161,7 @@ public class VirtualClassFragment extends Fragment {
     public void updateRiders(RealmList<Rider> riders) {
         recyclerAdapter.clear();
         for (Rider r : riders) {
-            recyclerAdapter.add(new VirtualClassementRider(mContext, r));
+            recyclerAdapter.add(new VirtualClassementRider(this, mContext, r));
         }
         recyclerAdapter.notifyDataSetChanged();
     }

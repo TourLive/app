@@ -1,7 +1,11 @@
 package ch.hsr.sa.radiotour.presentation.models;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +13,7 @@ import net.gotev.recycleradapter.AdapterItem;
 import net.gotev.recycleradapter.RecyclerAdapterNotifier;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
@@ -16,8 +21,9 @@ import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
+import ch.hsr.sa.radiotour.presentation.fragments.VirtualClassFragment;
 
-public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.Holder> {
+public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.Holder> implements View.OnClickListener {
 
     private Context context;
     private int riderStartNr;
@@ -33,8 +39,10 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     private int riderMoney;
     private Maillot maillot;
     private RiderStageConnection riderStageConnection;
+    private VirtualClassFragment fragment;
 
-    public VirtualClassementRider(Context context, Rider rider) {
+    public VirtualClassementRider(VirtualClassFragment  fragment, Context context, Rider rider) {
+        this.fragment = fragment;
         riderStageConnection = rider.getRiderStages().first();
         this.context = context;
         this.riderStartNr = rider.getStartNr();
@@ -118,8 +126,20 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.SPRINT).getRank()) + ")");
         holder.virtualClassementMoney.setText(Integer.toString(riderMoney));
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
+        holder.itemView.setOnClickListener(this);
 
     }
+
+    @Override
+    public void onClick(View v) {
+        fragment.resetAndSetSelectedRow(v);
+        v.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorAccent));
+    }
+
+    public boolean onEvent(int position, Bundle data) {
+        return false;
+    }
+
 
     public static class Holder extends ButterKnifeViewHolderList {
 

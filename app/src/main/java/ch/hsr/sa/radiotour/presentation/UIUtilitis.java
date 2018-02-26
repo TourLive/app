@@ -135,7 +135,7 @@ public final class UIUtilitis {
         return firstNumber;
     }
 
-    public static Map<Integer, Integer> getCountsPerLine(RealmList<Rider> riders) {
+    public static HashMap<Integer, Integer> getCountsPerLine(RealmList<Rider> riders) {
         HashMap<Integer, Integer> number = new HashMap<>();
         if (!riders.isEmpty()) {
             for (Rider r : riders) {
