@@ -20,11 +20,9 @@ import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
-import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
