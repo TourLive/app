@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.presentation;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;

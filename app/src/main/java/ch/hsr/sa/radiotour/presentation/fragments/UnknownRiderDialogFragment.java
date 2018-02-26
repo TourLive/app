@@ -27,7 +27,7 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_unknownrider, null);
         alertDialogBuilder.setView(dialogView);
 
-        final NumberPicker numberPicker = (NumberPicker) dialogView.findViewById(R.id.nPicker);
+        final NumberPicker numberPicker = dialogView.findViewById(R.id.nPicker);
 
         numberPicker.setMinValue(1);
         numberPicker.setMaxValue(100);

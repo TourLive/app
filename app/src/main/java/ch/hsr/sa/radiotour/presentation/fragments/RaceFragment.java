@@ -49,13 +49,13 @@ public class RaceFragment extends Fragment {
         RiderPresenter.getInstance().addView(this);
         RaceGroupPresenter.getInstance().addView(this);
         RiderStageConnectionPresenter.getInstance().addView(this);
-        rvRider = (RecyclerView) root.findViewById(R.id.rvRider);
+        rvRider = root.findViewById(R.id.rvRider);
         this.riders = new RealmList<>();
         this.raceGroups = new RealmList<>();
         this.riderAdapter = new RiderListAdapter(riders, mContext);
         this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this);
         rvRider.setAdapter(riderAdapter);
-        rvRaceGroup = (RecyclerView) root.findViewById(R.id.rvRaceGroup);
+        rvRaceGroup = root.findViewById(R.id.rvRaceGroup);
         rvRaceGroup.setAdapter(raceGroupAdapter);
         rvRider.setLayoutManager(new LinearLayoutManager(mContext));
         rvRaceGroup.setLayoutManager(new LinearLayoutManager(mContext));

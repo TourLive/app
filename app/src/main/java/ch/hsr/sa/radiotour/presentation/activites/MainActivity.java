@@ -18,7 +18,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import org.json.JSONArray;
 import org.json.JSONException;
