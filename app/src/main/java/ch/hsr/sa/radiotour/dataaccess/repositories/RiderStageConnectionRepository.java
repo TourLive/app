@@ -17,7 +17,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import io.realm.Sort;
 
 public class RiderStageConnectionRepository implements IRiderStageConnectionRepository {
     @Override
