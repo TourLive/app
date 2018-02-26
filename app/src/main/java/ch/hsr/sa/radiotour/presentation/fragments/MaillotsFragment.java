@@ -34,7 +34,7 @@ public class MaillotsFragment extends Fragment {
 
     public void initComponents(View root) {
         MaillotPresenter.getInstance().addView(this);
-        rvMaillots = (RecyclerView) root.findViewById(R.id.rvMaillot);
+        rvMaillots = root.findViewById(R.id.rvMaillot);
         rvMaillots.setAdapter(adapter);
         initRecyclerListener();
     }

@@ -16,8 +16,6 @@ import android.widget.TextView;
 import net.gotev.recycleradapter.AdapterItem;
 import net.gotev.recycleradapter.RecyclerAdapter;
 
-import org.w3c.dom.Text;
-
 import java.util.Comparator;
 
 import butterknife.BindView;
@@ -61,7 +59,6 @@ public class VirtualClassFragment extends Fragment {
     TextView virtualClassementSprintPointsHeader;
     @BindView(R.id.virtualClassementMoneyHeader)
     TextView virtualClassementMoneyHeader;
-    private Unbinder unbinder;
     private TextView selectedColumn;
     private View selectedRow;
 
@@ -69,7 +66,7 @@ public class VirtualClassFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "VirtualClassFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_virtualclass, container, false);
-        unbinder = ButterKnife.bind(this, root);
+        ButterKnife.bind(this, root);
         intiTable(root);
         initComponents();
         return root;
@@ -145,11 +142,6 @@ public class VirtualClassFragment extends Fragment {
         }
         selectedColumn.setBackgroundColor(ContextCompat.getColor(mContext ,R.color.colorAccent));
         recyclerAdapter.sort(true, comp);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
     }
 
     @Override

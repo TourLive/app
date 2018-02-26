@@ -1,11 +1,9 @@
 package ch.hsr.sa.radiotour.presentation.models;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +11,6 @@ import net.gotev.recycleradapter.AdapterItem;
 import net.gotev.recycleradapter.RecyclerAdapterNotifier;
 
 import butterknife.BindView;
-import butterknife.OnClick;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;

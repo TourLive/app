@@ -76,16 +76,16 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         demoMode = false;
         View root = inflater.inflate(R.layout.fragment_import, container, false);
 
-        btnImport = (Button) root.findViewById(R.id.btn_Import);
+        btnImport = root.findViewById(R.id.btn_Import);
         btnImport.setOnClickListener(this);
 
-        btnDemo = (Button) root.findViewById(R.id.btn_ImportDemodata);
+        btnDemo = root.findViewById(R.id.btn_ImportDemodata);
         btnDemo.setOnClickListener(this);
 
-        gpsView = (TextView) root.findViewById(R.id.circleGPS);
-        serverView = (TextView) root.findViewById(R.id.circleServer);
-        raceIdView = (TextView) root.findViewById(R.id.txtActualRaceIdValue);
-        stageIdView = (TextView) root.findViewById(R.id.txtActualStageIdValue);
+        gpsView = root.findViewById(R.id.circleGPS);
+        serverView = root.findViewById(R.id.circleServer);
+        raceIdView = root.findViewById(R.id.txtActualRaceIdValue);
+        stageIdView = root.findViewById(R.id.txtActualStageIdValue);
         StagePresenter.getInstance().addView(this);
         Stage stage = StagePresenter.getInstance().getStage();
         if (stage != null) {
@@ -103,7 +103,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
 
-        statusView = (TextView) root.findViewById(R.id.txtStatus);
+        statusView = root.findViewById(R.id.txtStatus);
         statusView.setText(getString(R.string.import_status)  + getString(R.string.import_version, BuildConfig.VERSION_NAME));
         return root;
     }
