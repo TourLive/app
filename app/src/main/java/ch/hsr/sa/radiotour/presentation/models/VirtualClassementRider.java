@@ -40,7 +40,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
 
     public VirtualClassementRider(VirtualClassFragment  fragment, Context context, Rider rider) {
         this.fragment = fragment;
-        riderStageConnection = rider.getRiderStages().first();
+        this.riderStageConnection = rider.getRiderStages().first();
         this.context = context;
         this.riderStartNr = rider.getStartNr();
         this.riderName = rider.getName();
@@ -99,6 +99,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     public int getRiderMoney() {
         return riderMoney;
     }
+
+    public RiderStageConnection getRiderStageConnection() { return riderStageConnection; }
 
     @Override
     public boolean onFilter(String searchTerm) {
