@@ -53,6 +53,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         this.riderMountainPoints = riderStageConnection.getMountainBonusPoints();
         this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
         this.riderMoney = riderStageConnection.getMoney();
+        this.maillot = riderStageConnection.getMaillot();
     }
 
     public int getRiderStartNr() {
@@ -124,7 +125,34 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementMoney.setText(Integer.toString(riderMoney));
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
         holder.itemView.setOnClickListener(this);
+        if(maillot != null) {
+            holder.virtualClassementMaillot.setColorFilter(getMaillotColor(maillot.getColor()));
+            holder.virtualClassementMaillot.setVisibility(View.VISIBLE);
+        } else {
+            holder.virtualClassementMaillot.setVisibility(View.GONE);
+        }
 
+    }
+
+    private int getMaillotColor(String color) {
+        int colorCode = ContextCompat.getColor(context, R.color.colorGrayDark);
+        switch (color) {
+            case "yellow":
+                colorCode = ContextCompat.getColor(context, R.color.yellow);
+                break;
+            case "red":
+                colorCode = ContextCompat.getColor(context, R.color.red);
+                break;
+            case "blue":
+                colorCode = ContextCompat.getColor(context, R.color.blue);
+                break;
+            case "black":
+                colorCode = ContextCompat.getColor(context, R.color.black);
+                break;
+            default:
+                break;
+        }
+        return colorCode;
     }
 
     @Override
