@@ -12,7 +12,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMoney;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
-import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorSprintPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import io.realm.Realm;
@@ -96,9 +96,9 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         realm.executeTransaction((Realm db) -> {
             RealmResults<RiderStageConnection> connections = db.where(RiderStageConnection.class).findAll();
             List<RiderStageConnection> cons = realm.copyFromRealm(connections);
-            cons.sort(new RiderStageConnectionComparatorSprintPoints());
+            cons.sort(new RiderStageConnectionComparatorPoints());
             for (int i = 0; i < cons.size(); i++) {
-                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.SPRINT).setRank(i+1);
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.POINTS).setRank(i+1);
             }
             if (riderStageConnection.getMountainBonusPoints() != 0) {
                 cons.sort(new RiderStageConnectionComparatorMountainPoints());
