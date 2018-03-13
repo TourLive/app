@@ -59,6 +59,10 @@ public final class VirtualClassementComparators {
         return new VirtualClassementRiderOfficialTimeComparator();
     }
 
+    public static Comparator<AdapterItem> getTimeInLeadGroupComparator() {
+        return new VirtualClassementRiderTimeInLeadGroupComparator();
+    }
+
     private static class VirtualClassementRiderStartNrComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
@@ -151,6 +155,18 @@ public final class VirtualClassementComparators {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
                 return riderOne.getRiderStageConnection().getRiderRanking(RankingType.MONEY).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.MONEY).getRank();
+            }
+            return 0;
+        }
+    }
+
+    private static class VirtualClassementRiderTimeInLeadGroupComparator implements Comparator<AdapterItem> {
+        @Override
+        public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
+                VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
+                VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.TIME_IN_LEAD).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.TIME_IN_LEAD).getRank();
             }
             return 0;
         }

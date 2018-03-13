@@ -130,14 +130,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.490625" />
+            app:layout_constraintGuide_percent="0.46" />
 
         <android.support.constraint.Guideline
             android:id="@+id/virtualClassementGuidelineEightHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.71" />
+            app:layout_constraintGuide_percent="0.68" />
 
         <TextView
             android:id="@+id/virtualClassementOfficalGapHeader"
@@ -159,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.59583336" />
+            app:layout_constraintGuide_percent="0.57" />
 
         <TextView
             android:id="@+id/virtualClassementVirtualGapHeader"
@@ -181,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.82" />
+            app:layout_constraintGuide_percent="0.79" />
 
         <TextView
             android:id="@+id/virtualClassementPointsHeader"
@@ -203,12 +203,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.7604167" />
+            app:layout_constraintGuide_percent="0.73" />
 
         <TextView
             android:id="@+id/virtualClassementMountainPointsHeader"
             android:layout_width="0dp"
-            android:layout_height="14dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
@@ -240,29 +240,49 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.88" />
+            app:layout_constraintGuide_percent="0.85" />
 
         <android.support.constraint.Guideline
             android:id="@+id/virtualClassementGuidelineThridteenHeader"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="20dp" />
+            app:layout_constraintGuide_end="940dp" />
 
         <TextView
             android:id="@+id/virtualClassementMoneyHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
             android:text="@string/virtrank_price_money"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/virtualClassementGuidelineFourteenHeader"
             app:layout_constraintStart_toStartOf="@+id/virtualClassementGuidelineTwelfeHeader"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/virtualClassementGuidelineFourteenHeader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.92" />
+
+        <TextView
+            android:id="@+id/virtualClassementTimeInLeadHeader"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="4dp"
+            android:text="@string/virtrank_time_in_lead_group"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/virtualClassementGuidelineFourteenHeader"
             app:layout_constraintTop_toTopOf="parent" />
     </android.support.constraint.ConstraintLayout>
 

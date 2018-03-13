@@ -26,6 +26,7 @@ public class RiderStageConnection extends RealmObject {
     private long officialTime;
     private long officialGap;
     private long virtualGap;
+    private int timeInLeadGroup = 0;
     @Required
     private String typeState;
 
@@ -183,5 +184,13 @@ public class RiderStageConnection extends RealmObject {
             }
         }
         return temp;
+    }
+
+    public int getTimeInLeadGroup() {
+        return timeInLeadGroup;
+    }
+
+    public void appendTimeInLeadGroup(int add) {
+        this.timeInLeadGroup += add;
     }
 }

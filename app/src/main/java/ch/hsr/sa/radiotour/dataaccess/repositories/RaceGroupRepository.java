@@ -103,6 +103,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
     }
 
+    @Override
+    public  RaceGroup getLeadRaceGroup(){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        return realm.where(RaceGroup.class).equalTo("type", RaceGroupType.LEAD.toString()).findFirst();
+    }
+
     public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RiderRepository riderRepository = new RiderRepository();

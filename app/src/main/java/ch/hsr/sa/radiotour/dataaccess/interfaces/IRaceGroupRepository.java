@@ -11,6 +11,8 @@ public interface IRaceGroupRepository {
 
     void getAllRaceGroups(OnGetAllRaceGroupsCallback callback);
 
+    RaceGroup getLeadRaceGroup();
+
     void clearAllRaceGroups();
 
     void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback);

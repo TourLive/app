@@ -34,6 +34,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     private int riderMountainPoints;
     private int riderSprintPoints;
     private int riderMoney;
+    private int timeInLead;
     private Maillot maillot;
     private RiderStageConnection riderStageConnection;
     private VirtualClassFragment fragment;
@@ -54,6 +55,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
         this.riderMoney = riderStageConnection.getMoney();
         this.maillot = riderStageConnection.getMaillot();
+        this.timeInLead = riderStageConnection.getTimeInLeadGroup();
     }
 
     public int getRiderStartNr() {
@@ -126,6 +128,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints));
         holder.virtualClassementMoney.setText(Integer.toString(riderMoney) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MONEY).getRank()) + ")");
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
+        holder.virtualClassementTimeInLead.setText(Integer.toString(timeInLead) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.TIME_IN_LEAD).getRank()) + ")");
         holder.itemView.setOnClickListener(this);
         if(maillot != null) {
             holder.virtualClassementMaillot.setColorFilter(getMaillotColor(maillot.getColor()));
@@ -196,6 +199,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         TextView virtualClassementSprintPoints;
         @BindView(R.id.virtualClassementMoney)
         TextView virtualClassementMoney;
+        @BindView(R.id.virtualClassementTimeInLead)
+        TextView virtualClassementTimeInLead;
 
 
         public Holder(View itemView, RecyclerAdapterNotifier adapter) {
