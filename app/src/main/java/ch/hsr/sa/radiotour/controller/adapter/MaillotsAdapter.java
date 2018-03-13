@@ -73,10 +73,27 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
     private void getRealLeader(Maillot maillot, MaillotViewHolder holder) {
         Rider rider = maillot.getRider();
         if (rider != null) {
-            holder.leaderRealStart.setText(String.valueOf(maillot.getRider().getStartNr()));
-            holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(maillot.getRider().getCountry())));
+            holder.leaderRealStart.setText(String.valueOf(rider.getStartNr()));
+            holder.leaderRealFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(rider.getCountry())));
             holder.leaderRealFlag.setAdjustViewBounds(true);
-            holder.leaderRealInfo.setText(String.format("%s, %s, (%d)", maillot.getRider().getName(), maillot.getRider().getTeamName(), maillot.getRider().getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank()));
+            int rank = 0;
+            switch (maillot.getType()) {
+                case "leader":
+                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.VIRTUAL).getRank();
+                    break;
+                case "mountain":
+                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.MOUNTAIN).getRank();
+                    break;
+                case "points":
+                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.SPRINT).getRank();
+                    break;
+                case "bestSwiss":
+                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.SWISS).getRank();
+                    break;
+                default:
+                    break;
+            }
+            holder.leaderRealInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), rank));
         }
     }
 
