@@ -10,6 +10,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMoney;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorSprintPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
@@ -99,10 +100,17 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             for (int i = 0; i < cons.size(); i++) {
                 db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.SPRINT).setRank(i+1);
             }
-
-            cons.sort(new RiderStageConnectionComparatorMountainPoints());
-            for (int i = 0; i < cons.size(); i++) {
-                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.MOUNTAIN).setRank(i+1);
+            if (riderStageConnection.getMountainBonusPoints() != 0) {
+                cons.sort(new RiderStageConnectionComparatorMountainPoints());
+                for (int i = 0; i < cons.size(); i++) {
+                    db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.MOUNTAIN).setRank(i+1);
+                }
+            }
+            if (riderStageConnection.getMoney() != 0) {
+                cons.sort(new RiderStageConnectionComparatorMoney());
+                for (int i = 0; i < cons.size(); i++) {
+                    db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.MONEY).setRank(i+1);
+                }
             }
         });
 

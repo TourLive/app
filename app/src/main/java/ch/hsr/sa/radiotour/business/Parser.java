@@ -191,6 +191,16 @@ public final class Parser {
                         Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
                     }
                 }
+                for (int i = 0; i < connections.size(); i++) {
+                    RiderRanking rankingMoney = new RiderRanking();
+                    rankingMoney.setType(RankingType.MONEY);
+                    rankingMoney.setRank(i + 1);
+                    synchronized (this){
+                        Context.addRiderRanking(rankingMoney);
+                    }
+                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMoney);
+                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                }
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
             }
