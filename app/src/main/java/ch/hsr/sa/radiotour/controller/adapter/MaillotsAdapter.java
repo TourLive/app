@@ -85,7 +85,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                     rank = rider.getRiderStages().first().getRiderRanking(RankingType.MOUNTAIN).getRank();
                     break;
                 case "points":
-                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.SPRINT).getRank();
+                    rank = rider.getRiderStages().first().getRiderRanking(RankingType.POINTS).getRank();
                     break;
                 case "bestSwiss":
                     rank = rider.getRiderStages().first().getRiderRanking(RankingType.SWISS).getRank();
@@ -114,7 +114,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
                 holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));
                 break;
             case "points":
-                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT);
+                riderRanking = RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.POINTS);
                 rider = riderRanking.getRiderStageConnection().getRiders();
 
                 holder.leaderVirtInfo.setText(String.format("%s, %s, (%d)", rider.getName(), rider.getTeamName(), riderRanking.getRank()));

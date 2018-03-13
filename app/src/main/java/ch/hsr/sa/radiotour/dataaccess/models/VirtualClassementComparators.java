@@ -114,7 +114,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderTwo.getRiderPoints() - riderOne.getRiderPoints();
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.POINTS).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.POINTS).getRank();
             }
             return 0;
         }
@@ -126,7 +126,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.SPRINT).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.SPRINT).getRank();
+                return riderTwo.getRiderSprintPoints() - riderOne.getRiderSprintPoints();
             }
             return 0;
         }

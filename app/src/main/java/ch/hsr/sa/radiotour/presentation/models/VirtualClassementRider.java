@@ -121,9 +121,9 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementOfficialTime.setText(AdapterUtilitis.longTimeToString(riderOfficalTime));
         holder.virtualClassementOfficalGap.setText(AdapterUtilitis.longTimeToString(riderOfficalGap) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.OFFICAL).getRank()) + ")");
         holder.virtualClassementVirtualGap.setText(AdapterUtilitis.longTimeToString(riderVirtualGap) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.VIRTUAL).getRank()) + ")");
-        holder.virtualClassementPoints.setText(Integer.toString(riderPoints));
+        holder.virtualClassementPoints.setText(Integer.toString(riderPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.POINTS).getRank()) + ")");
         holder.virtualClassementMountainPoints.setText(Integer.toString(riderMountainPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MOUNTAIN).getRank()) + ")");
-        holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.SPRINT).getRank()) + ")");
+        holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints));
         holder.virtualClassementMoney.setText(Integer.toString(riderMoney) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MONEY).getRank()) + ")");
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
         holder.itemView.setOnClickListener(this);

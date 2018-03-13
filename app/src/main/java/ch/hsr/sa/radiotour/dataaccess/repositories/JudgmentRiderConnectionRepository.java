@@ -48,6 +48,7 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
             if(reward.getType() == RewardType.POINTS){
                 if (judgement.getName().toLowerCase().contains("sprint")) {
                     riderStageConnection.removeSprintBonusPoints(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
+                    riderStageConnection.removeBonusPoint(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
                 } else if (judgement.getName().toLowerCase().contains("bergpreis")) {
                     riderStageConnection.removeMountainBonusPoints(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
                 } else {
