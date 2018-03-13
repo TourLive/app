@@ -124,7 +124,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementPoints.setText(Integer.toString(riderPoints));
         holder.virtualClassementMountainPoints.setText(Integer.toString(riderMountainPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MOUNTAIN).getRank()) + ")");
         holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.SPRINT).getRank()) + ")");
-        holder.virtualClassementMoney.setText(Integer.toString(riderMoney));
+        holder.virtualClassementMoney.setText(Integer.toString(riderMoney) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MONEY).getRank()) + ")");
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
         holder.itemView.setOnClickListener(this);
         if(maillot != null) {
