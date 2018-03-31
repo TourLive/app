@@ -34,13 +34,14 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     private int riderMountainPoints;
     private int riderSprintPoints;
     private int riderMoney;
+    private int timeInLead;
     private Maillot maillot;
     private RiderStageConnection riderStageConnection;
     private VirtualClassFragment fragment;
 
     public VirtualClassementRider(VirtualClassFragment  fragment, Context context, Rider rider) {
         this.fragment = fragment;
-        riderStageConnection = rider.getRiderStages().first();
+        this.riderStageConnection = rider.getRiderStages().first();
         this.context = context;
         this.riderStartNr = rider.getStartNr();
         this.riderName = rider.getName();
@@ -53,6 +54,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         this.riderMountainPoints = riderStageConnection.getMountainBonusPoints();
         this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
         this.riderMoney = riderStageConnection.getMoney();
+        this.maillot = riderStageConnection.getMaillot();
+        this.timeInLead = riderStageConnection.getTimeInLeadGroup();
     }
 
     public int getRiderStartNr() {
@@ -99,6 +102,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         return riderMoney;
     }
 
+    public RiderStageConnection getRiderStageConnection() { return riderStageConnection; }
+
     @Override
     public boolean onFilter(String searchTerm) {
         return riderName.contains(searchTerm);
@@ -118,13 +123,41 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementOfficialTime.setText(AdapterUtilitis.longTimeToString(riderOfficalTime));
         holder.virtualClassementOfficalGap.setText(AdapterUtilitis.longTimeToString(riderOfficalGap) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.OFFICAL).getRank()) + ")");
         holder.virtualClassementVirtualGap.setText(AdapterUtilitis.longTimeToString(riderVirtualGap) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.VIRTUAL).getRank()) + ")");
-        holder.virtualClassementPoints.setText(Integer.toString(riderPoints));
+        holder.virtualClassementPoints.setText(Integer.toString(riderPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.POINTS).getRank()) + ")");
         holder.virtualClassementMountainPoints.setText(Integer.toString(riderMountainPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MOUNTAIN).getRank()) + ")");
-        holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.SPRINT).getRank()) + ")");
-        holder.virtualClassementMoney.setText(Integer.toString(riderMoney));
+        holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints));
+        holder.virtualClassementMoney.setText(Integer.toString(riderMoney) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MONEY).getRank()) + ")");
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
+        holder.virtualClassementTimeInLead.setText(Integer.toString(timeInLead) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.TIME_IN_LEAD).getRank()) + ")");
         holder.itemView.setOnClickListener(this);
+        if(maillot != null) {
+            holder.virtualClassementMaillot.setColorFilter(getMaillotColor(maillot.getColor()));
+            holder.virtualClassementMaillot.setVisibility(View.VISIBLE);
+        } else {
+            holder.virtualClassementMaillot.setVisibility(View.GONE);
+        }
 
+    }
+
+    private int getMaillotColor(String color) {
+        int colorCode = ContextCompat.getColor(context, R.color.colorGrayDark);
+        switch (color) {
+            case "yellow":
+                colorCode = ContextCompat.getColor(context, R.color.yellow);
+                break;
+            case "red":
+                colorCode = ContextCompat.getColor(context, R.color.red);
+                break;
+            case "blue":
+                colorCode = ContextCompat.getColor(context, R.color.blue);
+                break;
+            case "black":
+                colorCode = ContextCompat.getColor(context, R.color.black);
+                break;
+            default:
+                break;
+        }
+        return colorCode;
     }
 
     @Override
@@ -166,6 +199,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         TextView virtualClassementSprintPoints;
         @BindView(R.id.virtualClassementMoney)
         TextView virtualClassementMoney;
+        @BindView(R.id.virtualClassementTimeInLead)
+        TextView virtualClassementTimeInLead;
 
 
         public Holder(View itemView, RecyclerAdapterNotifier adapter) {

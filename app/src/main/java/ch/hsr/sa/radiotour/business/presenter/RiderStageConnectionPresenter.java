@@ -154,4 +154,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         riderStageConnectionRepository.updateRiderStageConnectionTime(timeBefore, timeStamp, res, onUpdateRiderStageConnectionCallBack);
     }
 
+    @Override
+    public void appendTimeInLeadGroup(final RiderStageConnection riderStageConnection, int value){
+        riderStageConnectionRepository.appendTimeInLeadGroup(riderStageConnection, value);
+    }
+
 }

@@ -59,6 +59,10 @@ public final class VirtualClassementComparators {
         return new VirtualClassementRiderOfficialTimeComparator();
     }
 
+    public static Comparator<AdapterItem> getTimeInLeadGroupComparator() {
+        return new VirtualClassementRiderTimeInLeadGroupComparator();
+    }
+
     private static class VirtualClassementRiderStartNrComparator implements Comparator<AdapterItem> {
         @Override
         public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
@@ -114,7 +118,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderTwo.getRiderPoints() - riderOne.getRiderPoints();
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.POINTS).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.POINTS).getRank();
             }
             return 0;
         }
@@ -138,7 +142,7 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderTwo.getRiderMountainPoints() - riderOne.getRiderMountainPoints();
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.MOUNTAIN).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.MOUNTAIN).getRank();
             }
             return 0;
         }
@@ -150,7 +154,19 @@ public final class VirtualClassementComparators {
             if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
                 VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
                 VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
-                return riderTwo.getRiderMoney() - riderOne.getRiderMoney();
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.MONEY).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.MONEY).getRank();
+            }
+            return 0;
+        }
+    }
+
+    private static class VirtualClassementRiderTimeInLeadGroupComparator implements Comparator<AdapterItem> {
+        @Override
+        public int compare(AdapterItem itemOne, AdapterItem itemTwo) {
+            if (itemOne.getClass() == VirtualClassementRider.class && itemTwo.getClass() == VirtualClassementRider.class) {
+                VirtualClassementRider riderOne = (VirtualClassementRider) itemOne;
+                VirtualClassementRider riderTwo = (VirtualClassementRider) itemTwo;
+                return riderOne.getRiderStageConnection().getRiderRanking(RankingType.TIME_IN_LEAD).getRank() - riderTwo.getRiderStageConnection().getRiderRanking(RankingType.TIME_IN_LEAD).getRank();
             }
             return 0;
         }

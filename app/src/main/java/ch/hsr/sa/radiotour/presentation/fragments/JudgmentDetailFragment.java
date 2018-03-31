@@ -302,6 +302,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
                 int points = RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM);
                 if (judgement.getName().toLowerCase().contains("sprint")) {
                     riderStageConnection.setSprintBonusPoints(points);
+                    riderStageConnection.setBonusPoint(points);
                 } else if (judgement.getName().toLowerCase().contains("bergpreis")) {
                     riderStageConnection.setMountainBonusPoints(points);
                 } else {

@@ -49,4 +49,7 @@ public interface IRiderStageConnectionRepository {
     }
 
     void updateRiderStageConnectionTime(long timeBefore, long timeStamp, final RaceGroup res, OnUpdateRiderStageConnectionCallBack callback);
+
+
+    void appendTimeInLeadGroup(final RiderStageConnection riderStageConnection, int value);
 }
