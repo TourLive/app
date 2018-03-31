@@ -45,6 +45,7 @@ import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
 import ch.hsr.sa.radiotour.presentation.fragments.MaillotsFragment;
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationManager locationManager;
     private LocationListener locationListener;
     private double correctionHeight = 0;
+    private int timeInRaceGroupCounter = 0;
 
     public static MainActivity getInstance() {
         return activity;
@@ -225,6 +227,13 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             raceTime.setTime(raceTime.getTime() + updateTimeForRace);
                             uiHandler.post(() -> raceTimeView.setText(convertLongToTimeString(raceTime.getTime())));
+                            timeInRaceGroupCounter++;
+                            if(timeInRaceGroupCounter == 60){
+                                timeInRaceGroupCounter = 0;
+                                for(Rider r :RaceGroupPresenter.getInstance().getLeadRaceGroup().getRiders()){
+                                    RiderStageConnectionPresenter.getInstance().appendTimeInLeadGroup(r.getRiderStages().first(), 1);
+                                }
+                            }
                         }
                     };
                     timerForRace.schedule(timerTaskForRace, delayZero, updateTimeForRace);

@@ -139,6 +139,11 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
+    public RaceGroup getLeadRaceGroup() {
+        return raceGroupRepository.getLeadRaceGroup();
+    }
+
+    @Override
     public void clearAllRaceGroups() {
         raceGroupRepository.clearAllRaceGroups();
     }

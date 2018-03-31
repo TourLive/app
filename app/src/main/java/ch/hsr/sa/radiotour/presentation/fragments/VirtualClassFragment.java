@@ -59,6 +59,8 @@ public class VirtualClassFragment extends Fragment {
     TextView virtualClassementSprintPointsHeader;
     @BindView(R.id.virtualClassementMoneyHeader)
     TextView virtualClassementMoneyHeader;
+    @BindView(R.id.virtualClassementTimeInLeadHeader)
+    TextView virtualClassementTimeInLeadHeader;
     private TextView selectedColumn;
     private View selectedRow;
 
@@ -95,7 +97,7 @@ public class VirtualClassFragment extends Fragment {
         selectedRow = v;
     }
 
-    @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementSprintPointsHeader, R.id.virtualClassementMoneyHeader})
+    @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementSprintPointsHeader, R.id.virtualClassementMoneyHeader, R.id.virtualClassementTimeInLeadHeader})
     public void onSortClicked(View view) {
         Comparator<AdapterItem> comp = null;
         if (selectedColumn != null) {
@@ -135,6 +137,9 @@ public class VirtualClassFragment extends Fragment {
                 break;
             case R.id.virtualClassementMoneyHeader:
                 comp = VirtualClassementComparators.getMoneyComparator();
+                break;
+            case R.id.virtualClassementTimeInLeadHeader:
+                comp = VirtualClassementComparators.getTimeInLeadGroupComparator();
                 break;
             default:
                 comp = VirtualClassementComparators.getStartNrComparator();

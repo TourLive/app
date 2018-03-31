@@ -45,7 +45,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
 
     private void initTricots() {
         tricots.put("leader", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.VIRTUAL).getRiderStageConnection().getRiders().getStartNr());
-        tricots.put("sprint", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SPRINT).getRiderStageConnection().getRiders().getStartNr());
+        tricots.put("sprint", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.POINTS).getRiderStageConnection().getRiders().getStartNr());
         tricots.put("mountain", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.MOUNTAIN).getRiderStageConnection().getRiders().getStartNr());
         tricots.put("swiss", RiderRankingPresenter.getInstance().getFirstInRanking(RankingType.SWISS).getRiderStageConnection().getRiders().getStartNr());
     }

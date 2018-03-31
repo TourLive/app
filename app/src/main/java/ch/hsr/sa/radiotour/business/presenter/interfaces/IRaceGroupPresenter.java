@@ -13,6 +13,8 @@ public interface IRaceGroupPresenter extends IBasePresenter {
 
     void getAllRaceGroups();
 
+    RaceGroup getLeadRaceGroup();
+
     void clearAllRaceGroups();
 
     void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders);
