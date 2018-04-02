@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">RadioTour</string>
     <string name="dismiss">Abbrechen</string>
+    <string name="resettime_title">Zurücksetzen des Timers</string>
+    <string name="resettime_message">Mit dieser Aktion wird der Timer zurückesetzt. Bestätigen Sie dies mit OK, wenn dies ihre Absicht ist.</string>
 </resources>
