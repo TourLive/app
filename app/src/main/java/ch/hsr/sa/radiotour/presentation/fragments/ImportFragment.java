@@ -296,6 +296,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             progressBar.setProgress(0);
             progressBar.setMax(100);
             progressBar.show();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(900, 30,30, 0);
+            progressBar.addContentView(new ProgressBar(getContext()), layoutParams);
             progressBarStatus = 0;
             new Thread(() -> {
                 while (progressBarStatus < 100) {
