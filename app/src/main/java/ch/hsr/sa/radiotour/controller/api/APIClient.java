@@ -21,7 +21,7 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "https://tlng.cnlab.ch/";
+    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
     private static String raceId = "";
     private static String stageId = "";
     private static int stageNr = 0;
@@ -50,13 +50,16 @@ public final class APIClient {
         return BASE_URL + relativeUrl;
     }
 
-    public static String deleteData(){
+    public static void deleteData(){
         clearDatabase();
+    }
+
+    public static String getSettings(){
         return getActualRaceId(UrlLink.GLOBALSETTINGS, null);
     }
 
     public static String getRiders() {
-        return getRiders(UrlLink.RIDERS + stageId, null);
+        return getRiders(stageId + UrlLink.RIDERS, null);
     }
 
     public static String getJudgments() {
@@ -68,7 +71,11 @@ public final class APIClient {
     }
 
     public static String getStages() {
-        return getStages(UrlLink.STAGES + raceId, null);
+        return getStages(UrlLink.STAGES + stageId, null);
+    }
+
+    public static String getRace() {
+        return getRace(UrlLink.RACE + raceId, null);
     }
 
     public static String getMaillots() {
@@ -102,18 +109,18 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // Not needed and therefore not implemented
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    stageId = settings.getJSONObject(0).getString("parameter");
-                    raceId = settings.getJSONObject(1).getString("parameter");
+                    stageId = String.valueOf(data.getLong("stageID"));
+                    raceId = String.valueOf(data.getLong("raceID"));
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
                 }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -133,17 +140,18 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                try{
-                    Parser.parseRidersAndPersist(data.getJSONArray("data"));
-                    messages[0] = "success";
-                } catch (Exception ex){
-                    messages[0] = ex.getMessage();
-                }
+                // Not needed and therefore not implemented
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
+
+                try{
+                    Parser.parseRidersAndPersist(riders);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
             }
 
             @Override
@@ -223,24 +231,47 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // Not needed and therefore not implemented
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
                 try{
-                    for(int i = 0; i < stages.length(); i++){
-                        JSONObject stage = stages.getJSONObject(i);
-                        if(stage.getInt("stageId") ==  Integer.valueOf(stageId)){
-                            stageNr = i; // gets the second last stage, cause of data leak on API
-                        }
-                    }
-                    Parser.parseStagesAndPersist(stages, stageNr);
+                    Parser.parseStagesAndPersist(data);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
+            }
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getRace(String url, RequestParams params) {
+        final String[] messages = {"success"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    Parser.parseRaceAndPersist(data);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
+                // Not needed and therefore not implemented
             }
 
             @Override

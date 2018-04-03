@@ -39,6 +39,16 @@ public class StageRepository implements IStageRepository {
         return realm.where(Stage.class).findFirst();
     }
 
+    @Override
+    public void updateStageWithRace(String raceName, int raceID) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.beginTransaction();
+        Stage realmStage = realm.where(Stage.class).findFirst();
+        realmStage.setRaceName(raceName);
+        realmStage.setRaceId(raceID);
+        realm.commitTransaction();
+    }
+
     public void getStage(OnGetStageCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         Stage stage = realm.where(Stage.class).findFirst();

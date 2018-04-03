@@ -10,6 +10,8 @@ public interface IStageRepository {
 
     Stage getStage();
 
+    void updateStageWithRace(String raceName, int raceID);
+
     void getStage(OnGetStageCallback callback);
 
     interface OnSaveStageCallback {

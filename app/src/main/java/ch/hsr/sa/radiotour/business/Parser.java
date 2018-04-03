@@ -31,9 +31,10 @@ public final class Parser {
     private static String startNr = "startNr";
     private static String country = "country";
     private static String name = "name";
-    private static String team = "team";
-    private static String teamShort = "teamShort";
-    private static String riderID = "riderId";
+    private static String team = "teamName";
+    private static String teamShort = "teamShortName";
+    private static String riderID = "id";
+    private static String unknown = "unkown";
     private Parser() {
         throw new IllegalStateException("Static class");
     }
@@ -55,31 +56,32 @@ public final class Parser {
             public void run() {
                 for (int i = 0; i < ridersJson.length(); i++) {
                     try {
-                        JSONObject jsonRider = ridersJson.getJSONObject(i);
+                        JSONObject jsonRiderStageConnection = ridersJson.getJSONObject(i);
 
                         Rider rider = new Rider();
+                        JSONObject jsonRider = jsonRiderStageConnection.getJSONObject("rider");
                         rider.setStartNr(jsonRider.getInt(startNr));
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
                         rider.setRiderID(jsonRider.getInt(riderID));
+                        rider.setUnknown(jsonRider.getBoolean(unknown));
                         synchronized (this) {
                             Context.addRider(rider);
                         }
 
                         RiderStageConnection riderStageConnection = new RiderStageConnection();
-                        riderStageConnection.setBonusPoint(0);
-                        riderStageConnection.setBonusTime(0);
-                        riderStageConnection.setOfficialGap(jsonRider.getLong("timeRueckLong"));
-                        riderStageConnection.setOfficialTime(jsonRider.getLong("timeOffLong"));
-                        riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
-                        String state = jsonRider.getString("active");
-                        if (state.equals("true")) {
-                            riderStageConnection.setType(RiderStateType.AKTIVE);
-                        } else {
-                            riderStageConnection.setType(RiderStateType.DNC);
-                        }
+                        riderStageConnection.setBonusPoint(jsonRiderStageConnection.getInt("bonusPoints"));
+                        riderStageConnection.setBonusTime(jsonRiderStageConnection.getInt("bonusTime"));
+                        riderStageConnection.setOfficialGap(jsonRiderStageConnection.getLong("officialGap"));
+                        riderStageConnection.setOfficialTime(jsonRiderStageConnection.getLong("officialTime"));
+                        riderStageConnection.setVirtualGap(jsonRiderStageConnection.getLong("virtualGap"));
+                        riderStageConnection.setType(RiderStateType.valueOf(jsonRiderStageConnection.getString("typeState")));
+                        riderStageConnection.setMountainBonusPoints(jsonRiderStageConnection.getInt("mountainBonusPoints"));
+                        riderStageConnection.setSprintBonusPoints(jsonRiderStageConnection.getInt("sprintBonusPoints"));
+                        riderStageConnection.setMoney(jsonRiderStageConnection.getInt("money"));
+
                         RiderStageConnection riderStageConnectionOne;
                         synchronized (this) {
                             riderStageConnectionOne = Context.addRiderStageConnection(riderStageConnection);
@@ -103,6 +105,7 @@ public final class Parser {
         threadGroup.join();
         updateRiderConnectionRankByOfficalGap();
     }
+
 
     private static Thread createDefaultGroup() {
         Runnable runnable = (() -> {
@@ -288,25 +291,20 @@ public final class Parser {
         threadRewards.join();
     }
 
-    public static void parseStagesAndPersist(JSONArray stages, final int STAGE_NR) throws InterruptedException {
-        final JSONArray stagesJson = stages;
+    public static void parseStagesAndPersist(JSONObject jsonStage) throws InterruptedException {
         Runnable runnable = (() -> {
             try {
-                JSONObject jsonStage = stagesJson.getJSONObject(STAGE_NR);
                 Stage stage = new Stage();
-                stage.setStageId(jsonStage.getInt("stageId"));
-                stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));
-                stage.setName(jsonStage.getString("stageName"));
-                stage.setTo(jsonStage.getString("to"));
-                stage.setFrom(jsonStage.getString("from"));
-                stage.setStartTime(new Date(jsonStage.getLong("starttimeAsTimestamp")));
-                stage.setEndTime(new Date(jsonStage.getLong("endtimeAsTimestamp")));
+                stage.setStageId(jsonStage.getInt("id"));
+                stage.setType(StageType.valueOf(jsonStage.getString("stageType")));
+                stage.setName(jsonStage.getString("id"));
+                stage.setTo(jsonStage.getString("start"));
+                stage.setFrom(jsonStage.getString("destination"));
+                stage.setStartTime(new Date(jsonStage.getLong("startTime")));
+                stage.setEndTime(new Date(jsonStage.getLong("endTime")));
                 stage.setDistance(jsonStage.getInt("distance"));
                 stage.setStageConnections(Context.getAllRiderStageConnections());
                 stage.setMaillotConnections(Context.getAllMaillots());
-                JSONObject jsonRace = jsonStage.getJSONObject("race");
-                stage.setRaceId(jsonRace.getInt("raceId"));
-                stage.setRaceName(jsonRace.getString("raceName"));
                 Context.addStage(stage);
             } catch (JSONException e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - STAGES - " + e.getMessage());
@@ -315,6 +313,19 @@ public final class Parser {
         Thread threadRewards = new Thread(runnable);
         threadRewards.start();
         threadRewards.join();
+    }
+
+    public static void parseRaceAndPersist(JSONObject jsonRace) throws InterruptedException {
+        Runnable runnable = (() -> {
+            try {
+                Context.updateStage(jsonRace.getString("name"), jsonRace.getInt("id"));
+            } catch (JSONException e) {
+                Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACE - " + e.getMessage());
+            }
+        });
+        Thread threadRace = new Thread(runnable);
+        threadRace.start();
+        threadRace.join();
     }
 
     public static void parseMaillotsAndPersist(JSONArray maillots) throws InterruptedException {
@@ -327,7 +338,7 @@ public final class Parser {
                     maillot.setType(jsonMaillot.getString("type"));
                     maillot.setPartner(jsonMaillot.getString("partner"));
                     maillot.setName(jsonMaillot.getString("name"));
-                    maillot.setDbIDd(jsonMaillot.getInt("dbId"));
+                    maillot.setDbIDd(jsonMaillot.getInt("id"));
                     maillot.setColor(jsonMaillot.getString("color"));
                     Context.addMaillot(maillot);
                 } catch (JSONException e) {

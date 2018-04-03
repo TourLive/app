@@ -89,4 +89,9 @@ public class StagePresenter implements IStagePresenter {
     public void clearAllStages() {
         stageRepository.clearAllStages();
     }
+
+    @Override
+    public void updateStageWithRace(String raceName, int raceID) {
+        stageRepository.updateStageWithRace(raceName, raceID);
+    }
 }
