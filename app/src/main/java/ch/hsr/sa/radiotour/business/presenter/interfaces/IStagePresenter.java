@@ -11,4 +11,6 @@ public interface IStagePresenter extends IBasePresenter {
     Stage getStage();
 
     void getStageWithCallback();
+
+    void updateStageWithRace(String raceName, int raceID);
 }

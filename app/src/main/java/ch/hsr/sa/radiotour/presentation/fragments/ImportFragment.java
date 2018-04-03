@@ -109,6 +109,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateViews() {
+        /*
         LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
         updateDrawable(gpsView, active);
@@ -119,6 +120,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         } else {
             updateDrawable(serverView, true);
         }
+        */
     }
 
     private void updateDrawable(View view, Boolean active) {
@@ -206,7 +208,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         while (progressBarStatus < 100) {
             if (progressBarStatus < 20) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_delete_data)));
-                String message = APIClient.deleteData();
+                APIClient.deleteData();
+                String message = APIClient.getSettings();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
@@ -227,16 +230,19 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     setErrorDialog(message);
                     break;
                 }
-                message = APIClient.getMaillotsRiderConnections();
+                 // TODO
+                /*message = APIClient.getMaillotsRiderConnections();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
+                */
                 return 50;
             } else if (progressBarStatus < 60) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));
                 String message = APIClient.getStages();
-                if (!message.equals(SUCCESS_MESSAGE)) {
+                String message2 = APIClient.getRace();
+                if (!message.equals(SUCCESS_MESSAGE) || !message2.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
