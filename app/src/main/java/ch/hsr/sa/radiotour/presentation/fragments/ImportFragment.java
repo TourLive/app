@@ -18,6 +18,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +50,9 @@ import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
+import static android.view.ViewGroup.*;
+import static android.widget.LinearLayout.*;
+
 public class ImportFragment extends Fragment implements View.OnClickListener {
     private static final String PARAMETER = "parameter";
     private static final String SUCCESS_MESSAGE = "success";
@@ -69,6 +75,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
     private boolean demoMode;
+    private View root;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -164,6 +171,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             progressBar.setProgress(0);
             progressBar.setMax(100);
             progressBar.show();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(900, 30,30, 0);
+            progressBar.addContentView(new ProgressBar(getContext()), layoutParams);
             progressBarStatus = 0;
             new Thread(() -> {
                 while (progressBarStatus < 100) {
@@ -285,6 +296,10 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             progressBar.setProgress(0);
             progressBar.setMax(100);
             progressBar.show();
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.setMargins(900, 30,30, 0);
+            progressBar.addContentView(new ProgressBar(getContext()), layoutParams);
             progressBarStatus = 0;
             new Thread(() -> {
                 while (progressBarStatus < 100) {
