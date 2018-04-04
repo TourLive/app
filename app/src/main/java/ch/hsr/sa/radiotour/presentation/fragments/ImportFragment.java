@@ -109,18 +109,16 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateViews() {
-        /*
         LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
         Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
         updateDrawable(gpsView, active);
 
-        JSONArray settings = APIClient.getDataFromAPI(UrlLink.GLOBALSETTINGS, null);
+        JSONArray settings = APIClient.getDataFromAPI(UrlLink.STATUSPAGE, null);
         if (settings == null) {
             updateDrawable(serverView, false);
         } else {
             updateDrawable(serverView, true);
         }
-        */
     }
 
     private void updateDrawable(View view, Boolean active) {
@@ -230,13 +228,6 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     setErrorDialog(message);
                     break;
                 }
-                 // TODO
-                /*message = APIClient.getMaillotsRiderConnections();
-                if (!message.equals(SUCCESS_MESSAGE)) {
-                    setErrorDialog(message);
-                    break;
-                }
-                */
                 return 50;
             } else if (progressBarStatus < 60) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));

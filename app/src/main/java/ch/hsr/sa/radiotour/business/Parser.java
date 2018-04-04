@@ -330,41 +330,27 @@ public final class Parser {
 
     public static void parseMaillotsAndPersist(JSONArray maillots) throws InterruptedException {
         final JSONArray maillotsJson = maillots;
-        Runnable runnable = (() -> {
-            for (int i = 0; i < maillotsJson.length(); i++) {
-                try {
-                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
-                    Maillot maillot = new Maillot();
-                    maillot.setType(jsonMaillot.getString("type"));
-                    maillot.setPartner(jsonMaillot.getString("partner"));
-                    maillot.setName(jsonMaillot.getString("name"));
-                    maillot.setDbIDd(jsonMaillot.getInt("id"));
-                    maillot.setColor(jsonMaillot.getString("color"));
-                    Context.addMaillot(maillot);
-                } catch (JSONException e) {
-                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+        Runnable runnable = new Runnable() {
+            public void run() {
+                for (int i = 0; i < maillotsJson.length(); i++) {
+                    try {
+                        JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
+                        Maillot maillot = new Maillot();
+                        maillot.setType(jsonMaillot.getString("type"));
+                        maillot.setPartner(jsonMaillot.getString("partner"));
+                        maillot.setName(jsonMaillot.getString("name"));
+                        maillot.setDbIDd(jsonMaillot.getInt("id"));
+                        maillot.setColor(jsonMaillot.getString("color"));
+                        synchronized (this) {
+                            Context.addMaillot(maillot);
+                        }
+                        Maillot dbMaillot = Context.getMaillotById(jsonMaillot.getInt("id"));
+                        Context.addRiderToMaillot(dbMaillot, Integer.parseInt(jsonMaillot.getString("riderId")));
+                    } catch (JSONException e) {
+                        Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+                    }
                 }
-            }
-        });
-        Thread threadMaillots = new Thread(runnable);
-        threadMaillots.start();
-        threadMaillots.join();
-    }
-
-    public static void parseMaillotsRiderConnectionAndPersist(JSONArray maillotsrider) throws InterruptedException {
-        final JSONArray maillotsJson = maillotsrider;
-        Runnable runnable = (() -> {
-            for (int i = 0; i < maillotsJson.length(); i++) {
-                try {
-                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
-                    int id = Integer.parseInt(jsonMaillot.getString("jerseyId"));
-                    Maillot maillot = Context.getMaillotById(id);
-                    Context.addRiderToMaillot(maillot, Integer.parseInt(jsonMaillot.getString("riderId")));
-                } catch (JSONException e) {
-                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
-                }
-            }
-        });
+            }};
         Thread threadMaillots = new Thread(runnable);
         threadMaillots.start();
         threadMaillots.join();
