@@ -79,11 +79,7 @@ public final class APIClient {
     }
 
     public static String getMaillots() {
-        return getMaillots(UrlLink.MAILLOTS + raceId, null);
-    }
-
-    public static String getMaillotsRiderConnections() {
-        return getMaillotsRiderConnections(UrlLink.RIDERJERSEY + stageId, null);
+        return getMaillots(UrlLink.MAILLOTS + stageId, null);
     }
 
     public static void clearDatabase(){
@@ -271,35 +267,6 @@ public final class APIClient {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
-                // Not needed and therefore not implemented
-            }
-
-            @Override
-            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
-                if(throwable.getMessage().equals(throwableType)){
-                    messages[0] = readTimeOutMessage + throwable.getMessage();
-                } else {
-                    messages[0] = throwable.getMessage();
-                }
-            }
-        });
-        return messages[0];
-    }
-
-    public static String getMaillotsRiderConnections(String url, RequestParams params) {
-        final String[] messages = {"success"};
-        APIClient.get(url, null, new JsonHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {try {
-                    Parser.parseMaillotsRiderConnectionAndPersist(data.getJSONArray("data"));
-                    messages[0] = "success";
-                } catch (Exception ex){
-                    messages[0] = ex.getMessage();
-                }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray maillots) {
                 // Not needed and therefore not implemented
             }
 
