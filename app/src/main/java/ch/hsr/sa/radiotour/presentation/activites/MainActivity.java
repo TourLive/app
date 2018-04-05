@@ -44,6 +44,7 @@ import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
@@ -277,6 +278,9 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
+
+        PostHandler postHandler = new PostHandler(getApplicationContext());
+        postHandler.start();
     }
 
     private void closeDetailJudgmentFragment() {
