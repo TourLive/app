@@ -1,9 +1,11 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
+import android.os.Message;
 
 import java.util.Iterator;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
@@ -163,6 +165,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         res.setHistoryGapTime(res.getActualGapTime());
         res.setActualGapTime(timeStamp);
         realm.commitTransaction();
+
+        Message msg = Message.obtain();
+        msg.arg1 = 1;
+        msg.obj = res;
+        PostHandler.test(msg);
+
 
         if (callback != null) {
             RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
