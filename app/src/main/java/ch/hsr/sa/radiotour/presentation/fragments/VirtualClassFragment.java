@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,12 +22,12 @@ import java.util.Comparator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.VirtualClassementComparators;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.presentation.models.EmptyItem;
 import ch.hsr.sa.radiotour.presentation.models.VirtualClassementRider;
 import io.realm.RealmList;
@@ -145,6 +146,10 @@ public class VirtualClassFragment extends Fragment {
                 comp = VirtualClassementComparators.getStartNrComparator();
                 break;
         }
+        Message msg = Message.obtain();
+        msg.obj = "Hello";
+        PostHandler.test(msg);
+
         selectedColumn.setBackgroundColor(ContextCompat.getColor(mContext ,R.color.colorAccent));
         recyclerAdapter.sort(true, comp);
     }
