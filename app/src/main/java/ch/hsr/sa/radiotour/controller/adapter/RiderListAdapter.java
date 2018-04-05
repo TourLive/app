@@ -96,7 +96,7 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
         if (!holderHashMap.isEmpty()) {
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
-            if (stateType == RiderStateType.AKTIVE) {
+            if (stateType == RiderStateType.ACTIVE) {
                 animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
             }
         }

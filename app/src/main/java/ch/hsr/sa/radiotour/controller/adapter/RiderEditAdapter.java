@@ -92,7 +92,7 @@ public class RiderEditAdapter extends RecyclerView.Adapter<RiderEditAdapter.Ride
         if (!holderHashMap.isEmpty()) {
             TextView tvNumber = holderHashMap.get(connection.getRiders().getStartNr()).tvNummer;
             setRiderStateAnimation(tvNumber, stateType);
-            if (stateType == RiderStateType.AKTIVE) {
+            if (stateType == RiderStateType.ACTIVE) {
                 animateRiderInGroup(tvNumber, Integer.valueOf(connection.getRiders().getStartNr()));
             }
         }
