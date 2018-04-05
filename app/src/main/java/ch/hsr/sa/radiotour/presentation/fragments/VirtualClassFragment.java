@@ -147,7 +147,9 @@ public class VirtualClassFragment extends Fragment {
                 break;
         }
         Message msg = Message.obtain();
-        msg.obj = "Hello";
+        Rider testrider = new Rider();
+        testrider.setStartNr(25);
+        msg.obj = testrider;
         PostHandler.test(msg);
 
         selectedColumn.setBackgroundColor(ContextCompat.getColor(mContext ,R.color.colorAccent));

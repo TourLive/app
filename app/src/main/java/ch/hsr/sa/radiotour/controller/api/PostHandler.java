@@ -6,6 +6,8 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.widget.Toast;
 
+import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+
 public final class PostHandler extends HandlerThread {
     private static Handler mHandler;
     private static Context mContext;
@@ -22,7 +24,8 @@ public final class PostHandler extends HandlerThread {
         mHandler = new Handler(getLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                Toast.makeText(mContext, msg.toString(), Toast.LENGTH_SHORT).show();
+                Rider r = (Rider)msg.obj;
+                Toast.makeText(mContext, String.valueOf(r.getStartNr()), Toast.LENGTH_LONG).show();
                 int x = 0;
             }
         };
