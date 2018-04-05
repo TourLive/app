@@ -6,6 +6,7 @@ public final class UrlLink {
     public static final String STAGES = "stages/";
     public static final String RACE  = "races/";
     public static final String JUDGEMENTS = "judgments/stages/";
+    public static final String REWARDS = "rewards";
     public static final String STATES = "json_public/status.php";
     public static final String GLOBALSETTINGS = "settings";
     public static final String MAILLOTS = "/maillots/stages/";

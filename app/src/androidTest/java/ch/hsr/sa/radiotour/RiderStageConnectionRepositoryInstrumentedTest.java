@@ -210,7 +210,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
         id = res.getId();
         RiderStageConnection newStageConnection = new RiderStageConnection();
-        newStageConnection.setType(RiderStateType.AKTIVE);
+        newStageConnection.setType(RiderStateType.ACTIVE);
         newStageConnection.setBonusPoint(100);
         newStageConnection.setBonusTime(2020);
         newStageConnection.setMountainBonusPoints(4000);
@@ -232,7 +232,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         assertEquals(2020, endRes.getBonusTime());
         assertEquals(4000, endRes.getMountainBonusPoints());
         assertEquals(5000, endRes.getSprintBonusPoints());
-        assertEquals(RiderStateType.AKTIVE, endRes.getType());
+        assertEquals(RiderStateType.ACTIVE, endRes.getType());
     }
 
     @Test

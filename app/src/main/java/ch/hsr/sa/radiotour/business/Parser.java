@@ -117,7 +117,7 @@ public final class Parser {
                 raceGroupField.setType(RaceGroupType.FELD);
                 RealmList<Rider> activeRiders = new RealmList<>();
                 for (Rider r : Context.getAllRiders()) {
-                    if (r.getRiderStages().first().getType() == RiderStateType.AKTIVE) {
+                    if (r.getRiderStages().first().getType() == RiderStateType.ACTIVE) {
                         activeRiders.add(r);
                     }
                 }
@@ -230,13 +230,11 @@ public final class Parser {
             for (int i = 0; i < judgmentsJson.length(); i++) {
                 try {
                     JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
-                    if (jsonJudgment.getInt("etappe") == STAGE_NR) {
-                        Judgement judgment = new Judgement();
-                        judgment.setDistance(jsonJudgment.getInt("rennkm"));
-                        judgment.setName(jsonJudgment.getString("name"));
-                        judgment.setRewardId(jsonJudgment.getInt("rewardId"));
-                        Context.addJudgment(judgment);
-                    }
+                    Judgement judgment = new Judgement();
+                    judgment.setDistance(jsonJudgment.getInt("distance"));
+                    judgment.setName(jsonJudgment.getString("name"));
+                    judgment.setRewardId(jsonJudgment.getJSONObject("reward").getInt("id"));
+                    Context.addJudgment(judgment);
                 } catch (JSONException e) {
                     Log.d(Parser.class.getSimpleName(), "APP - PARSER - JUDGMENTS - " + e.getMessage());
                 }
@@ -256,24 +254,24 @@ public final class Parser {
                     Reward reward = new Reward();
 
                     RealmList<Integer> moneyList = new RealmList<>();
-                    String[] moneyString = jsonReward.getString("reward").split(",");
-                    for (String s : moneyString) {
-                        moneyList.add(Integer.valueOf(s));
+                    JSONArray moneyArray = jsonReward.getJSONArray("money");
+                    for (int m = 0; m < moneyArray.length(); m++) {
+                        moneyList.add(Integer.valueOf(moneyArray.getInt(m)));
                     }
                     reward.setMoney(moneyList);
 
-                    String bonusType = jsonReward.getString("bonusType");
-                    if (bonusType.equals("time")) {
+                    String bonusType = jsonReward.getString("rewardType");
+                    if (bonusType.equals("TIME")) {
                         reward.setType(RewardType.TIME);
                     }
-                    if (bonusType.equals("points")) {
+                    if (bonusType.equals("POINTS")) {
                         reward.setType(RewardType.POINTS);
                     }
 
                     RealmList<Integer> bonusList = new RealmList<>();
-                    String[] bonusString = jsonReward.getString("bonus").split(",");
-                    for (String s : bonusString) {
-                        bonusList.add(Integer.valueOf(s));
+                    JSONArray bonusArray = jsonReward.getJSONArray("points");
+                    for (int b = 0; b < bonusArray.length(); b++) {
+                        bonusList.add(Integer.valueOf(bonusArray.getInt(b)));
                     }
                     reward.setPoints(bonusList);
 
