@@ -3,7 +3,6 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -146,12 +145,6 @@ public class VirtualClassFragment extends Fragment {
                 comp = VirtualClassementComparators.getStartNrComparator();
                 break;
         }
-        Message msg = Message.obtain();
-        Rider testrider = new Rider();
-        testrider.setStartNr(25);
-        msg.obj = testrider;
-        PostHandler.test(msg);
-
         selectedColumn.setBackgroundColor(ContextCompat.getColor(mContext ,R.color.colorAccent));
         recyclerAdapter.sort(true, comp);
     }

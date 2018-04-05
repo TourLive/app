@@ -6,15 +6,21 @@ import android.os.HandlerThread;
 import android.os.Message;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 
 public final class PostHandler extends HandlerThread {
     private static Handler mHandler;
     private static Context mContext;
+    private static HashMap<Integer, Object> classMapper;
 
     public PostHandler(Context context) {
         super("PostHandler", 1);
         this.mContext = context;
+        classMapper = new HashMap<>();
+        classMapper.put(1, RaceGroup.class);
     }
 
     @Override
@@ -24,9 +30,14 @@ public final class PostHandler extends HandlerThread {
         mHandler = new Handler(getLooper()) {
             @Override
             public void handleMessage(Message msg) {
-                Rider r = (Rider)msg.obj;
-                Toast.makeText(mContext, String.valueOf(r.getStartNr()), Toast.LENGTH_LONG).show();
-                int x = 0;
+                switch (classMapper.get(msg.arg1).toString()){
+                    case "RaceGroup.class":
+                        RaceGroup raceGroup = (RaceGroup)msg.obj;
+                        Toast.makeText(mContext, String.valueOf(raceGroup.getActualGapTime()), Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        break;
+                }
             }
         };
     }
