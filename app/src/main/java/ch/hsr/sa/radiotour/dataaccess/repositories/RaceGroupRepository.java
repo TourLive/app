@@ -168,7 +168,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         Message msg = Message.obtain();
         msg.arg1 = 1;
-        msg.obj = res;
+        msg.obj = realm.copyFromRealm(res);
         PostHandler.test(msg);
 
 
