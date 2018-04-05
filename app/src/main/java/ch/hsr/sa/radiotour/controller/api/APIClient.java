@@ -59,15 +59,15 @@ public final class APIClient {
     }
 
     public static String getRiders() {
-        return getRiders(stageId + UrlLink.RIDERS, null);
+        return getRiders(UrlLink.RIDERS + stageId , null);
     }
 
     public static String getJudgments() {
-        return getJudgments(UrlLink.JUDGEMENTS + raceId, null);
+        return getJudgments(UrlLink.JUDGEMENTS + stageId, null);
     }
 
     public static String getRewards() {
-        return getRewards(UrlLink.JUDGEMENTS + raceId, null);
+        return getRewards(UrlLink.REWARDS, null);
     }
 
     public static String getStages() {
@@ -167,17 +167,17 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), stageNr);
+                    Parser.parseJudgmentsAndPersist(data, stageNr);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
             }
 
             @Override
@@ -197,17 +197,17 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    Parser.parseRewardsAndPersist(data.getJSONObject("data").getJSONArray("rewards"));
+                    Parser.parseRewardsAndPersist(data);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
             }
 
             @Override
