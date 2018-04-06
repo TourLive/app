@@ -122,4 +122,12 @@ public final class Context {
     public static void deleteRiderRankings() {
         RiderRankingPresenter.getInstance().clearAllRiderRankings();
     }
+
+    public static Stage getStage() {
+        return StagePresenter.getInstance().getStage();
+    }
+
+    public static void updateStage(String raceName, int raceID) {
+        StagePresenter.getInstance().updateStageWithRace(raceName, raceID);
+    }
 }

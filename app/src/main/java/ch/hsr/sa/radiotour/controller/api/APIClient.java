@@ -21,7 +21,8 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "https://tlng.cnlab.ch/";
+    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
+    private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
     private static int stageNr = 0;
@@ -41,6 +42,11 @@ public final class APIClient {
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    private static void getCnLab(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        responseHandler.setUseSynchronousMode(true);
+        client.get(getAbsoluteCnlabUrl(url), params, responseHandler);
+    }
+
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
         client.post(getAbsoluteUrl(url), params, responseHandler);
@@ -50,33 +56,40 @@ public final class APIClient {
         return BASE_URL + relativeUrl;
     }
 
-    public static String deleteData(){
+    private static String getAbsoluteCnlabUrl(String relativeUrl) {
+        return BASE_URL_CNLAB + relativeUrl;
+    }
+
+    public static void deleteData(){
         clearDatabase();
+    }
+
+    public static String getSettings(){
         return getActualRaceId(UrlLink.GLOBALSETTINGS, null);
     }
 
     public static String getRiders() {
-        return getRiders(UrlLink.RIDERS + stageId, null);
+        return getRiders(UrlLink.RIDERS + stageId , null);
     }
 
     public static String getJudgments() {
-        return getJudgments(UrlLink.JUDGEMENTS + raceId, null);
+        return getJudgments(UrlLink.JUDGEMENTS + stageId, null);
     }
 
     public static String getRewards() {
-        return getRewards(UrlLink.JUDGEMENTS + raceId, null);
+        return getRewards(UrlLink.REWARDS, null);
     }
 
     public static String getStages() {
-        return getStages(UrlLink.STAGES + raceId, null);
+        return getStages(UrlLink.STAGES + stageId, null);
+    }
+
+    public static String getRace() {
+        return getRace(UrlLink.RACE + raceId, null);
     }
 
     public static String getMaillots() {
-        return getMaillots(UrlLink.MAILLOTS + raceId, null);
-    }
-
-    public static String getMaillotsRiderConnections() {
-        return getMaillotsRiderConnections(UrlLink.RIDERJERSEY + stageId, null);
+        return getMaillots(UrlLink.MAILLOTS + stageId, null);
     }
 
     public static void clearDatabase(){
@@ -89,9 +102,17 @@ public final class APIClient {
         }
     }
 
-    public static<T> T getDataFromAPI(String url, RequestParams params){
+    public static<T> T getGPSFromCnlabAPI(String url, RequestParams params){
         if(!demoMode){
-            return getStateFromAPI(url, params);
+            return getGPSDataFromCnlabAPI(url, params);
+        } else {
+            return null;
+        }
+    }
+
+    public static<T> T getStatusFromAPI(String url, RequestParams params){
+        if(!demoMode){
+            return getStatusDataFromAPI(url, params);
         } else {
             return null;
         }
@@ -102,18 +123,18 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // Not needed and therefore not implemented
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
                 try{
-                    stageId = settings.getJSONObject(0).getString("parameter");
-                    raceId = settings.getJSONObject(1).getString("parameter");
+                    stageId = String.valueOf(data.getLong("stageID"));
+                    raceId = String.valueOf(data.getLong("raceID"));
                     messages[0] = "success";
                 } catch (JSONException ex){
                     messages[0] = ex.getMessage();
                 }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray settings) {
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -133,17 +154,18 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                try{
-                    Parser.parseRidersAndPersist(data.getJSONArray("data"));
-                    messages[0] = "success";
-                } catch (Exception ex){
-                    messages[0] = ex.getMessage();
-                }
+                // Not needed and therefore not implemented
             }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
+
+                try{
+                    Parser.parseRidersAndPersist(riders);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
             }
 
             @Override
@@ -163,17 +185,17 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    Parser.parseJudgmentsAndPersist(data.getJSONObject("data").getJSONArray("judgements"), stageNr);
+                    Parser.parseJudgmentsAndPersist(data, stageNr);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
             }
 
             @Override
@@ -193,17 +215,17 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
                 try{
-                    Parser.parseRewardsAndPersist(data.getJSONObject("data").getJSONArray("rewards"));
+                    Parser.parseRewardsAndPersist(data);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray riders) {
-                // Not needed and therefore not implemented
             }
 
             @Override
@@ -223,24 +245,17 @@ public final class APIClient {
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
-                // Not needed and therefore not implemented
-            }
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
                 try{
-                    for(int i = 0; i < stages.length(); i++){
-                        JSONObject stage = stages.getJSONObject(i);
-                        if(stage.getInt("stageId") ==  Integer.valueOf(stageId)){
-                            stageNr = i; // gets the second last stage, cause of data leak on API
-                        }
-                    }
-                    Parser.parseStagesAndPersist(stages, stageNr);
+                    Parser.parseStagesAndPersist(data);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
                 }
+            }
 
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
+                // Not needed and therefore not implemented
             }
 
             @Override
@@ -255,12 +270,13 @@ public final class APIClient {
         return messages[0];
     }
 
-    public static String getMaillotsRiderConnections(String url, RequestParams params) {
+    public static String getRace(String url, RequestParams params) {
         final String[] messages = {"success"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {try {
-                    Parser.parseMaillotsRiderConnectionAndPersist(data.getJSONArray("data"));
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    Parser.parseRaceAndPersist(data);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
@@ -268,7 +284,7 @@ public final class APIClient {
             }
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, JSONArray maillots) {
+            public void onSuccess(int statusCode, Header[] headers, JSONArray stages) {
                 // Not needed and therefore not implemented
             }
 
@@ -345,7 +361,42 @@ public final class APIClient {
         });
     }
 
-    public static<T> T getStateFromAPI(String url, RequestParams params) {
+    public static<T> T getGPSDataFromCnlabAPI(String url, RequestParams params) {
+        if(Looper.myLooper() == null)
+            Looper.prepare();
+        uiHandler =  new Handler();
+        T[] response = (T[])new Object[1];
+        APIClient.getCnLab(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
+                Log.d("here", "here");
+                uiHandler.post(throwable::getMessage);
+            }
+        });
+        return response[0];
+    }
+
+    public static<T> T getStatusDataFromAPI(String url, RequestParams params) {
         if(Looper.myLooper() == null)
             Looper.prepare();
         uiHandler =  new Handler();

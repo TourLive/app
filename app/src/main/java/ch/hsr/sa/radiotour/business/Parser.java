@@ -31,9 +31,10 @@ public final class Parser {
     private static String startNr = "startNr";
     private static String country = "country";
     private static String name = "name";
-    private static String team = "team";
-    private static String teamShort = "teamShort";
-    private static String riderID = "riderId";
+    private static String team = "teamName";
+    private static String teamShort = "teamShortName";
+    private static String riderID = "id";
+    private static String unknown = "unknown";
     private Parser() {
         throw new IllegalStateException("Static class");
     }
@@ -55,31 +56,32 @@ public final class Parser {
             public void run() {
                 for (int i = 0; i < ridersJson.length(); i++) {
                     try {
-                        JSONObject jsonRider = ridersJson.getJSONObject(i);
+                        JSONObject jsonRiderStageConnection = ridersJson.getJSONObject(i);
 
                         Rider rider = new Rider();
+                        JSONObject jsonRider = jsonRiderStageConnection.getJSONObject("rider");
                         rider.setStartNr(jsonRider.getInt(startNr));
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
                         rider.setRiderID(jsonRider.getInt(riderID));
+                        rider.setUnknown(jsonRider.getBoolean(unknown));
                         synchronized (this) {
                             Context.addRider(rider);
                         }
 
                         RiderStageConnection riderStageConnection = new RiderStageConnection();
-                        riderStageConnection.setBonusPoint(0);
-                        riderStageConnection.setBonusTime(0);
-                        riderStageConnection.setOfficialGap(jsonRider.getLong("timeRueckLong"));
-                        riderStageConnection.setOfficialTime(jsonRider.getLong("timeOffLong"));
-                        riderStageConnection.setVirtualGap(jsonRider.getLong("timeVirtLong"));
-                        String state = jsonRider.getString("active");
-                        if (state.equals("true")) {
-                            riderStageConnection.setType(RiderStateType.AKTIVE);
-                        } else {
-                            riderStageConnection.setType(RiderStateType.DNC);
-                        }
+                        riderStageConnection.setBonusPoint(jsonRiderStageConnection.getInt("bonusPoints"));
+                        riderStageConnection.setBonusTime(jsonRiderStageConnection.getInt("bonusTime"));
+                        riderStageConnection.setOfficialGap(jsonRiderStageConnection.getLong("officialGap"));
+                        riderStageConnection.setOfficialTime(jsonRiderStageConnection.getLong("officialTime"));
+                        riderStageConnection.setVirtualGap(jsonRiderStageConnection.getLong("virtualGap"));
+                        riderStageConnection.setType(RiderStateType.valueOf(jsonRiderStageConnection.getString("typeState")));
+                        riderStageConnection.setMountainBonusPoints(jsonRiderStageConnection.getInt("mountainBonusPoints"));
+                        riderStageConnection.setSprintBonusPoints(jsonRiderStageConnection.getInt("sprintBonusPoints"));
+                        riderStageConnection.setMoney(jsonRiderStageConnection.getInt("money"));
+
                         RiderStageConnection riderStageConnectionOne;
                         synchronized (this) {
                             riderStageConnectionOne = Context.addRiderStageConnection(riderStageConnection);
@@ -104,6 +106,7 @@ public final class Parser {
         updateRiderConnectionRankByOfficalGap();
     }
 
+
     private static Thread createDefaultGroup() {
         Runnable runnable = (() -> {
             try {
@@ -114,7 +117,7 @@ public final class Parser {
                 raceGroupField.setType(RaceGroupType.FELD);
                 RealmList<Rider> activeRiders = new RealmList<>();
                 for (Rider r : Context.getAllRiders()) {
-                    if (r.getRiderStages().first().getType() == RiderStateType.AKTIVE) {
+                    if (r.getRiderStages().first().getType() == RiderStateType.ACTIVE) {
                         activeRiders.add(r);
                     }
                 }
@@ -227,13 +230,11 @@ public final class Parser {
             for (int i = 0; i < judgmentsJson.length(); i++) {
                 try {
                     JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
-                    if (jsonJudgment.getInt("etappe") == STAGE_NR) {
-                        Judgement judgment = new Judgement();
-                        judgment.setDistance(jsonJudgment.getInt("rennkm"));
-                        judgment.setName(jsonJudgment.getString("name"));
-                        judgment.setRewardId(jsonJudgment.getInt("rewardId"));
-                        Context.addJudgment(judgment);
-                    }
+                    Judgement judgment = new Judgement();
+                    judgment.setDistance(jsonJudgment.getInt("distance"));
+                    judgment.setName(jsonJudgment.getString("name"));
+                    judgment.setRewardId(jsonJudgment.getJSONObject("reward").getInt("id"));
+                    Context.addJudgment(judgment);
                 } catch (JSONException e) {
                     Log.d(Parser.class.getSimpleName(), "APP - PARSER - JUDGMENTS - " + e.getMessage());
                 }
@@ -253,24 +254,24 @@ public final class Parser {
                     Reward reward = new Reward();
 
                     RealmList<Integer> moneyList = new RealmList<>();
-                    String[] moneyString = jsonReward.getString("reward").split(",");
-                    for (String s : moneyString) {
-                        moneyList.add(Integer.valueOf(s));
+                    JSONArray moneyArray = jsonReward.getJSONArray("money");
+                    for (int m = 0; m < moneyArray.length(); m++) {
+                        moneyList.add(Integer.valueOf(moneyArray.getInt(m)));
                     }
                     reward.setMoney(moneyList);
 
-                    String bonusType = jsonReward.getString("bonusType");
-                    if (bonusType.equals("time")) {
+                    String bonusType = jsonReward.getString("rewardType");
+                    if (bonusType.equals("TIME")) {
                         reward.setType(RewardType.TIME);
                     }
-                    if (bonusType.equals("points")) {
+                    if (bonusType.equals("POINTS")) {
                         reward.setType(RewardType.POINTS);
                     }
 
                     RealmList<Integer> bonusList = new RealmList<>();
-                    String[] bonusString = jsonReward.getString("bonus").split(",");
-                    for (String s : bonusString) {
-                        bonusList.add(Integer.valueOf(s));
+                    JSONArray bonusArray = jsonReward.getJSONArray("points");
+                    for (int b = 0; b < bonusArray.length(); b++) {
+                        bonusList.add(Integer.valueOf(bonusArray.getInt(b)));
                     }
                     reward.setPoints(bonusList);
 
@@ -288,25 +289,20 @@ public final class Parser {
         threadRewards.join();
     }
 
-    public static void parseStagesAndPersist(JSONArray stages, final int STAGE_NR) throws InterruptedException {
-        final JSONArray stagesJson = stages;
+    public static void parseStagesAndPersist(JSONObject jsonStage) throws InterruptedException {
         Runnable runnable = (() -> {
             try {
-                JSONObject jsonStage = stagesJson.getJSONObject(STAGE_NR);
                 Stage stage = new Stage();
-                stage.setStageId(jsonStage.getInt("stageId"));
-                stage.setType(StageType.valueOf(jsonStage.getString("stagetype")));
-                stage.setName(jsonStage.getString("stageName"));
-                stage.setTo(jsonStage.getString("to"));
-                stage.setFrom(jsonStage.getString("from"));
-                stage.setStartTime(new Date(jsonStage.getLong("starttimeAsTimestamp")));
-                stage.setEndTime(new Date(jsonStage.getLong("endtimeAsTimestamp")));
+                stage.setStageId(jsonStage.getInt("id"));
+                stage.setType(StageType.valueOf(jsonStage.getString("stageType")));
+                stage.setName(jsonStage.getString("id"));
+                stage.setTo(jsonStage.getString("start"));
+                stage.setFrom(jsonStage.getString("destination"));
+                stage.setStartTime(new Date(jsonStage.getLong("startTime")));
+                stage.setEndTime(new Date(jsonStage.getLong("endTime")));
                 stage.setDistance(jsonStage.getInt("distance"));
                 stage.setStageConnections(Context.getAllRiderStageConnections());
                 stage.setMaillotConnections(Context.getAllMaillots());
-                JSONObject jsonRace = jsonStage.getJSONObject("race");
-                stage.setRaceId(jsonRace.getInt("raceId"));
-                stage.setRaceName(jsonRace.getString("raceName"));
                 Context.addStage(stage);
             } catch (JSONException e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - STAGES - " + e.getMessage());
@@ -317,43 +313,42 @@ public final class Parser {
         threadRewards.join();
     }
 
-    public static void parseMaillotsAndPersist(JSONArray maillots) throws InterruptedException {
-        final JSONArray maillotsJson = maillots;
+    public static void parseRaceAndPersist(JSONObject jsonRace) throws InterruptedException {
         Runnable runnable = (() -> {
-            for (int i = 0; i < maillotsJson.length(); i++) {
-                try {
-                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
-                    Maillot maillot = new Maillot();
-                    maillot.setType(jsonMaillot.getString("type"));
-                    maillot.setPartner(jsonMaillot.getString("partner"));
-                    maillot.setName(jsonMaillot.getString("name"));
-                    maillot.setDbIDd(jsonMaillot.getInt("dbId"));
-                    maillot.setColor(jsonMaillot.getString("color"));
-                    Context.addMaillot(maillot);
-                } catch (JSONException e) {
-                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
-                }
+            try {
+                Context.updateStage(jsonRace.getString("name"), jsonRace.getInt("id"));
+            } catch (JSONException e) {
+                Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACE - " + e.getMessage());
             }
         });
-        Thread threadMaillots = new Thread(runnable);
-        threadMaillots.start();
-        threadMaillots.join();
+        Thread threadRace = new Thread(runnable);
+        threadRace.start();
+        threadRace.join();
     }
 
-    public static void parseMaillotsRiderConnectionAndPersist(JSONArray maillotsrider) throws InterruptedException {
-        final JSONArray maillotsJson = maillotsrider;
-        Runnable runnable = (() -> {
-            for (int i = 0; i < maillotsJson.length(); i++) {
-                try {
-                    JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
-                    int id = Integer.parseInt(jsonMaillot.getString("jerseyId"));
-                    Maillot maillot = Context.getMaillotById(id);
-                    Context.addRiderToMaillot(maillot, Integer.parseInt(jsonMaillot.getString("riderId")));
-                } catch (JSONException e) {
-                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+    public static void parseMaillotsAndPersist(JSONArray maillots) throws InterruptedException {
+        final JSONArray maillotsJson = maillots;
+        Runnable runnable = new Runnable() {
+            public void run() {
+                for (int i = 0; i < maillotsJson.length(); i++) {
+                    try {
+                        JSONObject jsonMaillot = maillotsJson.getJSONObject(i);
+                        Maillot maillot = new Maillot();
+                        maillot.setType(jsonMaillot.getString("type"));
+                        maillot.setPartner(jsonMaillot.getString("partner"));
+                        maillot.setName(jsonMaillot.getString("name"));
+                        maillot.setDbIDd(jsonMaillot.getInt("id"));
+                        maillot.setColor(jsonMaillot.getString("color"));
+                        synchronized (this) {
+                            Context.addMaillot(maillot);
+                        }
+                        Maillot dbMaillot = Context.getMaillotById(jsonMaillot.getInt("id"));
+                        Context.addRiderToMaillot(dbMaillot, Integer.parseInt(jsonMaillot.getString("riderId")));
+                    } catch (JSONException e) {
+                        Log.d(Parser.class.getSimpleName(), "APP - PARSER - MAILLOTS - " + e.getMessage());
+                    }
                 }
-            }
-        });
+            }};
         Thread threadMaillots = new Thread(runnable);
         threadMaillots.start();
         threadMaillots.join();
