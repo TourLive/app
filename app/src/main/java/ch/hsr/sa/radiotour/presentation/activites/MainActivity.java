@@ -320,7 +320,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUIInfos() {
         new Thread(() -> {
             JSONObject temp = new JSONObject();
-            JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+            JSONObject gpsData = APIClient.getGPSFromCnlabAPI(UrlLink.STATES, null);
             if (gpsData == null) return;
             try {
                 JSONArray gpsInfoArray = gpsData.getJSONArray(sources);
