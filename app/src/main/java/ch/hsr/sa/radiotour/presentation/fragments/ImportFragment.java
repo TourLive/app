@@ -113,7 +113,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
         updateDrawable(gpsView, active);
 
-        JSONArray settings = APIClient.getDataFromAPI(UrlLink.STATUSPAGE, null);
+        JSONArray settings = APIClient.getStatusFromAPI(UrlLink.STATUSPAGE, null);
         if (settings == null) {
             updateDrawable(serverView, false);
         } else {
