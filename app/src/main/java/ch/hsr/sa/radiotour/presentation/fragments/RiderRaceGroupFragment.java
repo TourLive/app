@@ -284,7 +284,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
         stateHandler.post(() -> {
             for (int startNr : resetRiderAnimation) {
                 Rider rider = RiderPresenter.getInstance().getRiderByStartNr(startNr);
-                RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.AKTIVE, rider);
+                RiderStageConnectionPresenter.getInstance().updateRiderState(RiderStateType.ACTIVE, rider);
             }
             resetRiderAnimation.clear();
         });

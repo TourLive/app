@@ -177,7 +177,7 @@ public class RiderRepositoryInstrumentedTest {
         riderStageConnection.setVirtualGap(100);
         riderStageConnection.setBonusPoint(100);
         riderStageConnection.setBonusTime(200);
-        riderStageConnection.setType(RiderStateType.AKTIVE);
+        riderStageConnection.setType(RiderStateType.ACTIVE);
         synchronized (this){
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallbackCallback);
         }
