@@ -41,6 +41,11 @@ public final class APIClient {
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    private static void getCnLab(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        responseHandler.setUseSynchronousMode(true);
+        client.get(url, params, responseHandler);
+    }
+
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
         client.post(getAbsoluteUrl(url), params, responseHandler);
@@ -348,7 +353,7 @@ public final class APIClient {
             Looper.prepare();
         uiHandler =  new Handler();
         T[] response = (T[])new Object[1];
-        APIClient.get(url, null, new JsonHttpResponseHandler() {
+        APIClient.getCnLab(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{

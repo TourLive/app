@@ -34,7 +34,7 @@ public final class Parser {
     private static String team = "teamName";
     private static String teamShort = "teamShortName";
     private static String riderID = "id";
-    private static String unknown = "unkown";
+    private static String unknown = "unknown";
     private Parser() {
         throw new IllegalStateException("Static class");
     }
