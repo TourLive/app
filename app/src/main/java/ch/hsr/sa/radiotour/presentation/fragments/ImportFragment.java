@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,7 +121,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
         updateDrawable(gpsView, active);
 
-        JSONArray settings = APIClient.getStatusFromAPI(UrlLink.STATUSPAGE, null);
+        JSONObject settings = APIClient.getStatusFromAPI(UrlLink.STATUSPAGE, null);
         if (settings == null) {
             updateDrawable(serverView, false);
         } else {
