@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.presentation.activites;
 import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -14,6 +15,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -249,15 +251,13 @@ public class MainActivity extends AppCompatActivity {
         });
 
         resetView.setOnClickListener(event -> {
-            raceInProgress = false;
-            raceTime.setTime(0);
-            distanceInMeter = 0;
-            if (locationListener != null)
-                locationManager.removeUpdates(locationListener);
-            actualLocation = null;
-            startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
-            raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
-            timerForRace.cancel();
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.resettime_title)
+                    .setMessage(R.string.resettime_message)
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> resetTime())
+                    .create()
+                    .show();
         });
 
         raceTimeView.setOnClickListener((View event) -> {
@@ -281,6 +281,18 @@ public class MainActivity extends AppCompatActivity {
 
         PostHandler postHandler = new PostHandler(getApplicationContext());
         postHandler.start();
+    }
+
+    private void resetTime() {
+        raceInProgress = false;
+        raceTime.setTime(0);
+        distanceInMeter = 0;
+        if (locationListener != null)
+            locationManager.removeUpdates(locationListener);
+        actualLocation = null;
+        startStopView.setBackgroundColor(getColor(R.color.colorPrimaryUltraLight));
+        raceTimeView.setText(convertLongToTimeString(raceTime.getTime()));
+        timerForRace.cancel();
     }
 
     private void closeDetailJudgmentFragment() {
@@ -324,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
     private void updateUIInfos() {
         new Thread(() -> {
             JSONObject temp = new JSONObject();
-            JSONObject gpsData = APIClient.getDataFromAPI(UrlLink.STATES, null);
+            JSONObject gpsData = APIClient.getGPSFromCnlabAPI(UrlLink.STATES, null);
             if (gpsData == null) return;
             try {
                 JSONArray gpsInfoArray = gpsData.getJSONArray(sources);

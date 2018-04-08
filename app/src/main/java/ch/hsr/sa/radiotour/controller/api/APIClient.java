@@ -22,6 +22,7 @@ public final class APIClient {
     }
 
     private static final String BASE_URL = "http://dev-api.tourlive.ch/";
+    private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
     private static int stageNr = 0;
@@ -41,6 +42,11 @@ public final class APIClient {
         client.get(getAbsoluteUrl(url), params, responseHandler);
     }
 
+    private static void getCnLab(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
+        responseHandler.setUseSynchronousMode(true);
+        client.get(getAbsoluteCnlabUrl(url), params, responseHandler);
+    }
+
     private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
         responseHandler.setUseSynchronousMode(true);
         client.post(getAbsoluteUrl(url), params, responseHandler);
@@ -48,6 +54,10 @@ public final class APIClient {
 
     private static String getAbsoluteUrl(String relativeUrl) {
         return BASE_URL + relativeUrl;
+    }
+
+    private static String getAbsoluteCnlabUrl(String relativeUrl) {
+        return BASE_URL_CNLAB + relativeUrl;
     }
 
     public static void deleteData(){
@@ -92,9 +102,17 @@ public final class APIClient {
         }
     }
 
-    public static<T> T getDataFromAPI(String url, RequestParams params){
+    public static<T> T getGPSFromCnlabAPI(String url, RequestParams params){
         if(!demoMode){
-            return getStateFromAPI(url, params);
+            return getGPSDataFromCnlabAPI(url, params);
+        } else {
+            return null;
+        }
+    }
+
+    public static<T> T getStatusFromAPI(String url, RequestParams params){
+        if(!demoMode){
+            return getStatusDataFromAPI(url, params);
         } else {
             return null;
         }
@@ -343,7 +361,42 @@ public final class APIClient {
         });
     }
 
-    public static<T> T getStateFromAPI(String url, RequestParams params) {
+    public static<T> T getGPSDataFromCnlabAPI(String url, RequestParams params) {
+        if(Looper.myLooper() == null)
+            Looper.prepare();
+        uiHandler =  new Handler();
+        T[] response = (T[])new Object[1];
+        APIClient.getCnLab(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    response[0] = (T)data;
+                } catch (Exception ex){
+                    Log.d("here", "here");
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject data){
+                Log.d("here", "here");
+                uiHandler.post(throwable::getMessage);
+            }
+        });
+        return response[0];
+    }
+
+    public static<T> T getStatusDataFromAPI(String url, RequestParams params) {
         if(Looper.myLooper() == null)
             Looper.prepare();
         uiHandler =  new Handler();
