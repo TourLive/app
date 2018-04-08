@@ -1,19 +1,30 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import com.google.gson.annotations.Expose;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class RaceGroup extends RealmObject {
+    @Expose
     @PrimaryKey
     private String id;
+    @Expose
+    private Long dbRaceGroupid;
+
+    @Expose
     @Required
     private String type;
+    @Expose
     private long actualGapTime;
+    @Expose
     private long historyGapTime;
+    @Expose
     private int position;
 
+    @Expose
     private RealmList<Rider> riders;
 
     public String getId() {
@@ -83,5 +94,13 @@ public class RaceGroup extends RealmObject {
             default:
                 return "DEFAULT";
         }
+    }
+
+    public Long getDbRaceGroupid() {
+        return dbRaceGroupid;
+    }
+
+    public void setDbRaceGroupid(Long dbRaceGroupid) {
+        this.dbRaceGroupid = dbRaceGroupid;
     }
 }

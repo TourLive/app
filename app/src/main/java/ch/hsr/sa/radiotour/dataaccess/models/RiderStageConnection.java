@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import com.google.gson.annotations.Expose;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -16,17 +18,28 @@ public class RiderStageConnection extends RealmObject {
     private final RealmResults<Maillot> maillots = null;
     private RealmList<RiderRanking> riderRankings;
 
+    @Expose
     @PrimaryKey
-    private String id;
+    private long id;
+    @Expose
     private int bonusPoint;
+    @Expose
     private int mountainBonusPoints;
+    @Expose
     private int sprintBonusPoints;
+    @Expose
     private int bonusTime;
+    @Expose
     private int money;
+    @Expose
     private long officialTime;
+    @Expose
     private long officialGap;
+    @Expose
     private long virtualGap;
+    @Expose
     private int timeInLeadGroup = 0;
+    @Expose
     @Required
     private String typeState;
 
@@ -48,11 +61,11 @@ public class RiderStageConnection extends RealmObject {
         return maillots.first();
     }
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(long id) {
         this.id = id;
     }
 

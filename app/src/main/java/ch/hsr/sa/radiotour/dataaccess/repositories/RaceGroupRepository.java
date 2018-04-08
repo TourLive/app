@@ -166,12 +166,6 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         res.setActualGapTime(timeStamp);
         realm.commitTransaction();
 
-        Message msg = Message.obtain();
-        msg.arg1 = 1;
-        msg.obj = realm.copyFromRealm(res);
-        PostHandler.test(msg);
-
-
         if (callback != null) {
             RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
             callback.onSuccess(res);
