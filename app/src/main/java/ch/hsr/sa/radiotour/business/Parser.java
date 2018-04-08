@@ -72,6 +72,7 @@ public final class Parser {
                         }
 
                         RiderStageConnection riderStageConnection = new RiderStageConnection();
+                        riderStageConnection.setId(jsonRiderStageConnection.getInt("id"));
                         riderStageConnection.setBonusPoint(jsonRiderStageConnection.getInt("bonusPoints"));
                         riderStageConnection.setBonusTime(jsonRiderStageConnection.getInt("bonusTime"));
                         riderStageConnection.setOfficialGap(jsonRiderStageConnection.getLong("officialGap"));

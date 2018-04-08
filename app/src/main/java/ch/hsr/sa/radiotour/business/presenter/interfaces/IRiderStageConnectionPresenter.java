@@ -10,8 +10,6 @@ import io.realm.RealmList;
 public interface IRiderStageConnectionPresenter extends IBasePresenter {
     RiderStageConnection addRiderStageConnection(RiderStageConnection riderStageConnection);
 
-    void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection);
-
     void updateRiderStageConnectionReward(final RiderStageConnection riderStageConnection);
 
     void updateRiderState(final RiderStateType type, final Rider rider);
