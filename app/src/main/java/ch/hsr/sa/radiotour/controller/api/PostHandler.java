@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -28,8 +29,9 @@ public final class PostHandler extends HandlerThread {
         classMapper.put("CreateRaceGroup", 1);
         classMapper.put("UpdateRiderStageConnection", 2);
         classMapper.put("UpdateRaceGroup", 3);
-        classMapper.put("CreateJudgment", 4);
-        classMapper.put("UpdateJudgment", 5);
+        classMapper.put("CreateJudgmentRiderConnection", 4);
+        classMapper.put("DeleteJudgmentRiderConnection", 5);
+        classMapper.put("DeleteRaceGroup", 6);
     }
 
     @Override
@@ -56,12 +58,14 @@ public final class PostHandler extends HandlerThread {
                         Toast.makeText(mContext, "RaceGroup has been updated", Toast.LENGTH_LONG).show();
                         break;
                     case 4:
-                        // TODO
+                        JudgmentRiderConnection judgmentRiderConnection = (JudgmentRiderConnection)msg.obj;
+                        APIClient.postJudgmentRiderConnection(gson.toJson(judgmentRiderConnection));
                         Toast.makeText(mContext, "Judgment has been added", Toast.LENGTH_LONG).show();
                         break;
                     case 5:
-                        // TODO
-                        Toast.makeText(mContext, "Judgment has been updated", Toast.LENGTH_LONG).show();
+                        JudgmentRiderConnection jRC = (JudgmentRiderConnection)msg.obj;
+                        APIClient.deleteJudgmentRiderConnection(jRC.getId());
+                        Toast.makeText(mContext, "Judgment has been deleted", Toast.LENGTH_LONG).show();
                         break;
                     default:
                         break;
