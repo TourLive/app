@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
@@ -41,12 +43,9 @@ public class RiderRepositoryInstrumentedTest {
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
         riders.clear();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Rider.class).findAll().deleteAllFromRealm();
-                realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction(realm -> {
+            realm.where(Rider.class).findAll().deleteAllFromRealm();
+            realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
         });
     }
 
@@ -105,6 +104,7 @@ public class RiderRepositoryInstrumentedTest {
     @Test
     public void addRider(){
         Rider rider = new Rider();
+        rider.setId(new Random().nextLong());
         rider.setCountry("swiss");
         rider.setName("testrider");
         rider.setStartNr(15);
@@ -128,6 +128,7 @@ public class RiderRepositoryInstrumentedTest {
     public void getRidersTest(){
         Rider rider = new Rider();
         for(int i = 1; i < 4; i++){
+            rider.setId(new Random().nextLong());
             rider.setCountry("swiss");
             rider.setName("testrider" + 1);
             rider.setStartNr(i);
@@ -148,6 +149,7 @@ public class RiderRepositoryInstrumentedTest {
     public void getAllRidersWithoutCallback(){
         Rider rider = new Rider();
         for(int i = 1; i < 4; i++){
+            rider.setId(new Random().nextLong());
             rider.setCountry("swiss");
             rider.setName("testrider" + 1);
             rider.setStartNr(i);
@@ -172,6 +174,7 @@ public class RiderRepositoryInstrumentedTest {
     public void updateRiderStateConnection(){
 
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setOfficialTime(100);
         riderStageConnection.setOfficialGap(100);
         riderStageConnection.setVirtualGap(100);
@@ -183,6 +186,7 @@ public class RiderRepositoryInstrumentedTest {
         }
 
         Rider rider = new Rider();
+        rider.setId(new Random().nextLong());
         rider.setCountry("swiss");
         rider.setName("testrider" + 1);
         rider.setStartNr(15);

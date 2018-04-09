@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Date;
+import java.util.Random;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
@@ -37,12 +38,9 @@ public class StageRepositoryInstrumentedTest {
         this.riderStageConnectionRepository = new RiderStageConnectionRepository();
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Stage.class).findAll().deleteAllFromRealm();
-                realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction(realm -> {
+            realm.where(Stage.class).findAll().deleteAllFromRealm();
+            realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
         });
     }
 
@@ -77,6 +75,7 @@ public class StageRepositoryInstrumentedTest {
     @Test
     public void addStage(){
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
@@ -95,7 +94,7 @@ public class StageRepositoryInstrumentedTest {
         connections.addAll(realmConnections);
 
         Stage stage = new Stage();
-        stage.setStageId(1);
+        stage.setId(1);
         stage.setDistance(100);
         stage.setStartTime(new Date());
         stage.setEndTime(new Date());
@@ -119,7 +118,7 @@ public class StageRepositoryInstrumentedTest {
     @Test
     public void clearAllStages(){
         Stage stage = new Stage();
-        stage.setStageId(1);
+        stage.setId(1);
         stage.setDistance(100);
         stage.setStartTime(new Date());
         stage.setEndTime(new Date());

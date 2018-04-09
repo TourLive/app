@@ -143,7 +143,6 @@ public class JudgmentRepositoryInstrumentedTest {
         Reward reward = new Reward();
         reward.setPoints(new RealmList<Integer>(1, 3, 5));
         reward.setMoney(new RealmList<Integer>(100, 300, 500));
-        reward.setRewardId(93);
         reward.setType(RewardType.POINTS);
         reward.setRewardJudgements(judgmentRepository.getJudgmentsById(93));
 

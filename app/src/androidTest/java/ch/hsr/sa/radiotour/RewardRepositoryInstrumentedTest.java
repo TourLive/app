@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
@@ -34,12 +36,9 @@ public class RewardRepositoryInstrumentedTest {
         this.rewardRepository = new RewardRepository();
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Judgement.class).findAll().deleteAllFromRealm();
-                realm.where(Reward.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction(realm -> {
+            realm.where(Judgement.class).findAll().deleteAllFromRealm();
+            realm.where(Reward.class).findAll().deleteAllFromRealm();
         });
 
         Judgement judgement = new Judgement();
@@ -88,30 +87,32 @@ public class RewardRepositoryInstrumentedTest {
         RealmResults<Judgement> realmJudgments = realm.where(Judgement.class).findAll();
         judgements.addAll(realmJudgments);
 
+        long id = new Random().nextLong();
         Reward reward = new Reward();
+        reward.setId(id);
         reward.setPoints(new RealmList<Integer>(1,3,5));
         reward.setMoney(new RealmList<Integer>(100, 300, 500));
         reward.setType(RewardType.POINTS);
-        reward.setRewardId(93);
         reward.setRewardJudgements(judgements);
 
         synchronized (this){
             rewardRepository.addReward(reward, onSaveRewardCallback);
         }
 
-        Assert.assertEquals(93, realm.where(Reward.class).findAll().first().getRewardId().intValue());
+        Assert.assertEquals(id, realm.where(Reward.class).findAll().first().getId());
         Assert.assertEquals(300, realm.where(Reward.class).findAll().first().getMoney().get(1).intValue());
         Assert.assertEquals(2, realm.where(Reward.class).findAll().first().getRewardJudgements().size());
-        Assert.assertEquals(93, realm.where(Reward.class).findAll().first().getRewardJudgements().first().getRewardId());
+        Assert.assertEquals(id, realm.where(Reward.class).findAll().first().getRewardJudgements().first().getRewardId());
     }
 
     @Test
     public void clearAllRewards(){
         Reward reward = new Reward();
+        long id = new Random().nextLong();
+        reward.setId(id);
         reward.setPoints(new RealmList<Integer>(1,3,5));
         reward.setMoney(new RealmList<Integer>(100, 300, 500));
         reward.setType(RewardType.POINTS);
-        reward.setRewardId(93);
 
         synchronized (this){
             rewardRepository.addReward(reward, onSaveRewardCallback);

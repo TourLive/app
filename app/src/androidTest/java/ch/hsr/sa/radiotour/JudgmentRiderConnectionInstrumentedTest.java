@@ -8,6 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
@@ -83,6 +85,7 @@ public class JudgmentRiderConnectionInstrumentedTest {
 
     private void addRider() {
         Rider rider = new Rider();
+        rider.setId(new Random().nextLong());
         rider.setCountry("swiss");
         rider.setName("testrider");
         rider.setStartNr(15);
