@@ -24,7 +24,7 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://d/";
+    private static final String BASE_URL = "http://152.96.237.46:9000/";
     private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
@@ -112,6 +112,7 @@ public final class APIClient {
     }
 
     public static void postRiderStageConnection(long id, String body) {
+        String test = body;
         putData(UrlLink.RIDERSTAGECONNECTION + id, body);
     }
 
@@ -166,7 +167,7 @@ public final class APIClient {
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -197,7 +198,7 @@ public final class APIClient {
     }
 
     public static String getRiders(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -228,7 +229,7 @@ public final class APIClient {
     }
 
     public static String getJudgments(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -258,7 +259,7 @@ public final class APIClient {
     }
 
     public static String getRewards(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -288,7 +289,7 @@ public final class APIClient {
     }
 
     public static String getStages(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -318,7 +319,7 @@ public final class APIClient {
     }
 
     public static String getRace(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -348,7 +349,7 @@ public final class APIClient {
     }
 
     public static String getMaillots(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {

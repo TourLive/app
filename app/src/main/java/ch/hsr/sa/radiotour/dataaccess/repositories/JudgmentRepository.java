@@ -16,7 +16,7 @@ public class JudgmentRepository implements IJudgmentRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final Judgement transferJudgment = judgement;
         realm.executeTransaction((Realm db) -> {
-            Judgement realmJudgment = db.createObject(Judgement.class, UUID.randomUUID().toString());
+            Judgement realmJudgment = db.createObject(Judgement.class, judgement.getId());
             realmJudgment.setName(transferJudgment.getName());
             realmJudgment.setDistance(transferJudgment.getDistance());
             realmJudgment.setRewardId(transferJudgment.getRewardId());
@@ -39,7 +39,7 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
-    public RealmList<Judgement> getJudgmentsById(final int judgmentId) {
+    public RealmList<Judgement> getJudgmentsById(final long judgmentId) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmList<Judgement> results = new RealmList<>();
         RealmResults<Judgement> judgments = realm.where(Judgement.class).findAll();
@@ -54,7 +54,7 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
-    public Judgement getJudgmentByObjectIdReturned(final String id) {
+    public Judgement getJudgmentByObjectIdReturned(final long id) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         return realm.where(Judgement.class).equalTo("id", id).findFirst();
     }

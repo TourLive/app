@@ -11,7 +11,9 @@ import com.google.gson.GsonBuilder;
 
 import java.util.HashMap;
 
+import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnectionDTO;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -50,7 +52,7 @@ public final class PostHandler extends HandlerThread {
                     case 2:
                         RiderStageConnection riderStageConnection = (RiderStageConnection)msg.obj;
                         APIClient.postRiderStageConnection(riderStageConnection.getId(), gson.toJson(riderStageConnection));
-                        Toast.makeText(mContext, "RiderStageConnection has been updated" + riderStageConnection.getType().toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(mContext, "RiderStageConnection has been updated", Toast.LENGTH_LONG).show();
                         break;
                     case 3:
                         RaceGroup rG = (RaceGroup)msg.obj;
@@ -59,7 +61,7 @@ public final class PostHandler extends HandlerThread {
                         break;
                     case 4:
                         JudgmentRiderConnection judgmentRiderConnection = (JudgmentRiderConnection)msg.obj;
-                        APIClient.postJudgmentRiderConnection(gson.toJson(judgmentRiderConnection));
+                        APIClient.postJudgmentRiderConnection(gson.toJson(new JudgmentRiderConnectionDTO(judgmentRiderConnection)));
                         Toast.makeText(mContext, "Judgment has been added", Toast.LENGTH_LONG).show();
                         break;
                     case 5:

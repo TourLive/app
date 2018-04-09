@@ -10,7 +10,7 @@ public interface IJudgmentPresenter extends IBasePresenter {
 
     void getAllJudgments();
 
-    RealmList<Judgement> getJudgmentsById(int judgmentId);
+    RealmList<Judgement> getJudgmentsById(long judgmentId);
 
-    Judgement getJudgmentByObjectIdReturned(String id);
+    Judgement getJudgmentByObjectIdReturned(long id);
 }
