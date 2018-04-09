@@ -6,11 +6,8 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class Reward extends RealmObject {
-
     @PrimaryKey
-    private String id;
-    @Required
-    private Integer rewardId;
+    private long id;
     @Required
     private String type;
 
@@ -20,12 +17,12 @@ public class Reward extends RealmObject {
 
     private RealmList<Judgement> rewardJudgements;
 
-    public Integer getRewardId() {
-        return rewardId;
+    public long getId() {
+        return id;
     }
 
-    public void setRewardId(Integer rewardId) {
-        this.rewardId = rewardId;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public RewardType getType() {

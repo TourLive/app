@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import com.google.gson.annotations.Expose;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -13,9 +15,9 @@ public class Rider extends RealmObject {
     private final RealmResults<JudgmentRiderConnection> judgmentRiderConnectionsRiders = null;
     @LinkingObjects("riders")
     private final RealmResults<RaceGroup> raceGroups = null;
+    @Expose
     @PrimaryKey
-    private String id;
-    private Integer riderID;
+    private long id;
     private int startNr;
     @Required
     private String name;
@@ -35,17 +37,12 @@ public class Rider extends RealmObject {
             return null;
         }
     }
-
-    public Integer getRiderID() {
-        return riderID;
-    }
-
-    public void setRiderID(Integer riderID) {
-        this.riderID = riderID;
-    }
-
-    public String getId() {
+    public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getStartNr() {

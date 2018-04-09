@@ -16,9 +16,8 @@ public class MaillotRepository implements IMaillotRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
 
         realm.executeTransaction((Realm db) -> {
-            Maillot realmMaillot = db.createObject(Maillot.class, UUID.randomUUID().toString());
+            Maillot realmMaillot = db.createObject(Maillot.class, maillot.getId());
             realmMaillot.setColor(maillot.getColor());
-            realmMaillot.setDbIDd(maillot.getDbIDd());
             realmMaillot.setName(maillot.getName());
             realmMaillot.setPartner(maillot.getPartner());
             realmMaillot.setType(maillot.getType());
@@ -54,7 +53,7 @@ public class MaillotRepository implements IMaillotRepository {
     public void addRiderToMaillot(Maillot maillot, int riderDbId) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         Maillot realmMaillot = realm.where(Maillot.class).equalTo("id", maillot.getId()).findFirst();
-        Rider rider = realm.where(Rider.class).equalTo("riderID", riderDbId).findFirst();
+        Rider rider = realm.where(Rider.class).equalTo("id", riderDbId).findFirst();
         realm.beginTransaction();
         realmMaillot.setRider(rider);
         realm.commitTransaction();
@@ -63,7 +62,7 @@ public class MaillotRepository implements IMaillotRepository {
     @Override
     public Maillot getMaillotById(int id) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        return realm.where(Maillot.class).equalTo("dbIDd", id).findFirst();
+        return realm.where(Maillot.class).equalTo("id", id).findFirst();
     }
 
     @Override
