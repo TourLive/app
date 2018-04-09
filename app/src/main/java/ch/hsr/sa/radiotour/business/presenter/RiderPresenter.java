@@ -44,11 +44,6 @@ public class RiderPresenter implements IRiderPresenter {
     }
 
     @Override
-    public void addRider(Rider rider) {
-        riderRepository.addRider(rider, onSaveRiderCallback);
-    }
-
-    @Override
     public void addRiderNone(Rider rider) {
         riderRepository.addRider(rider, null);
     }
@@ -76,11 +71,6 @@ public class RiderPresenter implements IRiderPresenter {
     @Override
     public RealmList<Rider> getAllUnknownRidersReturned() {
         return riderRepository.getAllUnknownRidersReturned();
-    }
-
-    @Override
-    public void removeRider(Rider rider) {
-        riderRepository.removeRider(rider, onSaveRiderCallback);
     }
 
     @Override
