@@ -122,11 +122,6 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void addInitialRaceGroup(RaceGroup raceGroup) {
-        raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
-    }
-
-    @Override
     public void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders) {
         raceGroupRepository.updateRaceGroupRiders(raceGroup, newRiders, onUpdateRaceGroupCallBack);
     }
@@ -155,18 +150,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void deleteRaceGroup(RaceGroup raceGroup) {
-        raceGroupRepository.deleteRaceGroup(raceGroup);
-    }
-
-    @Override
     public void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider) {
         raceGroupRepository.deleteRiderInRaceGroup(raceGroup, rider, onUpdateRaceGroupCallBack);
-    }
-
-    @Override
-    public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
-        raceGroupRepository.updateRaceGroupPosition(raceGroup, position);
     }
 
     @Override
