@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 
 import java.util.UUID;
 
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionRepository;
@@ -37,9 +38,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
 
         if (callback != null)
             callback.onSuccess();
+            PostHandler.makeMessage("CreateJudgmentRiderConnection", realm.copyFromRealm(realmConnection));
     }
 
     private void removeOldJudgmentRiderConnections(RealmResults<JudgmentRiderConnection> res) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         for (JudgmentRiderConnection jRc : res) {
             int rank = jRc.getRank();
             Judgement judgement = jRc.getJudgements().first();
@@ -59,7 +62,10 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
                 riderStageConnection.removeBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, reward));
             }
             riderStageConnection.removeMoney(RiderStageConnectionUtilities.getMoneyAtPosition(rank, reward));
+            PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(riderStageConnection));
+            PostHandler.makeMessage("DeleteJudgmentRiderConnection", realm.copyFromRealm(jRc));
             jRc.deleteFromRealm();
+
         }
     }
 

@@ -205,7 +205,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void updateRiderStageConnection() {
         initalData();
-        int id;
+        long id;
 
         RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
         id = res.getId();

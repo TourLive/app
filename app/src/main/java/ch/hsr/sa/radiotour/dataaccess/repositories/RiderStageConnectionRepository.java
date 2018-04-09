@@ -68,6 +68,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
 
     @Override
     public void updateRiderStageConnection(final RiderStageConnection newRiderStageConnection, final RiderStageConnection oldRiderStageConnection, OnUpdateRiderStageConnectionCallBack callback) {
+        // Only needed for testing
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.executeTransaction((Realm db) -> {
             RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", oldRiderStageConnection.getId()).findFirst();
@@ -131,7 +132,6 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             for (Rider r : res.getRiders()) {
                 if (!r.getRiderStages().isEmpty()) {
                     r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() - timeBefore);
-                    //PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(r.getRiderStages().first()));
                 }
             }
         }
@@ -139,12 +139,9 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             for (Rider r : res.getRiders()) {
                 if (!r.getRiderStages().isEmpty()) {
                     r.getRiderStages().first().setVirtualGap(r.getRiderStages().first().getVirtualGap() + timeStamp);
-                    //PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(r.getRiderStages().first()));
                 }
             }
         }
-
-        //Aktualisieren wird beides (RaceGroup und RiderStageConnection über seperate API Calls oder übernimmt dies die API?
 
         RealmResults<RiderStageConnection> connections = realm.where(RiderStageConnection.class).findAll();
         List<RiderStageConnection> cons = realm.copyFromRealm(connections);
