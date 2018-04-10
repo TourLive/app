@@ -83,10 +83,19 @@ public class StageRepositoryInstrumentedTest {
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
+        RiderStageConnection riderStageConnectionTwo = new RiderStageConnection();
+        riderStageConnectionTwo.setId(new Random().nextLong());
+        riderStageConnectionTwo.setBonusPoint(10);
+        riderStageConnectionTwo.setBonusTime(20);
+        riderStageConnectionTwo.setOfficialGap(100);
+        riderStageConnectionTwo.setOfficialTime(100);
+        riderStageConnectionTwo.setType(RiderStateType.DNC);
+        riderStageConnectionTwo.setVirtualGap(100);
+
         synchronized (this){
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
             riderStageConnection.setBonusPoint(100);
-            riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
+            riderStageConnectionRepository.addRiderStageConnection(riderStageConnectionTwo, onSaveRiderStageConnectionCallback);
         }
 
         RealmList<RiderStageConnection> connections = new RealmList<>();
@@ -118,7 +127,7 @@ public class StageRepositoryInstrumentedTest {
     @Test
     public void clearAllStages(){
         Stage stage = new Stage();
-        stage.setId(1);
+        stage.setId(new Random().nextLong());
         stage.setDistance(100);
         stage.setStartTime(new Date());
         stage.setEndTime(new Date());
@@ -127,10 +136,20 @@ public class StageRepositoryInstrumentedTest {
         stage.setName("Ettape 1");
         stage.setType(StageType.FLATSTAGE);
 
+        Stage stageTwo = new Stage();
+        stageTwo.setId(new Random().nextLong());
+        stageTwo.setDistance(100);
+        stageTwo.setStartTime(new Date());
+        stageTwo.setEndTime(new Date());
+        stageTwo.setFrom("bern");
+        stageTwo.setTo("zuerich");
+        stageTwo.setName("Ettape 1");
+        stageTwo.setType(StageType.FLATSTAGE);
+
         synchronized (this){
             stageRepository.addStage(stage, onSaveStageCallback);
             stage.setDistance(200);
-            stageRepository.addStage(stage, onSaveStageCallback);
+            stageRepository.addStage(stageTwo, onSaveStageCallback);
         }
 
         synchronized (this){

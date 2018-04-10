@@ -136,6 +136,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void addRiderStageConnection(){
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setSprintBonusPoints(100);
