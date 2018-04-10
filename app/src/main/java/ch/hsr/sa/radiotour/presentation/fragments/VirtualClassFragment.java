@@ -26,7 +26,6 @@ import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.VirtualClassementComparators;
-import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.presentation.models.EmptyItem;
 import ch.hsr.sa.radiotour.presentation.models.VirtualClassementRider;
 import io.realm.RealmList;

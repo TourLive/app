@@ -1,8 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
-import android.os.Message;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;

@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import java.util.UUID;
-
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;

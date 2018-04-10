@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
 import java.util.Random;
-import java.util.UUID;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
