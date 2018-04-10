@@ -1,12 +1,10 @@
 package ch.hsr.sa.radiotour.business.presenter;
 
-import android.os.Message;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRiderStageConnectionPresenter;
-import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;

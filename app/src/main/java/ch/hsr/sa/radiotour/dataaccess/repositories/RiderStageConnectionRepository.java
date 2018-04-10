@@ -1,7 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
 import java.util.List;
-import java.util.UUID;
 
 import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
