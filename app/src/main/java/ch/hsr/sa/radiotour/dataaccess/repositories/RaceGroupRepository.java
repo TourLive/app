@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.dataaccess.repositories;
 import android.os.Message;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.UUID;
 
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
@@ -16,32 +17,6 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 public class RaceGroupRepository implements IRaceGroupRepository {
-    @Override
-    public void addInitialRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {
-        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
-        final RaceGroup transferRaceGroup = raceGroup;
-
-        realm.beginTransaction();
-
-        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
-        realmRaceGroup.setType(transferRaceGroup.getType());
-        realmRaceGroup.setActualGapTime(transferRaceGroup.getActualGapTime());
-        realmRaceGroup.setHistoryGapTime(transferRaceGroup.getHistoryGapTime());
-        RealmList<Rider> res = new RealmList<>();
-        for (Rider r : transferRaceGroup.getRiders()) {
-            RealmResults<Rider> temp = realm.where(Rider.class).equalTo("startNr", r.getStartNr()).findAll();
-            res.addAll(temp);
-        }
-        realmRaceGroup.setPosition(transferRaceGroup.getPosition());
-        realmRaceGroup.setRiders(res);
-
-        realm.commitTransaction();
-
-        if (callback != null) {
-            callback.onSuccess(realmRaceGroup);
-        }
-    }
-
     @Override
     public void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
@@ -90,6 +65,8 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.commitTransaction();
         if (callback != null) {
             callback.onSuccess(realmRaceGroup);
+            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
         }
     }
 
@@ -143,6 +120,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         if (!riders.isEmpty())
             realmRaceGroup.appendRiders(riders);
+
         realm.commitTransaction();
 
         if (realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()) {
@@ -151,6 +129,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         if (callback != null) {
             callback.onSuccess(realmRaceGroup);
+            realm.beginTransaction();
+            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+            realm.commitTransaction();
+            final List<RaceGroup> raceGroups = realm.copyFromRealm(results);
+            PostHandler.makeMessage("UpdateRaceGroups", raceGroups);
         }
 
     }
@@ -169,6 +152,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         if (callback != null) {
             RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
             callback.onSuccess(res);
+            //PostHandler.makeMessage("", realm.copyFromRealm(res));
         }
     }
 
@@ -210,11 +194,14 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         if (callback != null) {
             callback.onSuccess(raceGroup);
+            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
         }
     }
 
     @Override
     public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
+        // Only needed for testing
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
         raceGroup.setPosition(position);

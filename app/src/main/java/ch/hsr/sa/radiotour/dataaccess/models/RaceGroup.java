@@ -8,23 +8,16 @@ import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.Required;
 
 public class RaceGroup extends RealmObject {
-    @Expose
     @PrimaryKey
     private String id;
-    @Expose
     private Long dbRaceGroupid;
 
-    @Expose
     @Required
     private String type;
-    @Expose
     private long actualGapTime;
-    @Expose
     private long historyGapTime;
-    @Expose
     private int position;
 
-    @Expose
     private RealmList<Rider> riders;
 
     public String getId() {

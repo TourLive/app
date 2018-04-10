@@ -24,7 +24,7 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://152.96.237.46:9000/";
+    private static final String BASE_URL = "http://152.96.235.174:9000/";
     private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
@@ -120,7 +120,7 @@ public final class APIClient {
         postData(UrlLink.JUDGMENTRIDERCONNECTION, body);
     }
 
-    public static void putRaceGroup(long id, String body) {
+    public static void putRaceGroup(String id, String body) {
         putData(UrlLink.RACEGROUPS + "/" + id, body);
     }
 
@@ -128,8 +128,8 @@ public final class APIClient {
         deleteAPI(UrlLink.JUDGMENTRIDERCONNECTION + "/" + id);
     }
 
-    public static void postRaceGroup(String body) {
-        postData(UrlLink.RACEGROUPS, body);
+    public static void postRaceGroups(long stage, String body) {
+        postData(UrlLink.RACEGROUPS + "/stages/" + stage, body);
     }
 
     public static void putData(String url, String body){

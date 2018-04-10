@@ -173,7 +173,7 @@ public class RaceGroupRepositoryInstrumentedTest {
         raceGroup.setRiders(riders);
 
         synchronized (this) {
-            raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
+            raceGroupRepository.addRaceGroup(raceGroup, onSaveRaceGroupCallback);
         }
 
         RealmResults<RaceGroup> res = realm.where(RaceGroup.class).findAll();
