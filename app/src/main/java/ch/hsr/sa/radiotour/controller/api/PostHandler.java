@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +49,12 @@ public final class PostHandler extends HandlerThread {
             public void handleMessage(Message msg) {
                 switch (msg.arg1){
                     case 1:
-                        List<RaceGroup> aRG = (ArrayList<RaceGroup>) msg.obj;
+                        List<RaceGroup> aRG;
+                        try {
+                            aRG = (ArrayList<RaceGroup>) msg.obj;
+                        } catch (Exception e) {
+                            break;
+                        }
                         List<RaceGroupDTO> raceGroupDTOS = new ArrayList<>();
                         for (RaceGroup r : aRG) {
                             raceGroupDTOS.add(new RaceGroupDTO(r));
@@ -71,7 +77,8 @@ public final class PostHandler extends HandlerThread {
                         break;
                     case 5:
                         RaceGroupDTO raceGroupDTO = new RaceGroupDTO((RaceGroup) msg.obj);
-                        APIClient.putRaceGroup(raceGroupDTO.getId(), gson.toJson(raceGroupDTO));
+                        long singleRGStageID = stageRepository.getStage().getId();
+                        APIClient.putRaceGroup(raceGroupDTO.getId(), singleRGStageID, gson.toJson(raceGroupDTO));
                     default:
                         break;
                 }

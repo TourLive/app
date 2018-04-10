@@ -120,8 +120,8 @@ public final class APIClient {
         postData(UrlLink.JUDGMENTRIDERCONNECTION, body);
     }
 
-    public static void putRaceGroup(String id, String body) {
-        putData(UrlLink.RACEGROUPS + "/" + id, body);
+    public static void putRaceGroup(String id, long stage, String body) {
+        putData(UrlLink.RACEGROUPS + "/" + id + "/stages/" + stage, body);
     }
 
     public static void deleteJudgmentRiderConnection(String id) {
