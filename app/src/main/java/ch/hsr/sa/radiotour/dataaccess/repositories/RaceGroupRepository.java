@@ -129,11 +129,8 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         if (callback != null) {
             callback.onSuccess(realmRaceGroup);
-            realm.beginTransaction();
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
-            realm.commitTransaction();
-            final List<RaceGroup> raceGroups = realm.copyFromRealm(results);
-            PostHandler.makeMessage("UpdateRaceGroups", raceGroups);
+            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
         }
 
     }
@@ -152,7 +149,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         if (callback != null) {
             RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
             callback.onSuccess(res);
-            //PostHandler.makeMessage("", realm.copyFromRealm(res));
+            PostHandler.makeMessage("UpdateRaceGroupTime", realm.copyFromRealm(res));
         }
     }
 
