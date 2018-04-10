@@ -9,31 +9,34 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnectionDTO;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupDTO;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.repositories.StageRepository;
 
 public final class PostHandler extends HandlerThread {
     private static Handler mHandler;
-    private static Context mContext;
     private static HashMap<String, Integer> classMapper;
-    private static Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create();
+    private static Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+    private StageRepository stageRepository = new StageRepository();
 
-    public PostHandler(Context context) {
+    public PostHandler() {
         super("PostHandler", 1);
-        this.mContext = context;
         classMapper = new HashMap<>();
-        classMapper.put("CreateRaceGroup", 1);
-        classMapper.put("UpdateRiderStageConnection", 2);
-        classMapper.put("UpdateRaceGroup", 3);
-        classMapper.put("CreateJudgmentRiderConnection", 4);
-        classMapper.put("DeleteJudgmentRiderConnection", 5);
-        classMapper.put("DeleteRaceGroup", 6);
+        classMapper.put("UpdateRaceGroups", 1);
+        classMapper.put("UpdateRiderStageConnection", 2);;
+        classMapper.put("CreateJudgmentRiderConnection", 3);
+        classMapper.put("DeleteJudgmentRiderConnection", 4);
+        classMapper.put("UpdateRaceGroupTime", 5);
     }
 
     @Override
@@ -45,30 +48,30 @@ public final class PostHandler extends HandlerThread {
             public void handleMessage(Message msg) {
                 switch (msg.arg1){
                     case 1:
-                        RaceGroup aRG = (RaceGroup)msg.obj;
-                        APIClient.postRaceGroup(gson.toJson(aRG));
-                        Toast.makeText(mContext, "Racegroups has been added", Toast.LENGTH_LONG).show();
+                        List<RaceGroup> aRG = (ArrayList<RaceGroup>) msg.obj;
+                        List<RaceGroupDTO> raceGroupDTOS = new ArrayList<>();
+                        for (RaceGroup r : aRG) {
+                            raceGroupDTOS.add(new RaceGroupDTO(r));
+                        }
+                        String json = gson.toJson(raceGroupDTOS);
+                        long stageId = stageRepository.getStage().getId();
+                        APIClient.postRaceGroups(stageId, gson.toJson(json));
                         break;
                     case 2:
                         RiderStageConnection riderStageConnection = (RiderStageConnection)msg.obj;
                         APIClient.postRiderStageConnection(riderStageConnection.getId(), gson.toJson(riderStageConnection));
-                        Toast.makeText(mContext, "RiderStageConnection has been updated", Toast.LENGTH_LONG).show();
                         break;
                     case 3:
-                        RaceGroup rG = (RaceGroup)msg.obj;
-                        APIClient.putRaceGroup(Long.parseLong(rG.getId()), gson.toJson(rG));
-                        Toast.makeText(mContext, "RaceGroup has been updated", Toast.LENGTH_LONG).show();
-                        break;
-                    case 4:
                         JudgmentRiderConnection judgmentRiderConnection = (JudgmentRiderConnection)msg.obj;
                         APIClient.postJudgmentRiderConnection(gson.toJson(new JudgmentRiderConnectionDTO(judgmentRiderConnection)));
-                        Toast.makeText(mContext, "Judgment has been added", Toast.LENGTH_LONG).show();
                         break;
-                    case 5:
+                    case 4:
                         JudgmentRiderConnection jRC = (JudgmentRiderConnection)msg.obj;
                         APIClient.deleteJudgmentRiderConnection(jRC.getId());
-                        Toast.makeText(mContext, "Judgment has been deleted", Toast.LENGTH_LONG).show();
                         break;
+                    case 5:
+                        RaceGroupDTO raceGroupDTO = new RaceGroupDTO((RaceGroup) msg.obj);
+                        APIClient.putRaceGroup(raceGroupDTO.getId(), gson.toJson(raceGroupDTO));
                     default:
                         break;
                 }
@@ -80,7 +83,7 @@ public final class PostHandler extends HandlerThread {
         mHandler.sendMessage(msg);
     }
 
-    public static void makeMessage(String type, Object object) {
+    public static void makeMessage(String type, final Object object) {
         Message message = Message.obtain();
         message.arg1 = classMapper.get(type);
         message.obj = object;

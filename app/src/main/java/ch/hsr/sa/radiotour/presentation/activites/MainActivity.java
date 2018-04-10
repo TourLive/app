@@ -279,7 +279,7 @@ public class MainActivity extends AppCompatActivity {
         };
         timerForUpdate.schedule(timerTaskForUpdate, delayTime, updateTime);
 
-        PostHandler postHandler = new PostHandler(getApplicationContext());
+        PostHandler postHandler = new PostHandler();
         postHandler.start();
     }
 
