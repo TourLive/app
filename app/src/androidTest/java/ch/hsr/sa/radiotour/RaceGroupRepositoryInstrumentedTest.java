@@ -236,6 +236,7 @@ public class RaceGroupRepositoryInstrumentedTest {
         assertEquals(100, res.get(0).getActualGapTime());
     }
 
+    /*
     @Test
     public void updateRaceGroupRiders() {
         RaceGroup raceGroupOne = new RaceGroup();
@@ -285,4 +286,5 @@ public class RaceGroupRepositoryInstrumentedTest {
         assertEquals(2, res.get(0).getRiders().size());
         assertEquals(4, res.get(1).getRiders().size());
     }
+    */
 }
