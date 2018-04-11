@@ -120,11 +120,6 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
     }
 
     @Override
-    public void updateRiderStageConnection(RiderStageConnection newRiderStageConnection, RiderStageConnection oldRiderStageConnection) {
-        riderStageConnectionRepository.updateRiderStageConnection(newRiderStageConnection, oldRiderStageConnection, onUpdateRiderStageConnectionCallBack);
-    }
-
-    @Override
     public void updateRiderStageConnectionReward(RiderStageConnection riderStageConnection) {
         riderStageConnectionRepository.updateRiderStageConnectionReward(riderStageConnection, onUpdateRiderStageConnectionCallBack);
     }

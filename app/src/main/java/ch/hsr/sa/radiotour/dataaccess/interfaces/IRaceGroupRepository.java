@@ -5,8 +5,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import io.realm.RealmList;
 
 public interface IRaceGroupRepository {
-    void addInitialRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback);
-
     void addRaceGroup(RaceGroup raceGroup, OnSaveRaceGroupCallback callback);
 
     void getAllRaceGroups(OnGetAllRaceGroupsCallback callback);

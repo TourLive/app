@@ -7,7 +7,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Date;
+import java.util.Random;
 
+import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
@@ -51,6 +54,9 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
                 realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
             }
         });
+        PostHandler postHandler = new PostHandler();
+        postHandler.start();
+        APIClient.setDemoMode(true);
     }
 
 
@@ -135,6 +141,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void addRiderStageConnection(){
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setSprintBonusPoints(100);
@@ -163,6 +170,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     }
     private void initalData() {
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setSprintBonusPoints(100);
@@ -173,6 +181,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         riderStageConnection.setVirtualGap(100);
 
         RiderStageConnection riderStageConnectionTwo = new RiderStageConnection();
+        riderStageConnectionTwo.setId(new Random().nextLong());
         riderStageConnectionTwo.setBonusPoint(20);
         riderStageConnectionTwo.setSprintBonusPoints(300);
         riderStageConnectionTwo.setMountainBonusPoints(400);
@@ -205,7 +214,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     @Test
     public void updateRiderStageConnection() {
         initalData();
-        String id;
+        long id;
 
         RiderStageConnection res = realm.where(RiderStageConnection.class).findAll().first();
         id = res.getId();
@@ -239,6 +248,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
     public void updateRiderState() {
         RealmList<RiderStageConnection> riderStageConnections = new RealmList<>();
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
@@ -271,6 +281,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
 
     private void initalRider() {
         Rider rider = new Rider();
+        rider.setId(new Random().nextLong());
         rider.setTeamShortName("T");
         rider.setTeamName("TEST");
         rider.setCountry("T");
@@ -307,6 +318,7 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
         virtRank.setRank(1);
         virtRank.setType(RankingType.VIRTUAL);
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);

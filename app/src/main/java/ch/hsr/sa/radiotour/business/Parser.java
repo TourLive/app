@@ -60,18 +60,19 @@ public final class Parser {
 
                         Rider rider = new Rider();
                         JSONObject jsonRider = jsonRiderStageConnection.getJSONObject("rider");
+                        rider.setId(jsonRider.getLong(riderID));
                         rider.setStartNr(jsonRider.getInt(startNr));
                         rider.setCountry(jsonRider.getString(country));
                         rider.setName(jsonRider.getString(name));
                         rider.setTeamName(jsonRider.getString(team));
                         rider.setTeamShortName(jsonRider.getString(teamShort));
-                        rider.setRiderID(jsonRider.getInt(riderID));
                         rider.setUnknown(jsonRider.getBoolean(unknown));
                         synchronized (this) {
                             Context.addRider(rider);
                         }
 
                         RiderStageConnection riderStageConnection = new RiderStageConnection();
+                        riderStageConnection.setId(jsonRiderStageConnection.getInt("id"));
                         riderStageConnection.setBonusPoint(jsonRiderStageConnection.getInt("bonusPoints"));
                         riderStageConnection.setBonusTime(jsonRiderStageConnection.getInt("bonusTime"));
                         riderStageConnection.setOfficialGap(jsonRiderStageConnection.getLong("officialGap"));
@@ -231,7 +232,8 @@ public final class Parser {
                 try {
                     JSONObject jsonJudgment = judgmentsJson.getJSONObject(i);
                     Judgement judgment = new Judgement();
-                    judgment.setDistance(jsonJudgment.getInt("distance"));
+                    judgment.setId(jsonJudgment.getInt("id"));
+                    judgment.setDistance(jsonJudgment.getDouble("distance"));
                     judgment.setName(jsonJudgment.getString("name"));
                     judgment.setRewardId(jsonJudgment.getJSONObject("reward").getInt("id"));
                     Context.addJudgment(judgment);
@@ -252,6 +254,7 @@ public final class Parser {
                 try {
                     JSONObject jsonReward = rewardsJson.getJSONObject(i);
                     Reward reward = new Reward();
+                    reward.setId(jsonReward.getInt("id"));
 
                     RealmList<Integer> moneyList = new RealmList<>();
                     JSONArray moneyArray = jsonReward.getJSONArray("money");
@@ -275,9 +278,7 @@ public final class Parser {
                     }
                     reward.setPoints(bonusList);
 
-                    reward.setRewardId(jsonReward.getInt("id"));
-
-                    reward.setRewardJudgements(Context.getJudgmentsById(reward.getRewardId()));
+                    reward.setRewardJudgements(Context.getJudgmentsById(reward.getId()));
                     Context.addReward(reward);
                 } catch (JSONException e) {
                     Log.d(Parser.class.getSimpleName(), "APP - PARSER - REWARDS - " + e.getMessage());
@@ -293,7 +294,7 @@ public final class Parser {
         Runnable runnable = (() -> {
             try {
                 Stage stage = new Stage();
-                stage.setStageId(jsonStage.getInt("id"));
+                stage.setId(jsonStage.getLong("id"));
                 stage.setType(StageType.valueOf(jsonStage.getString("stageType")));
                 stage.setName(jsonStage.getString("id"));
                 stage.setTo(jsonStage.getString("start"));
@@ -337,7 +338,7 @@ public final class Parser {
                         maillot.setType(jsonMaillot.getString("type"));
                         maillot.setPartner(jsonMaillot.getString("partner"));
                         maillot.setName(jsonMaillot.getString("name"));
-                        maillot.setDbIDd(jsonMaillot.getInt("id"));
+                        maillot.setId(jsonMaillot.getInt("id"));
                         maillot.setColor(jsonMaillot.getString("color"));
                         synchronized (this) {
                             Context.addMaillot(maillot);

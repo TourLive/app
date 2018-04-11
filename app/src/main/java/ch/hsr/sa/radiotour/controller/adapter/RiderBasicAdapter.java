@@ -32,7 +32,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     private Context context;
     private Judgement judgement;
     private OnRiderJudgmentClickListener onRiderJudgmentClickListener;
-    private List<Integer> selectedRiders = new ArrayList<>();
+    private List<Long> selectedRiders = new ArrayList<>();
 
     public RiderBasicAdapter(RealmList<Rider> riders, Judgement judgement, OnRiderJudgmentClickListener onRiderJudgmentClickListener) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
@@ -110,7 +110,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         return this.selectedRider;
     }
 
-    public void removeRiderFromList(Integer i) {
+    public void removeRiderFromList(long i) {
         selectedRiders.remove(i);
     }
 
@@ -127,7 +127,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
         @Override
         public void onClick(View view) {
             Rider rider = riders.get(getAdapterPosition());
-            if (selectedRiders.contains(rider.getRiderID())) {
+            if (selectedRiders.contains(rider.getId())) {
                 Toast toast = Toast.makeText(context, context.getResources().getString(R.string.judgment_duplicated_rider), Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
                 toast.show();
@@ -137,7 +137,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
                 toast.show();
             } else {
                 selectedRider = rider;
-                selectedRiders.add(rider.getRiderID());
+                selectedRiders.add(rider.getId());
                 onRiderJudgmentClickListener.saveJudgmnet();
             }
         }

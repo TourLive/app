@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import java.util.UUID;
-
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
@@ -15,10 +13,9 @@ public class RewardRepository implements IRewardRepository {
         final Reward transferReward = reward;
 
         realm.executeTransaction((Realm db) -> {
-            Reward realmReward = db.createObject(Reward.class, UUID.randomUUID().toString());
+            Reward realmReward = db.createObject(Reward.class, reward.getId());
             realmReward.setMoney(transferReward.getMoney());
             realmReward.setPoints(transferReward.getPoints());
-            realmReward.setRewardId(transferReward.getRewardId());
             realmReward.setType(transferReward.getType());
             realmReward.setRewardJudgements(transferReward.getRewardJudgements());
         });

@@ -9,11 +9,11 @@ public interface IJudgmentRepository {
 
     void getAllJudgments(OnGetAllJudgmentCallback callback);
 
-    RealmList<Judgement> getJudgmentsById(final int judgmentId);
+    RealmList<Judgement> getJudgmentsById(final long judgmentId);
 
     void clearAllJudgments();
 
-    Judgement getJudgmentByObjectIdReturned(final String id);
+    Judgement getJudgmentByObjectIdReturned(final long id);
 
     interface OnSaveJudgmentCallback {
         void onSuccess();

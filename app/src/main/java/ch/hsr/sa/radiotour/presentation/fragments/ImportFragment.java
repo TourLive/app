@@ -20,11 +20,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -50,9 +48,6 @@ import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-
-import static android.view.ViewGroup.*;
-import static android.widget.LinearLayout.*;
 
 public class ImportFragment extends Fragment implements View.OnClickListener {
     private static final String PARAMETER = "parameter";
@@ -403,7 +398,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
 
     public void updateActualStage(Stage stage) {
         raceIdView.setText(getString(R.string.import_race_infos, stage.getRaceName(), stage.getRaceId()));
-        stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getFrom(), stage.getTo(), stage.getStageId()));
+        stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getFrom(), stage.getTo(), stage.getId()));
     }
 
     private String copyBundledRealmFile() throws IOException {

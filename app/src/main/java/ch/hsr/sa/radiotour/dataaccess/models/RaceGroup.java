@@ -8,6 +8,8 @@ import io.realm.annotations.Required;
 public class RaceGroup extends RealmObject {
     @PrimaryKey
     private String id;
+    private Long dbRaceGroupid;
+
     @Required
     private String type;
     private long actualGapTime;
@@ -83,5 +85,13 @@ public class RaceGroup extends RealmObject {
             default:
                 return "DEFAULT";
         }
+    }
+
+    public Long getDbRaceGroupid() {
+        return dbRaceGroupid;
+    }
+
+    public void setDbRaceGroupid(Long dbRaceGroupid) {
+        this.dbRaceGroupid = dbRaceGroupid;
     }
 }

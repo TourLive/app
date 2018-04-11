@@ -9,15 +9,17 @@ addons:
 android:
   licenses:
     - android-sdk-license-.+
-    - '.+'
+    - google-gdk-license-.+
+    - android-sdk-preview-.+
+    - android-sdk-preview-license-d099d938
   components:
-  - tools
-  - build-tools-26.0.2
-  - extra-android-m2repository
-  - platform-tools
-  - tools
-  - sys-img-armeabi-v7a-addon-google_apis-google-24
-  - sys-img-armeabi-v7a-android-24
+    - tools
+    - build-tools-26.0.2
+    - extra-android-m2repository
+    - platform-tools
+    - tools
+    - sys-img-armeabi-v7a-addon-google_apis-google-24
+    - sys-img-armeabi-v7a-android-24
 env:
   global:
     - API=24 # Android API level 25 by default
@@ -31,27 +33,26 @@ install:
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
   - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 before_install:
-- chmod +x gradlew
-- mkdir "$ANDROID_HOME/licenses" || true
-- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-- echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
+  - chmod +x gradlew
+  - mkdir "$ANDROID_HOME/licenses" || true
+  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+  - echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
 branches:
   only:
   - master
 before_script:
   - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
   - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}' # list all targets  
-  - echo no | android create avd --force -n test -t android-${API} --abi armeabi-v7a
+  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
   - emulator -avd test -no-skin -no-window &
   - android-wait-for-emulator
-  - adb shell input keyevent 82 &  
+  - adb shell input keyevent 82 &
 script:
-- ./gradlew build assembleRelease
-- ./gradlew connectedAndroidTest
-- ./gradlew sonarqube
+  - ./gradlew build assembleRelease
+  - ./gradlew sonarqube
 before_cache:
-- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
   - "$HOME/.m2"
@@ -60,10 +61,10 @@ cache:
   - "$HOME/.gradle/wrapper/"
   - '.gradle'
 after_success:
-- sh set_tags.sh
+  - sh set_tags.sh
 before_deploy:
-- ls app/build/outputs/apk/debug
-- cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
+  - ls app/build/outputs/apk/debug
+  - cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
 deploy:
   provider: releases
   api_key:
@@ -73,4 +74,4 @@ deploy:
   skip_cleanup: true
   on:
     branch: master
-    repo: RadioTour/app
+    repo: TourLive/app

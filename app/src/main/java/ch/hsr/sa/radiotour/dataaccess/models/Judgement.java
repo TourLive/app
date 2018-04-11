@@ -1,5 +1,7 @@
 package ch.hsr.sa.radiotour.dataaccess.models;
 
+import com.google.gson.annotations.Expose;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.RealmResults;
@@ -13,12 +15,21 @@ public class Judgement extends RealmObject {
     private final RealmResults<Reward> rewards = null;
     @LinkingObjects("judgements")
     private final RealmResults<JudgmentRiderConnection> judgmentRiderConnections = null;
+    @Expose
     int rewardId;
     @PrimaryKey
-    private String id;
+    private long id;
     @Required
     private String name;
-    private int distance;
+    private double distance;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
 
     public Reward getRewards() {
         return this.rewards.first();
@@ -32,11 +43,11 @@ public class Judgement extends RealmObject {
         this.name = name;
     }
 
-    public int getDistance() {
+    public double getDistance() {
         return distance;
     }
 
-    public void setDistance(int distance) {
+    public void setDistance(double distance) {
         this.distance = distance;
     }
 
@@ -46,10 +57,6 @@ public class Judgement extends RealmObject {
 
     public void setRewardId(int rewardId) {
         this.rewardId = rewardId;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public RealmList<JudgmentRiderConnection> getJudgmentRiderConnection() {
