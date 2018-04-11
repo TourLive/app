@@ -9,7 +9,9 @@ addons:
 android:
   licenses:
     - android-sdk-license-.+
-    - 'google-gdk-license-.+'
+    - google-gdk-license-.+
+	- android-sdk-preview-+
+	- 'android-sdk-preview-license-d099d938'.
   components:
     - tools
     - build-tools-26.0.2
