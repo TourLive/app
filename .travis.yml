@@ -48,7 +48,7 @@ before_script:
   - adb shell input keyevent 82 &  
 script:
 - ./gradlew build assembleRelease
-- ./gradlew connectedAndroidTest
+- ./gradlew connectedAndroidTest --stacktrace
 - ./gradlew sonarqube
 before_cache:
 - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
