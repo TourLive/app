@@ -9,6 +9,8 @@ import org.junit.runner.RunWith;
 import java.util.Date;
 import java.util.Random;
 
+import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
@@ -52,6 +54,9 @@ public class RiderStageConnectionRepositoryInstrumentedTest {
                 realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
             }
         });
+        PostHandler postHandler = new PostHandler();
+        postHandler.start();
+        APIClient.setDemoMode(true);
     }
 
 

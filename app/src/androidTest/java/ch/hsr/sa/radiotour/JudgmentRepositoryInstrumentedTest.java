@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Random;
 
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
