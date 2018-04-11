@@ -42,14 +42,20 @@ public class RewardRepositoryInstrumentedTest {
         });
 
         Judgement judgement = new Judgement();
+        judgement.setId(new Random().nextLong());
         judgement.setDistance(100);
         judgement.setName("judgment");
         judgement.setRewardId(93);
 
+        Judgement judgementTwo = new Judgement();
+        judgementTwo.setId(new Random().nextLong());
+        judgementTwo.setDistance(100);
+        judgementTwo.setName("judgmentTwo");
+        judgementTwo.setRewardId(93);
+
         synchronized (this){
             judgmentRepository.addJudgment(judgement, onSaveJudgmentCallback);
-            judgement.setName("judgment2");
-            judgmentRepository.addJudgment(judgement, onSaveJudgmentCallback);
+            judgmentRepository.addJudgment(judgementTwo, onSaveJudgmentCallback);
         }
     }
 
@@ -102,7 +108,6 @@ public class RewardRepositoryInstrumentedTest {
         Assert.assertEquals(id, realm.where(Reward.class).findAll().first().getId());
         Assert.assertEquals(300, realm.where(Reward.class).findAll().first().getMoney().get(1).intValue());
         Assert.assertEquals(2, realm.where(Reward.class).findAll().first().getRewardJudgements().size());
-        Assert.assertEquals(id, realm.where(Reward.class).findAll().first().getRewardJudgements().first().getRewardId());
     }
 
     @Test
