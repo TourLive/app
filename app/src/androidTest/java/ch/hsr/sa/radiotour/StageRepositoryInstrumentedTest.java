@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import java.util.Date;
+import java.util.Random;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
@@ -37,12 +38,9 @@ public class StageRepositoryInstrumentedTest {
         this.riderStageConnectionRepository = new RiderStageConnectionRepository();
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Stage.class).findAll().deleteAllFromRealm();
-                realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction(realm -> {
+            realm.where(Stage.class).findAll().deleteAllFromRealm();
+            realm.where(RiderStageConnection.class).findAll().deleteAllFromRealm();
         });
     }
 
@@ -77,6 +75,7 @@ public class StageRepositoryInstrumentedTest {
     @Test
     public void addStage(){
         RiderStageConnection riderStageConnection = new RiderStageConnection();
+        riderStageConnection.setId(new Random().nextLong());
         riderStageConnection.setBonusPoint(10);
         riderStageConnection.setBonusTime(20);
         riderStageConnection.setOfficialGap(100);
@@ -84,10 +83,19 @@ public class StageRepositoryInstrumentedTest {
         riderStageConnection.setType(RiderStateType.DNC);
         riderStageConnection.setVirtualGap(100);
 
+        RiderStageConnection riderStageConnectionTwo = new RiderStageConnection();
+        riderStageConnectionTwo.setId(new Random().nextLong());
+        riderStageConnectionTwo.setBonusPoint(10);
+        riderStageConnectionTwo.setBonusTime(20);
+        riderStageConnectionTwo.setOfficialGap(100);
+        riderStageConnectionTwo.setOfficialTime(100);
+        riderStageConnectionTwo.setType(RiderStateType.DNC);
+        riderStageConnectionTwo.setVirtualGap(100);
+
         synchronized (this){
             riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
             riderStageConnection.setBonusPoint(100);
-            riderStageConnectionRepository.addRiderStageConnection(riderStageConnection, onSaveRiderStageConnectionCallback);
+            riderStageConnectionRepository.addRiderStageConnection(riderStageConnectionTwo, onSaveRiderStageConnectionCallback);
         }
 
         RealmList<RiderStageConnection> connections = new RealmList<>();
@@ -95,7 +103,7 @@ public class StageRepositoryInstrumentedTest {
         connections.addAll(realmConnections);
 
         Stage stage = new Stage();
-        stage.setStageId(1);
+        stage.setId(1);
         stage.setDistance(100);
         stage.setStartTime(new Date());
         stage.setEndTime(new Date());
@@ -119,7 +127,7 @@ public class StageRepositoryInstrumentedTest {
     @Test
     public void clearAllStages(){
         Stage stage = new Stage();
-        stage.setStageId(1);
+        stage.setId(new Random().nextLong());
         stage.setDistance(100);
         stage.setStartTime(new Date());
         stage.setEndTime(new Date());
@@ -128,10 +136,20 @@ public class StageRepositoryInstrumentedTest {
         stage.setName("Ettape 1");
         stage.setType(StageType.FLATSTAGE);
 
+        Stage stageTwo = new Stage();
+        stageTwo.setId(new Random().nextLong());
+        stageTwo.setDistance(100);
+        stageTwo.setStartTime(new Date());
+        stageTwo.setEndTime(new Date());
+        stageTwo.setFrom("bern");
+        stageTwo.setTo("zuerich");
+        stageTwo.setName("Ettape 1");
+        stageTwo.setType(StageType.FLATSTAGE);
+
         synchronized (this){
             stageRepository.addStage(stage, onSaveStageCallback);
             stage.setDistance(200);
-            stageRepository.addStage(stage, onSaveStageCallback);
+            stageRepository.addStage(stageTwo, onSaveStageCallback);
         }
 
         synchronized (this){

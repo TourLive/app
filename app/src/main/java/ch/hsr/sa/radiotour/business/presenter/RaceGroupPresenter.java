@@ -2,10 +2,12 @@ package ch.hsr.sa.radiotour.business.presenter;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Message;
 
 import java.util.ArrayList;
 
 import ch.hsr.sa.radiotour.business.presenter.interfaces.IRaceGroupPresenter;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -89,6 +91,10 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
                         handler.post(() -> ((RiderRaceGroupFragment) frag).addRaceGroupToList(raceGroupId));
                     }
                 }
+                Message msg = Message.obtain();
+                msg.arg1 = 1;
+                msg.obj = raceGroup;
+                PostHandler.sendMessage(msg);
             }
 
             @Override
@@ -113,11 +119,6 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     @Override
     public void addRaceGroupWithoutCallback(RaceGroup raceGroup) {
         raceGroupRepository.addRaceGroup(raceGroup, null);
-    }
-
-    @Override
-    public void addInitialRaceGroup(RaceGroup raceGroup) {
-        raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
     }
 
     @Override
@@ -149,18 +150,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void deleteRaceGroup(RaceGroup raceGroup) {
-        raceGroupRepository.deleteRaceGroup(raceGroup);
-    }
-
-    @Override
     public void deleteRiderInRaceGroup(RaceGroup raceGroup, Rider rider) {
         raceGroupRepository.deleteRiderInRaceGroup(raceGroup, rider, onUpdateRaceGroupCallBack);
-    }
-
-    @Override
-    public void updateRaceGroupPosition(RaceGroup raceGroup, int position) {
-        raceGroupRepository.updateRaceGroupPosition(raceGroup, position);
     }
 
     @Override

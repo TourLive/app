@@ -41,7 +41,7 @@ public class MaillotsAdapter extends RecyclerView.Adapter<MaillotsAdapter.Maillo
 
     @Override
     public void onBindViewHolder(MaillotViewHolder holder, int position) {
-        holder.name.setText(maillots.get(position).getDbIDd() + " | " + maillots.get(position).getName());
+        holder.name.setText(maillots.get(position).getId() + " | " + maillots.get(position).getName());
         holder.partner.setText(maillots.get(position).getPartner());
         getMaillotColor(maillots.get(position).getColor(), holder.trikot);
         getActualLeader(maillots.get(position).getType(), holder);

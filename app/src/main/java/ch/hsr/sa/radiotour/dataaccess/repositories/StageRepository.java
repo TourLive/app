@@ -1,7 +1,5 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import java.util.UUID;
-
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IStageRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
@@ -13,8 +11,7 @@ public class StageRepository implements IStageRepository {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
 
         realm.executeTransaction((Realm db) -> {
-            Stage realmStage = db.createObject(Stage.class, UUID.randomUUID().toString());
-            realmStage.setStageId(stage.getStageId());
+            Stage realmStage = db.createObject(Stage.class, stage.getId());
             realmStage.setDistance(stage.getDistance());
             realmStage.setEndTime(stage.getEndTime());
             realmStage.setStartTime(stage.getStartTime());

@@ -59,7 +59,7 @@ public final class Context {
         RewardPresenter.getInstance().clearAllRewards();
     }
 
-    public static RealmList<Judgement> getJudgmentsById(int judgmentId) {
+    public static RealmList<Judgement> getJudgmentsById(long judgmentId) {
         return JudgmentPresenter.getInstance().getJudgmentsById(judgmentId);
     }
 

@@ -21,7 +21,6 @@ import java.util.Comparator;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.business.presenter.RiderPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;

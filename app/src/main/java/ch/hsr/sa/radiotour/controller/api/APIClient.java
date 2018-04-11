@@ -15,13 +15,16 @@ import org.json.JSONObject;
 
 import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.entity.StringEntity;
+import cz.msebera.android.httpclient.message.BasicHeader;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public final class APIClient {
     private APIClient() {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
+    private static final String BASE_URL = "http://prod-api.tourlive.ch/";
     private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
@@ -47,9 +50,21 @@ public final class APIClient {
         client.get(getAbsoluteCnlabUrl(url), params, responseHandler);
     }
 
-    private static void post(String url, RequestParams params, AsyncHttpResponseHandler responseHandler) {
-        responseHandler.setUseSynchronousMode(true);
-        client.post(getAbsoluteUrl(url), params, responseHandler);
+    private static void put(String url, String content, AsyncHttpResponseHandler responseHandler) {
+        //Adidional Parameters for post get
+        StringEntity stringEntity = new StringEntity(content, "UTF-8");
+        stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.put(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
+    }
+
+    private static void post(String url, String content, AsyncHttpResponseHandler responseHandler) {
+        StringEntity stringEntity = new StringEntity(content, "UTF-8");
+        stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
+        client.post(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
+    }
+
+    private static void delete(String url, AsyncHttpResponseHandler responseHandler) {
+        client.delete(getAbsoluteUrl(url), responseHandler);
     }
 
     private static String getAbsoluteUrl(String relativeUrl) {
@@ -96,9 +111,42 @@ public final class APIClient {
         Parser.deleteData();
     }
 
-    public static void postData(String url, RequestParams params){
+    public static void postRiderStageConnection(long id, String body) {
+        String test = body;
+        putData(UrlLink.RIDERSTAGECONNECTION + id, body);
+    }
+
+    public static void postJudgmentRiderConnection(String body) {
+        postData(UrlLink.JUDGMENTRIDERCONNECTION, body);
+    }
+
+    public static void putRaceGroup(String id, long stage, String body) {
+        putData(UrlLink.RACEGROUPS + "/" + id + "/stages/" + stage, body);
+    }
+
+    public static void deleteJudgmentRiderConnection(String id) {
+        deleteAPI(UrlLink.JUDGMENTRIDERCONNECTION + "/" + id);
+    }
+
+    public static void postRaceGroups(long stage, String body) {
+        postData(UrlLink.RACEGROUPS + "/stages/" + stage, body);
+    }
+
+    public static void putData(String url, String body){
         if(!demoMode) {
-            postToAPI(url, params);
+            putToAPI(url, body);
+        }
+    }
+
+    public static void postData(String url, String body) {
+        if (!demoMode) {
+            postToAPI(url, body);
+        }
+    }
+
+    public static void deleteAPI(String url) {
+        if (!demoMode) {
+            deleteToAPI(url);
         }
     }
 
@@ -119,7 +167,7 @@ public final class APIClient {
     }
 
     public static String getActualRaceId(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -150,7 +198,7 @@ public final class APIClient {
     }
 
     public static String getRiders(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -181,7 +229,7 @@ public final class APIClient {
     }
 
     public static String getJudgments(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -211,7 +259,7 @@ public final class APIClient {
     }
 
     public static String getRewards(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -241,7 +289,7 @@ public final class APIClient {
     }
 
     public static String getStages(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -271,7 +319,7 @@ public final class APIClient {
     }
 
     public static String getRace(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -301,7 +349,7 @@ public final class APIClient {
     }
 
     public static String getMaillots(String url, RequestParams params) {
-        final String[] messages = {"success"};
+        final String[] messages = {"error"};
         APIClient.get(url, null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
@@ -331,11 +379,71 @@ public final class APIClient {
         return messages[0];
     }
 
-    public static void postToAPI(String url, RequestParams params) {
+    public static void putToAPI(String url, String body) {
         if(Looper.myLooper() == null)
             Looper.prepare();
         uiHandler =  new Handler();
-        APIClient.post(url, null, new JsonHttpResponseHandler() {
+        APIClient.put(url, body, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    uiHandler.post(() -> {new String("successfully");});
+                } catch (Exception ex){
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    // Not needed
+                } catch (Exception ex){
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(throwable::getMessage);
+            }
+        });
+    }
+
+    public static void postToAPI(String url, String body) {
+        if(Looper.myLooper() == null)
+            Looper.prepare();
+        uiHandler =  new Handler();
+        APIClient.post(url, body, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                try{
+                    uiHandler.post(() -> {new String("successfully");});
+                } catch (Exception ex){
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray data) {
+                try{
+                    // Not needed
+                } catch (Exception ex){
+                    uiHandler.post(ex::getMessage);
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                uiHandler.post(throwable::getMessage);
+            }
+        });
+    }
+
+    public static void deleteToAPI(String url) {
+        if(Looper.myLooper() == null)
+            Looper.prepare();
+        uiHandler =  new Handler();
+        APIClient.delete(url, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
                 try{

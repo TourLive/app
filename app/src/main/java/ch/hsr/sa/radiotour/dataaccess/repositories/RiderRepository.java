@@ -1,6 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
-import java.util.UUID;
+import java.util.Random;
 
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
@@ -15,10 +15,13 @@ public class RiderRepository implements IRiderRepository {
     public void addRider(Rider rider, OnSaveRiderCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final Rider transferRider = rider;
+        if (rider.getId() == 0) {
+            rider.setId(new Random().nextLong());
+        }
 
         realm.executeTransaction((Realm db) -> {
-            Rider realmRider = db.createObject(Rider.class, UUID.randomUUID().toString());
-            realmRider.setRiderID(transferRider.getRiderID());
+            // TODO
+            Rider realmRider = db.createObject(Rider.class, rider.getId());
             realmRider.setName(transferRider.getName());
             realmRider.setCountry(transferRider.getCountry());
             realmRider.setStartNr(transferRider.getStartNr());

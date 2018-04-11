@@ -11,8 +11,7 @@ public class Maillot extends RealmObject {
     @LinkingObjects("maillotConnections")
     private final RealmResults<Stage> stages = null;
     @PrimaryKey
-    private String id;
-    private Integer dbIDd;
+    private long id;
     @Required
     private String type;
     @Required
@@ -23,16 +22,12 @@ public class Maillot extends RealmObject {
     private String partner;
     private RealmList<RiderStageConnection> mailRiderConnection;
 
-    public String getId() {
+    public long getId() {
         return id;
     }
 
-    public Integer getDbIDd() {
-        return dbIDd;
-    }
-
-    public void setDbIDd(Integer dbIDd) {
-        this.dbIDd = dbIDd;
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getType() {

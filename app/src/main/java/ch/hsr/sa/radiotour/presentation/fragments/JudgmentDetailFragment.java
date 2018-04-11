@@ -35,7 +35,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
 public class JudgmentDetailFragment extends Fragment implements View.OnClickListener, OnRiderJudgmentClickListener {
-    private String judgementID;
+    private long judgementID;
     private Judgement judgement;
     private RiderBasicAdapter riderBasicAdapter;
     private TextView rankOne;
@@ -70,7 +70,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d("TAG", "JudgmentDetailFragment onCreateView");
         View root = inflater.inflate(R.layout.fragment_detail_judgment, container, false);
-        judgementID = getArguments().getString("id");
+        judgementID = getArguments().getLong("id");
         judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
 
         TextView title = root.findViewById(R.id.titleJudgements2);
@@ -282,8 +282,8 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.judgment_text), Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
             toast.show();
-            Integer integer = rider.getRiderID();
-            riderBasicAdapter.removeRiderFromList(integer);
+            long id = rider.getId();
+            riderBasicAdapter.removeRiderFromList(id);
         }
         riderBasicAdapter.resetSelectedRider();
         rank = 0;

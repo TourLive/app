@@ -9,8 +9,7 @@ import io.realm.annotations.Required;
 
 public class Stage extends RealmObject {
     @PrimaryKey
-    private String id;
-    private int stageId;
+    private long id;
     private int raceId;
     private String raceName;
     @Required
@@ -27,17 +26,17 @@ public class Stage extends RealmObject {
     @Required
     private String to;
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public long getId() {
+        return id;
+    }
+
     private RealmList<RiderStageConnection> stageConnections;
 
     private RealmList<Maillot> maillotConnections;
-
-    public int getStageId() {
-        return stageId;
-    }
-
-    public void setStageId(int stageId) {
-        this.stageId = stageId;
-    }
 
     public int getRaceId() {
         return raceId;

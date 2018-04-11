@@ -8,6 +8,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Random;
+
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRewardRepository;
@@ -112,14 +115,20 @@ public class JudgmentRepositoryInstrumentedTest {
     @Test
     public void clearAllJudgments(){
         Judgement judgement = new Judgement();
+        judgement.setId(new Random().nextLong());
         judgement.setDistance(100);
         judgement.setName("judgment");
         judgement.setRewardId(93);
 
+        Judgement judgementTwo = new Judgement();
+        judgementTwo.setId(new Random().nextLong());
+        judgementTwo.setDistance(100);
+        judgementTwo.setName("judgment 2");
+        judgementTwo.setRewardId(93);
+
         synchronized (this){
             judgmentRepository.addJudgment(judgement, onSaveJudgmentCallback);
-            judgement.setName("judgment2");
-            judgmentRepository.addJudgment(judgement, onSaveJudgmentCallback);
+            judgmentRepository.addJudgment(judgementTwo, onSaveJudgmentCallback);
         }
 
         synchronized (this){
@@ -143,7 +152,6 @@ public class JudgmentRepositoryInstrumentedTest {
         Reward reward = new Reward();
         reward.setPoints(new RealmList<Integer>(1, 3, 5));
         reward.setMoney(new RealmList<Integer>(100, 300, 500));
-        reward.setRewardId(93);
         reward.setType(RewardType.POINTS);
         reward.setRewardJudgements(judgmentRepository.getJudgmentsById(93));
 

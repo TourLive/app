@@ -5,9 +5,9 @@ import java.util.Comparator;
 public class JudgmentComperator implements Comparator<Judgement> {
     @Override
     public int compare(Judgement judgement, Judgement t1) {
-        int left = judgement.getDistance();
-        int right = t1.getDistance();
+        double left = judgement.getDistance();
+        double right = t1.getDistance();
 
-        return Integer.compare(left, right);
+        return Double.compare(left, right);
     }
 }

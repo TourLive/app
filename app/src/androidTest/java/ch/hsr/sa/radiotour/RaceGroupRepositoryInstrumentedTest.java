@@ -3,6 +3,8 @@ package ch.hsr.sa.radiotour;
 import org.junit.Before;
 import org.junit.Test;
 
+import ch.hsr.sa.radiotour.controller.api.APIClient;
+import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderRepository;
@@ -16,10 +18,6 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 
 import static org.junit.Assert.assertEquals;
-
-/**
- * Created by Urs Forrer on 30.10.2017.
- */
 
 public class RaceGroupRepositoryInstrumentedTest {
 
@@ -41,13 +39,13 @@ public class RaceGroupRepositoryInstrumentedTest {
         realm = Realm.getInstance(RadioTourApplication.getInstance());
         initCallbacks();
         raceGroups.clear();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.where(Rider.class).findAll().deleteAllFromRealm();
-                realm.where(RaceGroup.class).findAll().deleteAllFromRealm();
-            }
+        realm.executeTransaction(realm -> {
+            realm.where(Rider.class).findAll().deleteAllFromRealm();
+            realm.where(RaceGroup.class).findAll().deleteAllFromRealm();
         });
+        PostHandler postHandler = new PostHandler();
+        postHandler.start();
+        APIClient.setDemoMode(true);
         createRiders();
     }
 
@@ -167,19 +165,18 @@ public class RaceGroupRepositoryInstrumentedTest {
     public void addInitialRaceGroup(){
         RaceGroup raceGroup = new RaceGroup();
         raceGroup.setType(RaceGroupType.NORMAL);
-        raceGroup.setHistoryGapTime(100);
         raceGroup.setActualGapTime(10);
         raceGroup.setPosition(0);
         raceGroup.setRiders(riders);
 
         synchronized (this) {
-            raceGroupRepository.addInitialRaceGroup(raceGroup, onSaveRaceGroupCallback);
+            raceGroupRepository.addRaceGroup(raceGroup, onSaveRaceGroupCallback);
         }
 
         RealmResults<RaceGroup> res = realm.where(RaceGroup.class).findAll();
 
         assertEquals(1, res.size());
-        assertEquals(100, res.get(0).getHistoryGapTime());
+        assertEquals(0, res.get(0).getHistoryGapTime());
         assertEquals(10, res.get(0).getActualGapTime());
         assertEquals(0, res.get(0).getPosition());
         assertEquals(RaceGroupType.NORMAL, res.get(0).getType());
@@ -239,6 +236,7 @@ public class RaceGroupRepositoryInstrumentedTest {
         assertEquals(100, res.get(0).getActualGapTime());
     }
 
+    /*
     @Test
     public void updateRaceGroupRiders() {
         RaceGroup raceGroupOne = new RaceGroup();
@@ -288,4 +286,5 @@ public class RaceGroupRepositoryInstrumentedTest {
         assertEquals(2, res.get(0).getRiders().size());
         assertEquals(4, res.get(1).getRiders().size());
     }
+    */
 }
