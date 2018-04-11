@@ -13,7 +13,7 @@ android:
   components:
     - build-tools-26.0.2
     - android-26
-    - sys-img-armeabi-v7a-android-tv-l
+    - sys-img-armeabi-v7a-android-26
     - add-on
     - extra
 env:
