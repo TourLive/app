@@ -47,7 +47,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
 
-        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, UUID.randomUUID().toString());
+        if (raceGroup.getId() == "") {
+            raceGroup.setId(UUID.randomUUID().toString());
+        }
+
+        RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, raceGroup.getId());
         realmRaceGroup.setType(raceGroup.getType());
         realmRaceGroup.setActualGapTime(raceGroup.getActualGapTime());
         realmRaceGroup.setHistoryGapTime(0);

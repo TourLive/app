@@ -130,4 +130,8 @@ public final class Context {
     public static void updateStage(String raceName, int raceID) {
         StagePresenter.getInstance().updateStageWithRace(raceName, raceID);
     }
+
+    public static Rider getRiderByStartNr(int startnr) {
+        return RiderPresenter.getInstance().getRiderByStartNr(startnr);
+    }
 }

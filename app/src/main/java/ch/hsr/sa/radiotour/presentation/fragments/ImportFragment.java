@@ -245,6 +245,14 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 60;
+            } else if (progressBarStatus < 70) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_racegroups)));
+                String message = APIClient.getRacegroups();
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 70;
             } else if (progressBarStatus < 80) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_reward)));
                 String message = APIClient.getJudgments();

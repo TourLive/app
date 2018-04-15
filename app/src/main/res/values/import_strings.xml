@@ -12,6 +12,7 @@
     <string name="import_save_secret">SECRET ABSPEICHERN</string>
     <string name="import_driver">FAHRER IMPORTIEREN</string>
     <string name="import_stage">ETAPPE IMPORTIEREN</string>
+    <string name="import_racegroups">FAHRERGRUPPEN IMPORTIEREN</string>
     <string name="import_marchtable">MARSCHTABELLE IMPORTIEREN</string>
     <string name="import_judgment">WERTUNGEN IMPORTIEREN</string>
     <string name="import_reward">BELOHNUNGEN IMPORTIEREN</string>

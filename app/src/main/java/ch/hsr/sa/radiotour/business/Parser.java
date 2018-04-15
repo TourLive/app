@@ -25,6 +25,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtu
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.dataaccess.models.StageType;
+import io.realm.Realm;
 import io.realm.RealmList;
 
 public final class Parser {
@@ -101,34 +102,45 @@ public final class Parser {
         Thread threadRiders = new Thread(runnable);
         threadRiders.start();
         threadRiders.join();
-        Thread threadGroup = createDefaultGroup();
-        threadGroup.start();
-        threadGroup.join();
         updateRiderConnectionRankByOfficalGap();
     }
 
+    public static void parseRacegroups(JSONArray racegroups) throws InterruptedException {
+        final JSONArray racegroupsJSON = racegroups;
+        Runnable runnable = new Runnable() {
+            public void run() {
+                for (int i = 0; i < racegroupsJSON.length(); i++) {
+                    try {
+                        JSONObject jsonRacegroup = racegroupsJSON.getJSONObject(i);
 
-    private static Thread createDefaultGroup() {
-        Runnable runnable = (() -> {
-            try {
-                RaceGroup raceGroupField = new RaceGroup();
-                raceGroupField.setActualGapTime(0);
-                raceGroupField.setHistoryGapTime(0);
-                raceGroupField.setPosition(1);
-                raceGroupField.setType(RaceGroupType.FELD);
-                RealmList<Rider> activeRiders = new RealmList<>();
-                for (Rider r : Context.getAllRiders()) {
-                    if (r.getRiderStages().first().getType() == RiderStateType.ACTIVE) {
-                        activeRiders.add(r);
+                        RaceGroup raceGroup = new RaceGroup();
+                        raceGroup.setDbRaceGroupid(jsonRacegroup.getLong("id"));
+                        raceGroup.setActualGapTime(jsonRacegroup.getLong("actualGapTime"));
+                        raceGroup.setHistoryGapTime(jsonRacegroup.getLong("historyGapTime"));
+                        raceGroup.setPosition(jsonRacegroup.getInt("position"));
+                        raceGroup.setId(jsonRacegroup.getString("appId"));
+                        raceGroup.setType(RaceGroupType.valueOf(jsonRacegroup.getString("raceGroupType")));
+                        JSONArray riderInRaceGroup = jsonRacegroup.getJSONArray("riders");
+                        RealmList<Rider> riders = new RealmList<>();
+                        for (int u = 0; u < riderInRaceGroup.length(); u++) {
+                            JSONObject rider = riderInRaceGroup.getJSONObject(u);
+                            riders.add(Context.getRiderByStartNr(rider.getInt("startNr")));
+                        }
+                        raceGroup.setRiders(riders);
+
+                        synchronized (this) {
+                            Context.addRaceGroup(raceGroup);
+                        }
+
+                    } catch (JSONException e) {
+                        Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACEGROUPS - " + e.getMessage());
                     }
                 }
-                raceGroupField.setRiders(activeRiders);
-                Context.addRaceGroup(raceGroupField);
-            } catch (Exception e) {
-                Log.d(Parser.class.getSimpleName(), "APP - PARSER - RACEGROUP - " + e.getMessage());
             }
-        });
-        return new Thread(runnable);
+        };
+        Thread threadRaceGroups = new Thread(runnable);
+        threadRaceGroups.start();
+        threadRaceGroups.join();
     }
 
     private static void updateRiderConnectionRankByOfficalGap() throws InterruptedException {

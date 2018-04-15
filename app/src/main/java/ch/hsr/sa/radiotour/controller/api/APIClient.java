@@ -107,6 +107,8 @@ public final class APIClient {
         return getMaillots(UrlLink.MAILLOTS + stageId, null);
     }
 
+    public static String getRacegroups() { return getRacegroups(UrlLink.RACEGROUPS + "/stages/" + stageId, null);}
+
     public static void clearDatabase(){
         Parser.deleteData();
     }
@@ -218,6 +220,37 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getRacegroups(String url, RequestParams params) {
+        final String[] messages = {"error"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray racegroups) {
+
+                try{
+                    Parser.parseRacegroups(racegroups);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject racegroups){
                 if(throwable.getMessage().equals(throwableType)){
                     messages[0] = readTimeOutMessage + throwable.getMessage();
                 } else {
