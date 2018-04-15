@@ -6,10 +6,11 @@
     <string name="import_demomode_active">Demomodus aktiv, um zu verlassen nochmals drücken</string>
     <string name="import_demomode_leave">Demomodus verlassen</string>
     <string name="import_demomode_activated">Demomodus aktiviert</string>
-    <string name="import_config">Konfiguration</string>
-    <string name="import_secret">Shared Secret</string>
+    <string name="import_config">Konfiguration (Sicherheit)</string>
+    <string name="import_username">Benutzername</string>
+    <string name="import_password">Passwort</string>
     <string name="import_delete_data">AKTUELLE DATEN LÖSCHEN</string>
-    <string name="import_save_secret">SECRET ABSPEICHERN</string>
+    <string name="import_save_secret">BENUTZERINFORMATIONEN ABSPEICHERN</string>
     <string name="import_driver">FAHRER IMPORTIEREN</string>
     <string name="import_stage">ETAPPE IMPORTIEREN</string>
     <string name="import_racegroups">FAHRERGRUPPEN IMPORTIEREN</string>
