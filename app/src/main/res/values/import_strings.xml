@@ -16,6 +16,7 @@
     <string name="import_marchtable">MARSCHTABELLE IMPORTIEREN</string>
     <string name="import_judgment">WERTUNGEN IMPORTIEREN</string>
     <string name="import_reward">BELOHNUNGEN IMPORTIEREN</string>
+    <string name="import_jrc">ZUGEWIESENE JUDGEMENTS IMPORTIEREN</string>
     <string name="import_maillot">MAILLOTS IMPORTIEREN</string>
     <string name="import_error">Ein Fehler ist aufgetreten</string>
     <string name="import_actual_stage">Aktuelle Etappe</string>

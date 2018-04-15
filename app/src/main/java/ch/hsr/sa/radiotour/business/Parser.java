@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.util.Date;
 
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
@@ -324,6 +325,34 @@ public final class Parser {
         Thread threadRewards = new Thread(runnable);
         threadRewards.start();
         threadRewards.join();
+    }
+
+    public static void parseJudgementRiderConnections(JSONArray jsonJRC) throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                for (int i = 0; i < jsonJRC.length(); i++) {
+                    try {
+                        JSONObject jrC = jsonJRC.getJSONObject(i);
+                        JSONObject rider = jrC.getJSONObject("rider");
+                        JSONObject judgement = jrC.getJSONObject("judgment");
+                        JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
+                        RealmList<Rider> riderRealmList = new RealmList<>();
+                        riderRealmList.add(Context.getRiderByStartNr(rider.getInt("startNr")));
+                        judgmentRiderConnection.setRider(riderRealmList);
+                        judgmentRiderConnection.setJudgements(Context.getJudgmentsById(judgement.getLong("id")));
+                        judgmentRiderConnection.setRank(jrC.getInt("rank"));
+                        judgmentRiderConnection.setId(jrC.getString("appId"));
+                        synchronized (this) {
+                            Context.addJudgementRiderConnection(judgmentRiderConnection);
+                        }
+                    } catch (JSONException e) {
+                        Log.d(Parser.class.getSimpleName(), "APP - PARSER - JUDGEMENTRIDERCONNECTION - " + e.getMessage());
+                    }
+                }
+            }};
+        Thread t = new Thread(runnable);
+        t.start();
+        t.join();
     }
 
     public static void parseRaceAndPersist(JSONObject jsonRace) throws InterruptedException {
