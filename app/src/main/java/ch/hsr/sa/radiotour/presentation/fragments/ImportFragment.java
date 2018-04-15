@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -18,12 +19,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +62,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private static int delayTime = 10000;
     private Button btnImport;
     private Button btnDemo;
+    private Button security;
     private TextView gpsView;
     private TextView serverView;
     private TextView raceIdView;
@@ -72,6 +76,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private TimerTask timerTaskForUpdate;
     private boolean demoMode;
     private View root;
+    private SharedPreferences sharedPreferences;
+    private EditText username;
+    private EditText password;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +91,22 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
 
         btnDemo = root.findViewById(R.id.btn_ImportDemodata);
         btnDemo.setOnClickListener(this);
+
+        security = root.findViewById(R.id.btn_SaveSecurity);
+        security.setOnClickListener(this);
+
+        username = root.findViewById(R.id.txt_UserNameInput);
+        password = root.findViewById(R.id.txt_PasswordInput);
+        sharedPreferences = this.getActivity().getSharedPreferences("security", Context.MODE_PRIVATE);
+
+        String shUsername = sharedPreferences.getString("username","");
+        String shPassword = sharedPreferences.getString("password", "");
+        if (shUsername != null && shPassword != null) {
+            username.setText(shUsername);
+            password.setText(shPassword);
+        }
+        System.out.println(shPassword);
+        System.out.println(shUsername);
 
         gpsView = root.findViewById(R.id.circleGPS);
         serverView = root.findViewById(R.id.circleServer);
@@ -156,6 +179,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         }
         if (v == btnDemo) {
             switchDemoMode();
+        }
+        if (v == security) {
+            String user = username.getText().toString();
+            String pass = password.getText().toString();
+            sharedPreferences.edit().putString("username", user);
+            sharedPreferences.edit().putString("password", pass);
+            APIClient.setCredentials(user, pass);
         }
     }
 

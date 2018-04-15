@@ -47,7 +47,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         realm.beginTransaction();
 
-        if (raceGroup.getId() == "") {
+        if (raceGroup.getId() == "" || raceGroup.getId() == null) {
             raceGroup.setId(UUID.randomUUID().toString());
         }
 
