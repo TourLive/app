@@ -62,27 +62,24 @@ public final class APIClient {
     }
 
     private static void put(String url, String content, AsyncHttpResponseHandler responseHandler) {
-        String encode = Base64.encodeToString((username + ':' + password).getBytes(StandardCharsets.UTF_8),0);
-        client.addHeader(HttpHeaders.AUTHORIZATION, " Basic " + encode);
-        //client.addHeader("Csrf-Token", "nocheck");
+        client.setBasicAuth(username, password);
+        client.addHeader("Csrf-Token", "nocheck");
         StringEntity stringEntity = new StringEntity(content, "UTF-8");
         stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         client.put(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
     }
 
     private static void post(String url, String content, AsyncHttpResponseHandler responseHandler) {
-        String encode = Base64.encodeToString((username + ':' + password).getBytes(StandardCharsets.UTF_8),0);
-        client.addHeader(HttpHeaders.AUTHORIZATION, " Basic " + encode);
-        //client.addHeader("Csrf-Token", "nocheck");
+        client.addHeader("Csrf-Token", "nocheck");
+        client.setBasicAuth(username, password);
         StringEntity stringEntity = new StringEntity(content, "UTF-8");
         stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         client.post(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
     }
 
     private static void delete(String url, AsyncHttpResponseHandler responseHandler) {
-        String encode = Base64.encodeToString((username + ':' + password).getBytes(StandardCharsets.UTF_8),0);
-        client.addHeader(HttpHeaders.AUTHORIZATION, " Basic " + encode);
-        //client.addHeader("Csrf-Token", "nocheck");
+        client.setBasicAuth(username, password);
+        client.addHeader("Csrf-Token", "nocheck");
         client.delete(getAbsoluteUrl(url), responseHandler);
     }
 

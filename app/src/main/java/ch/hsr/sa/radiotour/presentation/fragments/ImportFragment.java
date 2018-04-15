@@ -185,7 +185,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             String pass = password.getText().toString();
             sharedPreferences.edit().putString("username", user);
             sharedPreferences.edit().putString("password", pass);
-            APIClient.setCredentials(user, pass);
+            APIClient.setCredentials(pass, user);
         }
     }
 
