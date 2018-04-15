@@ -114,7 +114,6 @@ public final class APIClient {
     }
 
     public static void postRiderStageConnection(long id, String body) {
-        String test = body;
         putData(UrlLink.RIDERSTAGECONNECTION + id, body);
     }
 
