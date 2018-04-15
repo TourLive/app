@@ -24,7 +24,7 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://prod-api.tourlive.ch/";
+    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
     private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
@@ -108,6 +108,10 @@ public final class APIClient {
     }
 
     public static String getRacegroups() { return getRacegroups(UrlLink.RACEGROUPS + "/stages/" + stageId, null);}
+
+    public static String getJudgementRiderConnections() {
+        return getJudgementRiderConnections(UrlLink.JUDGMENTRIDERCONNECTION + "/stages/" + stageId, null);
+    }
 
     public static void clearDatabase(){
         Parser.deleteData();
@@ -242,6 +246,37 @@ public final class APIClient {
 
                 try{
                     Parser.parseRacegroups(racegroups);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject racegroups){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getJudgementRiderConnections(String url, RequestParams params) {
+        final String[] messages = {"error"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject jRC) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray jRC) {
+
+                try{
+                    Parser.parseJudgementRiderConnections(jRC);
                     messages[0] = "success";
                 } catch (Exception ex){
                     messages[0] = ex.getMessage();
