@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.business;
 
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RewardPresenter;
@@ -9,6 +10,7 @@ import ch.hsr.sa.radiotour.business.presenter.RiderRankingPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.business.presenter.StagePresenter;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
+import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.Maillot;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
@@ -129,5 +131,13 @@ public final class Context {
 
     public static void updateStage(String raceName, int raceID) {
         StagePresenter.getInstance().updateStageWithRace(raceName, raceID);
+    }
+
+    public static Rider getRiderByStartNr(int startnr) {
+        return RiderPresenter.getInstance().getRiderByStartNr(startnr);
+    }
+
+    public static void addJudgementRiderConnection(JudgmentRiderConnection judgmentRiderConnection) {
+        JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnectionImport(judgmentRiderConnection);
     }
 }

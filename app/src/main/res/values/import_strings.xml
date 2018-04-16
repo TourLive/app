@@ -6,15 +6,18 @@
     <string name="import_demomode_active">Demomodus aktiv, um zu verlassen nochmals drücken</string>
     <string name="import_demomode_leave">Demomodus verlassen</string>
     <string name="import_demomode_activated">Demomodus aktiviert</string>
-    <string name="import_config">Konfiguration</string>
-    <string name="import_secret">Shared Secret</string>
+    <string name="import_config">Konfiguration (Sicherheit)</string>
+    <string name="import_username">Benutzername</string>
+    <string name="import_password">Passwort</string>
     <string name="import_delete_data">AKTUELLE DATEN LÖSCHEN</string>
-    <string name="import_save_secret">SECRET ABSPEICHERN</string>
+    <string name="import_save_secret">BENUTZERINFORMATIONEN ABSPEICHERN</string>
     <string name="import_driver">FAHRER IMPORTIEREN</string>
     <string name="import_stage">ETAPPE IMPORTIEREN</string>
+    <string name="import_racegroups">FAHRERGRUPPEN IMPORTIEREN</string>
     <string name="import_marchtable">MARSCHTABELLE IMPORTIEREN</string>
     <string name="import_judgment">WERTUNGEN IMPORTIEREN</string>
     <string name="import_reward">BELOHNUNGEN IMPORTIEREN</string>
+    <string name="import_jrc">ZUGEWIESENE JUDGEMENTS IMPORTIEREN</string>
     <string name="import_maillot">MAILLOTS IMPORTIEREN</string>
     <string name="import_error">Ein Fehler ist aufgetreten</string>
     <string name="import_actual_stage">Aktuelle Etappe</string>
@@ -47,4 +50,6 @@
     <string name="import_stage_infos">%1$s | %2$s - %3$s (%4$d)</string>
     <string name="import_race_infos">%1$s (%2$d)</string>
     <string name="import_success">Daten wurden erfolgreich geladen.</string>
+    <string name="import_success_security">Die Benutzerinformationen wurden erfolgreich gespeichert.</string>
+    <string name="import_security">Für die korrekte Funktionsweise der Anwendung müssen die Benutzerinformationen angegeben werden. Bitte vor dem Import erledigen.</string>
 </resources>

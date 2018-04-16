@@ -17,6 +17,22 @@ import io.realm.RealmResults;
 
 public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnectionRepository {
     @Override
+    public void addJudgmentRiderConnectionImport(JudgmentRiderConnection judgmentRiderConnection) {
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        final JudgmentRiderConnection transferConnection = judgmentRiderConnection;
+
+        realm.beginTransaction();
+        if (transferConnection.getId() == "" || transferConnection.getId() == null) {
+            transferConnection.setId(UUID.randomUUID().toString());
+        }
+        JudgmentRiderConnection realmConnection = realm.createObject(JudgmentRiderConnection.class, transferConnection.getId());
+        realmConnection.setRank(transferConnection.getRank());
+        realmConnection.setJudgements(transferConnection.getJudgements());
+        realmConnection.setRider(transferConnection.getRider());
+        realm.commitTransaction();
+    }
+
+    @Override
     public void addJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection, OnSaveJudgmentRiderConnectionCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         final JudgmentRiderConnection transferConnection = judgmentRiderConnection;
@@ -30,7 +46,10 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.commitTransaction();
 
         realm.beginTransaction();
-        JudgmentRiderConnection realmConnection = realm.createObject(JudgmentRiderConnection.class, UUID.randomUUID().toString());
+        if (judgmentRiderConnection.getId() == "") {
+            judgmentRiderConnection.setId(UUID.randomUUID().toString());
+        }
+        JudgmentRiderConnection realmConnection = realm.createObject(JudgmentRiderConnection.class, judgmentRiderConnection.getId());
         realmConnection.setRank(transferConnection.getRank());
         realmConnection.setJudgements(transferConnection.getJudgements());
         realmConnection.setRider(transferConnection.getRider());
