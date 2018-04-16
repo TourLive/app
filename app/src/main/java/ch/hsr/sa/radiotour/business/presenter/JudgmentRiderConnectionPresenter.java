@@ -61,6 +61,11 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
     }
 
     @Override
+    public void addJudgmentRiderConnectionImport(JudgmentRiderConnection judgmentRiderConnection) {
+        judgmentRiderConnectionRepository.addJudgmentRiderConnectionImport(judgmentRiderConnection);
+    }
+
+    @Override
     public RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement) {
         return judgmentRiderConnectionRepository.getJudgmentRiderConnectionsReturnedByJudgment(judgement);
     }

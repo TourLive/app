@@ -3,6 +3,7 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.drawable.GradientDrawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
@@ -18,12 +19,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -59,6 +62,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private static int delayTime = 10000;
     private Button btnImport;
     private Button btnDemo;
+    private Button security;
     private TextView gpsView;
     private TextView serverView;
     private TextView raceIdView;
@@ -71,7 +75,11 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
     private boolean demoMode;
-    private View root;
+    private SharedPreferences sharedPreferences;
+    private EditText username;
+    private EditText password;
+    private String shUsername;
+    private String shPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +92,22 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
 
         btnDemo = root.findViewById(R.id.btn_ImportDemodata);
         btnDemo.setOnClickListener(this);
+
+        security = root.findViewById(R.id.btn_SaveSecurity);
+        security.setOnClickListener(this);
+
+        username = root.findViewById(R.id.txt_UserNameInput);
+        password = root.findViewById(R.id.txt_PasswordInput);
+        sharedPreferences = this.getActivity().getSharedPreferences("security", Context.MODE_PRIVATE);
+
+        shUsername = sharedPreferences.getString("username","");
+        shPassword = sharedPreferences.getString("password", "");
+        if (shUsername != null && shPassword != null) {
+            username.setText(shUsername);
+            password.setText(shPassword);
+        }
+        System.out.println(shPassword);
+        System.out.println(shUsername);
 
         gpsView = root.findViewById(R.id.circleGPS);
         serverView = root.findViewById(R.id.circleServer);
@@ -130,21 +154,25 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         uiHandler.post(() -> drawable.setColor(color));
     }
 
-    private void setText(TextView view, String text) {
-        uiHandler.post(() -> view.setText(text));
-    }
-
     @Override
     public void onClick(View v) {
         if (v == btnImport) {
             if (isNetworkAvailable()) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.import_start_import)
-                        .setMessage(R.string.import_start_info)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
-                        .create()
-                        .show();
+                shUsername = sharedPreferences.getString("username","");
+                shPassword = sharedPreferences.getString("password", "");
+                if (shPassword == "" || shUsername == "" || shUsername == null || shPassword == null) {
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_security), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                    toast.show();
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.import_start_import)
+                            .setMessage(R.string.import_start_info)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
+                            .create()
+                            .show();
+                }
             } else {
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.import_no_internet_title)
@@ -156,6 +184,16 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         }
         if (v == btnDemo) {
             switchDemoMode();
+        }
+        if (v == security) {
+            String user = username.getText().toString();
+            String pass = password.getText().toString();
+            sharedPreferences.edit().putString("username", user).apply();
+            sharedPreferences.edit().putString("password", pass).apply();
+            APIClient.setCredentials(pass, user);
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success_security), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.show();
         }
     }
 
@@ -245,6 +283,14 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 60;
+            } else if (progressBarStatus < 70) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_racegroups)));
+                String message = APIClient.getRacegroups();
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 70;
             } else if (progressBarStatus < 80) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_reward)));
                 String message = APIClient.getJudgments();
@@ -253,6 +299,14 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 80;
+            } else if (progressBarStatus < 90) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_jrc)));
+                String message = APIClient.getJudgementRiderConnections();
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 90;
             } else {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_judgment)));
                 String message = APIClient.getRewards();
@@ -279,6 +333,17 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shUsername = sharedPreferences.getString("username","");
+        shPassword = sharedPreferences.getString("password", "");
+        if (shUsername != null && shPassword != null) {
+            username.setText(shUsername);
+            password.setText(shPassword);
+        }
     }
 
     private void switchDemoMode() {

@@ -18,6 +18,10 @@ public class JudgmentRiderConnection extends RealmObject {
     @Expose
     private RealmList<Judgement> judgements;
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

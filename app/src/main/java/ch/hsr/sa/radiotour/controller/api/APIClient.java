@@ -2,6 +2,7 @@ package ch.hsr.sa.radiotour.controller.api;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Base64;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -13,8 +14,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.nio.charset.StandardCharsets;
+
 import ch.hsr.sa.radiotour.business.Parser;
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.HttpHeaders;
 import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.message.BasicHeader;
 import cz.msebera.android.httpclient.protocol.HTTP;
@@ -24,8 +28,8 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://prod-api.tourlive.ch/";
-    private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
+    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
+    private static final String BASE_URL_CNLAB = "https://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
     private static int stageNr = 0;
@@ -33,6 +37,13 @@ public final class APIClient {
     private static boolean demoMode = false;
     private static final String readTimeOutMessage = "Die Internetverbindung wurde während der Übertragung unterbrochen, bitte erneut versuchen!\n\n";
     private static final String throwableType = "Read timed out";
+    private static String username;
+    private static String password;
+
+    public static void setCredentials(String password, String username) {
+        APIClient.username = username;
+        APIClient.password = password;
+    }
 
     private static SyncHttpClient client = new SyncHttpClient();
 
@@ -51,19 +62,24 @@ public final class APIClient {
     }
 
     private static void put(String url, String content, AsyncHttpResponseHandler responseHandler) {
-        //Adidional Parameters for post get
+        client.setBasicAuth(username, password);
+        client.addHeader("Csrf-Token", "nocheck");
         StringEntity stringEntity = new StringEntity(content, "UTF-8");
         stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         client.put(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
     }
 
     private static void post(String url, String content, AsyncHttpResponseHandler responseHandler) {
+        client.addHeader("Csrf-Token", "nocheck");
+        client.setBasicAuth(username, password);
         StringEntity stringEntity = new StringEntity(content, "UTF-8");
         stringEntity.setContentType(new BasicHeader(HTTP.CONTENT_TYPE, "application/json"));
         client.post(null, getAbsoluteUrl(url), stringEntity, "application/json", responseHandler);
     }
 
     private static void delete(String url, AsyncHttpResponseHandler responseHandler) {
+        client.setBasicAuth(username, password);
+        client.addHeader("Csrf-Token", "nocheck");
         client.delete(getAbsoluteUrl(url), responseHandler);
     }
 
@@ -107,12 +123,17 @@ public final class APIClient {
         return getMaillots(UrlLink.MAILLOTS + stageId, null);
     }
 
+    public static String getRacegroups() { return getRacegroups(UrlLink.RACEGROUPS + "/stages/" + stageId, null);}
+
+    public static String getJudgementRiderConnections() {
+        return getJudgementRiderConnections(UrlLink.JUDGMENTRIDERCONNECTION + "/stages/" + stageId, null);
+    }
+
     public static void clearDatabase(){
         Parser.deleteData();
     }
 
     public static void postRiderStageConnection(long id, String body) {
-        String test = body;
         putData(UrlLink.RIDERSTAGECONNECTION + id, body);
     }
 
@@ -218,6 +239,68 @@ public final class APIClient {
 
             @Override
             public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject riders){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getRacegroups(String url, RequestParams params) {
+        final String[] messages = {"error"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject data) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray racegroups) {
+
+                try{
+                    Parser.parseRacegroups(racegroups);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject racegroups){
+                if(throwable.getMessage().equals(throwableType)){
+                    messages[0] = readTimeOutMessage + throwable.getMessage();
+                } else {
+                    messages[0] = throwable.getMessage();
+                }
+            }
+        });
+        return messages[0];
+    }
+
+    public static String getJudgementRiderConnections(String url, RequestParams params) {
+        final String[] messages = {"error"};
+        APIClient.get(url, null, new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONObject jRC) {
+                // Not needed and therefore not implemented
+            }
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, JSONArray jRC) {
+
+                try{
+                    Parser.parseJudgementRiderConnections(jRC);
+                    messages[0] = "success";
+                } catch (Exception ex){
+                    messages[0] = ex.getMessage();
+                }
+            }
+
+            @Override
+            public void onFailure(int error, Header[] headers, Throwable throwable, JSONObject racegroups){
                 if(throwable.getMessage().equals(throwableType)){
                     messages[0] = readTimeOutMessage + throwable.getMessage();
                 } else {
