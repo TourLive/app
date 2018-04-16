@@ -79,6 +79,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private SharedPreferences sharedPreferences;
     private EditText username;
     private EditText password;
+    private String shUsername;
+    private String shPassword;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,8 +101,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         password = root.findViewById(R.id.txt_PasswordInput);
         sharedPreferences = this.getActivity().getSharedPreferences("security", Context.MODE_PRIVATE);
 
-        String shUsername = sharedPreferences.getString("username","");
-        String shPassword = sharedPreferences.getString("password", "");
+        shUsername = sharedPreferences.getString("username","");
+        shPassword = sharedPreferences.getString("password", "");
         if (shUsername != null && shPassword != null) {
             username.setText(shUsername);
             password.setText(shPassword);
@@ -183,8 +185,8 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         if (v == security) {
             String user = username.getText().toString();
             String pass = password.getText().toString();
-            sharedPreferences.edit().putString("username", user);
-            sharedPreferences.edit().putString("password", pass);
+            sharedPreferences.edit().putString("username", user).apply();
+            sharedPreferences.edit().putString("password", pass).apply();
             APIClient.setCredentials(pass, user);
         }
     }
@@ -325,6 +327,17 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         ConnectivityManager connectivityManager = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        shUsername = sharedPreferences.getString("username","");
+        shPassword = sharedPreferences.getString("password", "");
+        if (shUsername != null && shPassword != null) {
+            username.setText(shUsername);
+            password.setText(shPassword);
+        }
     }
 
     private void switchDemoMode() {
