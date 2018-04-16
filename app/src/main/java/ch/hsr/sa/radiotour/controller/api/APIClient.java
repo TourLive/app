@@ -28,8 +28,8 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://10.5.2.21:9000/";
-    private static final String BASE_URL_CNLAB = "http://tlng.cnlab.ch/";
+    private static final String BASE_URL = "http://dev-api.tourlive.ch/";
+    private static final String BASE_URL_CNLAB = "https://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
     private static int stageNr = 0;

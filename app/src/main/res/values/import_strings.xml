@@ -50,4 +50,6 @@
     <string name="import_stage_infos">%1$s | %2$s - %3$s (%4$d)</string>
     <string name="import_race_infos">%1$s (%2$d)</string>
     <string name="import_success">Daten wurden erfolgreich geladen.</string>
+    <string name="import_success_security">Die Benutzerinformationen wurden erfolgreich gespeichert.</string>
+    <string name="import_security">Für die korrekte Funktionsweise der Anwendung müssen die Benutzerinformationen angegeben werden. Bitte vor dem Import erledigen.</string>
 </resources>
