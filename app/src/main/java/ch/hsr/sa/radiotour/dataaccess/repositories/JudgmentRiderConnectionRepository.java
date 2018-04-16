@@ -22,7 +22,7 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         final JudgmentRiderConnection transferConnection = judgmentRiderConnection;
 
         realm.beginTransaction();
-        if (transferConnection.getId() == "") {
+        if (transferConnection.getId() == "" || transferConnection.getId() == null) {
             transferConnection.setId(UUID.randomUUID().toString());
         }
         JudgmentRiderConnection realmConnection = realm.createObject(JudgmentRiderConnection.class, transferConnection.getId());
