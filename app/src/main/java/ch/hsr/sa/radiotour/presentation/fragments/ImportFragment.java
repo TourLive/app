@@ -75,7 +75,6 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     private Timer timerForUpdate;
     private TimerTask timerTaskForUpdate;
     private boolean demoMode;
-    private View root;
     private SharedPreferences sharedPreferences;
     private EditText username;
     private EditText password;
@@ -155,21 +154,25 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         uiHandler.post(() -> drawable.setColor(color));
     }
 
-    private void setText(TextView view, String text) {
-        uiHandler.post(() -> view.setText(text));
-    }
-
     @Override
     public void onClick(View v) {
         if (v == btnImport) {
             if (isNetworkAvailable()) {
-                new AlertDialog.Builder(getContext())
-                        .setTitle(R.string.import_start_import)
-                        .setMessage(R.string.import_start_info)
-                        .setNegativeButton(android.R.string.cancel, null)
-                        .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
-                        .create()
-                        .show();
+                shUsername = sharedPreferences.getString("username","");
+                shPassword = sharedPreferences.getString("password", "");
+                if (shPassword == "" || shUsername == "" || shUsername == null || shPassword == null) {
+                    Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_security), Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0);
+                    toast.show();
+                } else {
+                    new AlertDialog.Builder(getContext())
+                            .setTitle(R.string.import_start_import)
+                            .setMessage(R.string.import_start_info)
+                            .setNegativeButton(android.R.string.cancel, null)
+                            .setPositiveButton(android.R.string.ok, (DialogInterface dialog, int which) -> startImport())
+                            .create()
+                            .show();
+                }
             } else {
                 new AlertDialog.Builder(getContext())
                         .setTitle(R.string.import_no_internet_title)
@@ -188,6 +191,9 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             sharedPreferences.edit().putString("username", user).apply();
             sharedPreferences.edit().putString("password", pass).apply();
             APIClient.setCredentials(pass, user);
+            Toast toast = Toast.makeText(getContext(), getResources().getString(R.string.import_success_security), Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+            toast.show();
         }
     }
 
