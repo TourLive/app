@@ -46,7 +46,7 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.commitTransaction();
 
         realm.beginTransaction();
-        if (judgmentRiderConnection.getId() == "") {
+        if (judgmentRiderConnection.getId() == "" || judgmentRiderConnection.getId() == null) {
             judgmentRiderConnection.setId(UUID.randomUUID().toString());
         }
         JudgmentRiderConnection realmConnection = realm.createObject(JudgmentRiderConnection.class, judgmentRiderConnection.getId());
