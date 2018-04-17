@@ -343,6 +343,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
         if (shUsername != null && shPassword != null) {
             username.setText(shUsername);
             password.setText(shPassword);
+            APIClient.setCredentials(shPassword, shUsername);
         }
     }
 

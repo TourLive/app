@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -322,6 +323,12 @@ public class MainActivity extends AppCompatActivity {
     public void onStart() {
         super.onStart();
         initCallbacks();
+        SharedPreferences sharedPreferences = getSharedPreferences("security", Context.MODE_PRIVATE);
+        String shUsername = sharedPreferences.getString("username","");
+        String shPassword = sharedPreferences.getString("password", "");
+        if (shUsername != null && shPassword != null) {
+            APIClient.setCredentials(shPassword, shUsername);
+        }
     }
 
     private void setTabMenu() {
