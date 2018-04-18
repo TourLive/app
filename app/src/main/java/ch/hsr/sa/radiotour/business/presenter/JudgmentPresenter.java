@@ -75,8 +75,8 @@ public class JudgmentPresenter implements IJudgmentPresenter {
     }
 
     @Override
-    public RealmList<Judgement> getJudgmentsById(long judgmentId) {
-        return judgmentRepository.getJudgmentsById(judgmentId);
+    public RealmList<Judgement> getJudgmentsByRewardId(long rewardId) {
+        return judgmentRepository.getJudgmentsByRewardId(rewardId);
     }
 
     @Override

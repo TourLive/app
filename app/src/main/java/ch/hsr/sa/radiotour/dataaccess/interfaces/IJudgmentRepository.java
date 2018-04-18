@@ -9,7 +9,7 @@ public interface IJudgmentRepository {
 
     void getAllJudgments(OnGetAllJudgmentCallback callback);
 
-    RealmList<Judgement> getJudgmentsById(final long judgmentId);
+    RealmList<Judgement> getJudgmentsByRewardId(final long rewardId);
 
     void clearAllJudgments();
 
