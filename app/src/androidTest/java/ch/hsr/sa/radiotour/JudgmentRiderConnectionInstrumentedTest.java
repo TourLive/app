@@ -123,7 +123,7 @@ public class JudgmentRiderConnectionInstrumentedTest {
         RealmList<Rider> riderList = new RealmList<>();
         RealmList<Judgement> judgementList = new RealmList<>();
         riderList.add(RiderPresenter.getInstance().getRiderByStartNr(15));
-        judgementList.add(JudgmentPresenter.getInstance().getJudgmentsById(93).first());
+        judgementList.add(JudgmentPresenter.getInstance().getJudgmentsByRewardId(93).first());
 
         JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
         judgmentRiderConnection.setRank(1);
@@ -144,7 +144,7 @@ public class JudgmentRiderConnectionInstrumentedTest {
         RealmList<Rider> riderList = new RealmList<>();
         RealmList<Judgement> judgementList = new RealmList<>();
         riderList.add(RiderPresenter.getInstance().getRiderByStartNr(15));
-        judgementList.add(JudgmentPresenter.getInstance().getJudgmentsById(93).first());
+        judgementList.add(JudgmentPresenter.getInstance().getJudgmentsByRewardId(93).first());
 
         JudgmentRiderConnection judgmentRiderConnection = new JudgmentRiderConnection();
         judgmentRiderConnection.setRank(1);
