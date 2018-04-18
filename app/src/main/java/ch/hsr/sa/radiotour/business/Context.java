@@ -61,8 +61,12 @@ public final class Context {
         RewardPresenter.getInstance().clearAllRewards();
     }
 
-    public static RealmList<Judgement> getJudgmentsById(long judgmentId) {
-        return JudgmentPresenter.getInstance().getJudgmentsById(judgmentId);
+    public static Judgement getJudgmentsById(long judgmentId) {
+        return JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgmentId);
+    }
+
+    public static RealmList<Judgement> getJudgmentsByRewardId(long rewardId) {
+        return JudgmentPresenter.getInstance().getJudgmentsByRewardId(rewardId);
     }
 
     public static void addStage(Stage stage) {
@@ -140,4 +144,9 @@ public final class Context {
     public static void addJudgementRiderConnection(JudgmentRiderConnection judgmentRiderConnection) {
         JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnectionImport(judgmentRiderConnection);
     }
+
+    public static void deleteJudgementRiderConnections() {
+        JudgmentRiderConnectionPresenter.getInstance().clearAllJudgmentRiderConnections();
+    }
+
 }

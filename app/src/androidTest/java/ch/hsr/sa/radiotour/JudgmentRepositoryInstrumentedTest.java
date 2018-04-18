@@ -104,7 +104,7 @@ public class JudgmentRepositoryInstrumentedTest {
 
         Judgement realmJudgment;
         synchronized (this){
-            realmJudgment = judgmentRepository.getJudgmentsById(93).first();
+            realmJudgment = judgmentRepository.getJudgmentsByRewardId(93).first();
         }
 
         Assert.assertEquals(judgement.getDistance(), realmJudgment.getDistance());
@@ -153,13 +153,13 @@ public class JudgmentRepositoryInstrumentedTest {
         reward.setPoints(new RealmList<Integer>(1, 3, 5));
         reward.setMoney(new RealmList<Integer>(100, 300, 500));
         reward.setType(RewardType.POINTS);
-        reward.setRewardJudgements(judgmentRepository.getJudgmentsById(93));
+        reward.setRewardJudgements(judgmentRepository.getJudgmentsByRewardId(93));
 
         synchronized (this){
             rewardRepository.addReward(reward, onSaveRewardCallback);
         }
 
-        Assert.assertEquals(300, judgmentRepository.getJudgmentsById(93).first().getRewards().getMoney().get(1).intValue());
+        Assert.assertEquals(300, judgmentRepository.getJudgmentsByRewardId(93).first().getRewards().getMoney().get(1).intValue());
     }
 
 }
