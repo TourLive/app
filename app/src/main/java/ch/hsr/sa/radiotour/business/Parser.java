@@ -45,6 +45,7 @@ public final class Parser {
         Context.deleteAllRiderStageConnections();
         Context.deleteRiders();
         Context.deleteRaceGroups();
+        Context.deleteJudgementRiderConnections();
         Context.deleteJudgments();
         Context.deleteRewards();
         Context.deleteMaillots();
@@ -291,7 +292,7 @@ public final class Parser {
                     }
                     reward.setPoints(bonusList);
 
-                    reward.setRewardJudgements(Context.getJudgmentsById(reward.getId()));
+                    reward.setRewardJudgements(Context.getJudgmentsByRewardId(reward.getId()));
                     Context.addReward(reward);
                 } catch (JSONException e) {
                     Log.d(Parser.class.getSimpleName(), "APP - PARSER - REWARDS - " + e.getMessage());
@@ -339,7 +340,9 @@ public final class Parser {
                         RealmList<Rider> riderRealmList = new RealmList<>();
                         riderRealmList.add(Context.getRiderByStartNr(rider.getInt("startNr")));
                         judgmentRiderConnection.setRider(riderRealmList);
-                        judgmentRiderConnection.setJudgements(Context.getJudgmentsById(judgement.getLong("id")));
+                        RealmList<Judgement> judgements = new RealmList<>();
+                        judgements.add(Context.getJudgmentsById(judgement.getLong("id")));
+                        judgmentRiderConnection.setJudgements(judgements);
                         judgmentRiderConnection.setRank(jrC.getInt("rank"));
                         judgmentRiderConnection.setId(jrC.getString("appId"));
                         synchronized (this) {

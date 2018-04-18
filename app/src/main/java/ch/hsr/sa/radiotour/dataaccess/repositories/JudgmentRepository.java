@@ -37,13 +37,13 @@ public class JudgmentRepository implements IJudgmentRepository {
     }
 
     @Override
-    public RealmList<Judgement> getJudgmentsById(final long judgmentId) {
+    public RealmList<Judgement> getJudgmentsByRewardId(final long rewardId) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RealmList<Judgement> results = new RealmList<>();
         RealmResults<Judgement> judgments = realm.where(Judgement.class).findAll();
 
         for (Judgement j : judgments) {
-            if (j.getRewardId() == judgmentId) {
+            if (j.getRewardId() == rewardId) {
                 results.add(j);
             }
         }
