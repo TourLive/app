@@ -49,6 +49,7 @@ import ch.hsr.sa.radiotour.controller.adapter.ViewPageAdapter;
 import ch.hsr.sa.radiotour.controller.api.APIClient;
 import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.controller.api.UrlLink;
+import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
 import ch.hsr.sa.radiotour.presentation.fragments.ImportFragment;
@@ -234,8 +235,11 @@ public class MainActivity extends AppCompatActivity {
                             timeInRaceGroupCounter++;
                             if(timeInRaceGroupCounter == 60){
                                 timeInRaceGroupCounter = 0;
-                                for(Rider r :RaceGroupPresenter.getInstance().getLeadRaceGroup().getRiders()){
-                                    RiderStageConnectionPresenter.getInstance().appendTimeInLeadGroup(r.getRiderStages().first(), 1);
+                                RaceGroup leadRaceGroup = RaceGroupPresenter.getInstance().getLeadRaceGroup();
+                                if(leadRaceGroup != null){
+                                    for(Rider r :RaceGroupPresenter.getInstance().getLeadRaceGroup().getRiders()){
+                                        RiderStageConnectionPresenter.getInstance().appendTimeInLeadGroup(r.getRiderStages().first(), 1);
+                                    }
                                 }
                             }
                         }
