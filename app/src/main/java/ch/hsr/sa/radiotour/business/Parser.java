@@ -104,7 +104,6 @@ public final class Parser {
         Thread threadRiders = new Thread(runnable);
         threadRiders.start();
         threadRiders.join();
-        updateRiderConnectionRankByOfficalGap();
     }
 
     public static void parseRacegroups(JSONArray racegroups) throws InterruptedException {
