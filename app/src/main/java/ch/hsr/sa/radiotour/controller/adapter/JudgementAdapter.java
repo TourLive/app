@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,6 +27,8 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     private RealmList<Judgement> judgements;
     private Context context;
     private OnJudgmentClickListener onJudgmentClickListener;
+    private TextView activeJudgment = null;
+    private int activePosition = 0;
 
     public JudgementAdapter(RealmList<Judgement> judgements, Context context, OnJudgmentClickListener onJudgmentClickListener) {
         this.judgements = judgements;
@@ -71,7 +74,13 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
         @OnClick(R.id.itemJudgementKM)
         public void onClick() {
+            if(activeJudgment != null){
+                activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
+            }
+            activeJudgment = itemJudgementKM;
+            activePosition = getAdapterPosition();
             onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()));
+            itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
         }
     }
 
