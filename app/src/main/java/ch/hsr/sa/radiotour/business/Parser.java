@@ -145,7 +145,7 @@ public final class Parser {
         threadRaceGroups.join();
     }
 
-    private static void updateRiderConnectionRankByOfficalGap() throws InterruptedException {
+    public static String updateRiderConnectionRankByOfficalGap() throws InterruptedException {
         Runnable runnable = new Runnable() {
             public void run() {
             try {
@@ -237,6 +237,7 @@ public final class Parser {
         Thread threadRanking = new Thread(runnable);
         threadRanking.start();
         threadRanking.join();
+        return  "success";
     }
 
     public static void parseJudgmentsAndPersist(JSONArray judgments, final int STAGE_NR) throws InterruptedException {

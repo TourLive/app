@@ -37,6 +37,7 @@ import java.util.TimerTask;
 
 import ch.hsr.sa.radiotour.BuildConfig;
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.Parser;
 import ch.hsr.sa.radiotour.business.presenter.JudgmentPresenter;
 import ch.hsr.sa.radiotour.business.presenter.MaillotPresenter;
 import ch.hsr.sa.radiotour.business.presenter.RaceGroupPresenter;
@@ -136,15 +137,19 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     }
 
     private void updateViews() {
-        LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-        Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
-        updateDrawable(gpsView, active);
+        try{
+            LocationManager manager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
+            Boolean active = manager.isProviderEnabled(LocationManager.GPS_PROVIDER) ? true : false;
+            updateDrawable(gpsView, active);
 
-        JSONObject settings = APIClient.getStatusFromAPI(UrlLink.STATUSPAGE, null);
-        if (settings == null) {
-            updateDrawable(serverView, false);
-        } else {
-            updateDrawable(serverView, true);
+            JSONObject settings = APIClient.getStatusFromAPI(UrlLink.STATUSPAGE, null);
+            if (settings == null) {
+                updateDrawable(serverView, false);
+            } else {
+                updateDrawable(serverView, true);
+            }
+        } catch (NullPointerException ex){
+            // App went to background ignore update
         }
     }
 
@@ -258,9 +263,19 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 20;
-            } else if (progressBarStatus < 40) {
+            } else if (progressBarStatus < 30) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver)));
                 String message = APIClient.getRiders();
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 30;
+            } else if (progressBarStatus < 40) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByOfficalGap();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
