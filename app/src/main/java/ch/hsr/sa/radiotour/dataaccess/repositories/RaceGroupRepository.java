@@ -95,6 +95,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         RiderRepository riderRepository = new RiderRepository();
         RealmList<Rider> riders = new RealmList<>();
         riders.addAll(newRiders);
+        long timeRaceGroup = 0L;
 
         realm.beginTransaction();
 
@@ -127,6 +128,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         if (realmRemoveGroup != null && realmRemoveGroup.getRiders().isEmpty()) {
             deleteRaceGroup(realmRemoveGroup);
+            realm.beginTransaction();
+            timeRaceGroup = realmRaceGroup.getActualGapTime();
+            realmRaceGroup.setHistoryGapTime(timeRaceGroup);
+            realmRaceGroup.setActualGapTime(0);
+            realm.commitTransaction();
         }
 
         if (callback != null) {

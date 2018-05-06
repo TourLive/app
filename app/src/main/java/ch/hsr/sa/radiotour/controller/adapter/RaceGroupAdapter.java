@@ -67,6 +67,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.racegroupRiders.setAdapter(adapter);
             if (raceGroups.get(position).getType() == RaceGroupType.LEAD) {
                 holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime_before));
+            } else {
+                holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime));
             }
             int color = ContextCompat.getColor(context, R.color.colorGrayLight);
             holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
