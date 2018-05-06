@@ -30,10 +30,11 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     private TextView activeJudgment = null;
     private int activePosition = 0;
 
-    public JudgementAdapter(RealmList<Judgement> judgements, Context context, OnJudgmentClickListener onJudgmentClickListener) {
+    public JudgementAdapter(RealmList<Judgement> judgements, Context context, int activePosition, OnJudgmentClickListener onJudgmentClickListener) {
         this.judgements = judgements;
         this.context = context;
         this.onJudgmentClickListener = onJudgmentClickListener;
+        this.activePosition = activePosition;
         Collections.sort(judgements, new JudgmentComperator());
     }
 
@@ -46,6 +47,12 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
     @Override
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
+        if(position == 0){
+            activeJudgment = holder.itemJudgementKM;
+        }
+        if(activePosition == position){
+            holder.itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
+        }
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
         holder.itemJudgementKM.setText("KM " + judgements.get(position).getDistance());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -78,8 +85,7 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
                 activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
             }
             activeJudgment = itemJudgementKM;
-            activePosition = getAdapterPosition();
-            onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()));
+            onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()), getAdapterPosition());
             itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
         }
     }
