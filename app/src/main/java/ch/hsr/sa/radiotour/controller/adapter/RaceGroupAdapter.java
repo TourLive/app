@@ -25,6 +25,8 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
+import ch.hsr.sa.radiotour.presentation.fragments.OnDragRaceGroupListener;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
@@ -33,12 +35,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private Fragment fragment;
+    private OnDragRaceGroupListener onDragRaceGroupListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment) {
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment, OnDragRaceGroupListener onDragRaceGroupListener) {
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComparator());
         this.context = context;
         this.fragment = fragment;
+        this.onDragRaceGroupListener = onDragRaceGroupListener;
     }
 
     @Override
@@ -66,6 +70,8 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.racegroupRiders.setAdapter(adapter);
             if (raceGroups.get(position).getType() == RaceGroupType.LEAD) {
                 holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime_before));
+            } else {
+                holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime));
             }
             int color = ContextCompat.getColor(context, R.color.colorGrayLight);
             holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
@@ -77,7 +83,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime));
         }
-        holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
+        holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()) + " " + context.getString(R.string.racegroup_count));
     }
 
     public String convertLongToTimeString(long time) {
@@ -140,6 +146,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
                         return true;
+                    case DragEvent.ACTION_DRAG_LOCATION:
+                        onDragRaceGroupListener.onRaceGroupLocationChanged(getAdapterPosition() + 1);
+                        return true;
                     case DragEvent.ACTION_DROP:
                         RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
@@ -172,6 +181,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         default:
                             return true;
                     }
+                });
+                layoutAddButton.setOnClickListener(view -> {
+                    MainActivity.getInstance().setTab(1);
                 });
             }
         }
