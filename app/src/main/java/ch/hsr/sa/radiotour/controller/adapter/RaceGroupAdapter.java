@@ -25,6 +25,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
@@ -77,7 +78,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             holder.layoutRacegroup.getBackground().setColorFilter(color, PorterDuff.Mode.MULTIPLY);
             holder.gaptimeActual.setBackground(context.getDrawable(R.drawable.background_shape_racetime));
         }
-        holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()));
+        holder.racegroupCount.setText(String.valueOf(raceGroups.get(position).getRidersCount()) + " " + context.getString(R.string.racegroup_count));
     }
 
     public String convertLongToTimeString(long time) {
@@ -172,6 +173,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         default:
                             return true;
                     }
+                });
+                layoutAddButton.setOnClickListener(view -> {
+                    MainActivity.getInstance().setTab(1);
                 });
             }
         }
