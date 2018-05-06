@@ -9,6 +9,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,7 +28,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
 import io.realm.RealmList;
 
-public class RaceFragment extends Fragment {
+public class RaceFragment extends Fragment implements OnDragRaceGroupListener {
     private static final int SPAN = 8;
     private static final int LASTNUMBER = 300;
     private RealmList<RaceGroup> raceGroups;
@@ -55,7 +56,7 @@ public class RaceFragment extends Fragment {
         this.riders = new RealmList<>();
         this.raceGroups = new RealmList<>();
         this.riderAdapter = new RiderListAdapter(riders, mContext);
-        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this);
+        this.raceGroupAdapter = new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this, this);
         rvRider.setAdapter(riderAdapter);
         rvRaceGroup = root.findViewById(R.id.rvRaceGroup);
         rvRaceGroup.setAdapter(raceGroupAdapter);
@@ -103,7 +104,7 @@ public class RaceFragment extends Fragment {
     public void showRaceGroups(RealmList<RaceGroup> raceGroupRealmList) {
         this.raceGroups.clear();
         this.raceGroups.addAll(raceGroupRealmList);
-        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this), true);
+        rvRaceGroup.swapAdapter(new RaceGroupAdapter(raceGroups, mContext, RaceFragment.this, this), true);
         rvRaceGroup.scrollBy(0, 0);
         this.raceGroupAdapter.notifyDataSetChanged();
     }
@@ -129,5 +130,10 @@ public class RaceFragment extends Fragment {
         RiderPresenter.getInstance().getAllRiders();
         RaceGroupPresenter.getInstance().getAllRaceGroups();
         RiderStageConnectionPresenter.getInstance().getAllRiderStateConnections();
+    }
+
+    @Override
+    public void onRaceGroupLocationChanged(int pos) {
+        rvRaceGroup.scrollToPosition(pos);
     }
 }

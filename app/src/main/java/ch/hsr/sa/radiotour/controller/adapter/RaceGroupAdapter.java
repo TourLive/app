@@ -26,6 +26,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
+import ch.hsr.sa.radiotour.presentation.fragments.OnDragRaceGroupListener;
 import io.realm.RealmList;
 
 public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.RaceGroupViewHolder> {
@@ -34,12 +35,14 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private RealmList<RaceGroup> raceGroups;
     private Context context;
     private Fragment fragment;
+    private OnDragRaceGroupListener onDragRaceGroupListener;
 
-    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment) {
+    public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment, OnDragRaceGroupListener onDragRaceGroupListener) {
         this.raceGroups = raceGroups;
         Collections.sort(raceGroups, new RaceGroupComparator());
         this.context = context;
         this.fragment = fragment;
+        this.onDragRaceGroupListener = onDragRaceGroupListener;
     }
 
     @Override
@@ -142,6 +145,9 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             layoutRacegroup.setOnDragListener((View view, DragEvent dragEvent) -> {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
+                        return true;
+                    case DragEvent.ACTION_DRAG_LOCATION:
+                        onDragRaceGroupListener.onRaceGroupLocationChanged(getAdapterPosition() + 1);
                         return true;
                     case DragEvent.ACTION_DROP:
                         RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
