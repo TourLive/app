@@ -49,7 +49,9 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
         if(activePosition == position){
             activeJudgment = holder.itemJudgementKM;
-            holder.itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
+            activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
+        } else {
+            holder.itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
         }
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
         holder.itemJudgementKM.setText("KM " + judgements.get(position).getDistance());
@@ -79,9 +81,7 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
         @OnClick(R.id.itemJudgementKM)
         public void onClick() {
-            if(activeJudgment != null){
-                activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
-            }
+            activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
             activeJudgment = itemJudgementKM;
             onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()), getAdapterPosition());
             itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
