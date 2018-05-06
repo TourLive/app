@@ -19,9 +19,11 @@ import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMoney;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorOfficalGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorPoints;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorTimeInLead;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorVirtualGap;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStateType;
 import ch.hsr.sa.radiotour.dataaccess.models.Stage;
@@ -160,79 +162,170 @@ public final class Parser {
                     RiderRanking realmRiderRanking = Context.getRiderRanking(rankingOfficial);
                     Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
                 }
-                connections.sort(new RiderStageConnectionComparatorVirtualGap());
-                for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking rankingVirtual = new RiderRanking();
-                    rankingVirtual.setType(RankingType.VIRTUAL);
-                    rankingVirtual.setRank(i + 1);
-                    synchronized (this){
-                        Context.addRiderRanking(rankingVirtual);
-                    }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingVirtual);
-                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                }
-                connections.sort(new RiderStageConnectionComparatorMountainPoints());
-                for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking rankingMountain = new RiderRanking();
-                    rankingMountain.setType(RankingType.MOUNTAIN);
-                    rankingMountain.setRank(i + 1);
-                    synchronized (this){
-                        Context.addRiderRanking(rankingMountain);
-                    }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMountain);
-                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                }
-                connections.sort(new RiderStageConnectionComparatorPoints());
-                for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking rankingPoints = new RiderRanking();
-                    rankingPoints.setType(RankingType.POINTS);
-                    rankingPoints.setRank(i + 1);
-                    synchronized (this){
-                        Context.addRiderRanking(rankingPoints);
-                    }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingPoints);
-                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                }
-                connections.sort(new RiderStageConnectionComparatorVirtualGap());
-                int rank = 1;
-                for (int i = 0; i < connections.size(); i++) {
-                    if(connections.get(i).getRiders().getCountry().equals("SUI")){
-                        RiderRanking rankingSwiss = new RiderRanking();
-                        rankingSwiss.setType(RankingType.SWISS);
-                        rankingSwiss.setRank(rank);
-                        rank++;
-                        synchronized (this){
-                            Context.addRiderRanking(rankingSwiss);
-                        }
-                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingSwiss);
-                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                    }
-                }
-                for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking rankingMoney = new RiderRanking();
-                    rankingMoney.setType(RankingType.MONEY);
-                    rankingMoney.setRank(i + 1);
-                    synchronized (this){
-                        Context.addRiderRanking(rankingMoney);
-                    }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMoney);
-                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                }
-
-                for (int i = 0; i < connections.size(); i++) {
-                    RiderRanking rankingTimeInLead = new RiderRanking();
-                    rankingTimeInLead.setType(RankingType.TIME_IN_LEAD);
-                    rankingTimeInLead.setRank(i + 1);
-                    synchronized (this){
-                        Context.addRiderRanking(rankingTimeInLead);
-                    }
-                    RiderRanking realmRiderRanking = Context.getRiderRanking(rankingTimeInLead);
-                    Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
-                }
             } catch (Exception e) {
                 Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
             }
         }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByVirtualGap() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorVirtualGap());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingVirtual = new RiderRanking();
+                        rankingVirtual.setType(RankingType.VIRTUAL);
+                        rankingVirtual.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingVirtual);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingVirtual);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByMountainPoints() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorMountainPoints());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingMountain = new RiderRanking();
+                        rankingMountain.setType(RankingType.MOUNTAIN);
+                        rankingMountain.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingMountain);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMountain);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByPoints() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorPoints());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingPoints = new RiderRanking();
+                        rankingPoints.setType(RankingType.POINTS);
+                        rankingPoints.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingPoints);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingPoints);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByBestSwiss() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorVirtualGap());
+                    int rank = 1;
+                    for (int i = 0; i < connections.size(); i++) {
+                        if(connections.get(i).getRiders().getCountry().equals("SUI")){
+                            RiderRanking rankingSwiss = new RiderRanking();
+                            rankingSwiss.setType(RankingType.SWISS);
+                            rankingSwiss.setRank(rank);
+                            rank++;
+                            synchronized (this){
+                                Context.addRiderRanking(rankingSwiss);
+                            }
+                            RiderRanking realmRiderRanking = Context.getRiderRanking(rankingSwiss);
+                            Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                        }
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByMoney() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorMoney());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingMoney = new RiderRanking();
+                        rankingMoney.setType(RankingType.MONEY);
+                        rankingMoney.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingMoney);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingMoney);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByTimeInLead() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorTimeInLead());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingTimeInLead = new RiderRanking();
+                        rankingTimeInLead.setType(RankingType.TIME_IN_LEAD);
+                        rankingTimeInLead.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingTimeInLead);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingTimeInLead);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
         Thread threadRanking = new Thread(runnable);
         threadRanking.start();
         threadRanking.join();

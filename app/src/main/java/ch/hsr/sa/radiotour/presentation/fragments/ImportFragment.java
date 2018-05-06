@@ -281,15 +281,75 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 40;
+            } else if (progressBarStatus < 45) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByVirtualGap();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 45;
             } else if (progressBarStatus < 50) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByMountainPoints();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 50;
+            } else if (progressBarStatus < 55) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByPoints();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 55;
+            } else if (progressBarStatus < 60) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByBestSwiss();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 60;
+            } else if (progressBarStatus < 65) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByMoney();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 65;
+            } else if (progressBarStatus < 68) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByTimeInLead();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 68;
+            } else if (progressBarStatus < 70) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_maillot)));
                 String message = APIClient.getMaillots();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 50;
-            } else if (progressBarStatus < 60) {
+                return 70;
+            } else if (progressBarStatus < 75) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_stage)));
                 String message = APIClient.getStages();
                 String message2 = APIClient.getRace();
@@ -297,31 +357,31 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     setErrorDialog(message);
                     break;
                 }
-                return 60;
-            } else if (progressBarStatus < 70) {
+                return 75;
+            } else if (progressBarStatus < 80) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_racegroups)));
                 String message = APIClient.getRacegroups();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 70;
-            } else if (progressBarStatus < 80) {
+                return 80;
+            } else if (progressBarStatus < 90) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_reward)));
                 String message = APIClient.getJudgments();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 80;
-            } else if (progressBarStatus < 90) {
+                return 90;
+            } else if (progressBarStatus < 95) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_jrc)));
                 String message = APIClient.getJudgementRiderConnections();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 90;
+                return 95;
             } else {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_judgment)));
                 String message = APIClient.getRewards();
