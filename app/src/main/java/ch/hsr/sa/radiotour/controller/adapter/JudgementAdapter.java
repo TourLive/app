@@ -47,10 +47,8 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
     @Override
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
-        if(position == 0){
-            activeJudgment = holder.itemJudgementKM;
-        }
         if(activePosition == position){
+            activeJudgment = holder.itemJudgementKM;
             holder.itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
         }
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
