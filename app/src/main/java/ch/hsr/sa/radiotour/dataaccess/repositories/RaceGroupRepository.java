@@ -132,7 +132,13 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             timeRaceGroup = realmRaceGroup.getActualGapTime();
             realmRaceGroup.setHistoryGapTime(timeRaceGroup);
             realmRaceGroup.setActualGapTime(0);
+            RealmResults<RaceGroup> posToUpdate = realm.where(RaceGroup.class).findAllSorted("position");
+            for (RaceGroup r : posToUpdate) {
+                r.setPosition(posToUpdate.indexOf(r));
+            }
             realm.commitTransaction();
+
+
         }
 
         if (callback != null) {
