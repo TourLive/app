@@ -5,4 +5,5 @@
     <string name="racegroup_timechange_button">Zeit ändern</string>
     <string name="racegroup_timechange_title">Zeitabstand</string>
     <string name="racegroup_timechange_description">Geben Sie die Zeit des Abstands relativ zur Spitzengruppe ein</string>
+    <string name="racegroup_count">Fahrer</string>
 </resources>
