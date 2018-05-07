@@ -54,8 +54,8 @@ public class VirtualClassFragment extends Fragment {
     TextView virtualClassementPointsHeader;
     @BindView(R.id.virtualClassementMountainPointsHeader)
     TextView virtualClassementMountainPointsHeader;
-    @BindView(R.id.virtualClassementSprintPointsHeader)
-    TextView virtualClassementSprintPointsHeader;
+    @BindView(R.id.virtualClassementDistanceInLeadGroupHeader)
+    TextView virtualClassementDistanceInLeadGroupHeader;
     @BindView(R.id.virtualClassementMoneyHeader)
     TextView virtualClassementMoneyHeader;
     @BindView(R.id.virtualClassementTimeInLeadHeader)
@@ -96,7 +96,7 @@ public class VirtualClassFragment extends Fragment {
         selectedRow = v;
     }
 
-    @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementSprintPointsHeader, R.id.virtualClassementMoneyHeader, R.id.virtualClassementTimeInLeadHeader})
+    @OnClick({R.id.virtualClassementStartNrHeader, R.id.virtualClassementNameHeader, R.id.virtualClassementTeamHeader, R.id.virtualClassementCountryHeader, R.id.virtualClassementOfficialTimeHeader, R.id.virtualClassementOfficalGapHeader, R.id.virtualClassementVirtualGapHeader, R.id.virtualClassementPointsHeader, R.id.virtualClassementMountainPointsHeader, R.id.virtualClassementDistanceInLeadGroupHeader, R.id.virtualClassementMoneyHeader, R.id.virtualClassementTimeInLeadHeader})
     public void onSortClicked(View view) {
         Comparator<AdapterItem> comp = null;
         if (selectedColumn != null) {
@@ -131,8 +131,8 @@ public class VirtualClassFragment extends Fragment {
             case R.id.virtualClassementMountainPointsHeader:
                 comp = VirtualClassementComparators.getMountainPointComparator();
                 break;
-            case R.id.virtualClassementSprintPointsHeader:
-                comp = VirtualClassementComparators.getSprintPointComparator();
+            case R.id.virtualClassementDistanceInLeadGroupHeader:
+                comp = VirtualClassementComparators.getDistanceInLeadGroupComparator();
                 break;
             case R.id.virtualClassementMoneyHeader:
                 comp = VirtualClassementComparators.getMoneyComparator();
