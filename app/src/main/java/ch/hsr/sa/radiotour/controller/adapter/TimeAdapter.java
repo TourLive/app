@@ -35,11 +35,7 @@ public class TimeAdapter extends RecyclerView.Adapter<TimeAdapter.NumberViewHold
 
     @Override
     public void onBindViewHolder(TimeAdapter.NumberViewHolder holder, int position) {
-        holder.numberPad.setText(numbers[position]);
-        int number = Integer.parseInt(numbers[position]);
-        if (number <= numbersThatAreNotPossible) {
-            holder.numberPad.setTextColor(ContextCompat.getColor(context, R.color.colorGrayMiddle));
-        }
+        holder.numberPad.setText(numbers[position]);h
         if (position == numbersThatAreNotPossible + 1) {
             selectedNumber = numbers[position];
             holder.itemView.setBackgroundResource(R.color.colorAccent);
