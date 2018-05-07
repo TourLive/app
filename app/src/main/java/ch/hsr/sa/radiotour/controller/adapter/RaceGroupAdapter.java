@@ -228,6 +228,12 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             int actualMinutes = (int) raceGroup.getActualGapTime() / 60;
             int actualSeconds = (int) raceGroup.getActualGapTime() - (actualMinutes * 60);
 
+            if (actualSeconds < 59) {
+                actualSeconds++;
+            } else {
+                actualSeconds = 0;
+                actualMinutes++;
+            }
             adapterMinutes = new TimeAdapter(actualMinutes);
             adapterSeconds = new TimeAdapter(actualSeconds);
 
