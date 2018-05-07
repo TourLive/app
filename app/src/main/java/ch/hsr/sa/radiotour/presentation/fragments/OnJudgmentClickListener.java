@@ -7,5 +7,5 @@ import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
  */
 
 public interface OnJudgmentClickListener {
-    void onJudgmentClicked(Judgement judgement);
+    void onJudgmentClicked(Judgement judgement, int position);
 }
