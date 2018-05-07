@@ -36,12 +36,11 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_top_field"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
-                    app:layout_constraintStart_toStartOf="@id/guidlineImage"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <android.support.constraint.Guideline
@@ -56,19 +55,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="278dp" />
+                    app:layout_constraintGuide_begin="227dp" />
 
                 <TextView
                     android:id="@+id/txt_TopRadioTour"
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_top_radiotour"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
-                    app:layout_constraintStart_toStartOf="@+id/guidlineImage"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
                     app:layout_constraintTop_toBottomOf="@+id/txt_TopField" />
 
                 <android.support.constraint.Guideline
@@ -84,11 +82,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="00:00"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintStart_toStartOf="@+id/guidlineImage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -97,11 +95,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="00:00"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineTop"
+                    app:layout_constraintStart_toStartOf="@+id/guidlineImage"
                     app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
 
                 <android.support.constraint.Guideline
@@ -116,12 +114,11 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_height"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -129,12 +126,11 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_stage"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineTime"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
                     app:layout_constraintTop_toBottomOf="@+id/txt_Height" />
 
                 <android.support.constraint.Guideline
@@ -142,7 +138,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="480dp" />
+                    app:layout_constraintGuide_begin="472dp" />
 
                 <TextView
                     android:id="@+id/txtHeightValue"
@@ -150,11 +146,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="0 m"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTime"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -163,11 +159,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="0"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1Values"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo1"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineTime"
                     app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
 
                 <android.support.constraint.Guideline
@@ -175,19 +171,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    app:layout_constraintGuide_begin="599dp" />
+                    app:layout_constraintGuide_begin="587dp" />
 
                 <TextView
                     android:id="@+id/txt_Velocity"
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_average_speed"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1Values"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -195,12 +190,11 @@
                     style="@style/ToolbarText"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
                     android:layout_marginTop="8dp"
                     android:text="@string/header_racekilo"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1Values"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2"
                     app:layout_constraintTop_toBottomOf="@+id/txt_Height" />
 
                 <android.support.constraint.Guideline
@@ -216,11 +210,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="0 km/h"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1Values"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -229,11 +223,11 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:text="0 km von 0 km"
-                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2Value"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2"
+                    app:layout_constraintEnd_toStartOf="@+id/guidelineInfo2"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo1Values"
                     app:layout_constraintTop_toBottomOf="@+id/txtTopFieldActualGap" />
 
                 <android.support.constraint.Guideline
@@ -249,11 +243,10 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="@string/header_racetime"
-                    app:layout_constraintEnd_toStartOf="@+id/guideline17"
-                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2Value"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline17"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
@@ -265,8 +258,8 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="12dp"
                     android:text="00:00:00"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/guideline17"
+                    app:layout_constraintEnd_toStartOf="@+id/guideline17"
+                    app:layout_constraintStart_toStartOf="@+id/guidelineInfo2Value"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
@@ -292,7 +285,6 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/colorPrimaryUltraLight"
                     android:text="@string/header_reset"
@@ -315,11 +307,10 @@
                     android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
                     android:layout_marginEnd="8dp"
-                    android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:background="@color/colorPrimary"
-                    android:text="@string/header_demo"
                     android:gravity="center"
+                    android:text="@string/header_demo"
                     android:visibility="invisible"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/guidelineTime"
