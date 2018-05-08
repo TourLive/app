@@ -25,6 +25,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     private RecyclerView rvJudgement;
     private Context mContext;
     private int actualOffset = 0;
+    private int selectedJudgmentIndex = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +40,7 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
         RewardPresenter.getInstance().addView(this);
         JudgmentRiderConnectionPresenter.getInstance().addView(this);
         this.judgements = new RealmList<>();
-        this.judgementAdapter = new JudgementAdapter(judgements, mContext, this);
+        this.judgementAdapter = new JudgementAdapter(judgements, mContext, selectedJudgmentIndex, this);
         rvJudgement = root.findViewById(R.id.rvJudgements);
         rvJudgement.setAdapter(judgementAdapter);
         rvJudgement.setLayoutManager(new LinearLayoutManager(mContext));
@@ -55,14 +56,15 @@ public class SpecialFragment extends Fragment implements OnJudgmentClickListener
     public void showJudgments(RealmList<Judgement> judgementRealmList) {
         this.judgements.clear();
         this.judgements.addAll(judgementRealmList);
-        rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, this), true);
+        rvJudgement.swapAdapter(new JudgementAdapter(judgements, mContext, selectedJudgmentIndex, this), true);
         rvJudgement.scrollBy(0, actualOffset);
         this.judgementAdapter.notifyDataSetChanged();
     }
 
 
     @Override
-    public void onJudgmentClicked(Judgement judgement) {
+    public void onJudgmentClicked(Judgement judgement, int position) {
+        selectedJudgmentIndex = position;
         openDetailJudgmentFragment(judgement.getId());
     }
 
