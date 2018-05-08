@@ -10,6 +10,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorDistanceInLead;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMoney;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorPoints;
@@ -203,6 +204,21 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             cons.sort(new RiderStageConnectionComparatorTimeInLead());
             for (int i = 0; i < cons.size(); i++) {
                 db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.TIME_IN_LEAD).setRank(i+1);
+            }
+            PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(res));
+        });
+    }
+
+    @Override
+    public void appendDistanceInLeadGroup(final RiderStageConnection riderStageConnection, double value){
+        Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
+        realm.executeTransaction((Realm db) -> {
+            RiderStageConnection res = db.where(RiderStageConnection.class).equalTo("id", riderStageConnection.getId()).findFirst();
+            res.appendDistanceInLeadGroup(value);
+            List<RiderStageConnection> cons = realm.copyFromRealm(db.where(RiderStageConnection.class).findAll());
+            cons.sort(new RiderStageConnectionComparatorDistanceInLead());
+            for (int i = 0; i < cons.size(); i++) {
+                db.where(RiderStageConnection.class).equalTo("id", cons.get(i).getId()).findFirst().getRiderRanking(RankingType.DISTANCE_IN_LEAD).setRank(i+1);
             }
             PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(res));
         });

@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
     private LocationListener locationListener;
     private double correctionHeight = 0;
     private int timeInRaceGroupCounter = 0;
+    private double distanceInLeadGroup = 0;
 
     public static MainActivity getInstance() {
         return activity;
@@ -235,10 +236,13 @@ public class MainActivity extends AppCompatActivity {
                             timeInRaceGroupCounter++;
                             if(timeInRaceGroupCounter == 60){
                                 timeInRaceGroupCounter = 0;
+                                double tempDistanceInLeadGroup = distanceInLeadGroup;
+                                distanceInLeadGroup = distanceInMeter / 1000f;
                                 RaceGroup leadRaceGroup = RaceGroupPresenter.getInstance().getLeadRaceGroup();
                                 if(leadRaceGroup != null){
                                     for(Rider r :RaceGroupPresenter.getInstance().getLeadRaceGroup().getRiders()){
                                         RiderStageConnectionPresenter.getInstance().appendTimeInLeadGroup(r.getRiderStages().first(), 1);
+                                        RiderStageConnectionPresenter.getInstance().appendDistanceInLeadGroup(r.getRiderStages().first(), (distanceInLeadGroup - tempDistanceInLeadGroup));
                                     }
                                 }
                             }
