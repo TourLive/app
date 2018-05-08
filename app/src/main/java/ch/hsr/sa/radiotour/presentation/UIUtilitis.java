@@ -98,7 +98,7 @@ public final class UIUtilitis {
                 drawable = R.drawable.et;
                 break;
             case "POR":
-                drawable = R.drawable.pr;
+                drawable = R.drawable.pt;
                 break;
             case "RUS":
                 drawable = R.drawable.ru;

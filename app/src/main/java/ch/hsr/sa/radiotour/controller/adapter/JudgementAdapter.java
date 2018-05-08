@@ -1,6 +1,7 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -26,11 +27,14 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
     private RealmList<Judgement> judgements;
     private Context context;
     private OnJudgmentClickListener onJudgmentClickListener;
+    private TextView activeJudgment = null;
+    private int activePosition = 0;
 
-    public JudgementAdapter(RealmList<Judgement> judgements, Context context, OnJudgmentClickListener onJudgmentClickListener) {
+    public JudgementAdapter(RealmList<Judgement> judgements, Context context, int activePosition, OnJudgmentClickListener onJudgmentClickListener) {
         this.judgements = judgements;
         this.context = context;
         this.onJudgmentClickListener = onJudgmentClickListener;
+        this.activePosition = activePosition;
         Collections.sort(judgements, new JudgmentComperator());
     }
 
@@ -43,6 +47,12 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
     @Override
     public void onBindViewHolder(JudgementViewHolder holder, int position) {
+        if(activePosition == position){
+            activeJudgment = holder.itemJudgementKM;
+            activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
+        } else {
+            holder.itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
+        }
         holder.itemTitleJudgement.setText(String.valueOf(judgements.get(position).getName()));
         holder.itemJudgementKM.setText("KM " + judgements.get(position).getDistance());
         LinearLayoutManager layoutManager = new LinearLayoutManager(context);
@@ -71,7 +81,10 @@ public class JudgementAdapter extends RecyclerView.Adapter<JudgementAdapter.Judg
 
         @OnClick(R.id.itemJudgementKM)
         public void onClick() {
-            onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()));
+            activeJudgment.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment));
+            activeJudgment = itemJudgementKM;
+            onJudgmentClickListener.onJudgmentClicked(judgements.get(getAdapterPosition()), getAdapterPosition());
+            itemJudgementKM.setBackground(ContextCompat.getDrawable(context, R.drawable.background_shape_judgment_active));
         }
     }
 

@@ -12,6 +12,8 @@
     <string name="import_delete_data">AKTUELLE DATEN LÖSCHEN</string>
     <string name="import_save_secret">BENUTZERINFORMATIONEN ABSPEICHERN</string>
     <string name="import_driver">FAHRER IMPORTIEREN</string>
+    <string name="import_driver_update">FAHRERDATEN AKTUALISIEREN</string>
+    <string name="import_error_driver_update">Fehler beim Aktualisieren der Fahrer</string>
     <string name="import_stage">ETAPPE IMPORTIEREN</string>
     <string name="import_racegroups">FAHRERGRUPPEN IMPORTIEREN</string>
     <string name="import_marchtable">MARSCHTABELLE IMPORTIEREN</string>
