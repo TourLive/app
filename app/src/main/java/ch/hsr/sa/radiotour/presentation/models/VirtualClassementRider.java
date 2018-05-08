@@ -35,7 +35,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     private int riderSprintPoints;
     private int riderMoney;
     private int timeInLead;
-    private int distanceInLead;
+    private double distanceInLead;
     private Maillot maillot;
     private RiderStageConnection riderStageConnection;
     private VirtualClassFragment fragment;
