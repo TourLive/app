@@ -154,4 +154,9 @@ public class RiderStageConnectionPresenter implements IRiderStageConnectionPrese
         riderStageConnectionRepository.appendTimeInLeadGroup(riderStageConnection, value);
     }
 
+    @Override
+    public void appendDistanceInLeadGroup(final RiderStageConnection riderStageConnection, double value){
+        riderStageConnectionRepository.appendDistanceInLeadGroup(riderStageConnection, value);
+    }
+
 }
