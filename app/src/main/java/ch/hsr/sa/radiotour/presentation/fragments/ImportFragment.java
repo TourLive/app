@@ -341,7 +341,18 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     break;
                 }
                 return 68;
-            } else if (progressBarStatus < 70) {
+            } else if (progressBarStatus < 69) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByDistanceInLead();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 69;
+            }
+            else if (progressBarStatus < 70) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_maillot)));
                 String message = APIClient.getMaillots();
                 if (!message.equals(SUCCESS_MESSAGE)) {
