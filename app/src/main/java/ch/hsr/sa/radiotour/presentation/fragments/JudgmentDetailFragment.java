@@ -34,7 +34,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
 import io.realm.RealmList;
 
-public class JudgmentDetailFragment extends Fragment implements View.OnClickListener, OnRiderJudgmentClickListener {
+public class JudgmentDetailFragment extends Fragment implements View.OnClickListener, View.OnLongClickListener, OnRiderJudgmentClickListener {
     private long judgementID;
     private Judgement judgement;
     private RiderBasicAdapter riderBasicAdapter;
@@ -157,6 +157,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
 
     private void initListener() {
         rankOne.setOnClickListener(this);
+        rankOne.setOnLongClickListener(this);
         rankTwo.setOnClickListener(this);
         rankThree.setOnClickListener(this);
         rankFour.setOnClickListener(this);
@@ -227,6 +228,10 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             selectedView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape));
         selectedView = view;
         selectedView.setBackground(ContextCompat.getDrawable(getContext(), R.drawable.background_shape_active));
+        getRankFromSelectedButton(view);
+    }
+
+    private void getRankFromSelectedButton(View view){
         switch (view.getId()) {
             case R.id.RankOne:
                 rank = 1;
@@ -263,6 +268,24 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         }
     }
 
+    @Override
+    public boolean onLongClick(View view) {
+        getRankFromSelectedButton(view);
+        int riderStartNr = Integer.valueOf(((TextView)view).getText().toString());
+        Rider rider = RiderPresenter.getInstance().getRiderByStartNr(riderStartNr);
+        RealmList<JudgmentRiderConnection> judgmentRiderConnections = JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement);
+        JudgmentRiderConnection judgmentRiderConnectionToDelete = null;
+        for(JudgmentRiderConnection j : judgmentRiderConnections){
+            if(j.getRider().first() == rider){
+                judgmentRiderConnectionToDelete = j;
+                break;
+            }
+        }
+        // delete JudgmentRiderConnection
+        updateRiderStateConnectionWithPerformance(rider, rank, false);
+        return true;
+    }
+
     public void saveJudgmnet() {
         Rider rider = riderBasicAdapter.getSelectedRider();
         if (rank != 0) {
@@ -275,7 +298,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             judgementToAdd.add(judgement);
             judgmentRiderConnection.setJudgements(judgementToAdd);
             JudgmentRiderConnectionPresenter.getInstance().addJudgmentRiderConnection(judgmentRiderConnection);
-            updateRiderStateConnectionWithPerformance(rider, rank);
+            updateRiderStateConnectionWithPerformance(rider, rank, true);
             textViews.get(rank - 1).setText(String.valueOf(rider.getStartNr()));
             riderBasicAdapter.setColorOnRider(rider.getStartNr());
         } else {
@@ -289,7 +312,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rank = 0;
     }
 
-    private void updateRiderStateConnectionWithPerformance(Rider rider, int rank) {
+    private void updateRiderStateConnectionWithPerformance(Rider rider, int rank, boolean add) {
         int r = rider.getStartNr();
         new Thread(() -> {
             Judgement judgement = JudgmentPresenter.getInstance().getJudgmentByObjectIdReturned(judgementID);
@@ -297,9 +320,16 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             RiderStageConnection riderStageConnection = new RiderStageConnection();
             riderStageConnection.setId(RiderPresenter.getInstance().getRiderByStartNr(r).getRiderStages().first().getId());
             if (rewardM.getType() == RewardType.TIME) {
-                riderStageConnection.setBonusTime(RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM));
+                int bonusTime = RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM);
+                if(!add){
+                    bonusTime = bonusTime * -1;
+                }
+                riderStageConnection.setBonusTime(bonusTime);
             } else if (rewardM.getType() == RewardType.POINTS) {
                 int points = RiderStageConnectionUtilities.getPointsAtPosition(rank, rewardM);
+                if(!add){
+                    points = points * -1;
+                }
                 if (judgement.getName().toLowerCase().contains("sprint")) {
                     riderStageConnection.setSprintBonusPoints(points);
                     riderStageConnection.setBonusPoint(points);

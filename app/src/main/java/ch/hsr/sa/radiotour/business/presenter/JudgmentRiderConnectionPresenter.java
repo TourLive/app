@@ -66,6 +66,11 @@ public class JudgmentRiderConnectionPresenter implements IJudgmentRiderConnectio
     }
 
     @Override
+    public void deleteJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection) {
+        judgmentRiderConnectionRepository.deleteJudgmentRiderConnection(judgmentRiderConnection, onSaveJudgmentRiderConnectionCallback);
+    }
+
+    @Override
     public RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement) {
         return judgmentRiderConnectionRepository.getJudgmentRiderConnectionsReturnedByJudgment(judgement);
     }
