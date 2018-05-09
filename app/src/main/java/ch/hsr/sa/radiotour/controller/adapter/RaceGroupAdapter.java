@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.Collections;
 
 import ch.hsr.sa.radiotour.R;
@@ -171,16 +173,20 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                         case DragEvent.ACTION_DRAG_STARTED:
                             return true;
                         case DragEvent.ACTION_DROP:
-                            RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
-                            int raceGroupPos = raceGroups.get(getAdapterPosition()).getPosition();
-                            RaceGroup beforeRaceGroup = raceGroups.get(getAdapterPosition());
-                            RaceGroup raceGroup = new RaceGroup();
-                            raceGroup.setPosition(raceGroupPos + 1);
-                            raceGroup.setType(RaceGroupType.NORMAL);
-                            raceGroup.setRiders(newRiders);
-                            raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
-                            RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
-                            notifyDataSetChanged();
+                            ClipData data = dragEvent.getClipData();
+                            String test = data.getItemAt(0).getText().toString();
+                            if(data.getItemAt(0).getText().toString().equals("SingleRiderClick")){
+                                RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
+                                int raceGroupPos = raceGroups.get(getAdapterPosition()).getPosition();
+                                RaceGroup beforeRaceGroup = raceGroups.get(getAdapterPosition());
+                                RaceGroup raceGroup = new RaceGroup();
+                                raceGroup.setPosition(raceGroupPos + 1);
+                                raceGroup.setType(RaceGroupType.NORMAL);
+                                raceGroup.setRiders(newRiders);
+                                raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
+                                RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
+                                notifyDataSetChanged();
+                            }
                             return true;
                         default:
                             return true;
@@ -197,7 +203,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             RaceGroup raceGroup = raceGroups.get(getLayoutPosition());
             if (raceGroup.getType() == RaceGroupType.FELD)
                 return true;
-            ClipData data = ClipData.newPlainText(" ", " ");
+            ClipData data = ClipData.newPlainText("raceGroupDragAndDrop", "not possible to drag to a +");
             View viewOne = (View) view.getParent();
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(viewOne);
             view.startDragAndDrop(data, shadowBuilder, raceGroup.getRiders(), 0);
