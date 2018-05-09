@@ -395,7 +395,7 @@ public class MainActivity extends AppCompatActivity {
         else {
             uiHandler.post(() -> {
                 stageView.setText("0");
-                raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, 0));
+                raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, 0.0));
             });
         }
     }
