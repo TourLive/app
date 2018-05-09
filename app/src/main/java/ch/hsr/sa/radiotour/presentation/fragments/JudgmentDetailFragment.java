@@ -282,6 +282,9 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             }
         }
         // delete JudgmentRiderConnection
+        if(judgmentRiderConnectionToDelete != null){
+            JudgmentRiderConnectionPresenter.getInstance().deleteJudgmentRiderConnection(judgmentRiderConnectionToDelete);
+        }
         updateRiderStateConnectionWithPerformance(rider, rank, false);
         return true;
     }
