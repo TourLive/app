@@ -549,8 +549,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
     }
 
     public void updateActualStage(Stage stage) {
-        raceIdView.setText(getString(R.string.import_race_infos, stage.getRaceName(), stage.getRaceId()));
-        stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getFrom(), stage.getTo(), stage.getId()));
+        if(stage == null){
+            raceIdView.setText(getString(R.string.import_nodata_loaded));
+            stageIdView.setText(getString(R.string.import_nodata_loaded));
+        } else {
+            raceIdView.setText(getString(R.string.import_race_infos, stage.getRaceName(), stage.getRaceId()));
+            stageIdView.setText(getString(R.string.import_stage_infos, stage.getName(), stage.getFrom(), stage.getTo(), stage.getId()));
+        }
     }
 
     private String copyBundledRealmFile() throws IOException {
