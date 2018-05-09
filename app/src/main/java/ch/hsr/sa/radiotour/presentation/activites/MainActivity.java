@@ -382,14 +382,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void updateStageInfo(Stage stage) {
-        Pattern p = Pattern.compile("(\\d+)");
-        Matcher m = p.matcher(stage.getName());
-        m.find();
-        wholeDistanceInKm = stage.getDistance();
-        uiHandler.post(() -> {
-            stageView.setText(m.group(0));
-            raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
-        });
+        if(stage != null){
+            Pattern p = Pattern.compile("(\\d+)");
+            Matcher m = p.matcher(stage.getName());
+            m.find();
+            wholeDistanceInKm = stage.getDistance();
+            uiHandler.post(() -> {
+                stageView.setText(m.group(0));
+                raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, wholeDistanceInKm));
+            });
+        }
+        else {
+            uiHandler.post(() -> {
+                stageView.setText("0");
+                raceKilometerView.setText(getString(R.string.header_prefix_km, 0.0, 0));
+            });
+        }
     }
 
     public void setTab(int tab) {

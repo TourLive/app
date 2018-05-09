@@ -26,6 +26,7 @@
     <string name="import_status">Status: </string>
     <string name="import_status_ok">Status ok</string>
     <string name="import_status_error">Das Tablet kann aktuell keine Verbindung zum Server aufbauen</string>
+    <string name="import_nodata_loaded">Keine Daten geladen</string>
     <string name="import_connection_to_server">Verbindung zum Server</string>
     <string name="import_gps_connection">GPS Empfang</string>
     <string name="import_global_config">Globale Einstellungen</string>
