@@ -72,7 +72,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:text="@string/race_dnc"
+        android:text="@string/race_dns"
         app:layout_constraintStart_toEndOf="@+id/btn_Defect"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
 
