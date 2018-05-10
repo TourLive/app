@@ -276,16 +276,16 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         RealmList<JudgmentRiderConnection> judgmentRiderConnections = JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement);
         JudgmentRiderConnection judgmentRiderConnectionToDelete = null;
         for(JudgmentRiderConnection j : judgmentRiderConnections){
-            if(j.getRider().first() == rider){
+            if(j.getRider().first().getId() == rider.getId()){
                 judgmentRiderConnectionToDelete = j;
                 break;
             }
         }
-        // delete JudgmentRiderConnection
         if(judgmentRiderConnectionToDelete != null){
             JudgmentRiderConnectionPresenter.getInstance().deleteJudgmentRiderConnection(judgmentRiderConnectionToDelete);
+            updateRiderStateConnectionWithPerformance(rider, rank, false);
+            (((TextView)view)).setText(getResources().getString(R.string.judgment_default_rank) + rank);
         }
-        updateRiderStateConnectionWithPerformance(rider, rank, false);
         return true;
     }
 
