@@ -178,7 +178,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             raceGroup.setPosition(raceGroupPos + 1);
                             raceGroup.setType(RaceGroupType.NORMAL);
                             raceGroup.setRiders(newRiders);
-                            raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
+                            raceGroup.setActualGapTime(0);
                             RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
                             notifyDataSetChanged();
                             return true;
