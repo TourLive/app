@@ -101,8 +101,13 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
     public void deleteJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection, OnSaveJudgmentRiderConnectionCallback callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         realm.beginTransaction();
+        JudgmentRiderConnection toDeleteJudgmentRiderConnection = realm.copyFromRealm(judgmentRiderConnection);
         realm.where(JudgmentRiderConnection.class).equalTo("id", judgmentRiderConnection.getId()).findFirst().deleteFromRealm();
         realm.commitTransaction();
+
+        if (callback != null)
+            callback.onSuccess();
+            PostHandler.makeMessage("DeleteJudgmentRiderConnection", toDeleteJudgmentRiderConnection);
     }
 
     @Override
