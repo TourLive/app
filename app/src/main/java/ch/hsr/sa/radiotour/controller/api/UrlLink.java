@@ -14,6 +14,7 @@ public final class UrlLink {
     public static final String RIDERSTAGECONNECTION = "riderstageconnections/";
     public static final String JUDGMENTRIDERCONNECTION = "judgmentriderconnections";
     public static final String RACEGROUPS = "racegroups";
+    public static final String NOTIFICATIONS = "notifications";
     private UrlLink() {
         throw new IllegalStateException("Static class");
     }

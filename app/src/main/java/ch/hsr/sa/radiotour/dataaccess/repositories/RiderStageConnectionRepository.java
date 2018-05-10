@@ -5,6 +5,8 @@ import java.util.List;
 import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRiderStageConnectionRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationDTO;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationType;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -174,6 +176,7 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         if (callback != null)
             callback.onSuccess(state);
             PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(state));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO(rider.getName() + " hat seinen Status gewechselt", NotificationType.RIDER));
     }
 
     @Override
