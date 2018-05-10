@@ -221,13 +221,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/virtualClassementSprintPointsHeader"
+            android:id="@+id/virtualClassementDistanceInLeadGroupHeader"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="4dp"
-            android:text="@string/virtrank_point_sprint"
+            android:text="@string/virtrank_distance_in_lead_group"
             android:textSize="12sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -268,7 +268,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.92" />
+            app:layout_constraintGuide_percent="0.93" />
 
         <TextView
             android:id="@+id/virtualClassementTimeInLeadHeader"
