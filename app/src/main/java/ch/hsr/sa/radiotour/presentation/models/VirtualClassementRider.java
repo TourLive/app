@@ -42,22 +42,24 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
 
     public VirtualClassementRider(VirtualClassFragment  fragment, Context context, Rider rider) {
         this.fragment = fragment;
-        this.riderStageConnection = rider.getRiderStages().first();
+        this.riderStageConnection = rider.getRiderStages().isEmpty() ? null : rider.getRiderStages().first();
         this.context = context;
         this.riderStartNr = rider.getStartNr();
         this.riderName = rider.getName();
         this.riderTeam = rider.getTeamShortName();
         this.riderCountry = rider.getCountry();
-        this.riderOfficalTime = riderStageConnection.getOfficialTime();
-        this.riderOfficalGap = riderStageConnection.getOfficialGap();
-        this.riderVirtualGap = riderStageConnection.getVirtualGap();
-        this.riderPoints = riderStageConnection.getBonusPoint();
-        this.distanceInLead = riderStageConnection.getDistanceInLeadGroup();
-        this.riderMountainPoints = riderStageConnection.getMountainBonusPoints();
-        this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
-        this.riderMoney = riderStageConnection.getMoney();
-        this.maillot = riderStageConnection.getMaillot();
-        this.timeInLead = riderStageConnection.getTimeInLeadGroup();
+        if(riderStageConnection != null){
+            this.riderOfficalTime = riderStageConnection.getOfficialTime();
+            this.riderOfficalGap = riderStageConnection.getOfficialGap();
+            this.riderVirtualGap = riderStageConnection.getVirtualGap();
+            this.riderPoints = riderStageConnection.getBonusPoint();
+            this.distanceInLead = riderStageConnection.getDistanceInLeadGroup();
+            this.riderMountainPoints = riderStageConnection.getMountainBonusPoints();
+            this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
+            this.riderMoney = riderStageConnection.getMoney();
+            this.maillot = riderStageConnection.getMaillot();
+            this.timeInLead = riderStageConnection.getTimeInLeadGroup();
+        }
     }
 
     public int getRiderStartNr() {
