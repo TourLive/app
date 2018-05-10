@@ -23,4 +23,6 @@ public interface IRiderStageConnectionPresenter extends IBasePresenter {
     void updateRiderStageConnectionTime(long timeBefore, long timeStamp, RaceGroup res);
 
     void appendTimeInLeadGroup(RiderStageConnection riderStageConnection, int value);
+
+    void appendDistanceInLeadGroup(final RiderStageConnection riderStageConnection, double value);
 }

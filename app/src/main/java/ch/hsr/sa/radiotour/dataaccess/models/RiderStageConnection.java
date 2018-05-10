@@ -40,6 +40,8 @@ public class RiderStageConnection extends RealmObject {
     @Expose
     private int timeInLeadGroup = 0;
     @Expose
+    private double distanceInLeadGroup = 0;
+    @Expose
     @Required
     private String typeState;
 
@@ -205,5 +207,13 @@ public class RiderStageConnection extends RealmObject {
 
     public void appendTimeInLeadGroup(int add) {
         this.timeInLeadGroup += add;
+    }
+
+    public double getDistanceInLeadGroup() {
+        return distanceInLeadGroup;
+    }
+
+    public void appendDistanceInLeadGroup(double add) {
+        this.distanceInLeadGroup += add;
     }
 }
