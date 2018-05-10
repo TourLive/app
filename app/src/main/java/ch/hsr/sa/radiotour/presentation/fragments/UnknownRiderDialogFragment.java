@@ -40,7 +40,7 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         numberPickerZ.setWrapSelectorWheel(true);
 
         numberPickerE.setMinValue(0);
-        numberPickerE.setMinValue(9);
+        numberPickerE.setMaxValue(9);
         numberPickerE.setWrapSelectorWheel(true);
 
         alertDialogBuilder.setTitle(R.string.race_unknownrider_title);
