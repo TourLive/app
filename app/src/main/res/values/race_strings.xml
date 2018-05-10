@@ -5,6 +5,7 @@
     <string name="race_defect">Defekt</string>
     <string name="race_quit">Aufgabe</string>
     <string name="race_dnc">DNC</string>
+    <string name="race_dns">DNS</string>
     <string name="race_quit_choice">Auswahl aufheben</string>
     <string name="race_unknown_driver">Unbekannter Fahrer</string>
     <string name="race_stand">Stand</string>

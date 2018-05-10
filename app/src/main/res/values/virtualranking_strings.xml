@@ -12,6 +12,7 @@
     <string name="virtrank_point_mountain">P. Berg</string>
     <string name="virtrank_rank">Rang</string>
     <string name="virtrank_price_money">Preisgeld</string>
+    <string name="virtrank_distance_in_lead_group">DiLG</string>
     <string name="virtrank_time_in_lead_group">TiLG</string>
     <string name="virtrank_virt_deficit">Virt. Rückstand</string>
     <string name="virtrank_offical_deficit">Off. Rückstand</string>
