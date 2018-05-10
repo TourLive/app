@@ -19,6 +19,7 @@ import ch.hsr.sa.radiotour.R;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupComparator;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import ch.hsr.sa.radiotour.presentation.fragments.RiderRaceGroupFragment;
 import ch.hsr.sa.radiotour.presentation.models.ButterKnifeViewHolder;
 import io.realm.RealmList;
@@ -115,6 +116,7 @@ public class LittleRaceGroupAdapter extends RecyclerView.Adapter<LittleRaceGroup
                 default:
                     break;
             }
+            MainActivity.getInstance().setTab(0);
         }
     }
 }
