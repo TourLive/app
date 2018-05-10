@@ -13,6 +13,7 @@ import java.util.List;
 
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnectionDTO;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationDTO;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupDTO;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -32,6 +33,7 @@ public final class PostHandler extends HandlerThread {
         classMapper.put("CreateJudgmentRiderConnection", 3);
         classMapper.put("DeleteJudgmentRiderConnection", 4);
         classMapper.put("UpdateRaceGroupTime", 5);
+        classMapper.put("SendNotification",6);
     }
 
     @Override
@@ -73,6 +75,12 @@ public final class PostHandler extends HandlerThread {
                         RaceGroupDTO raceGroupDTO = new RaceGroupDTO((RaceGroup) msg.obj);
                         long singleRGStageID = stageRepository.getStage().getId();
                         APIClient.putRaceGroup(raceGroupDTO.getId(), singleRGStageID, gson.toJson(raceGroupDTO));
+                        break;
+                    case 6:
+                        NotificationDTO notificationDTO = (NotificationDTO) msg.obj;
+                        stageId = stageRepository.getStage().getId();
+                        APIClient.postNotification(stageId, gson.toJson(notificationDTO));
+                        break;
                     default:
                         break;
                 }

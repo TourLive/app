@@ -9,6 +9,8 @@ import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationDTO;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationType;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -79,6 +81,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP));
         }
     }
 
