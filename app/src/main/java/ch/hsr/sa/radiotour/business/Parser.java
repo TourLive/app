@@ -19,6 +19,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderRanking;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorDistanceInLead;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMoney;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorMountainPoints;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnectionComparatorOfficalGap;
@@ -315,6 +316,32 @@ public final class Parser {
                     for (int i = 0; i < connections.size(); i++) {
                         RiderRanking rankingTimeInLead = new RiderRanking();
                         rankingTimeInLead.setType(RankingType.TIME_IN_LEAD);
+                        rankingTimeInLead.setRank(i + 1);
+                        synchronized (this){
+                            Context.addRiderRanking(rankingTimeInLead);
+                        }
+                        RiderRanking realmRiderRanking = Context.getRiderRanking(rankingTimeInLead);
+                        Context.updateRiderStageConnectionRanking(realmRiderRanking, connections.get(i));
+                    }
+                } catch (Exception e) {
+                    Log.d(Parser.class.getSimpleName(), "APP - PARSER - RIDERCONNECTION - " + e.getMessage());
+                }
+            }};
+        Thread threadRanking = new Thread(runnable);
+        threadRanking.start();
+        threadRanking.join();
+        return  "success";
+    }
+
+    public static String updateRiderConnectionRankByDistanceInLead() throws InterruptedException {
+        Runnable runnable = new Runnable() {
+            public void run() {
+                try {
+                    RealmList<RiderStageConnection> connections = Context.getAllRiderStageConnections();
+                    connections.sort(new RiderStageConnectionComparatorDistanceInLead());
+                    for (int i = 0; i < connections.size(); i++) {
+                        RiderRanking rankingTimeInLead = new RiderRanking();
+                        rankingTimeInLead.setType(RankingType.DISTANCE_IN_LEAD);
                         rankingTimeInLead.setRank(i + 1);
                         synchronized (this){
                             Context.addRiderRanking(rankingTimeInLead);

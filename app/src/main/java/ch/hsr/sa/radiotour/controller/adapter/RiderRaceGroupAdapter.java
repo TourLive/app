@@ -135,7 +135,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         public boolean onLongClick(View view) {
             Rider r = riders.get(getLayoutPosition());
             selectedRider.add(r);
-            ClipData data = ClipData.newPlainText(" ", " ");
+            ClipData data = ClipData.newPlainText("Single Rider Clicked", "SingleRiderClick");
             View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
             view.startDragAndDrop(data, shadowBuilder, selectedRider, 0);
             return true;

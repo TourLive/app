@@ -35,6 +35,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
     private int riderSprintPoints;
     private int riderMoney;
     private int timeInLead;
+    private double distanceInLead;
     private Maillot maillot;
     private RiderStageConnection riderStageConnection;
     private VirtualClassFragment fragment;
@@ -51,6 +52,7 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         this.riderOfficalGap = riderStageConnection.getOfficialGap();
         this.riderVirtualGap = riderStageConnection.getVirtualGap();
         this.riderPoints = riderStageConnection.getBonusPoint();
+        this.distanceInLead = riderStageConnection.getDistanceInLeadGroup();
         this.riderMountainPoints = riderStageConnection.getMountainBonusPoints();
         this.riderSprintPoints = riderStageConnection.getSprintBonusPoints();
         this.riderMoney = riderStageConnection.getMoney();
@@ -125,10 +127,10 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         holder.virtualClassementVirtualGap.setText(AdapterUtilitis.longTimeToString(riderVirtualGap) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.VIRTUAL).getRank()) + ")");
         holder.virtualClassementPoints.setText(Integer.toString(riderPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.POINTS).getRank()) + ")");
         holder.virtualClassementMountainPoints.setText(Integer.toString(riderMountainPoints) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MOUNTAIN).getRank()) + ")");
-        holder.virtualClassementSprintPoints.setText(Integer.toString(riderSprintPoints));
         holder.virtualClassementMoney.setText(Integer.toString(riderMoney) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.MONEY).getRank()) + ")");
         holder.virtualClassementFlag.setImageResource(UIUtilitis.getCountryFlag(String.valueOf(riderCountry)));
         holder.virtualClassementTimeInLead.setText(Integer.toString(timeInLead) + " (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.TIME_IN_LEAD).getRank()) + ")");
+        holder.virtualClassementDistanceInLeadGroup.setText(distanceInLead + " km (" + Integer.toString(riderStageConnection.getRiderRanking(RankingType.DISTANCE_IN_LEAD).getRank()) + ")");
         holder.itemView.setOnClickListener(this);
         if(maillot != null) {
             holder.virtualClassementMaillot.setColorFilter(getMaillotColor(maillot.getColor()));
@@ -195,8 +197,8 @@ public class VirtualClassementRider extends AdapterItem<VirtualClassementRider.H
         TextView virtualClassementPoints;
         @BindView(R.id.virtualClassementMountainPoints)
         TextView virtualClassementMountainPoints;
-        @BindView(R.id.virtualClassementSprintPoints)
-        TextView virtualClassementSprintPoints;
+        @BindView(R.id.virtualClassementDistanceInLeadGroup)
+        TextView virtualClassementDistanceInLeadGroup;
         @BindView(R.id.virtualClassementMoney)
         TextView virtualClassementMoney;
         @BindView(R.id.virtualClassementTimeInLead)

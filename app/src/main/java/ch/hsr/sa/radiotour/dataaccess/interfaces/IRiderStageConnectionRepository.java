@@ -52,4 +52,6 @@ public interface IRiderStageConnectionRepository {
 
 
     void appendTimeInLeadGroup(final RiderStageConnection riderStageConnection, int value);
+
+    void appendDistanceInLeadGroup(final RiderStageConnection riderStageConnection, double value);
 }

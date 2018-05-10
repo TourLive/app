@@ -198,7 +198,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.79" />
+        app:layout_constraintGuide_percent="0.78" />
 
     <TextView
         android:id="@+id/virtualClassementPoints"
@@ -236,13 +236,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/virtualClassementSprintPoints"
+        android:id="@+id/virtualClassementDistanceInLeadGroup"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
-        android:text="100"
+        android:text="0km"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/virtualClassementGuidelineTwelfe"
@@ -254,7 +254,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.86" />
 
     <android.support.constraint.Guideline
         android:id="@+id/virtualClassementGuidelineThridteen"
@@ -296,5 +296,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.92" />
+        app:layout_constraintGuide_percent="0.93" />
 </android.support.constraint.ConstraintLayout>
