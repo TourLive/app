@@ -128,7 +128,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private View layoutRacegroup;
         private View layoutAddButton;
         private ImageView icDragAndDrop;
-        private RaceGroup actualRaceGroup;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
