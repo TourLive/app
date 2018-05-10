@@ -18,6 +18,9 @@
     <string name="race_unknownrider_transfer_title">Wechseln eines unbekannten Fahrers zu einem Bekannten</string>
     <string name="race_unknownrider_transfer_description">Wählen Sie den Fahrer aus, zu welchem Sie den unbekannten Fahrer transferieren wollen.</string>
     <string name="race_unknownrider_transfer_button">Unbekannten Fahrer wechseln</string>
+    <string name="race_unkonwnrider_ziffer_1">Hunderterstelle</string>
+    <string name="race_unkonwnrider_ziffer_2">Zehnerstelle</string>
+    <string name="race_unkonwnrider_ziffer_3">Einerstelle</string>
     <string name="race_unknownrider_title">Unbekannte Fahrer hinzufügen</string>
     <string name="race_unknownrider_description">Geben Sie an, wie viele unbekannte Fahrer hinzugefügt werden sollen.</string>
     <string name="race_unknownrider_button">Unbekannte Fahrer hinzufügen</string>
