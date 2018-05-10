@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -124,6 +125,15 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type", raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
 
+        List<Rider> unkownRiders = new ArrayList<>();
+        for(Rider r : realmRaceGroup.getRiders()){
+            if(r.isUnknown()) unkownRiders.add(r);
+        }
+        int sizeOfRidersToAdd = riders.size();
+        for(int i = 0; i < sizeOfRidersToAdd && i < unkownRiders.size(); i++){
+            if(unkownRiders.isEmpty()) break;
+            realmRaceGroup.removeRider(unkownRiders.get(i));
+        }
         if (!riders.isEmpty())
             realmRaceGroup.appendRiders(riders);
 
