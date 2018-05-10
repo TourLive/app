@@ -32,7 +32,13 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         realm.commitTransaction();
 
-        List<Rider> unmanagedRiders = realm.copyFromRealm(raceGroup.getRiders());
+        List<Rider> unmanagedRiders = new ArrayList<>();
+        if(!raceGroup.isManaged()){
+            unmanagedRiders = raceGroup.getRiders();
+        } else {
+            unmanagedRiders = realm.copyFromRealm(raceGroup.getRiders());
+        }
+        
         for (Rider r : unmanagedRiders) {
             RealmResults<RaceGroup> resRG = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
             if (!resRG.isEmpty()) {
