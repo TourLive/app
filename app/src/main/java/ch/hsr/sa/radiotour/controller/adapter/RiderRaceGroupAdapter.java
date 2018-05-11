@@ -24,6 +24,7 @@ import ch.hsr.sa.radiotour.dataaccess.models.RankingType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderComparator;
 import ch.hsr.sa.radiotour.presentation.UIUtilitis;
+import ch.hsr.sa.radiotour.presentation.activites.MainActivity;
 import ch.hsr.sa.radiotour.presentation.fragments.UnknownRiderTransferDialogFramgent;
 import io.realm.RealmList;
 
@@ -152,10 +153,7 @@ public class RiderRaceGroupAdapter extends RecyclerView.Adapter<RiderRaceGroupAd
         @Override
         public void onClick(View view) {
             if (riders.get(getAdapterPosition()).isUnknown()) {
-                FragmentManager fm = fragment.getFragmentManager();
-                UnknownRiderTransferDialogFramgent alertDialog = UnknownRiderTransferDialogFramgent.newInstance(riders.get(getAdapterPosition()));
-                alertDialog.setTargetFragment(fragment, 300);
-                alertDialog.show(fm, "");
+                MainActivity.getInstance().setTab(1);
             }
         }
     }

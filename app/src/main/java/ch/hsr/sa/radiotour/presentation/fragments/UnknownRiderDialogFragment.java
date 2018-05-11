@@ -27,17 +27,27 @@ public class UnknownRiderDialogFragment extends DialogFragment {
         View dialogView = inflater.inflate(R.layout.dialog_unknownrider, null);
         alertDialogBuilder.setView(dialogView);
 
-        final NumberPicker numberPicker = dialogView.findViewById(R.id.nPicker);
+        final NumberPicker numberPickerH = dialogView.findViewById(R.id.nPickerZiffer1);
+        final NumberPicker numberPickerZ = dialogView.findViewById(R.id.nPickerZiffer2);
+        final NumberPicker numberPickerE = dialogView.findViewById(R.id.nPickerZiffer3);
 
-        numberPicker.setMinValue(1);
-        numberPicker.setMaxValue(100);
-        numberPicker.setWrapSelectorWheel(true);
+        numberPickerH.setMinValue(0);
+        numberPickerH.setMaxValue(9);
+        numberPickerH.setWrapSelectorWheel(true);
+
+        numberPickerZ.setMinValue(0);
+        numberPickerZ.setMaxValue(9);
+        numberPickerZ.setWrapSelectorWheel(true);
+
+        numberPickerE.setMinValue(0);
+        numberPickerE.setMaxValue(9);
+        numberPickerE.setWrapSelectorWheel(true);
 
         alertDialogBuilder.setTitle(R.string.race_unknownrider_title);
         alertDialogBuilder.setMessage(R.string.race_unknownrider_description);
         alertDialogBuilder.setPositiveButton(R.string.race_unknownrider_button, (DialogInterface dialog, int which) -> {
             UnknownUserAddListener unknownUserAddListener = (UnknownUserAddListener) getTargetFragment();
-            int count = numberPicker.getValue();
+            int count = numberPickerH.getValue() * 100 + numberPickerZ.getValue() * 10 + numberPickerE.getValue();
             unknownUserAddListener.onFinishAddingUnknownUser(count);
         });
 

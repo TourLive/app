@@ -1,5 +1,6 @@
 package ch.hsr.sa.radiotour.dataaccess.repositories;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -8,6 +9,8 @@ import ch.hsr.sa.radiotour.business.presenter.RiderStageConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.api.PostHandler;
 import ch.hsr.sa.radiotour.dataaccess.RadioTourApplication;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IRaceGroupRepository;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationDTO;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationType;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroup;
 import ch.hsr.sa.radiotour.dataaccess.models.RaceGroupType;
 import ch.hsr.sa.radiotour.dataaccess.models.Rider;
@@ -31,7 +34,13 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         realm.commitTransaction();
 
-        List<Rider> unmanagedRiders = realm.copyFromRealm(raceGroup.getRiders());
+        List<Rider> unmanagedRiders = new ArrayList<>();
+        if(!raceGroup.isManaged()){
+            unmanagedRiders = raceGroup.getRiders();
+        } else {
+            unmanagedRiders = realm.copyFromRealm(raceGroup.getRiders());
+        }
+        
         for (Rider r : unmanagedRiders) {
             RealmResults<RaceGroup> resRG = realm.where(RaceGroup.class).equalTo("riders.id", r.getId()).findAll();
             if (!resRG.isEmpty()) {
@@ -72,6 +81,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP));
         }
     }
 
@@ -124,6 +134,15 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         realm.beginTransaction();
         RaceGroup realmRaceGroup = realm.where(RaceGroup.class).equalTo("type", raceGroup.getType().toString()).equalTo("position", raceGroup.getPosition()).findFirst();
 
+        List<Rider> unkownRiders = new ArrayList<>();
+        for(Rider r : realmRaceGroup.getRiders()){
+            if(r.isUnknown()) unkownRiders.add(r);
+        }
+        int sizeOfRidersToAdd = riders.size();
+        for(int i = 0; i < sizeOfRidersToAdd && i < unkownRiders.size(); i++){
+            if(unkownRiders.isEmpty()) break;
+            realmRaceGroup.removeRider(unkownRiders.get(i));
+        }
         if (!riders.isEmpty())
             realmRaceGroup.appendRiders(riders);
 

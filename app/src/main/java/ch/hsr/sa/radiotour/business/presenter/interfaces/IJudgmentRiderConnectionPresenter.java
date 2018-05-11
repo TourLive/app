@@ -9,6 +9,8 @@ public interface IJudgmentRiderConnectionPresenter extends IBasePresenter {
 
     void addJudgmentRiderConnectionImport(JudgmentRiderConnection judgmentRiderConnection);
 
+    void deleteJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection);
+
     void clearAllJudgmentRiderConnections();
 
     RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement);

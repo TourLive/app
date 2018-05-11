@@ -254,7 +254,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
 
     private int importData() {
         while (progressBarStatus < 100) {
-            if (progressBarStatus < 20) {
+            if (progressBarStatus < 5) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_delete_data)));
                 APIClient.deleteData();
                 String message = APIClient.getSettings();
@@ -262,16 +262,16 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     setErrorDialog(message);
                     break;
                 }
-                return 20;
-            } else if (progressBarStatus < 30) {
+                return 5;
+            } else if (progressBarStatus < 15) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver)));
                 String message = APIClient.getRiders();
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 30;
-            } else if (progressBarStatus < 40) {
+                return 15;
+            } else if (progressBarStatus < 25) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
                 try{ message = Parser.updateRiderConnectionRankByOfficalGap();}
@@ -280,11 +280,21 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
                     setErrorDialog(message);
                     break;
                 }
-                return 40;
-            } else if (progressBarStatus < 45) {
+                return 25;
+            } else if (progressBarStatus < 35) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
                 try{ message = Parser.updateRiderConnectionRankByVirtualGap();}
+                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
+                if (!message.equals(SUCCESS_MESSAGE)) {
+                    setErrorDialog(message);
+                    break;
+                }
+                return 35;
+            } else if (progressBarStatus < 45) {
+                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
+                String message = "";
+                try{ message = Parser.updateRiderConnectionRankByMountainPoints();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
@@ -294,7 +304,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             } else if (progressBarStatus < 50) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
-                try{ message = Parser.updateRiderConnectionRankByMountainPoints();}
+                try{ message = Parser.updateRiderConnectionRankByPoints();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
@@ -304,7 +314,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             } else if (progressBarStatus < 55) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
-                try{ message = Parser.updateRiderConnectionRankByPoints();}
+                try{ message = Parser.updateRiderConnectionRankByBestSwiss();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
@@ -314,7 +324,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             } else if (progressBarStatus < 60) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
-                try{ message = Parser.updateRiderConnectionRankByBestSwiss();}
+                try{ message = Parser.updateRiderConnectionRankByMoney();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
@@ -324,7 +334,7 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             } else if (progressBarStatus < 65) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
-                try{ message = Parser.updateRiderConnectionRankByMoney();}
+                try{ message = Parser.updateRiderConnectionRankByTimeInLead();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
@@ -334,23 +344,13 @@ public class ImportFragment extends Fragment implements View.OnClickListener {
             } else if (progressBarStatus < 68) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
                 String message = "";
-                try{ message = Parser.updateRiderConnectionRankByTimeInLead();}
-                catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
-                if (!message.equals(SUCCESS_MESSAGE)) {
-                    setErrorDialog(message);
-                    break;
-                }
-                return 68;
-            } else if (progressBarStatus < 69) {
-                progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_driver_update)));
-                String message = "";
                 try{ message = Parser.updateRiderConnectionRankByDistanceInLead();}
                 catch (Exception ex){ message = getResources().getText(R.string.import_error_driver_update).toString();}
                 if (!message.equals(SUCCESS_MESSAGE)) {
                     setErrorDialog(message);
                     break;
                 }
-                return 69;
+                return 68;
             }
             else if (progressBarStatus < 70) {
                 progressBarHandler.post(() -> progressBar.setMessage(getResources().getText(R.string.import_maillot)));

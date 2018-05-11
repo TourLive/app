@@ -10,6 +10,8 @@ public interface IJudgmentRiderConnectionRepository {
 
     void addJudgmentRiderConnectionImport(JudgmentRiderConnection rewardRiderConnection);
 
+    void deleteJudgmentRiderConnection(JudgmentRiderConnection judgmentRiderConnection, OnSaveJudgmentRiderConnectionCallback callback);
+
     RealmList<JudgmentRiderConnection> getJudgmentRiderConnectionsReturnedByJudgment(Judgement judgement);
 
     void clearAllJudgmentRiderConnections();
