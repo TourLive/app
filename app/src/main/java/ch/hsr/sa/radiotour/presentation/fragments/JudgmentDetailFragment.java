@@ -159,14 +159,23 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
         rankOne.setOnClickListener(this);
         rankOne.setOnLongClickListener(this);
         rankTwo.setOnClickListener(this);
+        rankTwo.setOnLongClickListener(this);
         rankThree.setOnClickListener(this);
+        rankThree.setOnLongClickListener(this);
         rankFour.setOnClickListener(this);
+        rankFour.setOnLongClickListener(this);
         rankFive.setOnClickListener(this);
+        rankFive.setOnLongClickListener(this);
         rankSix.setOnClickListener(this);
+        rankSix.setOnLongClickListener(this);
         rankSeven.setOnClickListener(this);
+        rankSeven.setOnLongClickListener(this);
         rankEight.setOnClickListener(this);
+        rankEight.setOnLongClickListener(this);
         rankNine.setOnClickListener(this);
+        rankNine.setOnLongClickListener(this);
         rankTen.setOnClickListener(this);
+        rankTen.setOnLongClickListener(this);
     }
 
     private void initTextViewsWithData() {
