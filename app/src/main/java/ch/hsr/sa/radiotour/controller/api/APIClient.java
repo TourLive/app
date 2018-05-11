@@ -153,6 +153,10 @@ public final class APIClient {
         postData(UrlLink.RACEGROUPS + "/stages/" + stage, body);
     }
 
+    public static void postNotification(long stage, String body) {
+        postData(UrlLink.NOTIFICATIONS + "/stages/" + stage, body);
+    }
+
     public static void putData(String url, String body){
         if(!demoMode) {
             putToAPI(url, body);

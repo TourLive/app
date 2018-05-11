@@ -19,4 +19,5 @@
     <string name="judgment_duplicated_rider">Ein Fahrer kann nur einer Wertung gleichzeitig zugewiesen werden</string>
     <string name="judgment_only_active">Es können nur aktiven Fahrer Wertungen zugewiesen werden.</string>
     <string name="judgment_points">,&#160;Punkte: </string>
+    <string name="judgment_default_rank">Platz&#160;</string>
 </resources>

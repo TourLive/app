@@ -214,7 +214,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
     public void onNewRaceGroupClicked(RaceGroup beforeRaceGroup, RaceGroupType raceGroupType) {
         RaceGroup raceGroup = new RaceGroup();
         raceGroup.setPosition(beforeRaceGroup.getPosition() + 1);
-        raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
+        raceGroup.setActualGapTime(0);
         raceGroup.setType(raceGroupType);
         if (!adapter.getSelectedRiders().isEmpty()) {
             RealmList<Rider> activeRider = filterNonActiveRiders(adapter.getSelectedRiders());

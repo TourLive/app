@@ -130,7 +130,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
         private View layoutRacegroup;
         private View layoutAddButton;
         private ImageView icDragAndDrop;
-        private RaceGroup actualRaceGroup;
 
         public RaceGroupViewHolder(View itemView) {
             super(itemView);
@@ -174,7 +173,6 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                             return true;
                         case DragEvent.ACTION_DROP:
                             ClipData data = dragEvent.getClipData();
-                            String test = data.getItemAt(0).getText().toString();
                             if(data.getItemAt(0).getText().toString().equals("SingleRiderClick")){
                                 RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                                 int raceGroupPos = raceGroups.get(getAdapterPosition()).getPosition();
@@ -183,7 +181,7 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
                                 raceGroup.setPosition(raceGroupPos + 1);
                                 raceGroup.setType(RaceGroupType.NORMAL);
                                 raceGroup.setRiders(newRiders);
-                                raceGroup.setActualGapTime(beforeRaceGroup.getActualGapTime() + 1);
+                                raceGroup.setActualGapTime(0);
                                 RaceGroupPresenter.getInstance().addRaceGroup(raceGroup);
                                 notifyDataSetChanged();
                             }
