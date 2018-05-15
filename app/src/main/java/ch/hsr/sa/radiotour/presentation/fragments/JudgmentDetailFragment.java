@@ -295,6 +295,7 @@ public class JudgmentDetailFragment extends Fragment implements View.OnClickList
             updateRiderStateConnectionWithPerformance(rider, rank, false);
             (((TextView)view)).setText(getResources().getString(R.string.judgment_default_rank) + rank);
         }
+        riderBasicAdapter.removeRiderFromList(rider.getId());
         return true;
     }
 
