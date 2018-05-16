@@ -104,9 +104,9 @@
         android:id="@+id/btn_UnkownRiders"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:text="@string/race_unknownrider"
-        app:layout_constraintStart_toEndOf="@+id/btn_Quit"
+        app:layout_constraintEnd_toStartOf="@+id/racegroup_guideline_two"
         app:layout_constraintTop_toTopOf="@+id/Rider" />
 
     <TextView
@@ -119,8 +119,8 @@
         android:text="@string/race_unknownrider_empty"
         android:textAlignment="center"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/racegroup_guideline_two"
-        app:layout_constraintStart_toEndOf="@+id/btn_UnkownRiders"
+        app:layout_constraintEnd_toStartOf="@+id/btn_UnkownRiders"
+        app:layout_constraintStart_toEndOf="@+id/btn_Quit"
         app:layout_constraintTop_toBottomOf="@+id/Rider" />
 
 </android.support.constraint.ConstraintLayout>
