@@ -8,7 +8,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayoutTxtTwo"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginTop="8dp"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -380,7 +380,7 @@
     <android.support.constraint.ConstraintLayout
         android:id="@+id/constraintLayoutTxt"
         android:layout_width="0dp"
-        android:layout_height="30dp"
+        android:layout_height="20dp"
         android:layout_marginTop="8dp"
         android:padding="0dp"
         app:layout_constraintEnd_toEndOf="parent"
