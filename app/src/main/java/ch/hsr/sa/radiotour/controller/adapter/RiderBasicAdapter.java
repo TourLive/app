@@ -99,7 +99,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
 
     public void resetColorOnRider(int startNr) {
         RiderViewHolder holder = holderHashMap.get(startNr);
-        holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.colorGrayDark));
+        holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.standard_text));
     }
 
     @Override
