@@ -103,7 +103,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         return realm.where(RaceGroup.class).equalTo("type", RaceGroupType.LEAD.toString()).findFirst();
     }
 
-    public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
+    public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, boolean unkownFlag, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RiderRepository riderRepository = new RiderRepository();
         RealmList<Rider> riders = new RealmList<>();
@@ -140,7 +140,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         int sizeOfRidersToAdd = riders.size();
         for(int i = 0; i < sizeOfRidersToAdd && i < unkownRiders.size(); i++){
-            if(unkownRiders.isEmpty()) break;
+            if(unkownRiders.isEmpty() || !unkownFlag) break;
             realmRaceGroup.removeRider(unkownRiders.get(i));
         }
         if (!riders.isEmpty())

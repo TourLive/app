@@ -122,8 +122,8 @@ public class RaceGroupPresenter implements IRaceGroupPresenter {
     }
 
     @Override
-    public void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders) {
-        raceGroupRepository.updateRaceGroupRiders(raceGroup, newRiders, onUpdateRaceGroupCallBack);
+    public void updateRaceGroupRiders(RaceGroup raceGroup, RealmList<Rider> newRiders, boolean unknownFlag) {
+        raceGroupRepository.updateRaceGroupRiders(raceGroup, newRiders, unknownFlag, onUpdateRaceGroupCallBack);
     }
 
     @Override
