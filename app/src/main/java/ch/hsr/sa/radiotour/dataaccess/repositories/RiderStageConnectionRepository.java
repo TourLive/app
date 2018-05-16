@@ -176,7 +176,9 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         if (callback != null)
             callback.onSuccess(state);
             PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(state));
-            PostHandler.makeMessage("SendNotification", new NotificationDTO(rider.getName() + " hat seinen Status gewechselt", NotificationType.RIDER));
+            if(state.getType() != RiderStateType.ACTIVE){
+                PostHandler.makeMessage("SendNotification", new NotificationDTO(rider.getName() + " hat seinen Status gewechselt", NotificationType.RIDER, String.valueOf(rider.getId())));
+            }
     }
 
     @Override

@@ -81,7 +81,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
-            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein neue Renngruppe ist entstanden", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
     }
 
@@ -167,6 +167,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
 
     }
