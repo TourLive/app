@@ -202,10 +202,10 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                 adapter.resetSelectRiders();
                 return;
             }
-            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, activeRider);
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, activeRider, true);
             adapter.resetSelectRiders();
         } else if (!unknownRiders.isEmpty()) {
-            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders);
+            RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, unknownRiders, true);
             removeUnknownRiders();
         }
         raceGroupAdapter.notifyItemChanged(position);

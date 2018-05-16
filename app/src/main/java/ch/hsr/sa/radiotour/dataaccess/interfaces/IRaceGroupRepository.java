@@ -13,7 +13,7 @@ public interface IRaceGroupRepository {
 
     void clearAllRaceGroups();
 
-    void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback);
+    void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, boolean unkownFlag, OnUpdateRaceGroupCallBack callback);
 
     void updateRaceGroupGapTime(RaceGroup raceGroup, long timeStamp, OnUpdateRaceGroupCallBack callback);
 
