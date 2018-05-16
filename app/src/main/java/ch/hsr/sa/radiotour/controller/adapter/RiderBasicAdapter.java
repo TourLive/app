@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import ch.hsr.sa.radiotour.R;
+import ch.hsr.sa.radiotour.business.presenter.JudgmentRiderConnectionPresenter;
 import ch.hsr.sa.radiotour.controller.AdapterUtilitis;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
@@ -36,6 +37,10 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
 
     public RiderBasicAdapter(RealmList<Rider> riders, Judgement judgement, OnRiderJudgmentClickListener onRiderJudgmentClickListener) {
         this.riders = AdapterUtilitis.removeUnknownRiders(riders);
+        List<JudgmentRiderConnection> judgmentRiderConnections = JudgmentRiderConnectionPresenter.getInstance().getJudgmentRiderConnectionsReturnedByJudgment(judgement);
+        for(JudgmentRiderConnection j : judgmentRiderConnections){
+            selectedRiders.add(j.getRider().first().getId());
+        }
         this.holderHashMap = new HashMap<>();
         this.judgement = judgement;
         this.onRiderJudgmentClickListener = onRiderJudgmentClickListener;
@@ -94,7 +99,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
 
     public void resetColorOnRider(int startNr) {
         RiderViewHolder holder = holderHashMap.get(startNr);
-        holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.colorGrayDark));
+        holder.tvNummer.setTextColor(ContextCompat.getColor(context, R.color.standard_text));
     }
 
     @Override
@@ -113,6 +118,7 @@ public class RiderBasicAdapter extends RecyclerView.Adapter<RiderBasicAdapter.Ri
     public void removeRiderFromList(long i) {
         selectedRiders.remove(i);
     }
+
 
     public class RiderViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 

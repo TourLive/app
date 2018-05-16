@@ -7,9 +7,12 @@ public class NotificationDTO {
     private String message;
     @Expose
     private NotificationType typeState;
+    @Expose
+    private String id;
 
-    public NotificationDTO(String msg, NotificationType type) {
+    public NotificationDTO(String msg, NotificationType type, String id) {
         this.message = msg;
         this.typeState = type;
+        this.id = id;
     }
 }

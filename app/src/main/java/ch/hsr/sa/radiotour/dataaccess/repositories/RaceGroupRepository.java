@@ -81,7 +81,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
-            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein neue Renngruppe ist entstanden", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
     }
 
@@ -103,7 +103,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         return realm.where(RaceGroup.class).equalTo("type", RaceGroupType.LEAD.toString()).findFirst();
     }
 
-    public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, OnUpdateRaceGroupCallBack callback) {
+    public void updateRaceGroupRiders(RaceGroup raceGroup, final RealmList<Rider> newRiders, boolean unkownFlag, OnUpdateRaceGroupCallBack callback) {
         Realm realm = Realm.getInstance(RadioTourApplication.getInstance());
         RiderRepository riderRepository = new RiderRepository();
         RealmList<Rider> riders = new RealmList<>();
@@ -140,7 +140,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         }
         int sizeOfRidersToAdd = riders.size();
         for(int i = 0; i < sizeOfRidersToAdd && i < unkownRiders.size(); i++){
-            if(unkownRiders.isEmpty()) break;
+            if(unkownRiders.isEmpty() || !unkownFlag) break;
             realmRaceGroup.removeRider(unkownRiders.get(i));
         }
         if (!riders.isEmpty())
@@ -167,6 +167,7 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             callback.onSuccess(realmRaceGroup);
             RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
             PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
 
     }
