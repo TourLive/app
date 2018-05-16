@@ -38,6 +38,11 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
     private Context context;
     private Fragment fragment;
     private OnDragRaceGroupListener onDragRaceGroupListener;
+    private float startPositionX;
+    private float startPositionY;
+    private int currentAdapterPos;
+    private float distance;
+    private boolean springPoint;
 
     public RaceGroupAdapter(RealmList<RaceGroup> raceGroups, Context context, Fragment fragment, OnDragRaceGroupListener onDragRaceGroupListener) {
         this.raceGroups = raceGroups;
@@ -150,16 +155,47 @@ public class RaceGroupAdapter extends RecyclerView.Adapter<RaceGroupAdapter.Race
             layoutRacegroup.setOnDragListener((View view, DragEvent dragEvent) -> {
                 switch (dragEvent.getAction()) {
                     case DragEvent.ACTION_DRAG_STARTED:
+                        startPositionY = dragEvent.getY();
+                        currentAdapterPos = getAdapterPosition();
                         return true;
                     case DragEvent.ACTION_DRAG_LOCATION:
-                        onDragRaceGroupListener.onRaceGroupLocationChanged(getAdapterPosition() + 1);
+                        int tempAdaptorPosition = getAdapterPosition();
+                        float temp = 0;
+                        if (!springPoint) {
+                            temp = dragEvent.getY() - startPositionY;
+                        } else {
+                            springPoint = false;
+                            currentAdapterPos = getAdapterPosition();
+                        }
+                        distance += temp;
+                        if ((distance > 250 || distance < -250) && getAdapterPosition() == currentAdapterPos) {
+                            if(dragEvent.getY() > startPositionY){
+                                tempAdaptorPosition += 1;
+                            } else {
+                                tempAdaptorPosition -= 1;
+                            }
+                            onDragRaceGroupListener.onRaceGroupLocationChanged(tempAdaptorPosition);
+                            distance = 0;
+                            springPoint = true;
+                        } else if(getAdapterPosition() != currentAdapterPos){
+                            if(dragEvent.getY() > startPositionY){
+                                tempAdaptorPosition += 1;
+                            } else {
+                                tempAdaptorPosition -= 1;
+                            }
+                            onDragRaceGroupListener.onRaceGroupLocationChanged(tempAdaptorPosition);
+                            distance = 0;
+                            springPoint = true;
+                        }
+                        startPositionY = dragEvent.getY();
                         return true;
                     case DragEvent.ACTION_DROP:
+                        distance = 0;
                         RaceGroup raceGroup = raceGroups.get(getAdapterPosition());
                         RealmList<Rider> newRiders = (RealmList<Rider>) dragEvent.getLocalState();
                         if (newRiders.equals(raceGroup.getRiders()))
                             return true;
-                        RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders);
+                        RaceGroupPresenter.getInstance().updateRaceGroupRiders(raceGroup, newRiders, false);
                         notifyItemChanged(getAdapterPosition());
                         return true;
                     default:
