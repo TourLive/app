@@ -120,9 +120,10 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
             }
         });
 
+        PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(res));
+
         if (callback != null) {
             callback.onSuccess();
-            PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(res));
         }
     }
 
@@ -173,12 +174,14 @@ public class RiderStageConnectionRepository implements IRiderStageConnectionRepo
         }
         realm.commitTransaction();
         RiderStageConnection state = realm.where(RiderStageConnection.class).equalTo("riders.id", rider.getId()).findFirst();
+        PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(state));
+        if(state.getType() != RiderStateType.ACTIVE){
+            PostHandler.makeMessage("SendNotification", new NotificationDTO(rider.getName() + " hat seinen Status gewechselt", NotificationType.RIDER, String.valueOf(rider.getId())));
+        }
+
         if (callback != null)
             callback.onSuccess(state);
-            PostHandler.makeMessage("UpdateRiderStageConnection", realm.copyFromRealm(state));
-            if(state.getType() != RiderStateType.ACTIVE){
-                PostHandler.makeMessage("SendNotification", new NotificationDTO(rider.getName() + " hat seinen Status gewechselt", NotificationType.RIDER, String.valueOf(rider.getId())));
-            }
+
     }
 
     @Override

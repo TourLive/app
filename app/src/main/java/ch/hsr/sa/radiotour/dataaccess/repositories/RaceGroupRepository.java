@@ -77,11 +77,13 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
 
         realm.commitTransaction();
+
+        RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+        PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+        PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein neue Renngruppe ist entstanden", NotificationType.RACEGROUP, realmRaceGroup.getId()));
+
         if (callback != null) {
             callback.onSuccess(realmRaceGroup);
-            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
-            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
-            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein neue Renngruppe ist entstanden", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
     }
 
@@ -163,11 +165,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
 
         }
 
+        RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+        PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+        PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP, realmRaceGroup.getId()));
+
         if (callback != null) {
             callback.onSuccess(realmRaceGroup);
-            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
-            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
-            PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Renngruppe hat sich geändert", NotificationType.RACEGROUP, realmRaceGroup.getId()));
         }
 
     }
@@ -183,10 +186,12 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         res.setActualGapTime(timeStamp);
         realm.commitTransaction();
 
+        RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
+        PostHandler.makeMessage("UpdateRaceGroupTime", realm.copyFromRealm(res));
+
         if (callback != null) {
-            RiderStageConnectionPresenter.getInstance().updateRiderStageConnectionTime(timeBefore, timeStamp, res);
+
             callback.onSuccess(res);
-            PostHandler.makeMessage("UpdateRaceGroupTime", realm.copyFromRealm(res));
         }
     }
 
@@ -226,10 +231,11 @@ public class RaceGroupRepository implements IRaceGroupRepository {
         raceGroup.removeRider(rider);
         realm.commitTransaction();
 
+        RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
+        PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
+
         if (callback != null) {
             callback.onSuccess(raceGroup);
-            RealmResults<RaceGroup> results = realm.where(RaceGroup.class).findAll();
-            PostHandler.makeMessage("UpdateRaceGroups", realm.copyFromRealm(results));
         }
     }
 
