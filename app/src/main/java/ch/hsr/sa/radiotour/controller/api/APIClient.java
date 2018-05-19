@@ -137,8 +137,12 @@ public final class APIClient {
         putData(UrlLink.RIDERSTAGECONNECTION + id, body);
     }
 
-    public static void postJudgmentRiderConnection(String body) {
-        postData(UrlLink.JUDGMENTRIDERCONNECTION, body);
+    public static void postRiderState(long id, long timestamp, String body) {
+        postData(UrlLink.RIDERSTAGECONNECTION + id + "/" + timestamp, body);
+    }
+
+    public static void postJudgmentRiderConnection(long stageId, long timestamp, String body) {
+        postData(UrlLink.JUDGMENTRIDERCONNECTION + "/stages/" + stageId + "/" + timestamp, body);
     }
 
     public static void putRaceGroup(String id, long stage, String body) {
@@ -149,8 +153,8 @@ public final class APIClient {
         deleteAPI(UrlLink.JUDGMENTRIDERCONNECTION + "/" + id);
     }
 
-    public static void postRaceGroups(long stage, String body) {
-        postData(UrlLink.RACEGROUPS + "/stages/" + stage, body);
+    public static void postRaceGroups(long stage, long timestamp, String body) {
+        postData(UrlLink.RACEGROUPS + "/stages/" + stage +"/" + timestamp, body);
     }
 
     public static void postNotification(long stage, String body) {
