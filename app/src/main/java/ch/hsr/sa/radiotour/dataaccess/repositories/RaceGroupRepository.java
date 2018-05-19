@@ -63,6 +63,10 @@ public class RaceGroupRepository implements IRaceGroupRepository {
             raceGroup.setId(UUID.randomUUID().toString());
         }
 
+        if(raceGroup.getId() == "fromParserInit"){
+            raceGroup.setId(UUID.randomUUID().toString());
+        }
+
         RaceGroup realmRaceGroup = realm.createObject(RaceGroup.class, raceGroup.getId());
         realmRaceGroup.setType(raceGroup.getType());
         realmRaceGroup.setActualGapTime(raceGroup.getActualGapTime());
