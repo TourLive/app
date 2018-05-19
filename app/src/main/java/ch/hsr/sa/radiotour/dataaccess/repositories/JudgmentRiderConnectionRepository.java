@@ -55,9 +55,10 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realmConnection.setRider(transferConnection.getRider());
         realm.commitTransaction();
 
+        PostHandler.makeMessage("CreateJudgmentRiderConnection", realm.copyFromRealm(realmConnection));
+
         if (callback != null)
             callback.onSuccess();
-            PostHandler.makeMessage("CreateJudgmentRiderConnection", realm.copyFromRealm(realmConnection));
     }
 
     private void removeOldJudgmentRiderConnections(RealmResults<JudgmentRiderConnection> res) {
@@ -105,9 +106,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.where(JudgmentRiderConnection.class).equalTo("id", judgmentRiderConnection.getId()).findFirst().deleteFromRealm();
         realm.commitTransaction();
 
+        PostHandler.makeMessage("DeleteJudgmentRiderConnection", toDeleteJudgmentRiderConnection);
+
         if (callback != null)
             callback.onSuccess();
-            PostHandler.makeMessage("DeleteJudgmentRiderConnection", toDeleteJudgmentRiderConnection);
+
     }
 
     @Override
