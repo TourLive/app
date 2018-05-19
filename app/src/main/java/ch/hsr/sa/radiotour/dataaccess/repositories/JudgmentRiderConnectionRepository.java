@@ -8,6 +8,8 @@ import ch.hsr.sa.radiotour.dataaccess.RiderStageConnectionUtilities;
 import ch.hsr.sa.radiotour.dataaccess.interfaces.IJudgmentRiderConnectionRepository;
 import ch.hsr.sa.radiotour.dataaccess.models.Judgement;
 import ch.hsr.sa.radiotour.dataaccess.models.JudgmentRiderConnection;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationDTO;
+import ch.hsr.sa.radiotour.dataaccess.models.NotificationType;
 import ch.hsr.sa.radiotour.dataaccess.models.Reward;
 import ch.hsr.sa.radiotour.dataaccess.models.RewardType;
 import ch.hsr.sa.radiotour.dataaccess.models.RiderStageConnection;
@@ -55,9 +57,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realmConnection.setRider(transferConnection.getRider());
         realm.commitTransaction();
 
+        PostHandler.makeMessage("CreateJudgmentRiderConnection", realm.copyFromRealm(realmConnection));
+        PostHandler.makeMessage("SendNotification", new NotificationDTO("Ein Wertung wurde vergeben", NotificationType.REWARD, realmConnection.getId()));
+
         if (callback != null)
             callback.onSuccess();
-            PostHandler.makeMessage("CreateJudgmentRiderConnection", realm.copyFromRealm(realmConnection));
     }
 
     private void removeOldJudgmentRiderConnections(RealmResults<JudgmentRiderConnection> res) {
@@ -105,9 +109,11 @@ public class JudgmentRiderConnectionRepository implements IJudgmentRiderConnecti
         realm.where(JudgmentRiderConnection.class).equalTo("id", judgmentRiderConnection.getId()).findFirst().deleteFromRealm();
         realm.commitTransaction();
 
+        PostHandler.makeMessage("DeleteJudgmentRiderConnection", toDeleteJudgmentRiderConnection);
+
         if (callback != null)
             callback.onSuccess();
-            PostHandler.makeMessage("DeleteJudgmentRiderConnection", toDeleteJudgmentRiderConnection);
+
     }
 
     @Override

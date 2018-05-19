@@ -7,6 +7,7 @@ import android.os.Message;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,7 @@ public final class PostHandler extends HandlerThread {
         classMapper.put("DeleteJudgmentRiderConnection", 4);
         classMapper.put("UpdateRaceGroupTime", 5);
         classMapper.put("SendNotification",6);
+        classMapper.put("UpdateRiderState",7);
     }
 
     @Override
@@ -57,7 +59,7 @@ public final class PostHandler extends HandlerThread {
                         }
                         String json = gson.toJson(raceGroupDTOS);
                         long stageId = stageRepository.getStage().getId();
-                        APIClient.postRaceGroups(stageId, gson.toJson(json));
+                        APIClient.postRaceGroups(stageId, System.currentTimeMillis(), gson.toJson(json));
                         break;
                     case 2:
                         RiderStageConnection riderStageConnection = (RiderStageConnection)msg.obj;
@@ -65,7 +67,8 @@ public final class PostHandler extends HandlerThread {
                         break;
                     case 3:
                         JudgmentRiderConnection judgmentRiderConnection = (JudgmentRiderConnection)msg.obj;
-                        APIClient.postJudgmentRiderConnection(gson.toJson(new JudgmentRiderConnectionDTO(judgmentRiderConnection)));
+                        stageId = stageRepository.getStage().getId();
+                        APIClient.postJudgmentRiderConnection(stageId, System.currentTimeMillis(), gson.toJson(new JudgmentRiderConnectionDTO(judgmentRiderConnection)));
                         break;
                     case 4:
                         JudgmentRiderConnection jRC = (JudgmentRiderConnection)msg.obj;
@@ -80,6 +83,10 @@ public final class PostHandler extends HandlerThread {
                         NotificationDTO notificationDTO = (NotificationDTO) msg.obj;
                         stageId = stageRepository.getStage().getId();
                         APIClient.postNotification(stageId, gson.toJson(notificationDTO));
+                        break;
+                    case 7:
+                        RiderStageConnection riderState = (RiderStageConnection)msg.obj;
+                        APIClient.postRiderState(riderState.getId(), System.currentTimeMillis(), gson.toJson(riderState));
                         break;
                     default:
                         break;
