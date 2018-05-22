@@ -28,7 +28,7 @@ public final class APIClient {
         throw new IllegalStateException("Utility class");
     }
 
-    private static final String BASE_URL = "http://prod-api.tourlive.ch/";
+    private static final String BASE_URL = "https://prod-api.tourlive.ch/";
     private static final String BASE_URL_CNLAB = "https://tlng.cnlab.ch/";
     private static String raceId = "";
     private static String stageId = "";
