@@ -122,7 +122,7 @@ public final class Parser {
                         raceGroup.setActualGapTime(jsonRacegroup.getLong("actualGapTime"));
                         raceGroup.setHistoryGapTime(jsonRacegroup.getLong("historyGapTime"));
                         raceGroup.setPosition(jsonRacegroup.getInt("position"));
-                        raceGroup.setId("fromParserInit");
+                        raceGroup.setId(jsonRacegroup.getString("appId"));
                         raceGroup.setType(RaceGroupType.valueOf(jsonRacegroup.getString("raceGroupType")));
                         JSONArray riderInRaceGroup = jsonRacegroup.getJSONArray("riders");
                         RealmList<Rider> riders = new RealmList<>();
