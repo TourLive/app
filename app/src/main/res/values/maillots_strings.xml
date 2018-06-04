@@ -16,4 +16,5 @@
     <string name="maillots_leader_real">Leader (offiziell)</string>
     <string name="maillots_partner">Partner</string>
     <string name="maillots_noleader">Kein aktueller Leader vorhanden</string>
+    <string name="maillots_empty">In diesem Rennen werden keine Trikots vergeben.</string>
 </resources>
