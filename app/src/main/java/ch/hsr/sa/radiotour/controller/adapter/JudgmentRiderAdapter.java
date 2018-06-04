@@ -69,6 +69,13 @@ public class JudgmentRiderAdapter extends RecyclerView.Adapter<JudgmentRiderAdap
                     size++;
                 }
             }
+            if(size == 0){
+                for (int i = 0; i < reward.getMoney().size(); i++) {
+                    if (reward.getMoney().get(i) != 0) {
+                        size++;
+                    }
+                }
+            }
         }
         return size;
     }
