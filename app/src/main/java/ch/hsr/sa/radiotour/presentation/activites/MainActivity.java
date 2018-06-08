@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView velocityView;
     private TextView raceKilometerView;
     private TextView raceTimeView;
-    private TextView startStopView;
+    public TextView startStopView;
     private TextView resetView;
-    private Boolean raceInProgress = false;
+    public Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
     private float distanceInMeter = 0;
     private float wholeDistanceInKm = 0;
