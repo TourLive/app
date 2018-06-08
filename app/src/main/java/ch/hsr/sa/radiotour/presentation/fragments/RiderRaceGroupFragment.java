@@ -116,7 +116,7 @@ public class RiderRaceGroupFragment extends Fragment implements View.OnClickList
                 int divFirst = firstNextStartNumber - firstStartNumber;
                 int sizeSpan = number.get(firstStartNumber);
                 if (sizeSpan < SPAN && divFirst > 0) {
-                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
+                    return SPAN - sizeSpan + 1;
                 }
                 return 1;
             }

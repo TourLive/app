@@ -1,10 +1,12 @@
 package ch.hsr.sa.radiotour.controller.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Handler;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,6 +146,27 @@ public class RiderListAdapter extends RecyclerView.Adapter<RiderListAdapter.Ride
 
         @Override
         public void onClick(View view) {
+            if(!MainActivity.getInstance().raceInProgress) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.getInstance());
+                builder.setMessage("Soll das Rennen gestartet werden?");
+
+                builder.setNegativeButton("Nein", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do things
+                    }
+                });
+
+                builder.setPositiveButton("Ja", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.getInstance().startStopView.performClick();
+                    }
+                });
+
+
+                AlertDialog alert = builder.create();
+                alert.show();
+            }
+
             MainActivity.getInstance().setTab(1);
         }
     }

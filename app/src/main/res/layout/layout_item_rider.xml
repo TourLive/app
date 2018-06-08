@@ -13,12 +13,11 @@
             android:id="@+id/tv_nummer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:gravity="left"
             android:padding="2dp"
             android:background="@drawable/background_rider_shape"
             android:layout_marginBottom="1dp"
             android:textSize="12sp" />
-
     </RelativeLayout>
 
 </RelativeLayout>
