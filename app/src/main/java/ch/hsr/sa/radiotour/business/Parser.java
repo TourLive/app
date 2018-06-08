@@ -430,7 +430,7 @@ public final class Parser {
                 Stage stage = new Stage();
                 stage.setId(jsonStage.getLong("id"));
                 stage.setType(StageType.valueOf(jsonStage.getString("stageType")));
-                stage.setName(jsonStage.getString("id"));
+                stage.setName(jsonStage.getString("stageName"));
                 stage.setTo(jsonStage.getString("start"));
                 stage.setFrom(jsonStage.getString("destination"));
                 stage.setStartTime(new Date(jsonStage.getLong("startTime")));

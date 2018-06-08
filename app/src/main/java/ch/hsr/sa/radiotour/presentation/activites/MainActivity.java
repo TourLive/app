@@ -67,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
     private static int updateTimeForRace = 1000;
     private static int delayZero = 0;
     private static int minDistanceChange = 0;
-    private static String sources = "sources";
-    private static String raceKilometer = "rennkilometer";
+    private static String sources = "cars";
+    private static String raceKilometer = "distance";
     private static String speed = "speed";
+    private static String name = "name";
     private ViewPageAdapter viewPageAdapter;
     private ViewPager viewPager;
     private Timer timerForUpdate;
@@ -84,9 +85,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView velocityView;
     private TextView raceKilometerView;
     private TextView raceTimeView;
-    private TextView startStopView;
+    public TextView startStopView;
     private TextView resetView;
-    private Boolean raceInProgress = false;
+    public Boolean raceInProgress = false;
     private Time raceTime = new Time(0);
     private float distanceInMeter = 0;
     private float wholeDistanceInKm = 0;
@@ -355,14 +356,24 @@ public class MainActivity extends AppCompatActivity {
             if (gpsData == null) return;
             try {
                 JSONArray gpsInfoArray = gpsData.getJSONArray(sources);
-                temp = gpsInfoArray.getJSONObject(2);
-                raceKilometerTop = (float) temp.getDouble(raceKilometer);
-                temp = gpsInfoArray.getJSONObject(3);
-                raceKilometerRadioTour = (float) temp.getDouble(raceKilometer);
-                officialSpeedRadioTour = (float) temp.getDouble(speed);
-                temp = gpsInfoArray.getJSONObject(4);
-                raceKilometerField = (float) temp.getDouble(raceKilometer);
-                officialSpeedField = (float) temp.getDouble(speed);
+                for(int i = 0; i < gpsInfoArray.length(); i++){
+                    temp = gpsInfoArray.getJSONObject(i);
+                    switch(temp.getString(name).toString()){
+                        case "raceStart":
+                            raceKilometerTop = (float) temp.getJSONObject("data").getDouble(raceKilometer);
+                            break;
+                        case "raceRadio":
+                            raceKilometerRadioTour = (float) temp.getJSONObject("data").getDouble(raceKilometer);
+                            officialSpeedRadioTour = (float) temp.getJSONObject("data").getDouble(speed);
+                            break;
+                        case "raceField":
+                            raceKilometerField = (float) temp.getJSONObject("data").getDouble(raceKilometer);
+                            officialSpeedField = (float) temp.getJSONObject("data").getDouble(speed);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             } catch (JSONException e) {
                 Log.d(MainActivity.class.getSimpleName(), "APP - UI - " + e.getMessage());
             }
