@@ -3,13 +3,10 @@ package ch.hsr.sa.radiotour.presentation.fragments;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -84,9 +81,10 @@ public class RaceFragment extends Fragment implements OnDragRaceGroupListener {
                 int firstStartNumber = UIUtilitis.getFirstDigit(startNumber);
                 int firstNextStartNumber = UIUtilitis.getFirstDigit(nextStartNumber);
                 int divFirst = firstNextStartNumber - firstStartNumber;
+
                 int sizeSpan = number.get(firstStartNumber);
                 if (sizeSpan < SPAN && divFirst > 0) {
-                    return SPAN - UIUtilitis.getLastDigit(startNumber) + 1;
+                    return SPAN - sizeSpan + 1;
                 }
                 return 1;
             }
