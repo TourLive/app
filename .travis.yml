@@ -3,72 +3,71 @@ jdk: oraclejdk8
 sudo: false
 addons:
   sonarcloud:
-    organization: "sa-radiotour"
+    organization: sa-radiotour
     token:
-      secure: "378979c462e37cdde726e8227e204ceb5b6e65ee"
+      secure: 378979c462e37cdde726e8227e204ceb5b6e65ee
 android:
   licenses:
-    - android-sdk-license-.+
-    - google-gdk-license-.+
-    - android-sdk-preview-.+
-    - android-sdk-preview-license-d099d938
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+  - android-sdk-preview-.+
+  - android-sdk-preview-license-d099d938
   components:
-    - tools
-    - build-tools-26.0.2
-    - extra-android-m2repository
-    - platform-tools
-    - tools
-    - sys-img-armeabi-v7a-addon-google_apis-google-24
-    - sys-img-armeabi-v7a-android-24
+  - tools
+  - build-tools-26.0.2
+  - extra-android-m2repository
+  - platform-tools
+  - tools
+  - sys-img-armeabi-v7a-addon-google_apis-google-24
+  - sys-img-armeabi-v7a-android-24
 env:
   global:
-    - API=24 # Android API level 25 by default
-    - TAG=google_apis # Google APIs by default, alternatively use default
-    - ABI=armeabi-v7a # ARM ABI v7a by default  
+  - API=24
+  - TAG=google_apis
+  - ABI=armeabi-v7a
 install:
-  # Update sdk tools to latest version and install/update components
-  - echo yes | sdkmanager "platforms;android-${API}" # Android platform required by emulator
-  - echo yes | sdkmanager "extras;android;m2repository"
-  - echo yes | sdkmanager "extras;google;m2repository"
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
-  - echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
+- echo yes | sdkmanager "platforms;android-${API}"
+- echo yes | sdkmanager "extras;android;m2repository"
+- echo yes | sdkmanager "extras;google;m2repository"
+- echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout;1.0.2"
+- echo yes | sdkmanager "extras;m2repository;com;android;support;constraint;constraint-layout-solver;1.0.2"
 before_install:
-  - chmod +x gradlew
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-  - echo 'count=0' > /home/travis/.android/repositories.cfg # Avoid warning
+- chmod +x gradlew
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- echo 'count=0' > /home/travis/.android/repositories.cfg
 branches:
   only:
   - master
 before_script:
-  - echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
-  - android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}' # list all targets  
-  - echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+- echo "y" | android update sdk -a --no-ui --filter sys-img-armeabi-v7a-android-24
+- android list targets | grep -E '^id:' | awk -F '"' '{$1=""; print $2}'
+- echo no | android create avd --force -n test -t android-24 --abi armeabi-v7a
+- emulator -avd test -no-skin -no-window &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
 script:
-  - ./gradlew build assembleRelease
-  - ./gradlew sonarqube
+- "./gradlew build assembleRelease"
+- "./gradlew sonarqube"
 before_cache:
-  - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
   directories:
   - "$HOME/.m2"
   - "$HOME/.gradle"
   - "$HOME/.gradle/caches/"
   - "$HOME/.gradle/wrapper/"
-  - '.gradle'
+  - ".gradle"
 after_success:
-  - sh set_tags.sh
+- sh set_tags.sh
 before_deploy:
-  - ls app/build/outputs/apk/debug
-  - cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
+- ls app/build/outputs/apk/debug
+- cp app/build/outputs/apk/debug/app-debug.apk app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
 deploy:
   provider: releases
   api_key:
-    secure: pTVQMzZMBeOuWdA9fIVBb3eQRramWHabu9MekTMh0WaujeXUWpbsNGNxnRRCFDusvfgYlbg7D53QUuphnbXlHutOI+NkSQu+3VctjLt+immd2f6aplbQeHQ+w2upF4GQOXj//pnfhtw+uXa6eRtmRUdSEo7/EuCbLQjWIMoLMOCd5h/X+xZELO7XEEQhW0+Rfq8AfpnsPaDyNLEeRX3JPGgFvBV3DB0d4+1/yQ0+9oE1ghdWOdv0WmGoDkHNaOG1wDNnfiAG/OLJgNCampKMCf+XdzCTFE/lnLHQj2BjGpMs0bkNl2vMveZQe2YlsVQe2g5d56RbaZgBUnCHl/9YzTfF3kGYGOb5zRMp9vNsL1FmPQPGOXzhTw1/6GrRlKvqez78LjVglJ98G+XvF5hbrBPCq+MFUnAIwL68ZRRp64U9RblBPd6O1/ciQb00uqtxCyeUmf2vXUwwc2/uvraySSvYPwZEATIw2g0kB+x+tOQTCWHdquIEvTvyINGz3wWtLZXfGh2ym7b8KD1OzGbK6fehbAFxWOf4hxPeyIGk3soZomBq/4czsRamyPWp9o9rfjNtqr0fRUyamZpWJQlqAsnltlRND4RxSwc08hCpM8fhg78ohoS56jj8AiXBlH4xTFfdTJezqor6G6FUyGnvUFEEvCkkgzEGXISjb5FSbs4=
+    secure: xyda33ZOCde2tSuMQ+Ub0OOAd2/vG5FORdUyatgQFuwrXXiWvwbQBCL/FPTMKXf4dQpRbLnRT/JLzlxuxwJBxbhYPgEiPZU9IkWm9xo2oswhwlSCjUFyJ35tUSM5DLn6BzlVivfgRLtOfofs1GQC1o6tde/wZG/+hZPElOxGmLZwbyk1gh6Hps8XY81IJmg9Mx/0l5GRbp1dWvbQoNPqxEO8WhlP8LWR9MjIwcvANMchmyIUGWY6/+ktetaJf/+IxMt+QTrTwkBM9T83ke70/Zer4ofdLS6UCGNjf/9L4xJTh+r/dCq37cubEjMnGYzjKv0EFDBNcfM7VoqactUxoc/hpub4D7SmlIKI0SvIY/lMHG5ifcLYaF0UCzgaet1jgwB6zgG1y6OvThoYlRYxtQ99uHR5s03uNyEZg8vMAkts7X5tNd9y3dzUlzEYyv8RyBbdT2DlOJxy9Ly93EPVbwjGI24lKw6o+nAaJh4Bt/Y7en+Wvdadc4vQQn9qH966w8j0u+2GxAtb9ZOBWZ8tEVlLtaD1ALTQwfdQ8avy9+KVwxwpZGD2sPEaqSE0Mp69xl/ppe0Y1DZbalFVeKG9gNN8kZWrsZX7FCRsX0/h/Je8QId+RoGJpmWc783VNKz8HSErWKFWBWYtCVebVmmuCSzoCMVqMTHzJdpwkwgvPvY=
   file: app/build/outputs/apk/RadioTour_V0_${TRAVIS_BUILD_NUMBER}.apk
   file_glob: 'true'
   skip_cleanup: true
